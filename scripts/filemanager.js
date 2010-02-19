@@ -326,7 +326,7 @@ var removeNode = function(path){
 // specified parent node. Called after a new folder is
 // successfully created.
 var addFolder = function(parent, name){
-	var newNode = '<li class="directory collapsed"><a rel="' + parent + name + '/" href="#">' + name + '/</a><ul class="jqueryFileTree" style="display: block;"></ul></li>';
+	var newNode = '<li class="directory collapsed"><a rel="' + parent + name + '/" href="#">' + name + '</a><ul class="jqueryFileTree" style="display: block;"></ul></li>';
 	var parentNode = $('#filetree').find('a[rel="' + parent + '"]');
 
 	if(parent != fileRoot){
