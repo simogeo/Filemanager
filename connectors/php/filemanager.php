@@ -8,9 +8,10 @@
  *
  *	@license	MIT License
  *	@author		Riaan Los <mail (at) riaanlos (dot) nl>
+ *  @author		Simon Georget <simon (at) linea21 (dot) com>
  *	@copyright	Authors
  */
-
+require_once('./inc/filemanager.inc.php');
 require_once('filemanager.config.php');
 require_once('filemanager.class.php');
 $fm = new Filemanager($config);
