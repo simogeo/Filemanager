@@ -30,7 +30,7 @@ if(autoload == true) {
 	$('#itemOptions a[href$="#select"]').append(lg.select);
 	$('#itemOptions a[href$="#download"]').append(lg.download);
 	$('#itemOptions a[href$="#rename"]').append(lg.rename);
-	$('#itemOptions a[href$="#delete"]').append(lg.delete);
+	$('#itemOptions a[href$="#delete"]').append(lg.del);
 }
 
 
@@ -404,7 +404,7 @@ var getFileInfo = function(file){
 	template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
 	template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
 	template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
-	template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.delete + '</button>';
+	template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.del + '</button>';
 	template += '</form>';
 	
 	$('#fileinfo').html(template);

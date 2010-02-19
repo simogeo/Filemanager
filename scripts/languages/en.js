@@ -32,7 +32,7 @@
 	"successful_added_folder": "New folder added successfully.",
 	"select": "Select",
 	"download": "Download",
-	"delete": "Delete",
+	"del": "Delete",
 	"dimensions": "Dimensions",
 	"created": "Created",
 	"modified": "Modified",

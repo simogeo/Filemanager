@@ -32,7 +32,7 @@
 	"successful_added_folder": "Nueva carpeta creada.",
 	"select": "Seleccionar",
 	"download": "Descargar",
-	"delete": "Eliminar",
+	"del": "Eliminar",
 	"dimensions": "Dimensiones",
 	"created": "Creado",
 	"modified": "Modificado",
