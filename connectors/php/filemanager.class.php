@@ -146,11 +146,16 @@ class Filemanager {
   }
 
   public function rename() {
-    // necessary to prevent sefe_mofe and file_exists behavior
+    
+    $suffix='';
+    
+    // necessary to prevent safe_mofe and file_exists behavior
     $this->get['old'] = $this->rmhostPrefixed($this->get['old']);
+    
     
     if(substr($this->get['old'],-1,1)=='/') {
       $this->get['old'] = substr($this->get['old'],0,(strlen($this->get['old'])-1));
+      $suffix='/';
     }
     $tmp = explode('/',$this->get['old']);
     $filename = $tmp[(sizeof($tmp)-1)];
@@ -168,7 +173,7 @@ class Filemanager {
 			'Code'=>0,
 			'Old Path'=>$this->get['old'],
 			'Old Name'=>$filename,
-			'New Path'=>$path . '/' . $this->get['new'],
+			'New Path'=>$path . '/' . $this->get['new'].$suffix,
 			'New Name'=>$this->get['new']
     );
     return $array;
