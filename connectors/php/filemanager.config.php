@@ -55,6 +55,14 @@ $config['upload']['imagesonly'] = false; // true or false; Only allow images (jp
  */
 $config['images'] = array('jpg', 'jpeg','gif','png');
 
+
+/**
+ *	Files and folders
+ *	excluded from filtree
+ */
+$config['unallowed_files']= array('.htaccess');
+$config['unallowed_dirs']= array('_thumbs');
+
 /**
  *	Add the server host (http://www.domain.com) as prefix to files
  */

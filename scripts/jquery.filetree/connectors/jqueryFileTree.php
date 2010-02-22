@@ -1,7 +1,6 @@
 <?php
+require('../../../connectors/php/filemanager.config.php');
 $root = $_SERVER['DOCUMENT_ROOT'];
-$unallowed_dirs= array('_thumbs');
-$unallowed_files= array('.htaccess');
 
 //
 // jQuery File Tree PHP Connector
@@ -22,6 +21,9 @@ $unallowed_files= array('.htaccess');
 //$_POST['dir'] = urldecode($_POST['dir']);
 $_POST['dir'] = str_replace('http://' . $_SERVER['HTTP_HOST'].'/', '', urldecode($_POST['dir']));
 
+// Check if user is authorized
+if(auth()) {
+  
 if( file_exists($root . $_POST['dir']) ) {
 	$files = scandir($root . $_POST['dir']);
 	natcasesort($files);
@@ -29,19 +31,21 @@ if( file_exists($root . $_POST['dir']) ) {
 		echo "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
 		// All dirs
 		foreach( $files as $file ) {
-			if( file_exists($root . $_POST['dir'] . $file) && !in_array($file, $unallowed_dirs) && $file != '.' && $file != '..' && is_dir($root . $_POST['dir'] . $file) ) {
+			if( file_exists($root . $_POST['dir'] . $file) && !in_array($file, $config['unallowed_dirs']) && $file != '.' && $file != '..' && is_dir($root . $_POST['dir'] . $file) ) {
 				echo "<li class=\"directory collapsed\"><a href=\"#\" rel=\"" . htmlentities($_POST['dir'] . $file) . "/\">" . htmlentities($file) . "</a></li>";
 			}
 		}
 		// All files
 		foreach( $files as $file ) {
-			if( file_exists($root . $_POST['dir'] . $file) && !in_array($file, $unallowed_files) && $file != '.' && $file != '..' && !is_dir($root . $_POST['dir'] . $file) ) {
+			if( file_exists($root . $_POST['dir'] . $file) && !in_array($file, $config['unallowed_files']) && $file != '.' && $file != '..' && !is_dir($root . $_POST['dir'] . $file) ) {
 				$ext = preg_replace('/^.*\./', '', $file);
 				echo "<li class=\"file ext_$ext\"><a href=\"#\" rel=\"" . htmlentities($_POST['dir'] . $file) . "\">" . htmlentities($file) . "</a></li>";
 			}
 		}
 		echo "</ul>";
 	}
+}
+
 }
 
 ?>
