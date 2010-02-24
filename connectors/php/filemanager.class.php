@@ -406,13 +406,17 @@ class Filemanager {
   private function hostPrefixed($filepath) {
     if(isset($this->config['add_host']) && $this->config['add_host'] == true) {
       return 'http://' . $_SERVER['HTTP_HOST'] . '/'. $filepath;
-    }
+    } else {
+		return $filepath;
+	}
   }
   
   private function rmhostPrefixed($filepath) {
     if(isset($this->config['add_host']) && $this->config['add_host'] == true) {
       return str_replace('http://' . $_SERVER['HTTP_HOST'].'/', '', $filepath);
-    }
+    } else {
+		return $filepath;
+	}
   }
 
 }
