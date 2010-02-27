@@ -19,21 +19,6 @@ $.ajax({
 });
 
 
-// we finalize the FileManager UI initialization 
-// with localized text if necessary
-if(autoload == true) {
-	$('#upload').append(lg.upload);
-	$('#newfolder').append(lg.new_folder);
-	$('#grid').attr('title', lg.grid_view);
-	$('#list').attr('title', lg.list_view);
-	$('#fileinfo h1').append(lg.select_from_left);
-	$('#itemOptions a[href$="#select"]').append(lg.select);
-	$('#itemOptions a[href$="#download"]').append(lg.download);
-	$('#itemOptions a[href$="#rename"]').append(lg.rename);
-	$('#itemOptions a[href$="#delete"]').append(lg.del);
-}
-
-
 // Options for alert, prompt, and confirm dialogues.
 $.SetImpromptuDefaults({
 	overlayspeed: 'fast',
@@ -326,16 +311,31 @@ var removeNode = function(path){
 // specified parent node. Called after a new folder is
 // successfully created.
 var addFolder = function(parent, name){
-	var newNode = '<li class="directory collapsed"><a rel="' + parent + name + '/" href="#">' + name + '</a><ul class="jqueryFileTree" style="display: block;"></ul></li>';
-	var parentNode = $('#filetree').find('a[rel="' + parent + '"]');
-
-	if(parent != fileRoot){
-		parentNode.next('ul').prepend(newNode).prev('a').click().click();
-	} else {
-		$('#filetree > ul').append(newNode);
-	}
-	
-	$.prompt(lg.successful_added_folder);
+    var newNode = '<li class="directory collapsed"><a rel="' + parent + name + '/" href="#">' + name + '</a><ul class="jqueryFileTree" style="display: block;"></ul></li>';
+    var parentNode = $('#filetree').find('a[rel="' + parent + '"]');
+    if(parent != fileRoot){
+        parentNode.next('ul').prepend(newNode).prev('a').click().click();
+    } else {
+    	// Creates file tree again
+        $('#filetree').fileTree({
+    		root: fileRoot,
+    		script: treeConnector,
+    		multiFolder: false,
+    		folderCallback: function(path){ getFolderInfo(path); },
+    		after: function(data){
+    			$('#filetree').find('li a').contextMenu(
+    				{ menu: 'itemOptions' }, 
+    				function(action, el, pos){
+    					var path = $(el).attr('rel');
+    					setMenus(action, path);
+    				}
+    			);
+    		}
+    	}, function(file){
+    		getFileInfo(file);
+    	});           
+    }  
+    $.prompt(lg.successful_added_folder);
 }
 
 
@@ -556,6 +556,21 @@ var getFolderInfo = function(path){
 ---------------------------------------------------------*/
 
 $(function(){
+	
+	// we finalize the FileManager UI initialization 
+	// with localized text if necessary
+	if(autoload == true) {
+		$('#upload').append(lg.upload);
+		$('#newfolder').append(lg.new_folder);
+		$('#grid').attr('title', lg.grid_view);
+		$('#list').attr('title', lg.list_view);
+		$('#fileinfo h1').append(lg.select_from_left);
+		$('#itemOptions a[href$="#select"]').append(lg.select);
+		$('#itemOptions a[href$="#download"]').append(lg.download);
+		$('#itemOptions a[href$="#rename"]').append(lg.rename);
+		$('#itemOptions a[href$="#delete"]').append(lg.del);
+	}
+	
 	// Adjust layout.
 	setDimensions();
 	$(window).resize(setDimensions);
