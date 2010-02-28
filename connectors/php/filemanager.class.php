@@ -180,7 +180,7 @@ class Filemanager {
   }
 
   public function delete() {
-    // necessary to prevent sefe_mofe and file_exists behavior
+    // necessary to prevent safe_mode and file_exists behavior
     $this->get['path'] = $this->rmhostPrefixed($this->get['path']);
     
     if(is_dir($_SERVER['DOCUMENT_ROOT'] . $this->get['path'])) {
@@ -255,7 +255,7 @@ class Filemanager {
 
   public function download() {
 
-    // necessary to prevent sefe_mofe and file_exists behavior
+    // necessary to prevent safe_mode and file_exists behavior
     $this->get['path'] = $this->rmhostPrefixed($this->get['path']);
 
     if(isset($this->get['path']) && file_exists($_SERVER['DOCUMENT_ROOT'] .$this->get['path'])) {
