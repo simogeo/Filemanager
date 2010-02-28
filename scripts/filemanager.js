@@ -38,6 +38,12 @@ function disp(path){
 	return path.replace(fileRoot, "/");
 }
 
+// Get dirname
+// Useful to get parent path
+function dirname(path) {    
+    return path.replace(/\\/g,'/').replace(/\/[^\/]*\/?$/, '');
+}
+
 // Remove host from path
 function rmhost(path){
 	return path.replace(document.location.protocol+'//'+document.location.host+'/', "");
@@ -233,7 +239,8 @@ var deleteItem = function(data){
 	var doDelete = function(v, m){
 		if(v != 1) return false;	
 		var connectString = fileConnector + '?mode=delete&path=' + data['Path'];
-	
+		var parent = dirname(data['Path']) + '/';
+		
 		$.ajax({
 			type: 'GET',
 			url: connectString,
@@ -243,6 +250,7 @@ var deleteItem = function(data){
 				if(result['Code'] == 0){
 					removeNode(result['Path']);
 					isDeleted = true;
+					getFolderInfo(parent); // simo
 					$.prompt(lg.successful_delete);
 				} else {
 					isDeleted = false;
@@ -380,8 +388,6 @@ var setMenus = function(action, path){
 				break;
 				
 			case 'delete':
-				// TODO: When selected, the file is deleted and the
-				// file tree is updated, but the grid/list view is not.
 				if(deleteItem(data)) item.fadeOut('slow', function(){ $(this).remove(); });
 				break;
 		}
@@ -437,6 +443,7 @@ var getFileInfo = function(file){
 // TODO: consider stylesheet switching to switch between grid
 // and list views with sorting options.
 var getFolderInfo = function(path){
+	path = rmhost(path);
 	// Update location for status, upload, & new folder functions.
 	setUploader(path);
 
