@@ -106,7 +106,7 @@ class Filemanager {
       $this->error(sprintf($this->lang('UNABLE_TO_OPEN_DIRECTORY'),$this->get['path']));
     } else {
       while (false !== ($file = readdir($handle))) {
-        if($file != "." && $file != ".." && is_dir($file)) {
+        if($file != "." && $file != ".." && is_dir($file) && !in_array($file, $this->config['unallowed_dirs'])) {
           $array[$this->get['path'] . $file] = array(
 						'Path'=> $this->get['path'] . $file,
 						'Filename'=>$file,
@@ -122,7 +122,7 @@ class Filemanager {
 						'Error'=>"",
 						'Code'=>0
           );
-        } else if ($file != "." && $file != ".." && substr($file,0,1)!='.') {
+        } else if ($file != "." && $file != ".."  && !in_array($file, $this->config['unallowed_dirs']) && substr($file,0,1)!='.') {
           $this->item = array();
           $this->item['properties'] = $this->properties;
           $this->get_file_info($this->get['path'] . $file);
