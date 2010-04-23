@@ -19,6 +19,21 @@ $.ajax({
 });
 
 
+// we finalize the FileManager UI initialization 
+// with localized text if necessary
+if(autoload == true) {
+	$('#upload').append(lg.upload);
+	$('#newfolder').append(lg.new_folder);
+	$('#grid').attr('title', lg.grid_view);
+	$('#list').attr('title', lg.list_view);
+	$('#fileinfo h1').append(lg.select_from_left);
+	$('#itemOptions a[href$="#select"]').append(lg.select);
+	$('#itemOptions a[href$="#download"]').append(lg.download);
+	$('#itemOptions a[href$="#rename"]').append(lg.rename);
+	$('#itemOptions a[href$="#delete"]').append(lg.del);
+}
+
+
 // Options for alert, prompt, and confirm dialogues.
 $.SetImpromptuDefaults({
 	overlayspeed: 'fast',
@@ -34,19 +49,24 @@ var setDimensions = function(){
 }
 
 // Display Min Path
-function disp(path){
+var disp = function(path){
 	return path.replace(fileRoot, "/");
 }
 
-// Get dirname
-// Useful to get parent path
-function dirname(path) {    
-    return path.replace(/\\/g,'/').replace(/\/[^\/]*\/?$/, '');
+// Remove host from path
+var rmhost = function(path){
+	return path.replace(document.location.protocol+'//'+document.location.host+'/', "");
 }
 
-// Remove host from path
-function rmhost(path){
-	return path.replace(document.location.protocol+'//'+document.location.host+'/', "");
+// from http://phpjs.org/functions/basename:360
+var basename = function(path, suffix) {
+    var b = path.replace(/^.*[\/\\]/g, '');
+
+    if (typeof(suffix) == 'string' && b.substr(b.length-suffix.length) == suffix) {
+        b = b.substr(0, b.length-suffix.length);
+    }
+    
+    return b;
 }
 
 // Sets the folder status, upload, and new folder functions 
@@ -239,8 +259,7 @@ var deleteItem = function(data){
 	var doDelete = function(v, m){
 		if(v != 1) return false;	
 		var connectString = fileConnector + '?mode=delete&path=' + data['Path'];
-		var parent = dirname(data['Path']) + '/';
-		
+	
 		$.ajax({
 			type: 'GET',
 			url: connectString,
@@ -250,7 +269,6 @@ var deleteItem = function(data){
 				if(result['Code'] == 0){
 					removeNode(result['Path']);
 					isDeleted = true;
-					getFolderInfo(parent); // simo
 					$.prompt(lg.successful_delete);
 				} else {
 					isDeleted = false;
@@ -313,37 +331,43 @@ var removeNode = function(path){
 		.fadeOut('slow', function(){ 
 			$(this).remove();
 		});
+	// grid case
+	$('ul#contents').find('p').each(function (i) {
+        if ($(this).text()==basename(path)) {
+        	$(this)
+        		.parent()
+			.fadeOut('slow', function(){ 
+				$(this).remove();
+			});
+        }  
+     });
+        // list case
+	$('table#contents')
+		.find('td[title="' + path + '"]')
+		.parent()
+		.fadeOut('slow', function(){ 
+			$(this).remove();
+	});
+	// remove fileinfo
+	$('#fileinfo').fadeOut('slow', function(){ 
+			$(this).empty().show();
+	});
 }
 
 // Adds a new folder as the first item beneath the
 // specified parent node. Called after a new folder is
 // successfully created.
 var addFolder = function(parent, name){
-    var newNode = '<li class="directory collapsed"><a rel="' + parent + name + '/" href="#">' + name + '</a><ul class="jqueryFileTree" style="display: block;"></ul></li>';
-    var parentNode = $('#filetree').find('a[rel="' + parent + '"]');
-    if(parent != fileRoot){
-        parentNode.next('ul').prepend(newNode).prev('a').click().click();
-    } else {
-    	// Creates file tree again
-        $('#filetree').fileTree({
-    		root: fileRoot,
-    		script: treeConnector,
-    		multiFolder: false,
-    		folderCallback: function(path){ getFolderInfo(path); },
-    		after: function(data){
-    			$('#filetree').find('li a').contextMenu(
-    				{ menu: 'itemOptions' }, 
-    				function(action, el, pos){
-    					var path = $(el).attr('rel');
-    					setMenus(action, path);
-    				}
-    			);
-    		}
-    	}, function(file){
-    		getFileInfo(file);
-    	});           
-    }  
-    $.prompt(lg.successful_added_folder);
+	var newNode = '<li class="directory collapsed"><a rel="' + parent + name + '/" href="#">' + name + '</a><ul class="jqueryFileTree" style="display: block;"></ul></li>';
+	var parentNode = $('#filetree').find('a[rel="' + parent + '"]');
+
+	if(parent != fileRoot){
+		parentNode.next('ul').prepend(newNode).prev('a').click().click();
+	} else {
+		$('#filetree > ul').append(newNode);
+	}
+	
+	$.prompt(lg.successful_added_folder);
 }
 
 
@@ -388,6 +412,8 @@ var setMenus = function(action, path){
 				break;
 				
 			case 'delete':
+				// TODO: When selected, the file is deleted and the
+				// file tree is updated, but the grid/list view is not.
 				if(deleteItem(data)) item.fadeOut('slow', function(){ $(this).remove(); });
 				break;
 		}
@@ -411,6 +437,7 @@ var getFileInfo = function(file){
 	template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
 	template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
 	template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.del + '</button>';
+	template += '<button onClick="getFolderInfo(\'' + currentpath + '\');">Back to File List</button>';
 	template += '</form>';
 	
 	$('#fileinfo').html(template);
@@ -443,7 +470,6 @@ var getFileInfo = function(file){
 // TODO: consider stylesheet switching to switch between grid
 // and list views with sorting options.
 var getFolderInfo = function(path){
-	path = rmhost(path);
 	// Update location for status, upload, & new folder functions.
 	setUploader(path);
 
@@ -563,21 +589,6 @@ var getFolderInfo = function(path){
 ---------------------------------------------------------*/
 
 $(function(){
-	
-	// we finalize the FileManager UI initialization 
-	// with localized text if necessary
-	if(autoload == true) {
-		$('#upload').append(lg.upload);
-		$('#newfolder').append(lg.new_folder);
-		$('#grid').attr('title', lg.grid_view);
-		$('#list').attr('title', lg.list_view);
-		$('#fileinfo h1').append(lg.select_from_left);
-		$('#itemOptions a[href$="#select"]').append(lg.select);
-		$('#itemOptions a[href$="#download"]').append(lg.download);
-		$('#itemOptions a[href$="#rename"]').append(lg.rename);
-		$('#itemOptions a[href$="#delete"]').append(lg.del);
-	}
-	
 	// Adjust layout.
 	setDimensions();
 	$(window).resize(setDimensions);
