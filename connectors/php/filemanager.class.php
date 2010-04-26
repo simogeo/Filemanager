@@ -99,16 +99,17 @@ class Filemanager {
 
   public function getfolder() {
     $array = array();
-    if(!is_dir($_SERVER['DOCUMENT_ROOT'] . $this->get['path'])) {
+    $current_path = $_SERVER['DOCUMENT_ROOT'] . $this->get['path'];
+    if(!is_dir($current_path)) {
       $this->error(sprintf($this->lang('DIRECTORY_NOT_EXIST'),$this->get['path']));
     }
-    if(!$handle = opendir($_SERVER['DOCUMENT_ROOT'] . $this->get['path'])) {
+    if(!$handle = opendir($current_path)) {
       $this->error(sprintf($this->lang('UNABLE_TO_OPEN_DIRECTORY'),$this->get['path']));
     } else {
       while (false !== ($file = readdir($handle))) {
-        if($file != "." && $file != ".." && is_dir($file) && !in_array($file, $this->config['unallowed_dirs'])) {
-          $array[$this->get['path'] . $file] = array(
-						'Path'=> $this->get['path'] . $file,
+        if($file != "." && $file != ".." && is_dir($current_path . $file) && !in_array($file, $this->config['unallowed_dirs'])) {
+          $array[$this->get['path'] . $file .'/'] = array(
+						'Path'=> $this->get['path'] . $file .'/',
 						'Filename'=>$file,
 						'File Type'=>'dir',
 						'Preview'=> $this->config['icons']['path'] . $this->config['icons']['directory'],
@@ -122,7 +123,7 @@ class Filemanager {
 						'Error'=>"",
 						'Code'=>0
           );
-        } else if ($file != "." && $file != ".."  && !in_array($file, $this->config['unallowed_dirs']) && substr($file,0,1)!='.') {
+        } else if ($file != "." && $file != ".."  && !in_array($file, $this->config['unallowed_files'])) {
           $this->item = array();
           $this->item['properties'] = $this->properties;
           $this->get_file_info($this->get['path'] . $file);
