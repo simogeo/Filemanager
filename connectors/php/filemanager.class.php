@@ -107,8 +107,9 @@ class Filemanager {
       $this->error(sprintf($this->lang('UNABLE_TO_OPEN_DIRECTORY'),$this->get['path']));
     } else {
       while (false !== ($file = readdir($handle))) {
-        if($file != "." && $file != ".." && is_dir($current_path . $file) && !in_array($file, $this->config['unallowed_dirs'])) {
-          $array[$this->get['path'] . $file .'/'] = array(
+        if($file != "." && $file != ".." && is_dir($current_path . $file)) {
+          if(!in_array($file, $this->config['unallowed_dirs'])) {
+            $array[$this->get['path'] . $file .'/'] = array(
 						'Path'=> $this->get['path'] . $file .'/',
 						'Filename'=>$file,
 						'File Type'=>'dir',
@@ -119,10 +120,11 @@ class Filemanager {
 							'Height'=>null,
 							'Width'=>null,
 							'Size'=>null
-          ),
+            ),
 						'Error'=>"",
 						'Code'=>0
-          );
+            );
+          }
         } else if ($file != "." && $file != ".."  && !in_array($file, $this->config['unallowed_files'])) {
           $this->item = array();
           $this->item['properties'] = $this->properties;
@@ -147,13 +149,13 @@ class Filemanager {
   }
 
   public function rename() {
-    
+
     $suffix='';
-    
+
     // necessary to prevent safe_mofe and file_exists behavior
     $this->get['old'] = $this->rmhostPrefixed($this->get['old']);
-    
-    
+
+
     if(substr($this->get['old'],-1,1)=='/') {
       $this->get['old'] = substr($this->get['old'],0,(strlen($this->get['old'])-1));
       $suffix='/';
@@ -183,7 +185,7 @@ class Filemanager {
   public function delete() {
     // necessary to prevent safe_mode and file_exists behavior
     $this->get['path'] = $this->rmhostPrefixed($this->get['path']);
-    
+
     if(is_dir($_SERVER['DOCUMENT_ROOT'] . $this->get['path'])) {
       $this->unlinkRecursive($_SERVER['DOCUMENT_ROOT'] . $this->get['path']);
       $array = array(
@@ -408,16 +410,16 @@ class Filemanager {
     if(isset($this->config['add_host']) && $this->config['add_host'] == true) {
       return 'http://' . $_SERVER['HTTP_HOST'] . '/'. $filepath;
     } else {
-		return $filepath;
-	}
+      return $filepath;
+    }
   }
-  
+
   private function rmhostPrefixed($filepath) {
     if(isset($this->config['add_host']) && $this->config['add_host'] == true) {
       return str_replace('http://' . $_SERVER['HTTP_HOST'].'/', '', $filepath);
     } else {
-		return $filepath;
-	}
+      return $filepath;
+    }
   }
 
 }
