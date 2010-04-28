@@ -270,7 +270,7 @@ div.clip {
 #rename span, .contextMenu li.rename a { background-image: url(../images/pencil.png); }
 #delete span, .contextMenu li.delete a { background-image: url(../images/bin_closed.png); }
 #upload span { background-image: url(../images/add.png); }
-#filelist span { background-image: url(../images/folderlist.png); }
+#parentfolder span { background-image: url(../images/parentfolder.png); }
 #newfolder span { background-image: url(../images/folder_add.png); }
 
 /* div.jqi button { background-image: url(../images/circular/yes.png); } */

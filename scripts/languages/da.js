@@ -33,7 +33,7 @@
 	"select": "Vælg",
 	"download": "Hent",
 	"del": "Slet",
-	"folderlist": "Files list",
+	"parentfolder": "Parent folder",
 	"dimensions": "Dimensioner",
 	"created": "Oprettet",
 	"modified": "Ændret",

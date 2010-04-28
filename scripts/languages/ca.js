@@ -33,7 +33,7 @@
 	"select": "Seleccionar",
 	"download": "Descarregar",
 	"del": "Eliminar",
-	"folderlist": "Files list",
+	"parentfolder": "Parent folder",
 	"dimensions": "Dimensions",
 	"created": "Creat",
 	"modified": "Modificat",
