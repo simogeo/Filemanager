@@ -33,7 +33,7 @@
 	"select": "Select",
 	"download": "Download",
 	"del": "Delete",
-	"filelist": "File list",
+	"folderlist": "Files list",
 	"dimensions": "Dimensions",
 	"created": "Created",
 	"modified": "Modified",
