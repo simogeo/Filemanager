@@ -33,6 +33,7 @@
 	"select": "Auswählen",
 	"download": "Herunterladen",
 	"del": "Löschen",
+	"filelist": "File list",
 	"dimensions": "Abmessungen",
 	"created": "Erstellt",
 	"modified": "Geändert",

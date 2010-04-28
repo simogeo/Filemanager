@@ -33,6 +33,7 @@
 	"select": "Vælg",
 	"download": "Hent",
 	"del": "Slet",
+	"filelist": "File list",
 	"dimensions": "Dimensioner",
 	"created": "Oprettet",
 	"modified": "Ændret",
