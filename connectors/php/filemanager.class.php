@@ -307,7 +307,7 @@ class Filemanager {
     $this->item['filemtime'] = filemtime($_SERVER['DOCUMENT_ROOT'] . $path);
     $this->item['filectime'] = filectime($_SERVER['DOCUMENT_ROOT'] . $path);
 
-    $this->item['preview'] = $this->hostPrefixed($this->config['icons']['path'] . $this->config['icons']['default']); // @simo
+    $this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['default'];
 
     if(is_dir($_SERVER['DOCUMENT_ROOT'] . $path)) {
        
