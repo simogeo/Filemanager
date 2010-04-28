@@ -220,8 +220,14 @@ var renameItem = function(data){
 	
 						updateNode(oldPath, newPath, newName);
 						
+						var title = $("#preview h1").attr("title");
+
+						if (typeof title !="undefined" && title == rmhost(oldPath)) {
+							$('#preview h1').text(newName);
+						}
+						
 						if($('#fileinfo').data('view') == 'grid'){
-							$('#fileinfo img[alt="' + oldPath + '"]').next('p').text(newName);
+							$('#fileinfo img[alt="' + oldPath + '"]').parent().next('p').text(newName);
 							$('#fileinfo img[alt="' + oldPath + '"]').attr('alt', newPath);
 						} else {
 							$('#fileinfo td[title="' + oldPath + '"]').text(newName);
@@ -320,6 +326,7 @@ var updateNode = function(oldPath, newPath, newName){
 	var parentNode = thisNode.parent().parent().prev('a');
 	thisNode.attr('rel', newPath).text(newName);
 	parentNode.click().click();
+
 }
 
 // Removes the specified node. Called after a successful 
@@ -437,7 +444,7 @@ var getFileInfo = function(file){
 	template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
 	template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
 	template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.del + '</button>';
-	template += '<button onClick="getFolderInfo(\'' + currentpath + '\');">Back to File List</button>';
+	template += '<button id="filelist" onclick="getFolderInfo(\'' + currentpath + '\');">' + lg.filelist + '</button>';
 	template += '</form>';
 	
 	$('#fileinfo').html(template);
@@ -445,7 +452,7 @@ var getFileInfo = function(file){
 	// Retrieve the data & populate the template.
 	$.getJSON(fileConnector + '?mode=getinfo&path=' + file, function(data){
 		if(data['Code'] == 0){
-			$('#fileinfo').find('h1').text(data['Filename']);
+			$('#fileinfo').find('h1').text(data['Filename']).attr('title', file);
 			$('#fileinfo').find('img').attr('src',data['Preview']);
 			
 			var properties = '';
