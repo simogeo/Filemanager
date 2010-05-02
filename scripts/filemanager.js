@@ -444,10 +444,11 @@ var getFileInfo = function(file){
 	template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
 	template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
 	template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.del + '</button>';
-	template += '<button id="parentfolder" onclick="getFolderInfo(\'' + currentpath + '\');">' + lg.parentfolder + '</button>';
+	template += '<button id="parentfolder">' + lg.parentfolder + '</button>';
 	template += '</form>';
 	
 	$('#fileinfo').html(template);
+	$('#parentfolder').click(function() {getFolderInfo(currentpath);});
 	
 	// Retrieve the data & populate the template.
 	$.getJSON(fileConnector + '?mode=getinfo&path=' + file, function(data){
