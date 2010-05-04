@@ -327,34 +327,34 @@ var updateNode = function(oldPath, newPath, newName){
 // Removes the specified node. Called after a successful 
 // delete operation.
 var removeNode = function(path){
-	$('#filetree')
-		.find('a[rel="' + path + '"]')
-		.parent()
-		.fadeOut('slow', function(){ 
-			$(this).remove();
-		});
-	// grid case
-	$('ul#contents').find('p').each(function (i) {
-        if ($(this).text()==basename(path)) {
-        	$(this)
-        		.parent()
-			.fadeOut('slow', function(){ 
-				$(this).remove();
-			});
-        }  
-     });
-        // list case
-	$('table#contents')
-		.find('td[title="' + path + '"]')
-		.parent()
-		.fadeOut('slow', function(){ 
-			$(this).remove();
-	});
-	// remove fileinfo
-	$('#fileinfo').fadeOut('slow', function(){ 
+    $('#filetree')
+        .find('a[rel="' + path + '"]')
+        .parent()
+        .fadeOut('slow', function(){ 
+            $(this).remove();
+        });
+    // grid case
+    if($('#fileinfo').data('view') == 'grid'){
+        $('#contents img[alt="' + path + '"]').parent().parent()
+            .fadeOut('slow', function(){ 
+                $(this).remove();
+        });
+    } 
+    // list case
+    else {
+        $('table#contents')
+            .find('td[title="' + path + '"]')
+            .parent()
+            .fadeOut('slow', function(){ 
+                $(this).remove();
+        });
+    }
+    // remove fileinfo
+		$('#fileinfo').fadeOut('slow', function(){
 			$(this).empty().show();
-	});
+		});
 }
+
 
 // Adds a new folder as the first item beneath the
 // specified parent node. Called after a new folder is
