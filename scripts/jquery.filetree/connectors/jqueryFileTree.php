@@ -1,6 +1,6 @@
 <?php
 require('../../../connectors/php/filemanager.config.php');
-$root = $_SERVER['DOCUMENT_ROOT'].'/';
+(isset($config['doc_root'])) ? $root = $config['doc_root'] : $root = $_SERVER['DOCUMENT_ROOT'].'/';
 
 //
 // jQuery File Tree PHP Connector
@@ -21,6 +21,7 @@ $root = $_SERVER['DOCUMENT_ROOT'].'/';
 //$_POST['dir'] = urldecode($_POST['dir']);
 $_POST['dir'] = str_replace('http://' . $_SERVER['HTTP_HOST'].'/', '', urldecode($_POST['dir']));
 $path = str_replace('//','/' , $root . $_POST['dir']); // we remove double slash
+
 // Check if user is authorized
 if(auth()) {
   

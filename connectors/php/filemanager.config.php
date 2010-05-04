@@ -64,16 +64,14 @@ $config['unallowed_files']= array('.htaccess');
 $config['unallowed_dirs']= array('_thumbs');
 
 /**
- *	Add the server host (http://www.domain.com) as prefix to files
- */
-$config['add_host'] = true;
-
-
-/**
  *	FEATURED OPTIONS
- *	not working yet
+ *	for Vhost or outside files folder
  */
+//$config['doc_root'] = '/home/user/userfiles'; // No end slash
 
+
+
+//	not working yet
 //$config['upload']['suffix'] = '_'; // string; if overwrite is false, the suffix will be added after the filename (before .ext)
 
 ?>

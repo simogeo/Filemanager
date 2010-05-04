@@ -53,11 +53,6 @@ var disp = function(path){
 	return path.replace(fileRoot, "/");
 }
 
-// Remove host from path
-var rmhost = function(path){
-	return path.replace(document.location.protocol+'//'+document.location.host+'/', "");
-}
-
 // from http://phpjs.org/functions/basename:360
 var basename = function(path, suffix) {
     var b = path.replace(/^.*[\/\\]/g, '');
@@ -222,7 +217,7 @@ var renameItem = function(data){
 						
 						var title = $("#preview h1").attr("title");
 
-						if (typeof title !="undefined" && title == rmhost(oldPath)) {
+						if (typeof title !="undefined" && title == oldPath) {
 							$('#preview h1').text(newName);
 						}
 						
@@ -398,7 +393,6 @@ var getDetailView = function(path){
 // Binds contextual menus to items in list and grid views.
 var setMenus = function(action, path){
 	$.getJSON(fileConnector + '?mode=getinfo&path=' + path, function(data){
-		data['Path']=rmhost(data['Path']);
 		if($('#fileinfo').data('view') == 'grid'){
 			var item = $('#fileinfo').find('img[alt="' + data['Path'] + '"]').parent();
 		} else {

@@ -21,6 +21,7 @@ class Filemanager {
   protected $properties = array();
   protected $item = array();
   protected $root = '';
+  protected $doc_root = '';
 
   public function __construct($config) {
     $this->config = $config;
@@ -32,6 +33,10 @@ class Filemanager {
 			'Width'=>null,
 			'Size'=>null
     );
+    if(isset($this->config['doc_root'])) $this->doc_root = $this->config['doc_root'];
+    else {
+      $this->doc_root = $_SERVER['DOCUMENT_ROOT'];
+    }
     $this->setParams();
     $this->loadLanguageFile();
 
@@ -81,12 +86,10 @@ class Filemanager {
     $this->item = array();
     $this->item['properties'] = $this->properties;
     $this->get_file_info();
-    $full_path = $_SERVER['DOCUMENT_ROOT'] .$this->get['path'];
-    if($this->config['add_host']) {
-      $full_path =  $this->hostPrefixed($this->get['path']);
-    }
+    $full_path = $this->doc_root .$this->get['path'];
+
     $array = array(
-			'Path'=> $full_path,
+			'Path'=> $this->get['path'],
 			'Filename'=>$this->item['filename'],
 			'File Type'=>$this->item['filetype'],
 			'Preview'=>$this->item['preview'],
@@ -99,7 +102,7 @@ class Filemanager {
 
   public function getfolder() {
     $array = array();
-    $current_path = $_SERVER['DOCUMENT_ROOT'] . $this->get['path'];
+    $current_path = $this->doc_root . $this->get['path'];
     if(!is_dir($current_path)) {
       $this->error(sprintf($this->lang('DIRECTORY_NOT_EXIST'),$this->get['path']));
     }
@@ -152,11 +155,8 @@ class Filemanager {
 
     $suffix='';
 
-    // necessary to prevent safe_mofe and file_exists behavior
-    $this->get['old'] = $this->rmhostPrefixed($this->get['old']);
 
-
-    if(substr($this->get['old'],-1,1)=='/') {
+  if(substr($this->get['old'],-1,1)=='/') {
       $this->get['old'] = substr($this->get['old'],0,(strlen($this->get['old'])-1));
       $suffix='/';
     }
@@ -164,7 +164,7 @@ class Filemanager {
     $filename = $tmp[(sizeof($tmp)-1)];
     $path = str_replace('/' . $filename,'',$this->get['old']);
 
-    if(!rename($_SERVER['DOCUMENT_ROOT'] . $this->get['old'],$_SERVER['DOCUMENT_ROOT'] . $path . '/' . $this->get['new'])) {
+    if(!rename($this->doc_root . $this->get['old'],$this->doc_root . $path . '/' . $this->get['new'])) {
       if(is_dir($this->get['old'])) {
         $this->error(sprintf($this->lang('ERROR_RENAMING_DIRECTORY'),$filename,$this->get['new']));
       } else {
@@ -183,19 +183,17 @@ class Filemanager {
   }
 
   public function delete() {
-    // necessary to prevent safe_mode and file_exists behavior
-    $this->get['path'] = $this->rmhostPrefixed($this->get['path']);
 
-    if(is_dir($_SERVER['DOCUMENT_ROOT'] . $this->get['path'])) {
-      $this->unlinkRecursive($_SERVER['DOCUMENT_ROOT'] . $this->get['path']);
+    if(is_dir($this->doc_root . $this->get['path'])) {
+      $this->unlinkRecursive($this->doc_root . $this->get['path']);
       $array = array(
 				'Error'=>"",
 				'Code'=>0,
 				'Path'=>$this->get['path']
       );
       return $array;
-    } else if(file_exists($_SERVER['DOCUMENT_ROOT'] . $this->get['path'])) {
-      unlink($_SERVER['DOCUMENT_ROOT'] . $this->get['path']);
+    } else if(file_exists($this->doc_root . $this->get['path'])) {
+      unlink($this->doc_root . $this->get['path']);
       $array = array(
 				'Error'=>"",
 				'Code'=>0,
@@ -225,9 +223,9 @@ class Filemanager {
     }
     $_FILES['newfile']['name'] = $this->cleanString($_FILES['newfile']['name'],array('.','-'));
     if(!$this->config['upload']['overwrite']) {
-      $_FILES['newfile']['name'] = $this->checkFilename($_SERVER['DOCUMENT_ROOT'] . $this->post['currentpath'],$_FILES['newfile']['name']);
+      $_FILES['newfile']['name'] = $this->checkFilename($this->doc_root . $this->post['currentpath'],$_FILES['newfile']['name']);
     }
-    move_uploaded_file($_FILES['newfile']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $this->post['currentpath'] . $_FILES['newfile']['name']);
+    move_uploaded_file($_FILES['newfile']['tmp_name'], $this->doc_root . $this->post['currentpath'] . $_FILES['newfile']['name']);
 
     $response = array(
 			'Path'=>$this->post['currentpath'],
@@ -240,11 +238,11 @@ class Filemanager {
   }
 
   public function addfolder() {
-    if(is_dir($_SERVER['DOCUMENT_ROOT'] . $this->get['path'] . $this->get['name'])) {
+    if(is_dir($this->doc_root . $this->get['path'] . $this->get['name'])) {
       $this->error(sprintf($this->lang('DIRECTORY_ALREADY_EXISTS'),$this->get['name']));
        
     }
-    if(!mkdir($_SERVER['DOCUMENT_ROOT'] . $this->get['path'] . $this->get['name'],0755)) {
+    if(!mkdir($this->doc_root . $this->get['path'] . $this->get['name'],0755)) {
       $this->error(sprintf($this->lang('UNABLE_TO_CREATE_DIRECTORY'),$this->get['name']));
     }
     $array = array(
@@ -258,19 +256,27 @@ class Filemanager {
 
   public function download() {
 
-    // necessary to prevent safe_mode and file_exists behavior
-    $this->get['path'] = $this->rmhostPrefixed($this->get['path']);
-
-    if(isset($this->get['path']) && file_exists($_SERVER['DOCUMENT_ROOT'] .$this->get['path'])) {
+    if(isset($this->get['path']) && file_exists($this->doc_root .$this->get['path'])) {
       header("Content-type: application/force-download");
-      header('Content-Disposition: inline; filename="' . $this->get['path'] . '"');
+      header('Content-Disposition: inline; filename="' . basename($this->get['path']) . '"');
       header("Content-Transfer-Encoding: Binary");
-      header("Content-length: ".filesize($_SERVER['DOCUMENT_ROOT'] . $this->get['path']));
+      header("Content-length: ".filesize($this->doc_root . $this->get['path']));
       header('Content-Type: application/octet-stream');
-      $tmp = explode('/',$this->get['path']);
-      $filename = $tmp[(sizeof($tmp)-1)];
-      header('Content-Disposition: attachment; filename="' . $filename . '"');
-      readfile($_SERVER['DOCUMENT_ROOT'] . $this->get['path']);
+      header('Content-Disposition: attachment; filename="' . basename($this->get['path']) . '"');
+      readfile($this->doc_root . $this->get['path']);
+    } else {
+      $this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),$this->get['path']));
+    }
+  }
+
+  public function preview() {
+    
+    if(isset($this->get['path']) && file_exists($this->doc_root . $this->get['path'])) {
+      header("Content-type: image/" .$ext = pathinfo($this->get['path'], PATHINFO_EXTENSION));
+      header("Content-Transfer-Encoding: Binary");
+      header("Content-length: ".filesize($this->doc_root . $this->get['path']));
+      header('Content-Disposition: inline; filename="' . basename($this->get['path']) . '"');
+      readfile($this->doc_root . $this->get['path']);
     } else {
       $this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),$this->get['path']));
     }
@@ -304,29 +310,29 @@ class Filemanager {
 
     $tmp = explode('.',$this->item['filename']);
     $this->item['filetype'] = $tmp[(sizeof($tmp)-1)];
-    $this->item['filemtime'] = filemtime($_SERVER['DOCUMENT_ROOT'] . $path);
-    $this->item['filectime'] = filectime($_SERVER['DOCUMENT_ROOT'] . $path);
+    $this->item['filemtime'] = filemtime($this->doc_root . $path);
+    $this->item['filectime'] = filectime($this->doc_root . $path);
 
     $this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['default'];
 
-    if(is_dir($_SERVER['DOCUMENT_ROOT'] . $path)) {
+    if(is_dir($this->doc_root . $path)) {
        
       $this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['directory'];
        
     } else if(in_array($this->item['filetype'],$this->config['images'])) {
        
-      $this->item['preview'] = $this->hostPrefixed($path);
+      $this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path=' . $path;
       //if(isset($get['getsize']) && $get['getsize']=='true') {
-      list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'] . $path);
+      list($width, $height, $type, $attr) = getimagesize($this->doc_root . $path);
       $this->item['properties']['Height'] = $height;
       $this->item['properties']['Width'] = $width;
-      $this->item['properties']['Size'] = filesize($_SERVER['DOCUMENT_ROOT'] . $path);
+      $this->item['properties']['Size'] = filesize($this->doc_root . $path);
       //}
        
     } else if(file_exists($this->root . $this->config['icons']['path'] . strtolower($this->item['filetype']) . '.png')) {
        
       $this->item['preview'] = $this->config['icons']['path'] . strtolower($this->item['filetype']) . '.png';
-      $this->item['properties']['Size'] = filesize($_SERVER['DOCUMENT_ROOT'] . $path);
+      $this->item['properties']['Size'] = filesize($this->doc_root . $path);
        
     }
 
@@ -406,21 +412,6 @@ class Filemanager {
     }
   }
 
-  private function hostPrefixed($filepath) {
-    if(isset($this->config['add_host']) && $this->config['add_host'] == true) {
-      return 'http://' . $_SERVER['HTTP_HOST'] . '/'. $filepath;
-    } else {
-      return $filepath;
-    }
-  }
-
-  private function rmhostPrefixed($filepath) {
-    if(isset($this->config['add_host']) && $this->config['add_host'] == true) {
-      return str_replace('http://' . $_SERVER['HTTP_HOST'].'/', '', $filepath);
-    } else {
-      return $filepath;
-    }
-  }
 
 }
 

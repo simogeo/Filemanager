@@ -75,6 +75,11 @@ if(!isset($_GET)) {
 					$fm->download();
 				}
 				break;
+			case 'preview':
+				if($fm->getvar('path')) {
+					$fm->preview();
+				}
+				break;
 				
 		}
 		
