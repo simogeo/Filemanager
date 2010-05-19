@@ -25,7 +25,7 @@ class Filemanager {
 
   public function __construct($config) {
     $this->config = $config;
-    $this->root = str_replace('connectors'.DIRECTORY_SEPARATOR.'php'.DIRECTORY_SEPARATOR.'filemanager.php','',$_SERVER['SCRIPT_FILENAME']);
+    $this->root = str_replace('connectors'.DIRECTORY_SEPARATOR.'php'.DIRECTORY_SEPARATOR.'filemanager.class.php','',__FILE__);
     $this->properties = array(
 			'Date Created'=>null,
 			'Date Modified'=>null,
