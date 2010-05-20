@@ -1,6 +1,6 @@
 {
     "AUTHORIZATION_REQUIRED": "Du har ikke adgang til at bruge fil manageren.", 
-    "INVALID_ACTION": 'Invalid handling.",
+    "INVALID_ACTION": "Invalid handling.",
     "MODE_ERROR": "Mode fejl.",
 	"DIRECTORY_ALREADY_EXISTS": "Mappen '%s'  eksisterer allerede.",
 	"UNABLE_TO_CREATE_DIRECTORY": "Ude af stand til at oprette mappen %s.",
@@ -33,7 +33,7 @@
 	"select": "Vælg",
 	"download": "Hent",
 	"del": "Slet",
-	"parentfolder": "Parent folder",
+	"parentfolder": "Hovedmappe",
 	"dimensions": "Dimensioner",
 	"created": "Oprettet",
 	"modified": "Ændret",
