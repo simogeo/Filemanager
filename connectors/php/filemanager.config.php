@@ -67,7 +67,7 @@ $config['unallowed_dirs']= array('_thumbs');
  *	FEATURED OPTIONS
  *	for Vhost or outside files folder
  */
-//$config['doc_root'] = '/home/user/userfiles'; // No end slash
+$config['doc_root'] = 'C:\Users\simon\userfiles'; // No end slash
 
 
 
