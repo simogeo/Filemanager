@@ -68,7 +68,6 @@ $config['unallowed_dirs']= array('_thumbs');
  *	for Vhost or outside files folder
  */
 //$config['doc_root'] = 'C:\Users\simon\userfiles'; // No end slash
-$config['doc_root'] = '/media/DATA/shared/htdocs/Filemanager/userfiles'; // No end slash
 
 
 //	not working yet
