@@ -1,17 +1,20 @@
 Installation and Setup
 ----------------------
 
-(1) Check out a copy of the FileManager from the repository using your preferred subversion client, or from a command line:
+(1) Check out a copy of the FileManager from the repository using Git :
 
-svn co svn://corefive.com/svn/trunk/
+git clone http://github.com/simogeo/Filemanager.git
+
+or download the archive from Github : http://github.com/simogeo/Filemanager/archives/master
 
 You can place the FileManager anywhere within your web serving root directory.
 
 (2) Make a copy of the default configuration file ("filemanager.config.js.default" located in the scripts directory), removing the '.default' from the end of the filename, and edit the options according to the comments in the file.
 
-(3) Find the default configuration file for the connector you chose in Step 2 above, and follow the same procedure to configure the connector. For instance, the default configuration file for the Lasso connector is located here:
-
-[Path to FileManager]/connectors/lasso/filemanager.config.inc.default
+(3) Find the default configuration file for the connector you chose in Step 2 above, and follow the same procedure to configure the connector. For instance, the default configuration file for the PHP connector is located here:
+    Currently, only PHP is a valid connector for Filemanager, but we are waiting for you contributions
+    
+[Path to FileManager]/connectors/php/filemanager.config.inc.default
 
 (4a) If you are integrating the FileManager with FCKEditor, open your fckconfig.js file and find the lines which specify what file browser to use for images, links, etc. Look toward the bottom of the file. You will need to change lines such as this:
 
