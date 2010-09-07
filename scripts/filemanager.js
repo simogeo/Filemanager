@@ -149,7 +149,10 @@ var formatBytes = function(bytes){
 // function to retrieve GET params
 $.urlParam = function(name){
 	var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
-	return results[1] || 0;
+	if (results)
+		return results[1]; 
+	else
+		return 0;
 }
 
 
@@ -657,4 +660,5 @@ $(function(){
 	}, function(file){
 		getFileInfo(file);
 	});
+    getDetailView(fileRoot);
 });
