@@ -12,7 +12,7 @@ You can place the FileManager anywhere within your web serving root directory.
 (2) Make a copy of the default configuration file ("filemanager.config.js.default" located in the scripts directory), removing the '.default' from the end of the filename, and edit the options according to the comments in the file.
 
 (3) Find the default configuration file for the connector you chose in Step 2 above, and follow the same procedure to configure the connector. For instance, the default configuration file for the PHP connector is located here:
-    Currently, only PHP is a valid connector for Filemanager, but we are waiting for you contributions
+    Currently, PHP and JSP connectors are available for Filemanager, but we are waiting for you contributions
     
 [Path to FileManager]/connectors/php/filemanager.config.inc.default
 
