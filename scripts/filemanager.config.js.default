@@ -9,7 +9,7 @@ var culture = 'en';
 var autoload = true;
 
 // Set this to the server side language you wish to use.
-var lang = 'php'; // options: lasso, php, py
+var lang = 'php'; // options: lasso, php, py, jsp
 
 var am = document.location.pathname.substring(1, document.location.pathname
 		.lastIndexOf('/') + 1);
