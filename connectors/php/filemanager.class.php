@@ -163,6 +163,15 @@ class Filemanager {
     $tmp = explode('/',$this->get['old']);
     $filename = $tmp[(sizeof($tmp)-1)];
     $path = str_replace('/' . $filename,'',$this->get['old']);
+    
+    if(file_exists ($this->doc_root . $path . '/' . $this->get['new'])) {
+      if($suffix=='/' && is_dir($this->doc_root . $path . '/' . $this->get['new'])) {
+        $this->error(sprintf($this->lang('DIRECTORY_ALREADY_EXISTS'),$this->get['new']));
+      }
+      if($suffix=='' && is_file($this->doc_root . $path . '/' . $this->get['new'])) {
+        $this->error(sprintf($this->lang('FILE_ALREADY_EXISTS'),$this->get['new']));
+      }
+    }
 
     if(!rename($this->doc_root . $this->get['old'],$this->doc_root . $path . '/' . $this->get['new'])) {
       if(is_dir($this->get['old'])) {
