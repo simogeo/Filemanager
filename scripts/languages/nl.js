@@ -3,6 +3,7 @@
     "INVALID_ACTION": "Ongeldige actie.",
     "MODE_ERROR": "Mode fout.",
 	"DIRECTORY_ALREADY_EXISTS": "De map '%s' bestaat al.",
+	"FILE_ALREADY_EXISTS": "The file '%s' already exists.",
 	"UNABLE_TO_CREATE_DIRECTORY": "De map %s kon niet worden aangemaakt.",
 	"INVALID_VAR": "Ongeldige variabele %s.",
 	"DIRECTORY_NOT_EXIST": "De map %s bestaat niet.",

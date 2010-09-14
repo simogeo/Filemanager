@@ -3,6 +3,7 @@
 	"INVALID_ACTION": "Acció invàlida.",
 	"MODE_ERROR": "Error de mode.",
 	"DIRECTORY_ALREADY_EXISTS": "La carpeta '%s' ja existeix.",
+	"FILE_ALREADY_EXISTS": "The file '%s' already exists.",
 	"UNABLE_TO_CREATE_DIRECTORY": "Impossible crear la carpeta %s.",
 	"INVALID_VAR": "Variable %s invàlida.",
 	"DIRECTORY_NOT_EXIST": "La carpeta %s no existeix.",

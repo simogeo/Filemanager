@@ -3,6 +3,7 @@
     "INVALID_ACTION": "Invalid action.",
     "MODE_ERROR": "Mode error.",
 	"DIRECTORY_ALREADY_EXISTS": "The directory '%s' already exists.",
+	"FILE_ALREADY_EXISTS": "The file '%s' already exists.",
 	"UNABLE_TO_CREATE_DIRECTORY": "Unable to create the directory %s.",
 	"INVALID_VAR": "Invalid var %s.",
 	"DIRECTORY_NOT_EXIST": "The directory %s does not exist.",

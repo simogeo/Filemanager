@@ -3,6 +3,7 @@
     "INVALID_ACTION": "Unbekannter Befehl.",
     "MODE_ERROR": "Mode error.",
 	"DIRECTORY_ALREADY_EXISTS": "Das Verzeichnis existiert bereits.",
+	"FILE_ALREADY_EXISTS": "The file '%s' already exists.",
 	"UNABLE_TO_CREATE_DIRECTORY": "Das Verzeichnis %s kann nicht erstellt werden.",
 	"INVALID_VAR": "Ungültige Variable %s.",
 	"DIRECTORY_NOT_EXIST": "Das Verzeichnis %s ist nicht vorhanden.",

@@ -3,6 +3,7 @@
     "INVALID_ACTION": "Azione non valida.",
     "MODE_ERROR": "Errore modalità.",
 	"DIRECTORY_ALREADY_EXISTS": "La cartella '%s' esiste già.",
+	"FILE_ALREADY_EXISTS": "Il file '%s' esiste già.",
 	"UNABLE_TO_CREATE_DIRECTORY": "Impossibile creare la cartella %s.",
 	"INVALID_VAR": "Variabile %s non valida.",
 	"DIRECTORY_NOT_EXIST": "La cartella %s non esiste.",
