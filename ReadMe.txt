@@ -242,4 +242,3 @@ The download method serves the requested file to the user. We currently use a MI
 Example Request:
 
 	[path to connector]?mode=download&path=/UserFiles/&name=new%20logo.png
-
