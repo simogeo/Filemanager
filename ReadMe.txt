@@ -217,13 +217,13 @@ Example Response:
 }
 
 
-addFolder
+addfolder
 ---------
-The addFolder method creates a new directory on the server within the given path.
+The addfolder method creates a new directory on the server within the given path.
 
 Example Request:
 
-	[path to connector]?mode=addFolder&path=/UserFiles/&name=new%20logo.png
+	[path to connector]?mode=addfolder&path=/UserFiles/&name=new%20logo.png
 	
 Example Response:
 
