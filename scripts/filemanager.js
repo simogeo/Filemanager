@@ -168,6 +168,22 @@ $.urlParam = function(name){
 // NOTE: closes the window when finished.
 var selectItem = function(data){
 	if(window.opener){
+	 	if(window.tinyMCEPopup){
+        	// use TinyMCE > 3.0 integration method
+            var win = tinyMCEPopup.getWindowArg("window");
+			win.document.getElementById(tinyMCEPopup.getWindowArg("input")).value = data['Path'];
+            if (typeof(win.ImageDialog) != "undefined") {
+				// Update image dimensions
+            	if (win.ImageDialog.getImageData)
+                 	win.ImageDialog.getImageData();
+
+                // Preview if necessary
+                if (win.ImageDialog.showPreviewImage)
+					win.ImageDialog.showPreviewImage(data['Path']);
+			}
+			tinyMCEPopup.close();
+			return;
+		}
 		if($.urlParam('CKEditor')){
 			// use CKEditor 3.0 integration method
 			window.opener.CKEDITOR.tools.callFunction($.urlParam('CKEditorFuncNum'), data['Path']);
