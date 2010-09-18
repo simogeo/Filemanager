@@ -26,13 +26,18 @@ FCKConfig.ImageBrowserURL = FCKConfig.BasePath + 'filemanager/browser/default/br
 FCKConfig.ImageBrowser = true ;
 FCKConfig.ImageBrowserURL = '[Path to Filemanager]/index.html' ;
 
-(4b) If you are intergrating the FileManager with CKEditor 3.x or higher, simply set the URL when you configure your instance, like so:
+(4b) If you are integrating the FileManager with CKEditor 3.x or higher, simply set the URL when you configure your instance, like so:
 
 CKEDITOR.replace('instancename', {
 	filebrowserBrowseUrl: '[Path to Filemanager]/index.html',
 	...other configuration options...
 });
 
+(4c) If you are integrating the FileManager with TinyMCE (>= 3.0), you should:
+
+Create a Javascript callback function that will open the FileManager index.html base page (see URL below for examples)
+Add a line like: "file_browser_callback : 'name_of_callback_function'" in the tinyMCE.init command
+See http://wiki.moxiecode.com/index.php/TinyMCE:Custom_filebrowser for more details.
 
 
 API
