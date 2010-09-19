@@ -50,10 +50,10 @@ You can create a connector for your server side language of choice by following 
 
 	[path to FileManager]/connectors/[language extension]/filemanager.[language extension]
 
-FileManager currently includes connectors for Lasso and Python in the following locations:
+FileManager currently includes connectors for PHP and JSP in the following locations:
 
-	Lasso: .../connectors/lasso/filemanager.lasso
-	Python: .../connectors/py/filemanager.py
+	PHP: .../connectors/php/filemanager.php
+	JSP: .../connectors/jsp/filemanager.jsp
 
 As long as a script exists at this location to respond to requests, you may split up the code (external libraries, configuration files, etc.) however you see fit.
 
