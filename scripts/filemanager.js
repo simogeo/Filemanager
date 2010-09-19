@@ -453,7 +453,7 @@ var getFileInfo = function(file){
 	// Include the template.
 	var template = '<div id="preview"><img /><h1></h1><dl></dl></div>';
 	template += '<form id="toolbar">';
-	template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
+	if(window.opener != null) template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
 	template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
 	template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
 	template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.del + '</button>';
@@ -676,5 +676,7 @@ $(function(){
 	}, function(file){
 		getFileInfo(file);
 	});
+	// Disable select function if no window.opener
+	if(window.opener == null) $('#itemOptions a[href$="#select"]').remove();
     getDetailView(fileRoot);
 });
