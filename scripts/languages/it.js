@@ -47,5 +47,9 @@
 	"new_folder": "Nuova cartella",
 	"grid_view": "Visualizzazione griglia",
 	"list_view": "Visualizzazione lista",
-	"current_folder": "Cartella corrente: "
+	"current_folder": "Cartella corrente: ",
+	"bytes": " bytes",
+	"kb": "kb",
+	"mb": "mb",
+	"gb": "gb"
 }

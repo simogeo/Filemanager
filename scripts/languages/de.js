@@ -47,5 +47,9 @@
 	"new_folder": "Neuer Ordner",
 	"grid_view": "Schalte um zur Gitteransicht.",
 	"list_view": "Schalte um zur Listenansicht.",
-	"current_folder": "Momentaner Ordner: "
+	"current_folder": "Momentaner Ordner: ",
+	"bytes": " bytes",
+	"kb": "kb",
+	"mb": "mb",
+	"gb": "gb"
 }

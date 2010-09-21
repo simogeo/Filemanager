@@ -47,5 +47,9 @@
 	"new_folder": "Nový adresář",
 	"grid_view": "Zobrazit v mřížce.",
 	"list_view": "Zobrazit jako seznam.",
-	"current_folder": "Aktivní adresář: "
+	"current_folder": "Aktivní adresář: ",
+	"bytes": " bytes",
+	"kb": "kb",
+	"mb": "mb",
+	"gb": "gb"
 }

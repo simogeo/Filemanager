@@ -46,5 +46,9 @@
 	"new_folder": "Nowy folder",
 	"grid_view": "Widok siatki.",
 	"list_view": "Widok listy.",
-	"current_folder": "Aktualny folder: "
+	"current_folder": "Aktualny folder: ",
+	"bytes": " bytes",
+	"kb": "kb",
+	"mb": "mb",
+	"gb": "gb"
 }

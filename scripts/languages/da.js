@@ -47,5 +47,9 @@
 	"new_folder": "Ny mappe",
 	"grid_view": "Skift til gitter visning.",
 	"list_view": "Skift til liste visning.",
-	"current_folder": "Du er her: "
+	"current_folder": "Du er her: ",
+	"bytes": " bytes",
+	"kb": "kb",
+	"mb": "mb",
+	"gb": "gb"
 }

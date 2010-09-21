@@ -47,5 +47,9 @@
 	"new_folder": "Nouveau dossier",
 	"grid_view": "Affichage en mode 'miniatures'",
 	"list_view": "Affichage en mode 'liste'",
-	"current_folder": "Dosssier courant : "
+	"current_folder": "Dosssier courant : ",
+	"bytes": " octets",
+	"kb": "ko",
+	"mb": "mo",
+	"gb": "go"
 }

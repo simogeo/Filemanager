@@ -47,5 +47,9 @@
 	"new_folder": "New folder",
 	"grid_view": "Switch to grid view.",
 	"list_view": "Switch to list view.",
-	"current_folder": "Current folder: "
+	"current_folder": "Current folder: ",
+	"bytes": " bytes",
+	"kb": "kb",
+	"mb": "mb",
+	"gb": "gb"
 }

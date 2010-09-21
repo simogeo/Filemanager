@@ -47,6 +47,10 @@
 	"new_folder": "Nova carpeta",
 	"grid_view": "Canviar a vista de quadricular.",
 	"list_view": "Canviar a vista de llista.",
-	"current_folder": "Carpeta actual: "
-    }
+	"current_folder": "Carpeta actual: ",
+	"bytes": " bytes",
+	"kb": "kb",
+	"mb": "mb",
+	"gb": "gb"
+}
     

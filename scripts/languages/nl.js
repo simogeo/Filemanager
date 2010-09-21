@@ -47,5 +47,9 @@
 	"new_folder": "Nieuwe map",
 	"grid_view": "Pictogrammen",
 	"list_view": "Lijst",
-	"current_folder": "Huidige map: "
+	"current_folder": "Huidige map: ",
+	"bytes": " bytes",
+	"kb": "kb",
+	"mb": "mb",
+	"gb": "gb"
 }
