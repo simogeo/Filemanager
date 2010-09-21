@@ -133,7 +133,7 @@ var formatBytes = function(bytes){
 	var n = parseFloat(bytes);
 	var d = parseFloat(1024);
 	var c = 0;
-	var u = [' bytes','kb','mb','gb'];
+	var u = [lg.bytes,lg.kb,lg.mb,lg.gb];
 	
 	while(true){
 		if(n < d){
@@ -678,5 +678,6 @@ $(function(){
 	});
 	// Disable select function if no window.opener
 	if(window.opener == null) $('#itemOptions a[href$="#select"]').remove();
+	//alert($('#filetree').find('li a.directory'));
     getDetailView(fileRoot);
 });
