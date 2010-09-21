@@ -331,6 +331,10 @@ public class FileManager {
 				    }
 				    else if (item.getFieldName().equals("newfile")){
 			    		fileName = item.getName();
+			    		// strip possible directory (IE)
+			    		int pos = fileName.lastIndexOf(File.separator);
+			    		if (pos > 0)
+			    			fileName = fileName.substring(pos + 1);
 			    		boolean error = false;
 				    	long maxSize = 0;
 						if(this.config.getProperty("upload-size") != null){
