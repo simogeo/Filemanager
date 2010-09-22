@@ -382,10 +382,10 @@ class Filemanager {
     if (is_array($string)) {
       $cleaned = array();
       foreach ($string as $key => $clean) {
-        $cleaned[$key] = preg_replace("/[^{$allow}a-zA-Z0-9]/", '', $clean);
+        $cleaned[$key] = preg_replace("/[^{$allow}_a-zA-Z0-9]/", '', $clean);
       }
     } else {
-      $cleaned = preg_replace("/[^{$allow}a-zA-Z0-9]/", '', $string);
+      $cleaned = preg_replace("/[^{$allow}_a-zA-Z0-9]/", '', $string);
     }
     return $cleaned;
   }
