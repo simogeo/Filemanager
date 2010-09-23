@@ -199,8 +199,8 @@ public class FileManager {
 						this.item.put("properties", this.properties);
 						this.getFileInfo(this.get.get("path") + files[i]);
 						
-						if (this.params.get("type") == null || this.params.get("type") != null && this.params.get("type").equals("Images") && 
-								(this.config.getProperty("images")).indexOf("," + this.item.get("filetype" + ",")) > 0) {
+						if (this.params.get("type") == null || (this.params.get("type") != null && (!this.params.get("type").equals("Image") || this.params.get("type").equals("Image") && 
+								contains(this.config.getProperty("images"), (String)this.item.get("filetype"))))) {
 							try{
 								data.put("Path", this.get.get("path") + files[i]);
 								data.put("Filename", this.item.get("filename"));
@@ -231,7 +231,7 @@ public class FileManager {
 		String tmp[] = (this.get.get("old")).split("/");
 		String filename = tmp[tmp.length - 1];
 		int pos = this.get.get("old").lastIndexOf("/");
-		String path = (this.get.get("old")).substring(0, pos);
+		String path = (this.get.get("old")).substring(0, pos + 1);
 		File fileFrom = null;
 		File fileTo = null;
 		try {
@@ -346,7 +346,7 @@ public class FileManager {
 						}
 						if(!error){
 							if (!isImage(fileName) && (config.getProperty("upload-imagesonly") != null && this.config.getProperty("upload-imagesonly").equals("true")
-									|| this.params.get("type") != null && this.params.get("type").equals("Images"))) {
+									|| this.params.get("type") != null && this.params.get("type").equals("Image"))) {
 								this.error(lang("UPLOAD_IMAGES_ONLY"));
 							} else {
 								fileInfo = new JSONObject();
@@ -521,7 +521,7 @@ public class FileManager {
 
 		String[] tmp = where.split(",");
 		for (int i = 0; i < tmp.length; i++) {
-			if (what.equals(tmp[i])){
+			if (what.equalsIgnoreCase(tmp[i])){
 				retval = true;
 				break;
 			}
@@ -575,7 +575,7 @@ public class FileManager {
         	it = strList.keySet().iterator();
         	while (it.hasNext()) {
         		key = it.next();
-        		cleanStr = strList.get(key).replaceAll("[^{" + allow + "}a-zA-Z0-9]", "");
+        		cleanStr = strList.get(key).replaceAll("[^{" + allow + "}_a-zA-Z0-9]", "");
         		cleaned.put(key, cleanStr);
 			}
         }
