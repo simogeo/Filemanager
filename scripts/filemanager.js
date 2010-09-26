@@ -358,7 +358,7 @@ var removeNode = function(path){
             .fadeOut('slow', function(){ 
                 $(this).remove();
         });
-    } 
+    }
     // list case
     else {
         $('table#contents')
@@ -368,10 +368,12 @@ var removeNode = function(path){
                 $(this).remove();
         });
     }
-    // remove fileinfo
+    // remove fileinfo when item to remove is currently selected
+    if ($('#preview').length) {
 		$('#fileinfo').fadeOut('slow', function(){
 			$(this).empty().show();
 		});
+	}
 }
 
 
