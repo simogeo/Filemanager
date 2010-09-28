@@ -44,7 +44,7 @@ $.SetImpromptuDefaults({
 // Forces columns to fill the layout vertically.
 // Called on initial page load and on resize.
 var setDimensions = function(){
-	var newH = $(window).height() - 50;	
+	var newH = $(window).height() - $('#uploader').height();	
 	$('#splitter, #filetree, #fileinfo, .vsplitbar').height(newH);
 }
 
