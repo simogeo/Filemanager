@@ -1,3 +1,12 @@
+// function to retrieve GET params
+$.urlParam = function(name){
+	var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+	if (results)
+		return results[1]; 
+	else
+		return 0;
+}
+
 /*---------------------------------------------------------
   Setup, Layout, and Status Functions
 ---------------------------------------------------------*/
@@ -7,7 +16,8 @@ var treeConnector = 'scripts/jquery.filetree/connectors/jqueryFileTree.' + lang;
 var fileConnector = 'connectors/' + lang + '/filemanager.' + lang;
 
 // Get localized messages from file 
-// through culture var
+// through culture var or from URL
+if($.urlParam('langCode') != 0) culture = $.urlParam('langCode');
 var lg = [];
 $.ajax({
   url: 'scripts/languages/'  + culture + '.js',
@@ -144,15 +154,6 @@ var formatBytes = function(bytes){
 			c += 1;
 		}
 	}
-}
-
-// function to retrieve GET params
-$.urlParam = function(name){
-	var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
-	if (results)
-		return results[1]; 
-	else
-		return 0;
 }
 
 
@@ -307,9 +308,6 @@ var deleteItem = function(data){
 	
 	return isDeleted;
 }
-
-
-
 
 
 /*---------------------------------------------------------
