@@ -1,5 +1,4 @@
 <?php
-
 /**
  *	Filemanager PHP class
  *
