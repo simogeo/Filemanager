@@ -8,6 +8,9 @@ var culture = 'en';
 // Autoload text in GUI
 var autoload = true;
 
+// Display full path - default : false
+var showFullPath = false;
+
 // Set this to the server side language you wish to use.
 var lang = 'php'; // options: php, jsp // we are looking for contributors for lasso, python connectors (partially developed)
 

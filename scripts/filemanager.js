@@ -1,3 +1,14 @@
+/**
+ *	Filemanager JS core
+ *
+ *	filemanager.js
+ *
+ *	@license	MIT License
+ *	@author		Jason Huck - Core Five Labs
+ *	@author		Simon Georget <simon (at) linea21 (dot) com>
+ *	@copyright	Authors
+ */
+ 
 // function to retrieve GET params
 $.urlParam = function(name){
 	var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -59,8 +70,11 @@ var setDimensions = function(){
 }
 
 // Display Min Path
-var disp = function(path){
-	return path.replace(fileRoot, "/");
+var displayRoot = function(path){
+	if(showFullPath == false)
+		return path.replace(fileRoot, "/");
+	else 
+		return path;
 }
 
 // from http://phpjs.org/functions/basename:360
@@ -79,7 +93,7 @@ var basename = function(path, suffix) {
 // whenever a new directory is selected.
 var setUploader = function(path){
 	$('#currentpath').val(path);
-	$('#uploader h1').text(lg.current_folder + disp(path));
+	$('#uploader h1').text(lg.current_folder + displayRoot(path));
 
 	$('#newfolder').unbind().click(function(){
 		var foldername =  lg.default_foldername;
@@ -381,10 +395,10 @@ var removeNode = function(path){
 var addFolder = function(parent, name){
 	var newNode = '<li class="directory collapsed"><a rel="' + parent + name + '/" href="#">' + name + '</a><ul class="jqueryFileTree" style="display: block;"></ul></li>';
 	var parentNode = $('#filetree').find('a[rel="' + parent + '"]');
-
 	if(parent != fileRoot){
 		parentNode.next('ul').prepend(newNode).prev('a').click().click();
 	} else {
+		// todo : Reload filetree
 		$('#filetree > ul').append(newNode);
 	}
 	
