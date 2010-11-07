@@ -68,7 +68,7 @@ class Filemanager {
     if(!isset($_GET[$var]) || $_GET[$var]=='') {
       $this->error(sprintf($this->lang('INVALID_VAR'),$var));
     } else {
-      $this->get[$var] = $_GET[$var];
+      $this->get[$var] = $this->sanitize($_GET[$var]);
       return true;
     }
   }
@@ -387,6 +387,14 @@ class Filemanager {
       $cleaned = preg_replace("/[^{$allow}_a-zA-Z0-9]/", '', $string);
     }
     return $cleaned;
+  }
+  
+  private function sanitize($var) {
+    $sanitized = strip_tags($var);
+    $sanitized = str_replace('http://', '', $sanitized);
+    $sanitized = str_replace('https://', '', $sanitized);
+    $sanitized = str_replace('../', '', $sanitized);
+    return $sanitized;
   }
 
   private function checkFilename($path,$filename,$i='') {
