@@ -40,7 +40,7 @@ if(auth()) {
       foreach( $files as $file ) {
         if( file_exists($path . $file) && !in_array($file, $config['unallowed_files']) && $file != '.' && $file != '..' && !is_dir($root . $_POST['dir'] . $file) ) {
           $ext = preg_replace('/^.*\./', '', $file);
-          echo "<li class=\"file ext_$ext\"><a href=\"#\" rel=\"" . htmlentities($_POST['dir'] . $file) . "\">" . htmlentities($file) . "</a></li>";
+          echo "<li class=\"file ext_".strtolower($ext)."\"><a href=\"#\" rel=\"" . htmlentities($_POST['dir'] . $file) . "\">" . htmlentities($file) . "</a></li>";
         }
       }
       echo "</ul>";

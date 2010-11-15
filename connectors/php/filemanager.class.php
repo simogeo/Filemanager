@@ -327,7 +327,7 @@ class Filemanager {
        
       $this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['directory'];
        
-    } else if(in_array($this->item['filetype'],$this->config['images'])) {
+    } else if(in_array(strtolower($this->item['filetype']),$this->config['images'])) {
        
       $this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path=' . $path;
       //if(isset($get['getsize']) && $get['getsize']=='true') {
