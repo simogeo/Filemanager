@@ -77,6 +77,15 @@ var displayRoot = function(path){
 		return path;
 }
 
+// Handle Error. Freeze interactive buttons and display
+// error message. Also called when auth() function return false (Code == "-1")
+var handleError = function(errMsg) {
+	$('#fileinfo').html('<h1>' + errMsg+ '</h1>');
+	$('#newfile').attr("disabled", "disabled");
+	$('#upload').attr("disabled", "disabled");
+	$('#newfolder').attr("disabled", "disabled");
+}
+
 // from http://phpjs.org/functions/basename:360
 var basename = function(path, suffix) {
     var b = path.replace(/^.*[\/\\]/g, '');
@@ -514,8 +523,14 @@ var getFolderInfo = function(path){
 	// Retrieve the data and generate the markup.
 	$.getJSON(fileConnector + '?path=' + path + '&mode=getfolder&showThumbs=' + showThumbs, function(data){		
 		var result = '';
-	
-		if(data){		
+		
+		// Is there any error or user is unauthorized?
+		if(data.Code=='-1') {
+			handleError(data.Error);
+			return;
+		};
+		
+		if(data){
 			if($('#fileinfo').data('view') == 'grid'){
 				result += '<ul id="contents" class="grid">';
 				
