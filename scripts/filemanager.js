@@ -407,8 +407,16 @@ var addFolder = function(parent, name){
 	if(parent != fileRoot){
 		parentNode.next('ul').prepend(newNode).prev('a').click().click();
 	} else {
-		// todo : Reload filetree
-		$('#filetree > ul').append(newNode);
+		$('#filetree > ul').prepend(newNode);
+		$('#filetree').find('li a[rel="' + parent + name + '/"]').click(function(){
+				getFolderInfo(parent + name + '/');
+			}).contextMenu(
+				{ menu: 'itemOptions' }, 
+				function(action, el, pos){
+					var path = $(el).attr('rel');
+					setMenus(action, path);
+				}
+		);
 	}
 	
 	$.prompt(lg.successful_added_folder);
