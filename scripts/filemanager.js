@@ -407,7 +407,7 @@ var addFolder = function(parent, name){
 	if(parent != fileRoot){
 		parentNode.next('ul').prepend(newNode).prev('a').click().click();
 	} else {
-		$('#filetree > ul').prepend(newNode);
+		$('#filetree > ul').prepend(newNode); 
 		$('#filetree').find('li a[rel="' + parent + name + '/"]').click(function(){
 				getFolderInfo(parent + name + '/');
 			}).contextMenu(
