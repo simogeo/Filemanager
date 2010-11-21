@@ -28,8 +28,8 @@ if(auth()) {
   if( file_exists($path) ) {
     $files = scandir($path);
     natcasesort($files);
+    echo "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
     if( count($files) > 2 ) { /* The 2 accounts for . and .. */
-      echo "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
       // All dirs
       foreach( $files as $file ) {
         if( file_exists($path . $file) && !in_array($file, $config['unallowed_dirs']) && $file != '.' && $file != '..' && is_dir($root . $_POST['dir'] . $file) ) {
@@ -43,8 +43,8 @@ if(auth()) {
           echo "<li class=\"file ext_".strtolower($ext)."\"><a href=\"#\" rel=\"" . htmlentities($_POST['dir'] . $file, ENT_COMPAT, 'UTF-8') . "\">" . htmlentities($file, ENT_COMPAT, 'UTF-8'). "</a></li>";
         }
       }
-      echo "</ul>";
     }
+    echo "</ul>";
   }
 
 }
