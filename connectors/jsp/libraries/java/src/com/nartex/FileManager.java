@@ -13,10 +13,10 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,7 +42,7 @@ import org.json.JSONObject;
 public class FileManager {
 
 	protected static Properties config = null;
-	protected JSONObject language = null;
+	protected static JSONObject language = null;
 	protected Map<String, String>  get =  new HashMap<String, String>();
 	protected Map<String, String>  properties =  new HashMap<String, String>();
 	protected Map item =  new HashMap();
@@ -126,8 +126,7 @@ public class FileManager {
 		if(value == null || value == "") {
 			this.error(sprintf(lang("INVALID_VAR"), var));
 		} else {
-			this.get.put(var, value);
-			//log("c:\\logfilej.txt", "setGetVar:" + var + ":" + value);
+			this.get.put(var, sanitize(value));
 			retval = true;
 		}
 		return retval;
@@ -174,7 +173,7 @@ public class FileManager {
 					props = new JSONObject();
 					file = new File(documentRoot + this.get.get("path") + files[i]);
 					if (file.isDirectory() && 
-							!contains(this.config.getProperty("unallowed_dirs"), files[i])){
+							!contains(config.getProperty("unallowed_dirs"), files[i])){
 						try{
 							props.put("Date Created", (String)null);
 							props.put("Date Modified", (String)null);
@@ -184,7 +183,7 @@ public class FileManager {
 							data.put("Path", this.get.get("path") + files[i] + "/");
 							data.put("Filename", files[i]);
 							data.put("File Type", "dir");
-							data.put("Preview", this.config.getProperty("icons-path") + this.config.getProperty("icons-directory"));
+							data.put("Preview", config.getProperty("icons-path") + config.getProperty("icons-directory"));
 							data.put("Error", "");
 							data.put("Code", 0);
 							data.put("Properties", props);
@@ -194,13 +193,13 @@ public class FileManager {
 							this.error("JSONObject error");
 						}
 						
-					} else if (!contains(this.config.getProperty("unallowed_files"), files[i])){
+					} else if (!contains(config.getProperty("unallowed_files"), files[i])){
 						this.item = new HashMap();
 						this.item.put("properties", this.properties);
 						this.getFileInfo(this.get.get("path") + files[i]);
 						
 						if (this.params.get("type") == null || (this.params.get("type") != null && (!this.params.get("type").equals("Image") || this.params.get("type").equals("Image") && 
-								contains(this.config.getProperty("images"), (String)this.item.get("filetype"))))) {
+								contains(config.getProperty("images"), (String)this.item.get("filetype"))))) {
 							try{
 								data.put("Path", this.get.get("path") + files[i]);
 								data.put("Filename", this.item.get("filename"));
@@ -236,16 +235,20 @@ public class FileManager {
 		File fileTo = null;
 		try {
 			fileFrom = new File(this.documentRoot + this.get.get("old"));
-			if (!fileFrom.exists()){
+			fileTo = new File(this.documentRoot + path + this.get.get("new"));
+		    if(fileTo.exists()) {
+		    	if(fileTo.isDirectory()) {
+		    		this.error(sprintf(lang("DIRECTORY_ALREADY_EXISTS"),this.get.get("new")));
+					error = true;
+		        }
+		        else { // fileTo.isFile
+		        	this.error(sprintf(lang("FILE_ALREADY_EXISTS"),this.get.get("new")));
+					error = true;
+		        }
+		    }
+		    else if (!fileFrom.renameTo(fileTo)){
 				this.error(sprintf(lang("ERROR_RENAMING_DIRECTORY"), filename + "#" + this.get.get("new")));
 				error = true;
-			}
-			else {
-				fileTo = new File(this.documentRoot + path + this.get.get("new"));
-				if (!fileFrom.renameTo(fileTo)){
-					this.error(sprintf(lang("ERROR_RENAMING_DIRECTORY"), filename + "#" + this.get.get("new")));
-					error = true;
-				}
 			}
 		} catch (Exception e) {
 			if(fileFrom.isDirectory()) {
@@ -337,15 +340,15 @@ public class FileManager {
 			    			fileName = fileName.substring(pos + 1);
 			    		boolean error = false;
 				    	long maxSize = 0;
-						if(this.config.getProperty("upload-size") != null){
-							maxSize = Integer.parseInt(this.config.getProperty("upload-size"));
+						if(config.getProperty("upload-size") != null){
+							maxSize = Integer.parseInt(config.getProperty("upload-size"));
 							if (maxSize != 0 && item.getSize() > (maxSize * 1024 * 1024)){
 								this.error(sprintf(lang("UPLOAD_FILES_SMALLER_THAN"), maxSize + "Mb"));
 								error = true;
 							}
 						}
 						if(!error){
-							if (!isImage(fileName) && (config.getProperty("upload-imagesonly") != null && this.config.getProperty("upload-imagesonly").equals("true")
+							if (!isImage(fileName) && (config.getProperty("upload-imagesonly") != null && config.getProperty("upload-imagesonly").equals("true")
 									|| this.params.get("type") != null && this.params.get("type").equals("Image"))) {
 								this.error(lang("UPLOAD_IMAGES_ONLY"));
 							} else {
@@ -354,7 +357,7 @@ public class FileManager {
 								strList.put("fileName", fileName);
 								fileName = (String)cleanString(strList, allowed).get("fileName");
 								
-								if(this.config.getProperty("upload-overwrite").equals("false")) {
+								if(config.getProperty("upload-overwrite").equals("false")) {
 									fileName = this.checkFilename(this.documentRoot + currentPath, fileName, 0);
 								}
 								
@@ -378,23 +381,31 @@ public class FileManager {
 	}
 	
 	public JSONObject addFolder() {
-		File file = new File(this.documentRoot + this.get.get("path") + this.get.get("name"));
 		JSONObject array = null;
-		if(file.isDirectory()) {
-			this.error(sprintf(lang("DIRECTORY_ALREADY_EXISTS"), this.get.get("name")));			
-		}
-		else if (!file.mkdir()){
+		String allowed[] = {"-"," "};
+		LinkedHashMap<String, String> strList = new LinkedHashMap<String, String>();
+		strList.put("fileName", this.get.get("name"));
+		String filename = (String)cleanString(strList, allowed).get("fileName");
+		if (filename.length() == 0) // the name existed of only special characters
 			this.error(sprintf(lang("UNABLE_TO_CREATE_DIRECTORY"), this.get.get("name")));
-		}
 		else {
-			try {
-				array = new JSONObject();
-				array.put("Parent", this.get.get("path"));
-				array.put("Name", this.get.get("name"));
-				array.put("Error", "");
-				array.put("Code", 0);
-			} catch (JSONException e) {
-				this.error("JSONObject error");
+			File file = new File(this.documentRoot + this.get.get("path") + filename);
+			if(file.isDirectory()) {
+				this.error(sprintf(lang("DIRECTORY_ALREADY_EXISTS"), filename));			
+			}
+			else if (!file.mkdir()){
+				this.error(sprintf(lang("UNABLE_TO_CREATE_DIRECTORY"), filename));
+			}
+			else {
+				try {
+					array = new JSONObject();
+					array.put("Parent", this.get.get("path"));
+					array.put("Name", filename);
+					array.put("Error", "");
+					array.put("Code", 0);
+				} catch (JSONException e) {
+					this.error("JSONObject error");
+				}
 			}
 		}
 		return array;
@@ -408,36 +419,67 @@ public class FileManager {
 			resp.setHeader("Content-Transfer-Encoding", "Binary");
 			resp.setHeader("Content-length", "" + file.length());
 			resp.setHeader("Content-Type", "application/octet-stream");
-			String[] tmp = this.get.get("path").split("/");
-			String filename = tmp[(tmp.length - 1)];
-			resp.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
-			OutputStream os = null;
-			FileInputStream fis = null;
-			try {
-				os = resp.getOutputStream();
-				fis = new FileInputStream(file);
-			    byte fileContent[] = new byte[(int)file.length()];
-			    fis.read(fileContent);
-			    os.write(fileContent);
-			} catch (Exception e) {
-				this.error(sprintf(lang("ERROR_UPLOADING_FILE"), filename));
-			}
-			finally {
-				try {
-					if (os != null)
-						os.close();
-				} catch (Exception e2) {}
-				try {
-					if (fis != null)
-						fis.close();
-				} catch (Exception e2) {}
-			}
+			resp.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+			readFile(resp, file);
 		} else {
 			this.error(sprintf(lang("FILE_DOES_NOT_EXIST"), this.get.get("path")));
 		}
 	}
 	
-	private void setParams() {
+	private void readFile(HttpServletResponse resp, File file){
+		OutputStream os = null;
+		FileInputStream fis = null;
+		try {
+			os = resp.getOutputStream();
+			fis = new FileInputStream(file);
+		    byte fileContent[] = new byte[(int)file.length()];
+		    fis.read(fileContent);
+		    os.write(fileContent);
+		} catch (Exception e) {
+			this.error(sprintf(lang("INVALID_DIRECTORY_OR_FILE"), file.getName()));
+		}
+		finally {
+			try {
+				if (os != null)
+					os.close();
+			} catch (Exception e2) {}
+			try {
+				if (fis != null)
+					fis.close();
+			} catch (Exception e2) {}
+		}
+	}
+
+	public void preview(HttpServletResponse resp) {
+		File file = new File(this.documentRoot + this.get.get("path"));
+		if(this.get.get("path") != null && file.exists()) {
+			resp.setHeader("Content-type", "image/" + getFileExtension(file.getName()));
+			resp.setHeader("Content-Transfer-Encoding", "Binary");
+			resp.setHeader("Content-length", "" + file.length());
+			resp.setHeader("Content-Disposition", "inline; filename=\"" + getFileBaseName(file.getName()) + "\"");
+		    readFile(resp, file);
+		} else {
+			error(sprintf(lang("FILE_DOES_NOT_EXIST"),this.get.get("path")));
+		}
+	}
+	  
+	  private String getFileBaseName(String filename){
+		  String retval = filename;
+		  int pos = filename.lastIndexOf(".");
+		  if (pos > 0)
+			  retval = filename.substring(0, pos);
+		  return retval;
+	  }
+
+	  private String getFileExtension(String filename){
+		  String retval = filename;
+		  int pos = filename.lastIndexOf(".");
+		  if (pos > 0)
+			  retval = filename.substring(pos + 1);
+		  return retval;
+	  }
+
+	  private void setParams() {
 		String[] tmp = this.referer.split("\\?");
 		String[] params_tmp = null;
 		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
@@ -478,25 +520,25 @@ public class FileManager {
 		this.item.put("filemtime", "" + file.lastModified());
 		this.item.put("filectime", "" + file.lastModified());
 		
-		this.item.put("preview", this.config.getProperty("icons-path") + "/" + this.config.getProperty("icons-default")); // @simo
+		this.item.put("preview", config.getProperty("icons-path") + "/" + config.getProperty("icons-default")); // @simo
 		
 		HashMap<String, String> props = new HashMap();
 		if(file.isDirectory()) {
 			
-			this.item.put("preview", this.config.getProperty("icons-path") + this.config.getProperty("icons-directory"));
+			this.item.put("preview", config.getProperty("icons-path") + config.getProperty("icons-directory"));
 			
 		} 
 		else if (isImage(pathTmp)) 
 		{
-			this.item.put("preview", pathTmp);
+			this.item.put("preview", "connectors/jsp/filemanager.jsp?mode=preview&path=" + pathTmp);
 			Dimension imgData = getImageSize(documentRoot + pathTmp);
 			props.put("Height", "" + imgData.height);
 			props.put("Width", "" + imgData.width);
 			props.put("Size", "" + file.length());
 		} else {
-			File icon = new File(fileManagerRoot + this.config.getProperty("icons-path") + ((String)this.item.get("filetype")).toLowerCase() + ".png");
+			File icon = new File(fileManagerRoot + config.getProperty("icons-path") + ((String)this.item.get("filetype")).toLowerCase() + ".png");
 			if(icon.exists()) {			
-				this.item.put("preview", this.config.getProperty("icons-path") + ((String)this.item.get("filetype")).toLowerCase() + ".png");
+				this.item.put("preview", config.getProperty("icons-path") + ((String)this.item.get("filetype")).toLowerCase() + ".png");
 				props.put("Size", "" + file.length());
 			}
 		}
@@ -511,7 +553,7 @@ public class FileManager {
 		int pos = fileName.lastIndexOf(".");
 		if (pos > 1 && pos != fileName.length()){
 			ext = fileName.substring(pos + 1);
-			isImage = contains(this.config.getProperty("images"), ext);
+			isImage = contains(config.getProperty("images"), ext);
 		}
 		return isImage;
 	}
@@ -582,6 +624,14 @@ public class FileManager {
         return cleaned;
     }
 	
+	private String sanitize(String var) {
+		String sanitized = var.replaceAll("\\<.*?>","");	
+		sanitized = sanitized.replaceAll("http://", "");
+		sanitized = sanitized.replaceAll("https://", "");
+		sanitized = sanitized.replaceAll("\\.\\./", "");
+		return sanitized;
+	}
+	
 	private String checkFilename(String path, String filename, int i) {
 		File file = new File(path + filename);
 		String i2 = "";
@@ -616,20 +666,19 @@ public class FileManager {
 
 		// we load langCode var passed into URL if present
 		// else, we use default configuration var
-		String lang = "";
-		if (params.get("langCode") != null)
-			lang = this.params.get("langCode");
-		else 
-			lang = this.config.getProperty("culture");
-		File file = new File(this.fileManagerRoot + "/scripts/languages/" + lang + ".js");
-		FileReader fr = null;
-		BufferedReader br = null;
-		String text;
-		StringBuffer contents = new StringBuffer();
-		if(file.exists()){
+		if (language == null){
+			String lang = "";
+			if (params.get("langCode") != null)
+				lang = this.params.get("langCode");
+			else 
+				lang = config.getProperty("culture");
+			BufferedReader br = null;
+			InputStreamReader isr = null;
+			String text;
+			StringBuffer contents = new StringBuffer();
 			try {
-				fr = new FileReader(file);
-				br = new BufferedReader(fr);
+				isr = new InputStreamReader(new FileInputStream (this.fileManagerRoot + "/scripts/languages/" + lang + ".js"), "UTF-8");
+				br = new BufferedReader (isr);
 				while ((text = br.readLine()) != null)
 					contents.append(text);
 				language = new JSONObject(contents.toString());
@@ -642,8 +691,8 @@ public class FileManager {
 						br.close();
 				} catch (Exception e2) {}
 				try {
-					if (fr != null)
-						fr.close();
+					if (isr != null)
+						isr.close();
 				} catch (Exception e2) {}
 			}
 		}
