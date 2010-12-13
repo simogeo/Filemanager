@@ -8,6 +8,8 @@
  *	@author		Simon Georget <simon (at) linea21 (dot) com>
  *	@copyright	Authors
  */
+
+(function($) {
  
 // function to retrieve GET params
 $.urlParam = function(name){
@@ -662,6 +664,12 @@ $(function(){
 	// Set initial view state.
 	$('#fileinfo').data('view', 'grid');
 
+	$('#home').click(function(){
+		$('#fileinfo').data('view', 'grid');
+		$('#filetree>ul>li.expanded>a').trigger('click');
+		getFolderInfo(fileRoot);
+	});
+
 	// Set buttons to switch between grid and list views.
 	$('#grid').click(function(){
 		$(this).addClass('ON');
@@ -718,3 +726,5 @@ $(function(){
 	//alert($('#filetree').find('li a.directory'));
     getDetailView(fileRoot);
 });
+
+})(jQuery);
