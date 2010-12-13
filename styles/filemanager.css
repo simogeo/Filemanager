@@ -272,6 +272,7 @@ div.clip {
 #upload span { background-image: url(../images/add.png); }
 #parentfolder span { background-image: url(../images/parentfolder.png); }
 #newfolder span { background-image: url(../images/folder_add.png); }
+#home span { background-image: url(../images/house.png); }
 
 /* div.jqi button { background-image: url(../images/circular/yes.png); } */
 

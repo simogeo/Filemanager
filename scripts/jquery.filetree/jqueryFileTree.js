@@ -74,13 +74,14 @@ if(jQuery) (function($){
 								$(this).parent().find('UL').remove(); // cleanup
 								showTree( $(this).parent(), escape($(this).attr('rel').match( /.*\// )) );
 								$(this).parent().removeClass('collapsed').addClass('expanded');
-								
-								o.folderCallback($(this).attr('rel'));
 							} else {
 								// Collapse
 								$(this).parent().find('UL').slideUp({ duration: o.collapseSpeed, easing: o.collapseEasing });
 								$(this).parent().removeClass('expanded').addClass('collapsed');
 							}
+								
+							o.folderCallback($(this).attr('rel'));
+						
 						} else {
 							h($(this).attr('rel'));
 						}
