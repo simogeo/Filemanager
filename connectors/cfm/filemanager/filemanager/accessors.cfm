@@ -17,14 +17,16 @@
 	<cfreturn variables.class.config />
 </cffunction>
 
-<cffunction name="$getRoot" access="private" output="false" returntype="string">
-	<cfreturn variables.class.root />
-</cffunction>
-
 <cffunction name="$getProperties" access="private" output="false" returntype="struct">
 	<cfreturn Duplicate(variables.class.properties) />
 </cffunction>
 
 <cffunction name="$getPlugins" access="private" output="false" returntype="array">
 	<cfreturn Duplicate(variables.class.plugins) />
+</cffunction>
+
+<cffunction name="$getRoot" access="private" output="false" returntype="string">
+	<cfargument name="baseTemplatePath" type="string" required="false" default="#GetDirectoryFromPath(GetBaseTemplatePath())#" />
+	<cfargument name="cgiTemplatePath" type="string" required="false" default="#GetDirectoryFromPath(cgi.path_info)#" />
+	<cfreturn Replace(arguments.baseTemplatePath, Replace(arguments.cgiTemplatePath, "/", "\", "all"), "", "all") />
 </cffunction>

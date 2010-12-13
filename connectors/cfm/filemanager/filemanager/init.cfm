@@ -15,8 +15,6 @@
 		var loc = {};
 		variables.class = {};
 		
-		variables.class.root = REReplaceNoCase(GetBaseTemplatePath(), "[/\\]connectors[/\\]cfm[/\\]filemanager.cfm", "", "all");
-		
 		variables.class.config = arguments.config;
 		variables.class.language = $loadLanguage(language=arguments.config.language);
 		variables.class.properties = {

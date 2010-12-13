@@ -11,7 +11,7 @@
 --->
 <cfsilent>
 	<!--- include our configuration file --->
-	<cfinclude template="/connectors/cfm/filemanager.config.cfm" />
+	<cfinclude template="../../../connectors/cfm/filemanager.config.cfm" />
 	
 	<!--- make sure we have a default directory --->
 	<cfparam name="form.dir" default="/#config.base#" />

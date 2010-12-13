@@ -63,13 +63,13 @@
 		loc.defaultImages = "aac,avi,bmp,chm,css,dll,doc,fla,gif,htm,html,ini,jar,jpeg,jpg,js,lasso,mdb,mov,mp3,mpg,pdf,php,png,ppt,py,rb,real,reg,rtf,sql,swf,txt,vbs,wav,wma,xls,xml,xsl,zip";
 		
 		loc.thumbPath = $thumbLocation(arguments.path);
-		
 		loc.fileLocation = $getRoot() & arguments.path;
 		loc.thumbLocation = $getRoot() & loc.thumbPath;
 		
+		loc.extension = ListLast(loc.fileLocation, ".");
+		
 		if (!IsImageFile(loc.fileLocation))
 		{
-			loc.extension = ListLast(loc.fileLocation, ".");
 			if (ListFindNoCase(loc.defaultImages, loc.extension))
 				return loc.config.icons.path & loc.extension & ".png";
 		}
@@ -79,6 +79,9 @@
 		
 		if (FileExists(loc.thumbLocation) && arguments.thumbs)
 			return "connectors/cfm/filemanager.cfm?mode=preview&path=" & loc.thumbPath;
+			
+		if (IsImageFile(loc.fileLocation))
+			return loc.config.icons.path & loc.extension & ".png";
 	</cfscript>
 	<cfreturn loc.config.icons.path & loc.config.icons.default />
 </cffunction>

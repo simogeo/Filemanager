@@ -30,7 +30,7 @@
 	<cfscript>
 		var loc = {};
 		loc.defaultLanguage = "en";
-		loc.fileLocation = variables.class.root & "/scripts/languages/" & arguments.language & ".js";
+		loc.fileLocation = ExpandPath("../../scripts/languages/" & arguments.language & ".js");
 		
 		try
 		{
