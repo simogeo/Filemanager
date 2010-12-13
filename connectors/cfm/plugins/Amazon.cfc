@@ -4,9 +4,9 @@
 	<cfinclude template="../filemanager/filemanager/utils.cfm" />
 	
 	<cffunction name="init" access="public" output="false" returntype="any">
-		<cfargument name="accessKey" type="string" required="false" default="AKIAITIN3TD3KU5S7BDA" />
-		<cfargument name="secretKey" type="string" required="false" default="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" />
-		<cfargument name="bucketName" type="string" required="false" default="reservoir-backup" />
+		<cfargument name="accessKey" type="string" required="false" default="yourAccessKey" />
+		<cfargument name="secretKey" type="string" required="false" default="yourSecretKey" />
+		<cfargument name="bucketName" type="string" required="false" default="yourBucketName" />
 		<cfscript>
 			variables.class = Duplicate(arguments);
 			variables.class.acl = [
