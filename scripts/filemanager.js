@@ -531,7 +531,9 @@ var getFolderInfo = function(path){
 	$('#fileinfo').html('<img id="activity" src="images/wait30trans.gif" width="30" height="30" />');
 
 	// Retrieve the data and generate the markup.
-	$.getJSON(fileConnector + '?path=' + path + '&mode=getfolder&showThumbs=' + showThumbs, function(data){		
+	var url = fileConnector + '?path=' + path + '&mode=getfolder&showThumbs=' + showThumbs;
+	if ($.urlParam('type')) url += '&type=' + $.urlParam('type');
+	$.getJSON(url, function(data){
 		var result = '';
 		
 		// Is there any error or user is unauthorized?
@@ -692,6 +694,13 @@ $(function(){
 
 	$('#uploader').ajaxForm({
 		target: '#uploadresponse',
+		beforeSubmit: function(arr, form, options) {
+			var newfileSplitted = $('#newfile', form).val().split('.');
+			if ($.urlParam('type') == 'image' && !(newfileSplitted[newfileSplitted.length] in imagesExt)) {
+				$.prompt(lg.UPLOAD_IMAGES_ONLY);
+				return false;
+			}
+		},
 		success: function(result){
 			eval('var data = ' + $('#uploadresponse').find('textarea').text());
 

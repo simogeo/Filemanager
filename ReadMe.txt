@@ -128,10 +128,11 @@ The keys are as follows:
 getfolder
 ---------
 The getfolder method returns an array of file objects representing the contents of the given directory (indicated by a "path" parameter). It should call the getinfo method to retrieve the properties of each file. A boolean parameter "getsizes" indicates whether image dimensions should be returned for each item.
+Optionally a "type" parameter can be specified to restrict returned files (depending on the connector). If a "type" parameter is given for the main index.html URL, the same parameter value is reused and passed to getfolder. This can be used for example to only show image files in a file system tree.
 
 Example Request:
 
-	[path to connector]?mode=getfolder&path=/UserFiles/Image/&getsizes=true
+	[path to connector]?mode=getfolder&path=/UserFiles/Image/&getsizes=true&type=image
 
 Example Response:
 

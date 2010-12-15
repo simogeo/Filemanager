@@ -21,3 +21,6 @@ var fileRoot = '/' + am + 'userfiles/';
 
 // Show image previews in grid views?
 var showThumbs = true;
+
+// Allowed image extensions when type is 'image'
+var imagesExt = ['jpg', 'jpeg', 'gif', 'png'];
