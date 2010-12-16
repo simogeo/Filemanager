@@ -695,8 +695,14 @@ $(function(){
 	$('#uploader').ajaxForm({
 		target: '#uploadresponse',
 		beforeSubmit: function(arr, form, options) {
-			var newfileSplitted = $('#newfile', form).val().split('.');
-			if ($.urlParam('type') == 'image' && !(newfileSplitted[newfileSplitted.length] in imagesExt)) {
+			if ($.urlParam('type') == 'image') {
+				// Test if uploaded file extension is in valid image extensions
+				var newfileSplitted = $('#newfile', form).val().toLowerCase().split('.');
+				for (key in imagesExt) {
+					if (imagesExt[key] == newfileSplitted[newfileSplitted.length-1]) {
+						return true;
+					}
+				}
 				$.prompt(lg.UPLOAD_IMAGES_ONLY);
 				return false;
 			}
