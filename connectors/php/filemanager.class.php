@@ -132,7 +132,7 @@ class Filemanager {
           $this->item['properties'] = $this->properties;
           $this->get_file_info($this->get['path'] . $file);
            
-          if(!isset($this->params['type']) || (isset($this->params['type']) && $this->params['type']=='Images' && in_array($this->item['filetype'],$this->config['images']))) {
+          if(!isset($this->params['type']) || (isset($this->params['type']) && $this->params['type']=='image' && in_array(strtolower($this->item['filetype']),$this->config['images']))) {
             $array[$this->get['path'] . $file] = array(
 							'Path'=>$this->get['path'] . $file,
 							'Filename'=>$this->item['filename'],
@@ -221,7 +221,7 @@ class Filemanager {
     if(($this->config['upload']['size']!=false && is_numeric($this->config['upload']['size'])) && ($_FILES['newfile']['size'] > ($this->config['upload']['size'] * 1024 * 1024))) {
       $this->error(sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['size'] . 'Mb'),true);
     }
-    if($this->config['upload']['imagesonly'] || (isset($this->params['type']) && $this->params['type']=='Images')) {
+    if($this->config['upload']['imagesonly'] || (isset($this->params['type']) && $this->params['type']=='image')) {
       if(!($size = @getimagesize($_FILES['newfile']['tmp_name']))){
         $this->error(sprintf($this->lang('UPLOAD_IMAGES_ONLY')),true);
       }
@@ -250,8 +250,9 @@ class Filemanager {
       $this->error(sprintf($this->lang('DIRECTORY_ALREADY_EXISTS'),$this->get['name']));
        
     }
-    if(!mkdir($this->doc_root . $this->get['path'] . $this->get['name'],0755)) {
-      $this->error(sprintf($this->lang('UNABLE_TO_CREATE_DIRECTORY'),$this->get['name']));
+    $newdir = $this->cleanString($this->get['name']);
+    if(!mkdir($this->doc_root . $this->get['path'] . $newdir,0755)) {
+      $this->error(sprintf($this->lang('UNABLE_TO_CREATE_DIRECTORY'),$newdir));
     }
     $array = array(
 			'Parent'=>$this->get['path'],
@@ -372,19 +373,37 @@ class Filemanager {
 
   private function cleanString($string, $allowed = array()) {
     $allow = null;
+    
     if (!empty($allowed)) {
       foreach ($allowed as $value) {
         $allow .= "\\$value";
       }
     }
+    
+    $mapping = array(
+        'Š'=>'S', 'š'=>'s', 'Đ'=>'Dj', 'đ'=>'dj', 'Ž'=>'Z', 'ž'=>'z', 'Č'=>'C', 'č'=>'c', 'Ć'=>'C', 'ć'=>'c',
+        'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
+        'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O',
+        'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss',
+        'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e',
+        'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o',
+        'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'ý'=>'y', 'þ'=>'b',
+        'ÿ'=>'y', 'Ŕ'=>'R', 'ŕ'=>'r', ' '=>'_', "'"=>'_', '/'=>''
+    );
 
     if (is_array($string)) {
+      
       $cleaned = array();
+      
       foreach ($string as $key => $clean) {
-        $cleaned[$key] = preg_replace("/[^{$allow}_a-zA-Z0-9]/", '', $clean);
+        $clean = strtr($clean, $mapping);
+        $clean = preg_replace("/[^{$allow}_a-zA-Z0-9]/", '', $clean);
+        $cleaned[$key] = preg_replace('/[_]+/', '_', $clean); // remove double underscore
       }
     } else {
-      $cleaned = preg_replace("/[^{$allow}_a-zA-Z0-9]/", '', $string);
+      $string = strtr($string, $mapping);
+      $string = preg_replace("/[^{$allow}_a-zA-Z0-9]/", '', $string);
+      $cleaned = preg_replace('/[_]+/', '_', $string); // remove double underscore
     }
     return $cleaned;
   }
