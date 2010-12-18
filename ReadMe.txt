@@ -39,6 +39,13 @@ Create a Javascript callback function that will open the FileManager index.html 
 Add a line like: "file_browser_callback : 'name_of_callback_function'" in the tinyMCE.init command
 See http://wiki.moxiecode.com/index.php/TinyMCE:Custom_filebrowser for more details.
 
+(5a) Settings options : Only display images and allow images uploads
+
+There is two ways to do it :
+	1) Client-side : Call the filemanager including a type=image parameter (Filemanager/index.html?type=image)
+	2) Server-side : PHP sample, set $config['upload']['imagesonly'] to true into the connector config file
+
+
 
 API
 ---
