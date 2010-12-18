@@ -25,7 +25,7 @@ $.urlParam = function(name){
 ---------------------------------------------------------*/
 
 // Sets paths to connectors based on language selection.
-var treeConnector = 'scripts/jquery.filetree/connectors/jqueryFileTree.' + lang;
+var treeConnector = 'scripts/jquery.filetree/connectors/jqueryFileTree.' + lang + location.search;
 var fileConnector = 'connectors/' + lang + '/filemanager.' + lang;
 
 // Get localized messages from file 
