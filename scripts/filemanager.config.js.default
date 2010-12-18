@@ -6,6 +6,7 @@
 var culture = 'en';
 
 // Autoload text in GUI
+// If set to false, set values manually into the HTML file
 var autoload = true;
 
 // Display full path - default : false
