@@ -1,7 +1,11 @@
 <?php
 require('../../../connectors/php/filemanager.config.php');
 (isset($config['doc_root'])) ? $root = $config['doc_root'] : $root = $_SERVER['DOCUMENT_ROOT'].'/';
-
+if((isset($_REQUEST['type']) && $_REQUEST['type']== 'image') || $config['upload']['imagesonly'] == true) {
+  $only_image = true;
+} else {
+  $only_image = false;
+}
 //
 // jQuery File Tree PHP Connector
 //
@@ -40,7 +44,9 @@ if(auth()) {
       foreach( $files as $file ) {
         if( file_exists($path . $file) && !in_array($file, $config['unallowed_files']) && $file != '.' && $file != '..' && !is_dir($root . $_POST['dir'] . $file) ) {
           $ext = preg_replace('/^.*\./', '', $file);
-          echo "<li class=\"file ext_".strtolower($ext)."\"><a href=\"#\" rel=\"" . htmlentities($_POST['dir'] . $file, ENT_COMPAT, 'UTF-8') . "\">" . htmlentities($file, ENT_COMPAT, 'UTF-8'). "</a></li>";
+          if($only_image == false || ($only_image == true && in_array($ext, $config['images']))) {
+            echo "<li class=\"file ext_".strtolower($ext)."\"><a href=\"#\" rel=\"" . htmlentities($_POST['dir'] . $file, ENT_COMPAT, 'UTF-8') . "\">" . htmlentities($file, ENT_COMPAT, 'UTF-8'). "</a></li>";
+          }
         }
       }
     }

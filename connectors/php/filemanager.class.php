@@ -133,6 +133,7 @@ class Filemanager {
           $this->get_file_info($this->get['path'] . $file);
            
           if(!isset($this->params['type']) || (isset($this->params['type']) && $this->params['type']=='image' && in_array(strtolower($this->item['filetype']),$this->config['images']))) {
+            if($this->config['upload']['imagesonly']== false || ($this->config['upload']['imagesonly']== true && in_array(strtolower($this->item['filetype']),$this->config['images']))) {
             $array[$this->get['path'] . $file] = array(
 							'Path'=>$this->get['path'] . $file,
 							'Filename'=>$this->item['filename'],
@@ -142,6 +143,7 @@ class Filemanager {
 							'Error'=>"",
 							'Code'=>0
             );
+            }
           }
         }
       }
