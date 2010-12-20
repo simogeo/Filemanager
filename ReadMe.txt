@@ -145,7 +145,7 @@ Example Request:
 Example Response:
 
 	[
-		{"/UserFiles/Image/logo.png": {
+		{
 			"Path": "/UserFiles/Image/logo.png",
 			"Filename": "logo.png",
 			"File Type": "png",
@@ -159,8 +159,8 @@ Example Response:
 			},
 			"Error": "",
 			"Code": 0
-		}},
-		{"/UserFiles/Image/icon.png": {
+		},
+		{
 			"Path": "/UserFiles/Image/icon.png",
 			"Filename": "icon.png",
 			"File Type": "png",
@@ -174,7 +174,7 @@ Example Response:
 			},
 			"Error": "",
 			"Code": 0
-		}}
+		}
 	]
 
 Each key in the array is the path to an individual item, and the value is the file object for that item.
