@@ -25,7 +25,6 @@ $.urlParam = function(name){
 ---------------------------------------------------------*/
 
 // Sets paths to connectors based on language selection.
-var treeConnector = 'scripts/jquery.filetree/connectors/jqueryFileTree.' + lang + location.search;
 var fileConnector = 'connectors/' + lang + '/filemanager.' + lang;
 
 // Get localized messages from file 
@@ -642,6 +641,35 @@ var getFolderInfo = function(path){
 	});
 }
 
+// Retrieve data (file/folder listing) for jqueryFileTree and pass the data back
+// to the callback function in jqueryFileTree
+var populateFileTree = function(path, callback){
+	var url = fileConnector + '?path=' + path + '&mode=getfolder&showThumbs=' + showThumbs;
+	if ($.urlParam('type')) url += '&type=' + $.urlParam('type');
+	$.getJSON(url, function(data) {
+		var result = '';
+		// Is there any error or user is unauthorized?
+		if(data.Code=='-1') {
+			handleError(data.Error);
+			return;
+		};
+		
+		if(data) {
+			result += "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
+			for(key in data) {
+				if (data[key]['File Type'] == 'dir') {
+					result += "<li class=\"directory collapsed\"><a href=\"#\" rel=\"" + data[key]['Path'] + "/\">" + data[key]['Filename'] + "</a></li>";
+				} else {
+					result += "<li class=\"file ext_" + data[key]['File Type'].toLowerCase() + "\"><a href=\"#\" rel=\"" + data[key]['Path'] + "\">" + data[key]['Filename'] + "</a></li>";
+				}
+			}
+			result += "</ul>";
+		} else {
+			result += '<h1>' + lg.could_not_retrieve_folder + '</h1>';
+		}
+		callback(result);
+	});
+}
 
 
 
@@ -721,7 +749,7 @@ $(function(){
 	// Creates file tree.
     $('#filetree').fileTree({
 		root: fileRoot,
-		script: treeConnector,
+		datafunc: populateFileTree,
 		multiFolder: false,
 		folderCallback: function(path){ getFolderInfo(path); },
 		after: function(data){
