@@ -121,6 +121,8 @@ The keys are as follows:
 		Width: If an image, the width in pixels.
 		Size: The file size in bytes.
 	
+	Capabilities (optional): You can limit the operation buttons shown for a specific file. It is an array containing ['select','delete','rename','download'] (for all capabilities), or [] (for no capabilities). If not present, all capabilities are enabled.
+	
 	Error: An error message, or empty/null if there was no error.
 	
 	Code: An error code, or 0 if there was no error.

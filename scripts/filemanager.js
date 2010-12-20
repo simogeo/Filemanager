@@ -141,25 +141,43 @@ var setUploader = function(path){
 // Binds specific actions to the toolbar in detail views.
 // Called when detail views are loaded.
 var bindToolbar = function(data){
+	if (typeof(data['Capabilities']) == "undefined") var capabilities = null;
+	else var capabilities = data['Capabilities'];
 	// this little bit is purely cosmetic
 	$('#fileinfo').find('button').wrapInner('<span></span>');
 
-	$('#fileinfo').find('button#select').click(function(){
-		selectItem(data);
-	});
+	if (capabilities != null && $.inArray('select', capabilities) < 0) {
+		$('#fileinfo').find('button#select').hide();
+	} else {
+		$('#fileinfo').find('button#select').click(function(){
+			selectItem(data);
+		}).show();
+	}
 	
-	$('#fileinfo').find('button#rename').click(function(){
-		var newName = renameItem(data);
-		if(newName.length) $('#fileinfo > h1').text(newName);
-	});
+	if (capabilities != null && $.inArray('rename', capabilities) < 0) {
+		$('#fileinfo').find('button#rename').hide();
+	} else {
+		$('#fileinfo').find('button#rename').click(function(){
+			var newName = renameItem(data);
+			if(newName.length) $('#fileinfo > h1').text(newName);
+		}).show();
+	}
 
-	$('#fileinfo').find('button#delete').click(function(){
-		if(deleteItem(data)) $('#fileinfo').html('<h1>' + lg.select_from_left + '</h1>');
-	});
-	
-	$('#fileinfo').find('button#download').click(function(){
-		window.location = fileConnector + '?mode=download&path=' + data['Path'];
-	});
+	if (capabilities != null && $.inArray('delete', capabilities) < 0) {
+		$('#fileinfo').find('button#delete').hide();
+	} else {
+		$('#fileinfo').find('button#delete').click(function(){
+			if(deleteItem(data)) $('#fileinfo').html('<h1>' + lg.select_from_left + '</h1>');
+		}).show();
+	}
+
+	if (capabilities != null && $.inArray('download', capabilities) < 0) {
+		$('#fileinfo').find('button#download').hide();
+	} else {
+		$('#fileinfo').find('button#download').click(function(){
+			window.location = fileConnector + '?mode=download&path=' + data['Path'];
+		}).show();
+	}
 }
 
 // Converts bytes to kb, mb, or gb as needed for display.
