@@ -1,7 +1,7 @@
 <?php
 require('../../../connectors/php/filemanager.config.php');
 (isset($config['doc_root'])) ? $root = $config['doc_root'] : $root = $_SERVER['DOCUMENT_ROOT'].'/';
-if((isset($_REQUEST['type']) && $_REQUEST['type']== 'image') || $config['upload']['imagesonly'] == true) {
+if((isset($_REQUEST['type']) && strtolower($_REQUEST['type']) == 'image') || $config['upload']['imagesonly'] == true) {
   $only_image = true;
 } else {
   $only_image = false;
