@@ -63,8 +63,8 @@ Error Handling
 Every response should include two keys specific to error handling: Error, and Code. If an error occurs in your script, you may populate these keys with whatever values you feel are most appropriate. If there is no error, Error should remain empty or null, and Code should be empty, null, or zero (0). Do not use zero for any actual errors. The following example would be an appropriate response if the connector uses an external file for configuration (recommended), but that file cannot be found:
 
 	{
-		Error: "Configuration file missing.",
-		Code:  -1
+		"Error": "Configuration file missing.",
+		"Code":  -1
 	}
 
 
@@ -83,19 +83,19 @@ Example Request:
 Example Response:
 
 	{
-		Path: "/UserFiles/Image/logo.png",
-		Filename: "logo.png",
-		File Type: "png",
-		Preview: "/UserFiles/Image/logo.png",
-		Properties: {
-			Date Created: null, 
-			Date Modified: "02/09/2007 14:01:06", 
-			Height: 14,
-			Width: 14,
-			Size: 384 
+		"Path": "/UserFiles/Image/logo.png",
+		"Filename": "logo.png",
+		"File Type": "png",
+		"Preview": "/UserFiles/Image/logo.png",
+		"Properties": {
+			"Date Created": null, 
+			"Date Modified": "02/09/2007 14:01:06", 
+			"Height": 14,
+			"Width": 14,
+			"Size": 384 
 		},
-		Error: "",
-		Code: 0
+		"Error": "",
+		"Code": 0
 	}
 
 The keys are as follows:
@@ -136,38 +136,38 @@ Example Request:
 
 Example Response:
 
-	[
-		"/UserFiles/Image/logo.png" = {
-			Path: "/UserFiles/Image/logo.png",
-			Filename: "logo.png",
-			File Type: "png",
-			Preview: "/UserFiles/Image/logo.png",
-			Properties: {
-				Date Created: null, 
-				Date Modified: "02/09/2007 14:01:06", 
-				Height: 14,
-				Width: 14,
-				Size: 384 
+	{
+		"/UserFiles/Image/logo.png": {
+			"Path": "/UserFiles/Image/logo.png",
+			"Filename": "logo.png",
+			"File Type": "png",
+			"Preview": "/UserFiles/Image/logo.png",
+			"Properties": {
+				"Date Created": null, 
+				"Date Modified": "02/09/2007 14:01:06", 
+				"Height": 14,
+				"Width": 14,
+				"Size": 384 
 			},
-			Error: "",
-			Code: 0	
+			"Error": "",
+			"Code": 0	
 		},
-		"/UserFiles/Image/icon.png" = {
-			Path: "/UserFiles/Image/icon.png",
-			Filename: "icon.png",
-			File Type: "png",
-			Preview: "/UserFiles/Image/icon.png",
-			Properties: {
-				Date Created: null, 
-				Date Modified: "02/09/2007 14:01:06", 
-				Height: 14,
-				Width: 14,
-				Size: 384 
+		"/UserFiles/Image/icon.png": {
+			"Path": "/UserFiles/Image/icon.png",
+			"Filename": "icon.png",
+			"File Type": "png",
+			"Preview": "/UserFiles/Image/icon.png",
+			"Properties": {
+				"Date Created": null, 
+				"Date Modified": "02/09/2007 14:01:06", 
+				"Height": 14,
+				"Width": 14,
+				"Size": 384 
 			},
-			Error: "",
-			Code: 0	
+			"Error": "",
+			"Code": 0	
 		}		
-	]
+	}
 
 Each key in the array is the path to an individual item, and the value is the file object for that item.
 
@@ -183,12 +183,12 @@ Example Request:
 Example Response:
 
 {
-	Error: "No error",
-	Code: 0,
-	Old Path: "/a_folder_renamed/thisisareallylongincrediblylongfilenamefortesting.txt",
-	Old Name: "thisisareallylongincrediblylongfilenamefortesting.txt",
-	New Path: "/a_folder_renamed/a_renamed_file", 
-	New Name: "a_renamed_file"
+	"Error": "No error",
+	"Code": 0,
+	"Old Path": "/a_folder_renamed/thisisareallylongincrediblylongfilenamefortesting.txt",
+	"Old Name": "thisisareallylongincrediblylongfilenamefortesting.txt",
+	"New Path": "/a_folder_renamed/a_renamed_file", 
+	"New Name": "a_renamed_file"
 }
 
 
@@ -203,9 +203,9 @@ Example Request:
 Example Response:
 
 {
-	Error: "No error",
-	Code: 0,
-	Path: "/UserFiles/Image/logo.png"
+	"Error": "No error",
+	"Code": 0,
+	"Path": "/UserFiles/Image/logo.png"
 }
 
 
@@ -216,10 +216,10 @@ The add method adds the uploaded file to the specified path. Unlike the other me
 Example Response:
 
 {
-	Path: "/UserFiles/Image/",
-	Name: "new_logo.png",
-	Error: "No error",
-	Code: 0
+	"Path": "/UserFiles/Image/",
+	"Name": "new_logo.png",
+	"Error": "No error",
+	"Code": 0
 }
 
 
@@ -234,10 +234,10 @@ Example Request:
 Example Response:
 
 {
-	Parent: "/UserFiles/",
-	Name: "new_logo.png",
-	Error: "No error",
-	Code: 0
+	"Parent": "/UserFiles/",
+	"Name": "new_logo.png",
+	"Error": "No error",
+	"Code": 0
 }
 
 
