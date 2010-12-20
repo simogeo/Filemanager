@@ -39,13 +39,6 @@ Create a Javascript callback function that will open the FileManager index.html 
 Add a line like: "file_browser_callback : 'name_of_callback_function'" in the tinyMCE.init command
 See http://wiki.moxiecode.com/index.php/TinyMCE:Custom_filebrowser for more details.
 
-(5a) Settings options : Only display images and allow images uploads
-
-There is two ways to do it :
-	1) Client-side : Call the filemanager including a type=image parameter (Filemanager/index.html?type=image)
-	2) Server-side : PHP sample, set $config['upload']['imagesonly'] to true into the connector config file
-
-
 
 API
 ---
@@ -57,11 +50,10 @@ You can create a connector for your server side language of choice by following 
 
 	[path to FileManager]/connectors/[language extension]/filemanager.[language extension]
 
-FileManager currently includes connectors for PHP, JSP and CFM in the following locations:
+FileManager currently includes connectors for PHP and JSP in the following locations:
 
 	PHP: .../connectors/php/filemanager.php
 	JSP: .../connectors/jsp/filemanager.jsp
-	CFM: .../connectors/cfm/filemanager.cfm
 
 As long as a script exists at this location to respond to requests, you may split up the code (external libraries, configuration files, etc.) however you see fit.
 
@@ -135,7 +127,7 @@ The keys are as follows:
 
 getfolder
 ---------
-The getfolder method returns an array of file objects representing the contents of the given directory (indicated by a "path" parameter). It should call the getinfo method to retrieve the properties of each file. A boolean parameter "getsizes" indicates whether image dimensions should be returned for each item.
+The getfolder method returns an array of file and folder objects representing the contents of the given directory (indicated by a "path" parameter). It should call the getinfo method to retrieve the properties of each file. A boolean parameter "getsizes" indicates whether image dimensions should be returned for each item. Folders should always be returned before files.
 Optionally a "type" parameter can be specified to restrict returned files (depending on the connector). If a "type" parameter is given for the main index.html URL, the same parameter value is reused and passed to getfolder. This can be used for example to only show image files in a file system tree.
 
 Example Request:
