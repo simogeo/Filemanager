@@ -27,6 +27,8 @@ $.urlParam = function(name){
 // Sets paths to connectors based on language selection.
 var fileConnector = 'connectors/' + lang + '/filemanager.' + lang;
 
+var capabilities = new Array('select', 'download', 'rename', 'delete');
+
 // Get localized messages from file 
 // through culture var or from URL
 if($.urlParam('langCode') != 0) culture = $.urlParam('langCode');
@@ -39,22 +41,6 @@ $.ajax({
     lg = json;
   }
 });
-
-
-// we finalize the FileManager UI initialization 
-// with localized text if necessary
-if(autoload == true) {
-	$('#upload').append(lg.upload);
-	$('#newfolder').append(lg.new_folder);
-	$('#grid').attr('title', lg.grid_view);
-	$('#list').attr('title', lg.list_view);
-	$('#fileinfo h1').append(lg.select_from_left);
-	$('#itemOptions a[href$="#select"]').append(lg.select);
-	$('#itemOptions a[href$="#download"]').append(lg.download);
-	$('#itemOptions a[href$="#rename"]').append(lg.rename);
-	$('#itemOptions a[href$="#delete"]').append(lg.del);
-}
-
 
 // Options for alert, prompt, and confirm dialogues.
 $.SetImpromptuDefaults({
@@ -85,6 +71,14 @@ var handleError = function(errMsg) {
 	$('#newfile').attr("disabled", "disabled");
 	$('#upload').attr("disabled", "disabled");
 	$('#newfolder').attr("disabled", "disabled");
+}
+
+// Test if Data structure has the 'cap' capability
+// 'cap' is one of 'select', 'rename', 'delete', 'download'
+function has_capability(data, cap) {
+	if (data['File Type'] == 'dir' && cap == 'download') return false;
+	if (typeof(data['Capabilities']) == "undefined") return true;
+	else return $.inArray(cap, data['Capabilities']) > -1;
 }
 
 // from http://phpjs.org/functions/basename:360
@@ -141,12 +135,10 @@ var setUploader = function(path){
 // Binds specific actions to the toolbar in detail views.
 // Called when detail views are loaded.
 var bindToolbar = function(data){
-	if (typeof(data['Capabilities']) == "undefined") var capabilities = null;
-	else var capabilities = data['Capabilities'];
 	// this little bit is purely cosmetic
 	$('#fileinfo').find('button').wrapInner('<span></span>');
 
-	if (capabilities != null && $.inArray('select', capabilities) < 0) {
+	if (!has_capability(data, 'select')) {
 		$('#fileinfo').find('button#select').hide();
 	} else {
 		$('#fileinfo').find('button#select').click(function(){
@@ -154,7 +146,7 @@ var bindToolbar = function(data){
 		}).show();
 	}
 	
-	if (capabilities != null && $.inArray('rename', capabilities) < 0) {
+	if (!has_capability(data, 'rename')) {
 		$('#fileinfo').find('button#rename').hide();
 	} else {
 		$('#fileinfo').find('button#rename').click(function(){
@@ -163,7 +155,7 @@ var bindToolbar = function(data){
 		}).show();
 	}
 
-	if (capabilities != null && $.inArray('delete', capabilities) < 0) {
+	if (!has_capability(data, 'delete')) {
 		$('#fileinfo').find('button#delete').hide();
 	} else {
 		$('#fileinfo').find('button#delete').click(function(){
@@ -171,7 +163,7 @@ var bindToolbar = function(data){
 		}).show();
 	}
 
-	if (capabilities != null && $.inArray('download', capabilities) < 0) {
+	if (!has_capability(data, 'download')) {
 		$('#fileinfo').find('button#download').hide();
 	} else {
 		$('#fileinfo').find('button#download').click(function(){
@@ -429,13 +421,15 @@ var addFolder = function(parent, name){
 		$('#filetree > ul').prepend(newNode); 
 		$('#filetree').find('li a[rel="' + parent + name + '/"]').click(function(){
 				getFolderInfo(parent + name + '/');
-			}).contextMenu(
-				{ menu: 'itemOptions' }, 
-				function(action, el, pos){
-					var path = $(el).attr('rel');
-					setMenus(action, path);
+			}).each(function() {
+				$(this).contextMenu(
+					{ menu: getContextMenuOptions($(this)) }, 
+					function(action, el, pos){
+						var path = $(el).attr('rel');
+						setMenus(action, path);
+					});
 				}
-		);
+			);
 	}
 	
 	$.prompt(lg.successful_added_folder);
@@ -457,6 +451,21 @@ var getDetailView = function(path){
 	} else {
 		getFileInfo(path);
 	}
+}
+
+function getContextMenuOptions(elem) {
+	var optionsID = elem.attr('class').replace(/ /g, '_');
+	if (optionsID == "") return 'itemOptions';
+	if (!($('#' + optionsID).length)) {
+		// Create a clone to itemOptions with menus specific to this element
+		var newOptions = $('#itemOptions').clone().attr('id', optionsID);
+		if (!elem.hasClass('cap_select')) $('.select', newOptions).remove();
+		if (!elem.hasClass('cap_download')) $('.download', newOptions).remove();
+		if (!elem.hasClass('cap_rename')) $('.rename', newOptions).remove();
+		if (!elem.hasClass('cap_delete')) $('.delete', newOptions).remove();
+		$('#itemOptions').after(newOptions);
+	}
+	return optionsID;
 }
 
 // Binds contextual menus to items in list and grid views.
@@ -565,12 +574,18 @@ var getFolderInfo = function(path){
 				
 				for(key in data){
 					var props = data[key]['Properties'];
+					cap_classes = "";
+					for (cap in capabilities) {
+						if (has_capability(data[key], capabilities[cap])) {
+							cap_classes += " cap_" + capabilities[cap];
+						}
+					}
 				
 					var scaledWidth = 64;
 					var actualWidth = props['Width'];
 					if(actualWidth > 1 && actualWidth < scaledWidth) scaledWidth = actualWidth;
 				
-					result += '<li><div class="clip"><img src="' + data[key]['Preview'] + '" width="' + scaledWidth + '" alt="' + data[key]['Path'] + '" /></div><p>' + data[key]['Filename'] + '</p>';
+					result += '<li class="' + cap_classes + '"><div class="clip"><img src="' + data[key]['Preview'] + '" width="' + scaledWidth + '" alt="' + data[key]['Path'] + '" /></div><p>' + data[key]['Filename'] + '</p>';
 					if(props['Width'] && props['Width'] != '') result += '<span class="meta dimensions">' + props['Width'] + 'x' + props['Height'] + '</span>';
 					if(props['Size'] && props['Size'] != '') result += '<span class="meta size">' + props['Size'] + '</span>';
 					if(props['Date Created'] && props['Date Created'] != '') result += '<span class="meta created">' + props['Date Created'] + '</span>';
@@ -586,8 +601,13 @@ var getFolderInfo = function(path){
 				
 				for(key in data){
 					var path = data[key]['Path'];
-					var props = data[key]['Properties'];					
-					result += '<tr>';
+					var props = data[key]['Properties'];
+					for (cap in capabilities) {
+						if (has_capability(data[key], capabilities[cap])) {
+							cap_classes += " cap_" + capabilities[cap];
+						}
+					}
+					result += '<tr class="' + cap_classes + '">';
 					result += '<td title="' + path + '">' + data[key]['Filename'] + '</td>';
 
 					if(props['Width'] && props['Width'] != ''){
@@ -627,9 +647,14 @@ var getFolderInfo = function(path){
 			$('#fileinfo').find('#contents li').click(function(){
 				var path = $(this).find('img').attr('alt');
 				getDetailView(path);
-			}).contextMenu({ menu: 'itemOptions' }, function(action, el, pos){
-				var path = $(el).find('img').attr('alt');
-				setMenus(action, path);
+			}).each(function() {
+				$(this).contextMenu(
+					{ menu: getContextMenuOptions($(this)) },
+					function(action, el, pos){
+						var path = $(el).find('img').attr('alt');
+						setMenus(action, path);
+					}
+				);
 			});
 		} else {
 			$('#fileinfo').find('td:first-child').each(function(){
@@ -641,9 +666,14 @@ var getFolderInfo = function(path){
 			$('#fileinfo tbody tr').click(function(){
 				var path = $('td:first-child', this).attr('title');
 				getDetailView(path);		
-			}).contextMenu({ menu: 'itemOptions' }, function(action, el, pos){
-				var path = $('td:first-child', el).attr('title');
-				setMenus(action, path);
+			}).each(function() {
+				$(this).contextMenu(
+					{ menu: getContextMenuOptions($(this)) },
+					function(action, el, pos){
+						var path = $('td:first-child', el).attr('title');
+						setMenus(action, path);
+					}
+				);
 			});
 			
 			$('#fileinfo').find('table').tablesorter({
@@ -675,10 +705,16 @@ var populateFileTree = function(path, callback){
 		if(data) {
 			result += "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
 			for(key in data) {
+				cap_classes = "";
+				for (cap in capabilities) {
+					if (has_capability(data[key], capabilities[cap])) {
+						cap_classes += " cap_" + capabilities[cap];
+					}
+				}
 				if (data[key]['File Type'] == 'dir') {
-					result += "<li class=\"directory collapsed\"><a href=\"#\" rel=\"" + data[key]['Path'] + "/\">" + data[key]['Filename'] + "</a></li>";
+					result += "<li class=\"directory collapsed\"><a href=\"#\" class=\"" + cap_classes + "\" rel=\"" + data[key]['Path'] + "/\">" + data[key]['Filename'] + "</a></li>";
 				} else {
-					result += "<li class=\"file ext_" + data[key]['File Type'].toLowerCase() + "\"><a href=\"#\" rel=\"" + data[key]['Path'] + "\">" + data[key]['Filename'] + "</a></li>";
+					result += "<li class=\"file ext_" + data[key]['File Type'].toLowerCase() + "\"><a href=\"#\" class=\"" + cap_classes + "\" rel=\"" + data[key]['Path'] + "\">" + data[key]['Filename'] + "</a></li>";
 				}
 			}
 			result += "</ul>";
@@ -700,6 +736,20 @@ $(function(){
 	// Adjust layout.
 	setDimensions();
 	$(window).resize(setDimensions);
+
+	// we finalize the FileManager UI initialization 
+	// with localized text if necessary
+	if(autoload == true) {
+		$('#upload').append(lg.upload);
+		$('#newfolder').append(lg.new_folder);
+		$('#grid').attr('title', lg.grid_view);
+		$('#list').attr('title', lg.list_view);
+		$('#fileinfo h1').append(lg.select_from_left);
+		$('#itemOptions a[href$="#select"]').append(lg.select);
+		$('#itemOptions a[href$="#download"]').append(lg.download);
+		$('#itemOptions a[href$="#rename"]').append(lg.rename);
+		$('#itemOptions a[href$="#delete"]').append(lg.del);
+	}
 
 	// Provides support for adjustible columns.
 	$('#splitter').splitter({
@@ -771,13 +821,15 @@ $(function(){
 		multiFolder: false,
 		folderCallback: function(path){ getFolderInfo(path); },
 		after: function(data){
-			$('#filetree').find('li a').contextMenu(
-				{ menu: 'itemOptions' }, 
-				function(action, el, pos){
-					var path = $(el).attr('rel');
-					setMenus(action, path);
-				}
-			);
+			$('#filetree').find('li a').each(function() {
+				$(this).contextMenu(
+					{ menu: getContextMenuOptions($(this)) },
+					function(action, el, pos){
+						var path = $(el).attr('rel');
+						setMenus(action, path);
+					}
+				)
+			});
 		}
 	}, function(file){
 		getFileInfo(file);
