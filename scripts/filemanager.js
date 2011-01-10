@@ -658,7 +658,7 @@ var populateFileTree = function(path, callback){
 			result += "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
 			for(key in data) {
 				if (data[key]['File Type'] == 'dir') {
-					result += "<li class=\"directory collapsed\"><a href=\"#\" rel=\"" + data[key]['Path'] + "/\">" + data[key]['Filename'] + "</a></li>";
+					result += "<li class=\"directory collapsed\"><a href=\"#\" rel=\"" + data[key]['Path'] + "\">" + data[key]['Filename'] + "</a></li>";
 				} else {
 					result += "<li class=\"file ext_" + data[key]['File Type'].toLowerCase() + "\"><a href=\"#\" rel=\"" + data[key]['Path'] + "\">" + data[key]['Filename'] + "</a></li>";
 				}
