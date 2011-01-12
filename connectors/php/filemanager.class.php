@@ -132,7 +132,7 @@ class Filemanager {
           $this->item['properties'] = $this->properties;
           $this->get_file_info($this->get['path'] . $file);
            
-          if(!isset($this->params['type']) || (isset($this->params['type']) && $this->params['type']=='image' && in_array(strtolower($this->item['filetype']),$this->config['images']))) {
+          if(!isset($this->params['type']) || (isset($this->params['type']) && strtolower($this->params['type'])=='images' && in_array(strtolower($this->item['filetype']),$this->config['images']))) {
             if($this->config['upload']['imagesonly']== false || ($this->config['upload']['imagesonly']== true && in_array(strtolower($this->item['filetype']),$this->config['images']))) {
             $array[$this->get['path'] . $file] = array(
 							'Path'=>$this->get['path'] . $file,
@@ -223,7 +223,7 @@ class Filemanager {
     if(($this->config['upload']['size']!=false && is_numeric($this->config['upload']['size'])) && ($_FILES['newfile']['size'] > ($this->config['upload']['size'] * 1024 * 1024))) {
       $this->error(sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['size'] . 'Mb'),true);
     }
-    if($this->config['upload']['imagesonly'] || (isset($this->params['type']) && $this->params['type']=='image')) {
+    if($this->config['upload']['imagesonly'] || (isset($this->params['type']) && strtolower($this->params['type'])=='images')) {
       if(!($size = @getimagesize($_FILES['newfile']['tmp_name']))){
         $this->error(sprintf($this->lang('UPLOAD_IMAGES_ONLY')),true);
       }

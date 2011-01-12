@@ -723,7 +723,7 @@ $(function(){
 	$('#uploader').ajaxForm({
 		target: '#uploadresponse',
 		beforeSubmit: function(arr, form, options) {
-			if ($.urlParam('type') == 'image') {
+			if ($.urlParam('type').toLowerCase() == 'images') {
 				// Test if uploaded file extension is in valid image extensions
 				var newfileSplitted = $('#newfile', form).val().toLowerCase().split('.');
 				for (key in imagesExt) {

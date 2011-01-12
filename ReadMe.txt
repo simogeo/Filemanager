@@ -133,7 +133,7 @@ Optionally a "type" parameter can be specified to restrict returned files (depen
 
 Example Request:
 
-	[path to connector]?mode=getfolder&path=/UserFiles/Image/&getsizes=true&type=image
+	[path to connector]?mode=getfolder&path=/UserFiles/Image/&getsizes=true&type=images
 
 Example Response:
 
