@@ -78,6 +78,46 @@ var displayRoot = function(path){
 		return path;
 }
 
+// preg_replace
+// Code from : http://xuxu.fr/2006/05/20/preg-replace-javascript/
+var preg_replace = function(array_pattern, array_pattern_replace, str)  {
+	var new_str = String (str);
+		for (i=0; i<array_pattern.length; i++) {
+			var reg_exp= RegExp(array_pattern[i], "g");
+			var val_to_replace = array_pattern_replace[i];
+			new_str = new_str.replace (reg_exp, val_to_replace);
+		}
+		return new_str;
+	}
+
+// cleanString (), on the same model as server side (connector)
+// cleanString
+var cleanString = function(str) {
+	var cleaned = "";
+	var p_search  = 	new Array("Š", "š", "Đ", "đ", "Ž", "ž", "Č", "č", "Ć", "ć", "À", 
+						"Á", "Â", "Ã", "Ä", "Å", "Æ", "Ç", "È", "É", "Ê", "Ë", "Ì", "Í", "Î", "Ï", 
+						"Ñ", "Ò", "Ó", "Ô", "Õ", "Ö", "Ø", "Ù", "Ú", "Û", "Ü", "Ý", "Þ", "ß", 
+						"à", "á", "â", "ã", "ä", "å", "æ", "ç", "è", "é", "ê", "ë", "ì",  "í",  
+						"î", "ï", "ð", "ñ", "ò", "ó", "ô", "õ", "ö", "ø", "ù", "ú", "û", "ý", 
+						"ý", "þ", "ÿ", "Ŕ", "ŕ", " ", "'", "/"
+						);
+	var p_replace = 	new Array("S", "s", "Dj", "dj", "Z", "z", "C", "c", "C", "c", "A", 
+						"A", "A", "A", "A", "A", "A", "C", "E", "E", "E", "E", "I", "I", "I", "I", 
+						"N", "O", "O", "O", "O", "O", "O", "U", "U", "U", "U", "Y", "B", "Ss", 
+						"a", "a", "a", "a", "a", "a", "a", "c", "e", "e", "e", "e", "i", "i",
+						"i", "i", "o", "n", "o", "o", "o", "o", "o", "o", "u", "u", "u", "y", 
+						"y", "b", "y", "R", "r", "_", "_", ""
+					);
+
+	cleaned = preg_replace(p_search, p_replace, str);
+	cleaned = cleaned.replace(/[^_a-zA-Z0-9]/g, "");
+	cleaned = cleaned.replace(/[_]+/g, "_");
+	
+	return cleaned;
+}
+
+
+
 // Handle Error. Freeze interactive buttons and display
 // error message. Also called when auth() function return false (Code == "-1")
 var handleError = function(errMsg) {
@@ -116,7 +156,7 @@ var setUploader = function(path){
 			if(fname != ''){
 				foldername = fname;
 
-				$.getJSON(fileConnector + '?mode=addfolder&path=' + $('#currentpath').val() + '&name=' + foldername, function(result){
+				$.getJSON(fileConnector + '?mode=addfolder&path=' + $('#currentpath').val() + '&name=' + cleanString(foldername), function(result){
 					if(result['Code'] == 0){
 						addFolder(result['Parent'], result['Name']);
 						getFolderInfo(result['Parent']);
