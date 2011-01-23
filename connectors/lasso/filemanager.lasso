@@ -56,7 +56,7 @@
 				content_type('text/plain');
 				content_body = $fm->getinfo(
 					-path=client_param('path'), 
-					-getsize=boolean(client_param('getsize'))
+					-getsize=(client_param('getsize') != 'false')
 				);
 				abort;
 	
