@@ -123,7 +123,7 @@
 					local('img') = image(#path);
 					#file->find('Properties')->find('Width') = #img->width;
 					#file->find('Properties')->find('Height') = #img->height;
-					
+					#file->find('Preview') = #path;
 				else;
 					local('previewPath') = self->config->icons->path + #ext->uppercase& + '.png';
 					#file->find('Preview') = (file_exists('../../' + #previewPath) ?  #previewPath | self->config->icons->path + self->config->icons->default);
