@@ -12,6 +12,9 @@ var autoload = true;
 // Display full path - default : false
 var showFullPath = false;
 
+// Browse only - default : false
+var browseOnly = false;
+
 // Set this to the server side language you wish to use.
 var lang = 'php'; // options: php, jsp, cfm // we are looking for contributors for lasso, python connectors (partially developed)
 
