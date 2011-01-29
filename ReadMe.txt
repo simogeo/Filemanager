@@ -50,10 +50,12 @@ You can create a connector for your server side language of choice by following 
 
 	[path to FileManager]/connectors/[language extension]/filemanager.[language extension]
 
-FileManager currently includes connectors for PHP, JSP and CFM in the following locations:
+FileManager currently includes connectors for PHP, JSP, lasso, ASP and CFM in the following locations:
 
 	PHP: .../connectors/php/filemanager.php
 	JSP: .../connectors/jsp/filemanager.jsp
+	lasso: .../connectors/lasso/filemanager.lasso
+	ASP: .../connectors/asp/filemanager.asp
 	CFM: .../connectors/cfm/filemanager.cfm
 
 As long as a script exists at this location to respond to requests, you may split up the code (external libraries, configuration files, etc.) however you see fit.
