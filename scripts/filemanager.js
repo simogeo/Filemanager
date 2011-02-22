@@ -43,10 +43,10 @@ $.ajax({
 });
 
 // Options for alert, prompt, and confirm dialogues.
-$.SetImpromptuDefaults({
-	overlayspeed: 'fast',
-	show: 'fadeIn',
-	opacity: 0.4
+$.prompt.setDefaults({
+    overlayspeed: 'fast',
+    show: 'fadeIn',
+    opacity: 0.4
 });
 
 // Forces columns to fill the layout vertically.
@@ -793,7 +793,7 @@ $(function(){
 
 	// Provides support for adjustible columns.
 	$('#splitter').splitter({
-		initA: 200
+		sizeLeft: 200
 	});
 
 	// cosmetic tweak for buttons
