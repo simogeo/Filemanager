@@ -19,6 +19,7 @@ class Filemanager {
   protected $post = array();
   protected $properties = array();
   protected $item = array();
+  protected $languages = array();
   protected $root = '';
   protected $doc_root = '';
 
@@ -37,6 +38,7 @@ class Filemanager {
       $this->doc_root = $_SERVER['DOCUMENT_ROOT'];
     }
     $this->setParams();
+    $this->availableLanguages();
     $this->loadLanguageFile();
 
   }
@@ -134,7 +136,7 @@ class Filemanager {
            
           if(!isset($this->params['type']) || (isset($this->params['type']) && strtolower($this->params['type'])=='images' && in_array(strtolower($this->item['filetype']),$this->config['images']))) {
             if($this->config['upload']['imagesonly']== false || ($this->config['upload']['imagesonly']== true && in_array(strtolower($this->item['filetype']),$this->config['images']))) {
-            $array[$this->get['path'] . $file] = array(
+              $array[$this->get['path'] . $file] = array(
 							'Path'=>$this->get['path'] . $file,
 							'Filename'=>$this->item['filename'],
 							'File Type'=>$this->item['filetype'],
@@ -142,7 +144,7 @@ class Filemanager {
 							'Properties'=>$this->item['properties'],
 							'Error'=>"",
 							'Code'=>0
-            );
+              );
             }
           }
         }
@@ -375,13 +377,13 @@ class Filemanager {
 
   private function cleanString($string, $allowed = array()) {
     $allow = null;
-    
+
     if (!empty($allowed)) {
       foreach ($allowed as $value) {
         $allow .= "\\$value";
       }
     }
-    
+
     $mapping = array(
         'Š'=>'S', 'š'=>'s', 'Đ'=>'Dj', 'đ'=>'dj', 'Ž'=>'Z', 'ž'=>'z', 'Č'=>'C', 'č'=>'c', 'Ć'=>'C', 'ć'=>'c',
         'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
@@ -391,25 +393,25 @@ class Filemanager {
         'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o',
         'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'ý'=>'y', 'þ'=>'b',
         'ÿ'=>'y', 'Ŕ'=>'R', 'ŕ'=>'r', ' '=>'_', "'"=>'_', '/'=>''
-    );
+        );
 
-    if (is_array($string)) {
-      
-      $cleaned = array();
-      
-      foreach ($string as $key => $clean) {
-        $clean = strtr($clean, $mapping);
-        $clean = preg_replace("/[^{$allow}_a-zA-Z0-9]/", '', $clean);
-        $cleaned[$key] = preg_replace('/[_]+/', '_', $clean); // remove double underscore
-      }
-    } else {
-      $string = strtr($string, $mapping);
-      $string = preg_replace("/[^{$allow}_a-zA-Z0-9]/", '', $string);
-      $cleaned = preg_replace('/[_]+/', '_', $string); // remove double underscore
-    }
-    return $cleaned;
+        if (is_array($string)) {
+
+          $cleaned = array();
+
+          foreach ($string as $key => $clean) {
+            $clean = strtr($clean, $mapping);
+            $clean = preg_replace("/[^{$allow}_a-zA-Z0-9]/", '', $clean);
+            $cleaned[$key] = preg_replace('/[_]+/', '_', $clean); // remove double underscore
+          }
+        } else {
+          $string = strtr($string, $mapping);
+          $string = preg_replace("/[^{$allow}_a-zA-Z0-9]/", '', $string);
+          $cleaned = preg_replace('/[_]+/', '_', $string); // remove double underscore
+        }
+        return $cleaned;
   }
-  
+
   private function sanitize($var) {
     $sanitized = strip_tags($var);
     $sanitized = str_replace('http://', '', $sanitized);
@@ -436,20 +438,30 @@ class Filemanager {
 
   private function loadLanguageFile() {
 
-    // we load langCode var passed into URL if present
+    // we load langCode var passed into URL if present and if exists
     // else, we use default configuration var
-    if(isset($this->params['langCode'])) $lang = $this->params['langCode'];
-    else $lang = $this->config['culture'];
+    $lang = $this->config['culture'];
+    if(isset($this->params['langCode']) && in_array($this->params['langCode'], $this->languages)) $lang = $this->params['langCode'];
 
     if(file_exists($this->root. 'scripts/languages/'.$lang.'.js')) {
       $stream =file_get_contents($this->root. 'scripts/languages/'.$lang.'.js');
       $this->language = json_decode($stream, true);
     } else {
-      $this->error($this->lang('LANGUAGE_FILE_NOT_FOUND'));
+      $stream =file_get_contents($this->root. 'scripts/languages/'.$lang.'.js');
+      $this->language = json_decode($stream, true);
     }
   }
 
+  private function availableLanguages() {
 
+    if ($handle = opendir($this->root.'/scripts/languages/')) {
+      while (false !== ($file = readdir($handle))) {
+        if ($file != "." && $file != "..") {
+          array_push($this->languages, pathinfo($file, PATHINFO_FILENAME));
+        }
+      }
+      closedir($handle);
+    }
+  }
 }
-
 ?>
