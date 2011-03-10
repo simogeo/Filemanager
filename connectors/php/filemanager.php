@@ -13,7 +13,11 @@
  */
 require_once('./inc/filemanager.inc.php');
 require_once('filemanager.config.php');
-require_once('filemanager.class.php');
+if (isset($config['cloud']) && $config['cloud']=='rsc') {
+	require_once('filemanager.rsc.class.php');
+} else {
+	require_once('filemanager.class.php');
+}
 $fm = new Filemanager($config);
 
 $response = '';

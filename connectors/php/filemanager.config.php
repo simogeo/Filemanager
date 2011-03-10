@@ -25,6 +25,23 @@ function auth() {
 }
 
 /**
+ *	You may, optionally, set this connector to work on the Rackspace Cloud Files API 
+ *	instead of the local filesystem.  This requires you have an account:
+ *	@link http://www.rackspace.com/cloud/cloud_hosting_products/files/
+ */
+/*
+$config['cloud'] = 'rsc';
+$config['rsc-verbose'] = false;
+$config['rsc-username'] = 'your_username';
+$config['rsc-apikey'] = 'your_api_key';
+$config['rsc-account'] = null;
+$config['rsc-bucket'] = null;
+$config['rsc-php-cloudfiles-path'] = dirname(__FILE__).'/inc/';
+$config['rsc-ssl_use_cabundle'] = true;
+$config['rsc-getsize'] = true;
+*/
+
+/**
  *	Language settings
  */
 $config['culture'] = 'en';
@@ -61,7 +78,7 @@ $config['images'] = array('jpg', 'jpeg','gif','png');
  *	excluded from filtree
  */
 $config['unallowed_files']= array('.htaccess');
-$config['unallowed_dirs']= array('_thumbs');
+$config['unallowed_dirs']= array('_thumbs','.CDN_ACCESS_LOGS', 'cloudservers');
 
 /**
  *	FEATURED OPTIONS
