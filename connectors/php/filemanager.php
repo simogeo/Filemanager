@@ -13,11 +13,15 @@
  */
 require_once('./inc/filemanager.inc.php');
 require_once('filemanager.config.php');
-if (isset($config['cloud']) && $config['cloud']=='rsc') {
-	require_once('filemanager.rsc.class.php');
+
+if (isset($config['plugin']) && !empty($config['plugin'])) {
+	$pluginPath = 'plugins' . DIRECTORY_SEPARATOR . $config['plugin'] . DIRECTORY_SEPARATOR;
+	require_once($pluginPath . 'filemanager.' . $config['plugin'] . '.config.php');
+	require_once($pluginPath . 'filemanager.' . $config['plugin'] . '.class.php');
 } else {
 	require_once('filemanager.class.php');
 }
+
 $fm = new Filemanager($config);
 
 $response = '';
