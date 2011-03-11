@@ -15,8 +15,7 @@
 
 class FilemanagerRSC extends Filemanager {
 	
-	public function __construct($config) {
-		$this->config = $config;
+	public function startup() {
 		require_once('cloudfiles.php');
 		$auth = new CF_Authentication($this->config['rsc-username'], $this->config['rsc-apikey']);
 		$auth->authenticate();
@@ -24,22 +23,8 @@ class FilemanagerRSC extends Filemanager {
 		if ($this->config['rsc-ssl_use_cabundle']) {
 			$this->conn->ssl_use_cabundle();
 		}
-		
-		$this->root = dirname(dirname(dirname(dirname(dirname(__FILE__))))).DIRECTORY_SEPARATOR;
-		
-		$this->properties = array(
-			'Date Created'=>null,
-			'Date Modified'=>null,
-			'Height'=>null,
-			'Width'=>null,
-			'Size'=>null
-			);
-		$this->doc_root = null;
-		$this->setParams();
-		$this->availableLanguages();
-		$this->loadLanguageFile();
+		return parent::startup();
 	}
-	
 	
 	public function getinfo() {
 		$object = $this->get_object();
