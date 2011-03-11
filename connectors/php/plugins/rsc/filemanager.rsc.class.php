@@ -13,17 +13,7 @@
 *	@copyright	Authors
 */
 
-class Filemanager {
-	
-	protected $config = array();
-	protected $language = array();
-	protected $get = array();
-	protected $post = array();
-	protected $properties = array();
-	protected $item = array();
-	protected $languages = array();
-	protected $root = '';
-	protected $doc_root = '';
+class FilemanagerRSC extends Filemanager {
 	
 	public function __construct($config) {
 		$this->config = $config;
@@ -50,45 +40,6 @@ class Filemanager {
 		$this->loadLanguageFile();
 	}
 	
-	
-	public function error($string,$textarea=false) {
-		$array = array(
-			'Error'=>$string,
-			'Code'=>'-1',
-			'Properties'=>$this->properties
-			);
-		if($textarea) {
-			echo '<textarea>' . json_encode($array) . '</textarea>';
-		} else {
-			echo json_encode($array);
-		}
-		die();
-	}
-	
-	public function lang($string) {
-		if(isset($this->language[$string]) && $this->language[$string]!='') {
-			return $this->language[$string];
-		} else {
-			return 'Language string error on ' . $string;
-		}
-	}
-	
-	public function getvar($var) {
-		if(!isset($_GET[$var]) || $_GET[$var]=='') {
-			$this->error(sprintf($this->lang('INVALID_VAR'),$var));
-		} else {
-			$this->get[$var] = $this->sanitize($_GET[$var]);
-			return true;
-		}
-	}
-	public function postvar($var) {
-		if(!isset($_POST[$var]) || $_POST[$var]=='') {
-			$this->error(sprintf($this->lang('INVALID_VAR'),$var));
-		} else {
-			$this->post[$var] = $_POST[$var];
-			return true;
-		}
-	}
 	
 	public function getinfo() {
 		$object = $this->get_object();
@@ -353,25 +304,6 @@ class Filemanager {
 		}
 	}
 	
-	private function setParams() {
-		$tmp = $_SERVER['HTTP_REFERER'];
-		$tmp = explode('?',$tmp);
-		$params = array();
-		if(isset($tmp[1]) && $tmp[1]!='') {
-			$params_tmp = explode('&',$tmp[1]);
-			if(is_array($params_tmp)) {
-				foreach($params_tmp as $value) {
-					$tmp = explode('=',$value);
-					if(isset($tmp[0]) && $tmp[0]!='' && isset($tmp[1]) && $tmp[1]!='') {
-						$params[$tmp[0]] = $tmp[1];
-					}
-				}
-			}
-		}
-		$this->params = $params;
-	}
-	
-	
 	private function get_container($path=null, $showError=false) {
 		if (empty($path)) {
 			$path = $this->get['path'];
@@ -462,79 +394,5 @@ class Filemanager {
 			);
 		return $object;
 	}
-	
-	private function cleanString($string, $allowed = array()) {
-		$allow = null;
-		
-		if (!empty($allowed)) {
-			foreach ($allowed as $value) {
-				$allow .= "\\$value";
-			}
-		}
-		
-		$mapping = array(
-			'Š'=>'S', 'š'=>'s', 'Đ'=>'Dj', 'đ'=>'dj', 'Ž'=>'Z', 'ž'=>'z', 'Č'=>'C', 'č'=>'c', 'Ć'=>'C', 'ć'=>'c',
-			'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
-			'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O',
-			'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss',
-			'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e',
-			'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o',
-			'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'ý'=>'y', 'þ'=>'b',
-			'ÿ'=>'y', 'Ŕ'=>'R', 'ŕ'=>'r', ' '=>'_', "'"=>'_', '/'=>''
-			);
-		
-        if (is_array($string)) {
-        	
-        	$cleaned = array();
-        	
-        	foreach ($string as $key => $clean) {
-        		$clean = strtr($clean, $mapping);
-        		$clean = preg_replace("/[^{$allow}_a-zA-Z0-9]/", '', $clean);
-        		$cleaned[$key] = preg_replace('/[_]+/', '_', $clean); // remove double underscore
-        	}
-        } else {
-        	$string = strtr($string, $mapping);
-        	$string = preg_replace("/[^{$allow}_a-zA-Z0-9]/", '', $string);
-        	$cleaned = preg_replace('/[_]+/', '_', $string); // remove double underscore
-        }
-        return $cleaned;
-    }
-    
-    private function sanitize($var) {
-    	$sanitized = strip_tags($var);
-    	$sanitized = str_replace('http://', '', $sanitized);
-    	$sanitized = str_replace('https://', '', $sanitized);
-    	$sanitized = str_replace('../', '', $sanitized);
-    	return $sanitized;
-    }
-    
-    
-    private function loadLanguageFile() {
-    	
-    	// we load langCode var passed into URL if present and if exists
-    	// else, we use default configuration var
-    	$lang = $this->config['culture'];
-    	if(isset($this->params['langCode']) && in_array($this->params['langCode'], $this->languages)) $lang = $this->params['langCode'];
-    	
-    	if(file_exists($this->root. 'scripts/languages/'.$lang.'.js')) {
-    		$stream =file_get_contents($this->root. 'scripts/languages/'.$lang.'.js');
-    		$this->language = json_decode($stream, true);
-    	} else {
-    		$stream =file_get_contents($this->root. 'scripts/languages/'.$lang.'.js');
-    		$this->language = json_decode($stream, true);
-    	}
-    }
-    
-    private function availableLanguages() {
-    	
-    	if ($handle = opendir($this->root.'/scripts/languages/')) {
-    		while (false !== ($file = readdir($handle))) {
-    			if ($file != "." && $file != "..") {
-    				array_push($this->languages, pathinfo($file, PATHINFO_FILENAME));
-    			}
-    		}
-    		closedir($handle);
-    	}
-    }
 }
 ?>

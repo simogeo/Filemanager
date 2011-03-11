@@ -46,4 +46,11 @@ $config['rsc-ssl_use_cabundle'] = true;
  */
 $config['rsc-getsize'] = true;
 
+/**
+ *	Extension of the unallowed Dirs
+ */
+$config['unallowed_dirs'][] = '.CDN_ACCESS_LOGS';
+$config['unallowed_dirs'][] = 'cloudservers';
+
+
 ?>
