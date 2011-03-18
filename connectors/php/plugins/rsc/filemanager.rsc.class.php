@@ -3,7 +3,7 @@
 *	Filemanager PHP RSC plugin class
 *
 *	filemanager.rsc.class.php
-*	class for the filemanager.php connector which utilizes the Rackspace Cloud Files API 
+*	class for the filemanager.php connector which utilizes the Rackspace Cloud Files API
 *	instead of the local filesystem
 *
 *	@license	MIT License
@@ -15,7 +15,7 @@
 
 class FilemanagerRSC extends Filemanager {
 	
-	public function startup() {
+	public function _construct($config) {
 		require_once('cloudfiles.php');
 		$auth = new CF_Authentication($this->config['rsc-username'], $this->config['rsc-apikey']);
 		$auth->authenticate();
@@ -23,7 +23,8 @@ class FilemanagerRSC extends Filemanager {
 		if ($this->config['rsc-ssl_use_cabundle']) {
 			$this->conn->ssl_use_cabundle();
 		}
-		return parent::startup();
+		
+		parent::_construct($config);
 	}
 	
 	public function getinfo() {
@@ -66,13 +67,13 @@ class FilemanagerRSC extends Filemanager {
 		$container = trim($this->get['path'], '/ ');
 		$containerParts = explode('/', $container);
 		if ($containerParts[0]=='containers') {
-			array_shift($containerParts); 
+			array_shift($containerParts);
 		}
 		$array = array();
 		if (empty($containerParts) || trim($this->get['path'], '/ ')=='containers') {
 			$containers = $this->conn->list_containers();
 			$containers = array_diff($containers, $this->config['unallowed_dirs']);
-			foreach ( $containers as $container ) { 
+			foreach ( $containers as $container ) {
 				$array['/containers/' . $container . '/'] = array(
 					'Path'=> '/containers/' . $container .'/',
 					'Filename'=> $container,
@@ -246,7 +247,7 @@ class FilemanagerRSC extends Filemanager {
 		$container = trim($this->get['path'], '/ ');
 		$containerParts = explode('/', $container);
 		if ($containerParts[0]=='containers') {
-			array_shift($containerParts); 
+			array_shift($containerParts);
 		}
 		if (!empty($containerParts)) {
 			$this->error(sprintf($this->lang('UNABLE_TO_CREATE_DIRECTORY'),$newdir));
@@ -296,7 +297,7 @@ class FilemanagerRSC extends Filemanager {
 		$container = trim($path, '/ ');
 		$containerParts = explode('/', $container);
 		if ($containerParts[0]=='containers') {
-			array_shift($containerParts); 
+			array_shift($containerParts);
 		}
 		$array = array();
 		if (count($containerParts) > 0) {
@@ -318,7 +319,7 @@ class FilemanagerRSC extends Filemanager {
 		$container = trim($path, '/ ');
 		$containerParts = explode('/', $container);
 		if ($containerParts[0]=='containers') {
-			array_shift($containerParts); 
+			array_shift($containerParts);
 		}
 		$array = array();
 		if (count($containerParts) > 1) {
@@ -336,7 +337,7 @@ class FilemanagerRSC extends Filemanager {
 	}
 	private function get_file_info($object=null) {
 		if (empty($object) || !is_object($object)) {
-			return null; 
+			return null;
 		}
 		// parse into file extension types
 		//$object->filetype = array_pop(explode('/', $object->content_type));

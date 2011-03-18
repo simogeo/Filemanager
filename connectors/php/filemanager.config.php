@@ -24,13 +24,6 @@ function auth() {
   return true;
 }
 
-/**
- *	Optional Plugin
- *	rsc: Rackspace Cloud Files: http://www.rackspace.com/cloud/cloud_hosting_products/files/
- */
-$config['plugin'] = null;
-//$config['plugin'] = 'rsc';
-
 
 /**
  *	Language settings
@@ -75,7 +68,16 @@ $config['unallowed_dirs']= array('_thumbs','.CDN_ACCESS_LOGS', 'cloudservers');
  *	FEATURED OPTIONS
  *	for Vhost or outside files folder
  */
-// $config['doc_root'] = '/home/simon/userfiles'; // No end slash
+// $config['doc_root'] = '/home/user/userfiles'; // No end slash
+
+
+/**
+ *	Optional Plugin
+ *	rsc: Rackspace Cloud Files: http://www.rackspace.com/cloud/cloud_hosting_products/files/
+ */
+$config['plugin'] = null;
+//$config['plugin'] = 'rsc';
+
 
 
 //	not working yet
