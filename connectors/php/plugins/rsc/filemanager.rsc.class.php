@@ -15,7 +15,7 @@
 
 class FilemanagerRSC extends Filemanager {
 	
-	public function __construct() {
+	public function __construct($config) {
 		require_once('cloudfiles.php');
 		$auth = new CF_Authentication($this->config['rsc-username'], $this->config['rsc-apikey']);
 		$auth->authenticate();
