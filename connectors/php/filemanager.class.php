@@ -24,25 +24,30 @@ class Filemanager {
   protected $doc_root = '';
 
   public function __construct($config) {
-    $this->config = $config;
-    $this->root = str_replace('connectors'.DIRECTORY_SEPARATOR.'php'.DIRECTORY_SEPARATOR.'filemanager.class.php','',__FILE__);
-    $this->properties = array(
-      'Date Created'=>null,
-      'Date Modified'=>null,
-      'Height'=>null,
-      'Width'=>null,
-      'Size'=>null
-    );
-    if(isset($this->config['doc_root'])) $this->doc_root = $this->config['doc_root'];
-    else {
-      $this->doc_root = $_SERVER['DOCUMENT_ROOT'];
-    }
-    $this->setParams();
-    $this->availableLanguages();
-    $this->loadLanguageFile();
+  	  $this->config = $config;
+  	  $this->root = dirname(dirname(dirname(__FILE__))).DIRECTORY_SEPARATOR;
+  	  $this->properties = array(
+  	  	  'Date Created'=>null,
+  	  	  'Date Modified'=>null,
+  	  	  'Height'=>null,
+  	  	  'Width'=>null,
+  	  	  'Size'=>null
+  	  );
+  	  if (isset($this->config['doc_root'])) {
+  	  	  $this->doc_root = $this->config['doc_root'];
+  	  } else {
+  	  	  $this->doc_root = $_SERVER['DOCUMENT_ROOT'];
+  	  }
+
+  	  $this->setParams();
+  	  $this->availableLanguages();
+  	  $this->loadLanguageFile();
+  }
+  
+  public function startup() {
 
   }
-
+  
   public function error($string,$textarea=false) {
     $array = array(
 			'Error'=>$string,

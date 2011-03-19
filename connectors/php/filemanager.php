@@ -1,5 +1,6 @@
 <?php
-
+error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+ini_set('display_errors', '1');
 /**
  *	Filemanager PHP connector
  *
@@ -24,6 +25,7 @@ if (isset($config['plugin']) && !empty($config['plugin'])) {
 } else {
 	$fm = new Filemanager($config);
 }
+//$fm->startup();
 
 $response = '';
 
