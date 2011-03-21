@@ -44,10 +44,6 @@ class Filemanager {
   	  $this->loadLanguageFile();
   }
   
-  public function startup() {
-
-  }
-  
   public function error($string,$textarea=false) {
     $array = array(
 			'Error'=>$string,

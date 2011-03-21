@@ -25,7 +25,6 @@ if (isset($config['plugin']) && !empty($config['plugin'])) {
 } else {
 	$fm = new Filemanager($config);
 }
-//$fm->startup();
 
 $response = '';
 
