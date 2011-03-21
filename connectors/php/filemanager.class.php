@@ -300,7 +300,7 @@ class Filemanager {
   }
 
   private function setParams() {
-    $tmp = $_SERVER['HTTP_REFERER'];
+  	$tmp = (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/');
     $tmp = explode('?',$tmp);
     $params = array();
     if(isset($tmp[1]) && $tmp[1]!='') {
