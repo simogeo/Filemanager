@@ -127,6 +127,8 @@ var cleanString = function(str) {
 	return cleaned;
 }
 
+// nameFormat (), separate filename from extension before calling cleanString()
+// nameFormat
 var nameFormat = function(input) {
 	filename = '';
 	if(input.lastIndexOf('.') != -1) {
@@ -137,10 +139,6 @@ var nameFormat = function(input) {
 	}
 	return filename;
 }
-
-alert(nameFormat('is  sue.png'));
-alert(nameFormat('deéde.dexà _hnb.png'));
-alert(nameFormat('nopoàpy'));
 
 
 // Handle Error. Freeze interactive buttons and display
