@@ -127,6 +127,20 @@ var cleanString = function(str) {
 	return cleaned;
 }
 
+var nameFormat = function(input) {
+	filename = '';
+	if(input.lastIndexOf('.') != -1) {
+		filename  = cleanString(input.substr(0, input.lastIndexOf('.')));
+		filename += '.' + input.split('.').pop();
+	} else {
+		filename = cleanString(input);
+	}
+	return filename;
+}
+
+alert(nameFormat('is  sue.png'));
+alert(nameFormat('deéde.dexà _hnb.png'));
+alert(nameFormat('nopoàpy'));
 
 
 // Handle Error. Freeze interactive buttons and display
@@ -173,9 +187,9 @@ var setUploader = function(path){
 			var fname = m.children('#fname').val();		
 
 			if(fname != ''){
-				foldername = fname;
+				foldername = cleanString(fname);
 
-				$.getJSON(fileConnector + '?mode=addfolder&path=' + $('#currentpath').val() + '&name=' + cleanString(foldername), function(result){
+				$.getJSON(fileConnector + '?mode=addfolder&path=' + $('#currentpath').val() + '&name=' + foldername, function(result){
 					if(result['Code'] == 0){
 						addFolder(result['Parent'], result['Name']);
 						getFolderInfo(result['Parent']);
@@ -318,7 +332,7 @@ var renameItem = function(data){
 		rname = m.children('#rname').val();
 		
 		if(rname != ''){
-			var givenName = rname;	
+			var givenName = nameFormat(rname);	
 			var oldPath = data['Path'];	
 			var connectString = fileConnector + '?mode=rename&old=' + data['Path'] + '&new=' + givenName;
 		
