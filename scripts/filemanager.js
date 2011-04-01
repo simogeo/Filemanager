@@ -431,7 +431,7 @@ var addNode = function(path, name){
 	var ext = name.substr(name.lastIndexOf('.') + 1);
 	var thisNode = $('#filetree').find('a[rel="' + path + '"]');
 	var parentNode = thisNode.parent();
-	var newNode = '<li class="file ext_' + ext + '"><a rel="' + path + name + '/" href="#">' + name + '/</a></li>';
+	var newNode = '<li class="file ext_' + ext + '"><a rel="' + path + name + '" href="#">' + name + '</a></li>';
 	
 	if(!parentNode.find('ul').size()) parentNode.append('<ul></ul>');		
 	parentNode.find('ul').prepend(newNode);
