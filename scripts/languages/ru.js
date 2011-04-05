@@ -1,11 +1,3 @@
-/**
- * script: ru.js
- *
- * description: Russian locale for filemanager.
- *
- * author: Constantine Zykov <c.zykov@gmail.com>
- *
- */
 {
     "AUTHORIZATION_REQUIRED": "У вас не хватает прав для работы с менеджером файлов.", 
     "INVALID_ACTION": "Неверное действие.",
