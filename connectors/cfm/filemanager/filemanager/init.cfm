@@ -17,15 +17,14 @@
 		
 		variables.class.config = arguments.config;
 		variables.class.language = $loadLanguage(language=arguments.config.language);
-		variables.class.properties = {
-			  "Date Created" = JavaCast("null", 0)
-			, "Date Modified" = JavaCast("null", 0)
-			, "Height" = JavaCast("null", 0)
-			, "Width" = JavaCast("null", 0)
-			, "Size" = JavaCast("null", 0)
-		};
+		variables.class.properties = {};
+		variables.class.properties["Date Created"] = JavaCast("null", 0);
+		variables.class.properties["Date Modified"] = JavaCast("null", 0);
+		variables.class.properties["Height"] = JavaCast("null", 0);
+		variables.class.properties["Width"] = JavaCast("null", 0);
+		variables.class.properties["Size"] = JavaCast("null", 0);
 		
-		variables.class.plugins = [];
+		variables.class.plugins = {};
 		
 		for (loc.i = 1; loc.i lte ArrayLen(arguments.config.plugins); loc.i++)
 			variables.class.plugins[loc.i] = $createObjectFromRoot("plugins",  arguments.config.plugins[loc.i], "init");

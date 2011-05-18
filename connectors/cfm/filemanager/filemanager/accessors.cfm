@@ -21,7 +21,7 @@
 	<cfreturn Duplicate(variables.class.properties) />
 </cffunction>
 
-<cffunction name="$getPlugins" access="private" output="false" returntype="array">
+<cffunction name="$getPlugins" access="private" output="false" returntype="struct">
 	<cfreturn Duplicate(variables.class.plugins) />
 </cffunction>
 
