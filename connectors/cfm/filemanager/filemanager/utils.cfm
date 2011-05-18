@@ -34,9 +34,8 @@
 	<cfargument name="path" type="string" required="true" />
 	<cfscript>
 		var loc = {};
-		loc.properties = {
-			  "Date Created" = ""
-		};
+		loc.properties = {};
+		loc.properties["Date Created"] = "";
 		
 		loc.info = GetFileInfo(arguments.path);
 		
@@ -73,7 +72,7 @@
 			if (ListFindNoCase(loc.defaultImages, loc.extension))
 				return loc.config.icons.path & loc.extension & ".png";
 		}
-		
+
 		if (FileExists(loc.fileLocation) && !arguments.thumbs)
 			return "connectors/cfm/filemanager.cfm?mode=preview&path=" & arguments.path;
 		
@@ -107,4 +106,26 @@
 		
 	</cfscript>
 	<cfreturn arguments.string />
+</cffunction>
+
+<cffunction name="$convertPath" access="private" output="false" returntype="string">
+	<cfargument name="path" type="string" required="true">
+	<cfreturn Replace(arguments.path, "\", "/", "all")>
+</cffunction>
+
+<cffunction name="$securePath" access="private" output="false" returntype="string">
+	<cfargument name="path" type="string" required="true">
+	<cfset var loc = {}>
+	<cfset loc.config = $getConfig() />
+	<cfset loc.webPath = "/#loc.config.base#">
+	<cfset arguments.path = $convertPath(arguments.path)>
+	<cfset arguments.path = ReReplaceNoCase(arguments.path, "\.+/", "", "all")>
+	
+	<cfset loc.webPathFull = $convertPath($getRoot() & loc.webPath)>
+	<cfset loc.pathFull = $convertPath($getRoot() & arguments.path)>
+	
+	<cfif left(loc.pathFull, len(loc.webPathFull)) neq loc.webPathFull>
+		<cfset arguments.path = loc.webPath>
+	</cfif>
+	<cfreturn arguments.path>
 </cffunction>
