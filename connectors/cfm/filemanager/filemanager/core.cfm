@@ -17,6 +17,18 @@
 		// check to see if the method exists
 		if (!StructKeyExists(variables, arguments.mode))
 			return error(lang("MODE_ERROR"));
+
+		// filter path to prevent tranversing outside of webroot
+		if (StructKeyExists(arguments, "path"))
+		{
+			arguments.path = $securePath(arguments.path);
+		}
+
+		if (StructKeyExists(arguments, "currentpath"))
+		{
+			arguments.currentpath = $securePath(arguments.currentpath);
+		}
+		
 		
 		// execute any before callback actions
 		loc.callBackResponse = run(type="before", argumentCollection=arguments);
@@ -154,14 +166,13 @@
 			return error(lang("INVALID_DIRECTORY_OR_FILE"));
 		}
 		
-		loc.response = {
-			  "Old Path" = Replace(loc.fileLocation, $getRoot(), "", "all")
-			, "Old Name" = ListLast(loc.fileLocation, "/")
-			, "New Path" = Replace(loc.newLocation, $getRoot(), "", "all")
-			, "New Name" = ListLast(loc.newLocation, "/")
-			, "Error" = ""
-			, "Code" = 0
-		};
+		loc.response = {};
+		loc.response["Old Path"] = Replace(loc.fileLocation, $getRoot(), "", "all");
+		loc.response["Old Name"] = ListLast(loc.fileLocation, "/");
+		loc.response["New Path"] = Replace(loc.newLocation, $getRoot(), "", "all");
+		loc.response["New Name"] = ListLast(loc.newLocation, "/");
+		loc.response["Error"] = "";
+		loc.response["Code"] = 0;
 	</cfscript>
 	<cfreturn  SerializeJSON(loc.response) />
 </cffunction>
@@ -194,12 +205,11 @@
 		{
 			return error(lang("INVALID_DIRECTORY_OR_FILE"));
 		}
-			
-		loc.response = {
-			  "Path" = arguments.path
-			, "Error" = ""
-			, "Code" = 0
-		};
+
+		loc.response = {};
+		loc.response["Path"] = arguments.path;
+		loc.response["Error"] = "";
+		loc.response["Code"] = 0;
 	</cfscript>
 	<cfreturn  SerializeJSON(loc.response) />
 </cffunction>
@@ -262,12 +272,11 @@
 		if (loc.config.images.createThumbnail && IsImageFile(loc.fileDestination))
 			execute(mode="thumbnail", path=arguments.currentPath & loc.finalFileName);
 		
-		loc.response = {
-			  "Path" = arguments.currentPath
-			, "Name" = loc.finalFileName
-			, "Error" = ""
-			, "Code" = 0
-		};
+		loc.response = {};
+		loc.response["Path"] = arguments.currentPath;
+		loc.response["Name"] = loc.finalFileName;
+		loc.response["Error"] = "";
+		loc.response["Code"] = 0;
 		
 		loc.response = "<textarea>" & SerializeJSON(loc.response) & "</textarea>";
 	</cfscript>
@@ -277,7 +286,7 @@
 <cffunction name="thumbnail" access="public" output="false" returntype="string">
 	<cfscript>
 		var loc = {};
-		
+
 		// make sure we have are arguments
 		if (!$argumentsExist("path", arguments))
 			return error(lang("INVALID_VAR"));
@@ -290,7 +299,7 @@
 		{
 			loc.newLocation = $getRoot() & loc.thumbPath;
 			loc.directory = Reverse(ListRest(Reverse(loc.newLocation), "/"));
-			
+
 			if (!DirectoryExists(loc.directory))
 				$directory(action="create", directory=loc.directory, mode=755);
 			
@@ -302,13 +311,12 @@
 			// write our image
 			ImageWrite(loc.image, loc.newLocation);
 		}
-		
-		loc.response = {
-			  "Path" = loc.thumbPath
-			, "Name" = ListLast(loc.newLocation, "/")
-			, "Error" = ""
-			, "Code" = 0
-		};
+
+		loc.response = {};
+		loc.response["Path"] = loc.thumbPath;
+		loc.response["Name"] = ListLast(loc.newLocation, "/");
+		loc.response["Error"] = "";
+		loc.response["Code"] = 0;
 	</cfscript>
 	<cfreturn  SerializeJSON(loc.response) />
 </cffunction>
@@ -322,7 +330,7 @@
 			return error(lang("INVALID_VAR"));
 		
 		loc.directory = $getRoot() & arguments.path & arguments.name;
-		
+
 		if (DirectoryExists(loc.directory))
 		{
 			return error(lang("DIRECTORY_ALREADY_EXISTS", arguments.name));
@@ -336,12 +344,11 @@
 			return error(lang("UNABLE_TO_CREATE_DIRECTORY"));
 		}
 		
-		loc.response = {
-			  "Parent" = arguments.path
-			, "Name" = UrlEncodedFormat(arguments.name, "utf-8")
-			, "Error" = ""
-			, "Code" = 0
-		};
+		loc.response = {};
+		loc.response["Parent"] = arguments.path;
+		loc.response["Name"] = UrlEncodedFormat(arguments.name, "utf-8");
+		loc.response["Error"] = "";
+		loc.response["Code"] = 0;
 	</cfscript>
 	<cfreturn  SerializeJSON(loc.response) />
 </cffunction>
@@ -359,20 +366,22 @@
 		
 		if (!DirectoryExists(loc.absolutePath) && !FileExists(loc.absolutePath))
 		{
-			loc.errorType = (Right(arguments.path, 1) == "/") ? "DIRECTORY_NOT_EXIST" : "FILE_DOES_NOT_EXIST";
+			loc.errorType =  "FILE_DOES_NOT_EXIST";
+			if (Right(arguments.path, 1) == "/"){
+				loc.errorType = "DIRECTORY_NOT_EXIST";
+			}
 			return error(lang(loc.errorType, arguments.path));
 		}
 			
-		loc.response = {
-			  "Path" = arguments.path
-			, "Filename" = ListLast(Reverse(ListRest(Reverse(arguments.path), ".")), "/")
-			, "File" = ListLast(arguments.path, "/")
-			, "File Type" = ListLast(arguments.path, ".")
-			, "Preview" = $getFilePreview(path=arguments.path)
-			, "Properties" = $getFileProperties(path=loc.absolutePath)
-			, "Error" = ""
-			, "Code" = 0
-		};
+		loc.response = {};
+		loc.response["Path"] = arguments.path;
+		loc.response["Filename"] = ListLast(Reverse(ListRest(Reverse(arguments.path), ".")), "/");
+		loc.response["File"] = ListLast(arguments.path, "/");
+		loc.response["File Type"] = ListLast(arguments.path, ".");
+		loc.response["Preview"] = $getFilePreview(path=arguments.path);
+		loc.response["Properties"] = $getFileProperties(path=loc.absolutePath);
+		loc.response["Error"] = "";
+		loc.response["Code"] = 0;
 	</cfscript>
 	<cfreturn  SerializeJSON(loc.response) />
 </cffunction>
@@ -388,52 +397,53 @@
 		loc.response = [];
 		loc.config = $getConfig();
 		loc.currentPath = $getRoot() & arguments.path;
-		
+	
 		if (!DirectoryExists(loc.currentPath))
 			return error(lang("DIRECTORY_NOT_EXIST"));
-			
+
 		try
 		{
-			loc.contents = DirectoryList(loc.currentPath, false, "query", "", "type ASC, name ASC");
+			loc.contents = $directory(action="list", directory=loc.currentPath, recurse=false, type="all", sort="type ASC, name ASC");
 		}
 		catch (Any e)
 		{
 			return error(lang("UNABLE_TO_OPEN_DIRECTORY"));
 		}
-		
+
 		for (loc.i = 1; loc.i lte loc.contents.Recordcount; loc.i++)
 		{
 			if (loc.contents.type[loc.i] == "dir" && !ListFindNoCase(loc.config.tree.exclude, loc.contents.name[loc.i]))
 			{
 				loc.relativePath = $relativePathFromRoot(loc.contents.directory[loc.i] & "/" & loc.contents.name[loc.i]) & "/";
 				
-				ArrayAppend(loc.response, {
-					  "Path" = loc.relativePath
-					, "Filename" = ListLast(loc.relativePath, "/")
-					, "File" = ListLast(loc.relativePath, "/")
-					, "File Type" = "dir"
-					, "Preview" = loc.config.icons.path & loc.config.icons.directory
-					, "Properties" = $getProperties()
-					, "Error" = ""
-					, "Code" = 0
-				});
+				loc.temp = {};
+				loc.temp["Path"] = loc.relativePath;
+				loc.temp["Filename"] = ListLast(loc.relativePath, "/");
+				loc.temp["File"] = ListLast(loc.relativePath, "/");
+				loc.temp["File Type"] = "dir";
+				loc.temp["Preview"] = loc.config.icons.path & loc.config.icons.directory;
+				loc.temp["Properties"] = $getProperties();
+				loc.temp["Error"] = "";
+				loc.temp["Code"] = 0;
+				ArrayAppend(loc.response, loc.temp);
 			}
 			else if (loc.contents.type[loc.i] == "file" && !ListFindNoCase(loc.config.tree.exclude, loc.contents.name[loc.i]))
 			{
 				loc.absolutePath = loc.contents.directory[loc.i] & "/" & loc.contents.name[loc.i];
 				loc.relativePath = $relativePathFromRoot(loc.absolutePath);
 				
-				ArrayAppend(loc.response, {
-					  "Path" = loc.relativePath
-					, "Filename" = ListLast(loc.relativePath, "/")
-					, "File Type" = ListLast(loc.relativePath, ".")
-					, "Preview" = $getFilePreview(path=loc.relativePath, thumbs=arguments.showThumbs)
-					, "Properties" = $getFileProperties(path=loc.absolutePath)
-					, "Error" = ""
-					, "Code" = 0
-				});
+				loc.temp = {};
+				loc.temp["Path"] = loc.relativePath;
+				loc.temp["Filename"] = ListLast(loc.relativePath, "/");
+				loc.temp["File Type"] = ListLast(loc.relativePath, ".");
+				loc.temp["Preview"] = $getFilePreview(path=loc.relativePath, thumbs=arguments.showThumbs);
+				loc.temp["Properties"] = $getFileProperties(path=loc.absolutePath);
+				loc.temp["Error"] = "";
+				loc.temp["Code"] = 0;
+				ArrayAppend(loc.response, loc.temp);
 			}
 		}
+
 	</cfscript>
 	<cfreturn  SerializeJSON(loc.response) />
 </cffunction>

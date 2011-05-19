@@ -13,10 +13,9 @@
 	<cfargument name="token" type="string" required="true" />
 	<cfargument name="variable" type="string" required="false" default="" />
 	<cfscript>
-		var loc = {
-			  string = "Language string error on " & arguments.token
-			, language = $getLanguage()
-		};
+		var loc = {};
+		loc.string = "Language string error on " & arguments.token;
+		loc.language = $getLanguage();
 		
 		if (StructKeyExists(loc.language, arguments.token) && loc.language[arguments.token] != "")
 			loc.string = loc.language[arguments.token];
