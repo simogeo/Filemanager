@@ -44,6 +44,7 @@
 	"yes": "Ja",
 	"no": "Nej",
 	"upload": "Upload",
+	"loading_data": "Transferring data ...",
 	"new_folder": "Ny mappe",
 	"grid_view": "Skift til gitter visning.",
 	"list_view": "Skift til liste visning.",

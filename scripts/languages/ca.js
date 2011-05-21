@@ -44,6 +44,7 @@
 	"yes": "Sí",
 	"no": "No",
 	"upload": "Pujar arxiu",
+	"loading_data": "Transferring data ...",
 	"new_folder": "Nova carpeta",
 	"grid_view": "Canviar a vista de quadricular.",
 	"list_view": "Canviar a vista de llista.",

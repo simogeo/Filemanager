@@ -43,6 +43,7 @@
 	"yes": "Tak",
 	"no": "Nie",
 	"upload": "Dodaj",
+	"loading_data": "Transferring data ...",
 	"new_folder": "Nowy folder",
 	"grid_view": "Widok siatki.",
 	"list_view": "Widok listy.",

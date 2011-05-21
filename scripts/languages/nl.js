@@ -44,6 +44,7 @@
 	"yes": "Ja",
 	"no": "Nee",
 	"upload": "Upload",
+	"loading_data": "Transferring data ...",
 	"new_folder": "Nieuwe map",
 	"grid_view": "Pictogrammen",
 	"list_view": "Lijst",

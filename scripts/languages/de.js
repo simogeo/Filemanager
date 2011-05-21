@@ -44,6 +44,7 @@
 	"yes": "Ja",
 	"no": "Nein",
 	"upload": "Hochladen",
+	"loading_data": "Transferring data ...",
 	"new_folder": "Neuer Ordner",
 	"grid_view": "Schalte um zur Gitteransicht.",
 	"list_view": "Schalte um zur Listenansicht.",

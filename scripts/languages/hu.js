@@ -44,6 +44,7 @@
 	"yes": "Igen",
 	"no": "Nem",
 	"upload": "Feltöltés",
+	"loading_data": "Transferring data ...",
 	"new_folder": "Új mappa",
 	"grid_view": "Váltás dia nézetre.",
 	"list_view": "Váltás részletes nézetre.",

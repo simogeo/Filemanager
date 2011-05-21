@@ -45,6 +45,7 @@
 "yes": "Ja",
 "no": "Nej",
 "upload": "Ladda upp",
+"loading_data": "Transferring data ...",
 "new_folder": "Ny mapp",
 "grid_view": "Byt till tabellvy.",
 "list_view": "Byt till listvy.",

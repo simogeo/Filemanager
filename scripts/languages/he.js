@@ -44,6 +44,7 @@
     "yes": "כן",
     "no": "לא",
     "upload": "העלה קובץ",
+    "loading_data": "Transferring data ...",
     "new_folder": "תיקייה חדשה",
     "grid_view": "עבור לתצוגת רשת",
     "list_view": "עבור לתצוגת רשימה",

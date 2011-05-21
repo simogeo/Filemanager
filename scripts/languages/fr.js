@@ -44,6 +44,7 @@
 	"yes": "Oui",
 	"no": "Non",
 	"upload": "Télécharger",
+	"loading_data": "Transfert en cours ...",
 	"new_folder": "Nouveau dossier",
 	"grid_view": "Affichage en mode 'miniatures'",
 	"list_view": "Affichage en mode 'liste'",

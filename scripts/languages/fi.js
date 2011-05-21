@@ -44,6 +44,7 @@
 	"yes": "Kyllä",
 	"no": "Ei",
 	"upload": "Lähetä",
+	"loading_data": "Transferring data ...",
 	"new_folder": "Uusi kansio",
 	"grid_view": "Vaihda ruudukkonäkymään.",
 	"list_view": "Vaihda listanäkymään.",

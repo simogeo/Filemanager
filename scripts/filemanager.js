@@ -871,6 +871,8 @@ $(function(){
 	$('#uploader').ajaxForm({
 		target: '#uploadresponse',
 		beforeSubmit: function(arr, form, options) {
+			$('#upload').attr('disabled', true);
+			$('#upload span').addClass('loading').text(lg.loading_data);
 			if ($.urlParam('type').toString().toLowerCase() == 'images') {
 				// Test if uploaded file extension is in valid image extensions
 				var newfileSplitted = $('#newfile', form).val().toLowerCase().split('.');
@@ -891,6 +893,8 @@ $(function(){
 			} else {
 				$.prompt(data['Error']);
 			}
+			$('#upload').removeAttr('disabled');
+			$('#upload span').removeClass('loading').text(lg.upload);
 		}
 	});
 

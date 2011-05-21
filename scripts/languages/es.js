@@ -44,6 +44,7 @@
 	"yes": "Sí",
 	"no": "No",
 	"upload": "Subir",
+	"loading_data": "Transferring data ...",
 	"new_folder": "Nueva carpeta",
 	"grid_view": "Cambiar a vista de cuadrícula.",
 	"list_view": "Cambiar a vista de lista.",

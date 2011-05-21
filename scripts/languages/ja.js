@@ -44,6 +44,7 @@
 	"yes": "はい",
 	"no": "いいえ",
 	"upload": "アップロード",
+	"loading_data": "Transferring data ...",
 	"new_folder": "新しいフォルダー",
 	"grid_view": "グリッド表示に切り替え.",
 	"list_view": "リスト表示に切り替え.",

@@ -43,6 +43,7 @@
 	"yes": "是",
 	"no": "否",
 	"upload": "上传",
+	"loading_data": "Transferring data ...",
 	"new_folder": "新建文件夹",
 	"grid_view": "切换到网格视图.",
 	"list_view": "切换到列表视图.",

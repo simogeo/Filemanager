@@ -44,6 +44,7 @@
 	"yes": "Yes",
 	"no": "No",
 	"upload": "Upload",
+	"loading_data": "Transferring data ...",
 	"new_folder": "New folder",
 	"grid_view": "Switch to grid view.",
 	"list_view": "Switch to list view.",

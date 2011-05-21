@@ -265,11 +265,13 @@ div.clip {
 }
 
 /* these apply to the contextual menus as well as the buttons */
+button {outline: none;}
 #select span, .contextMenu li.select a { background-image: url(../images/accept.png); }
 #download span, .contextMenu li.download a { background-image: url(../images/disk.png); }
 #rename span, .contextMenu li.rename a { background-image: url(../images/pencil.png); }
 #delete span, .contextMenu li.delete a { background-image: url(../images/bin_closed.png); }
 #upload span { background-image: url(../images/add.png); }
+#upload span.loading { background-image: url(../images/ajax-loader.gif);color:#555555;font-size:0.9em; }
 #parentfolder span { background-image: url(../images/parentfolder.png); }
 #newfolder span { background-image: url(../images/folder_add.png); }
 #home span { background-image: url(../images/house.png); }
@@ -334,4 +336,10 @@ button.ON {
 
 #list {
 	margin-left: 0;
+}
+#progressbar {
+	background:transparent url(../images/ajax-loader.gif) no-repeat 0 0;
+	display:inline-table;
+	width:30px;
+	height:30px;
 }

@@ -44,6 +44,7 @@
 	"yes": "Conferma",
 	"no": "Annulla",
 	"upload": "Aggiungi file",
+	"loading_data": "Transferring data ...",
 	"new_folder": "Nuova cartella",
 	"grid_view": "Visualizzazione griglia",
 	"list_view": "Visualizzazione lista",

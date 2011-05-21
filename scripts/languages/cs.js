@@ -44,6 +44,7 @@
 	"yes": "Ano",
 	"no": "Ne",
 	"upload": "Upload",
+	"loading_data": "Transferring data ...",
 	"new_folder": "Nový adresář",
 	"grid_view": "Zobrazit v mřížce.",
 	"list_view": "Zobrazit jako seznam.",

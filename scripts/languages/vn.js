@@ -44,6 +44,7 @@
     "yes": "Đồng ý",
     "no": "Không",
     "upload": "Tải lên",
+    "loading_data": "Transferring data ...",
     "new_folder": "Thư mục mới",
     "grid_view": "Chuyển sang chế độ khung lưới.",
     "list_view": "Chuyển sang chế độ liệt kê.",

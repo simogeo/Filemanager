@@ -44,6 +44,7 @@
 	"yes": "Да",
 	"no": "Нет",
 	"upload": "Загрузить",
+	"loading_data": "Transferring data ...",
 	"new_folder": "Новая папка",
 	"grid_view": "Переключиться в режим сетки",
 	"list_view": "Переключиться в режим списка",

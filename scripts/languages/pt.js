@@ -44,6 +44,7 @@
 	"yes": "Sim",
 	"no": "Não",
 	"upload": "Enviar",
+	"loading_data": "Transferring data ...",
 	"new_folder": "Nova Pasta",
 	"grid_view": "Alternar para exibição em grade.",
 	"list_view": "Alternar para exibição em lista.",
