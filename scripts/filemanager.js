@@ -57,7 +57,7 @@ var setDimensions = function(){
 }
 
 // Display Min Path
-var displayRoot = function(path){
+var displayRoot = function(path) {
 	if(showFullPath == false)
 		return path.replace(fileRoot, "/");
 	else 
@@ -400,6 +400,9 @@ var deleteItem = function(data){
 			success: function(result){
 				if(result['Code'] == 0){
 					removeNode(result['Path']);
+					var rootpath = result['Path'].substring(0, result['Path'].length-1); // removing the last slash
+					rootpath = rootpath.substr(0, rootpath.lastIndexOf('/') + 1);
+					$('#uploader h1').text(lg.current_folder + displayRoot(rootpath));
 					isDeleted = true;
 					$.prompt(lg.successful_delete);
 				} else {
