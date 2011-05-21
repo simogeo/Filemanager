@@ -57,7 +57,7 @@ var setDimensions = function(){
 }
 
 // Display Min Path
-var displayRoot = function(path) {
+var displayPath = function(path) {
 	if(showFullPath == false)
 		return path.replace(fileRoot, "/");
 	else 
@@ -174,7 +174,7 @@ var basename = function(path, suffix) {
 // whenever a new directory is selected.
 var setUploader = function(path){
 	$('#currentpath').val(path);
-	$('#uploader h1').text(lg.current_folder + displayRoot(path));
+	$('#uploader h1').text(lg.current_folder + displayPath(path));
 
 	$('#newfolder').unbind().click(function(){
 		var foldername =  lg.default_foldername;
@@ -402,7 +402,7 @@ var deleteItem = function(data){
 					removeNode(result['Path']);
 					var rootpath = result['Path'].substring(0, result['Path'].length-1); // removing the last slash
 					rootpath = rootpath.substr(0, rootpath.lastIndexOf('/') + 1);
-					$('#uploader h1').text(lg.current_folder + displayRoot(rootpath));
+					$('#uploader h1').text(lg.current_folder + displayPath(rootpath));
 					isDeleted = true;
 					$.prompt(lg.successful_delete);
 				} else {
