@@ -186,8 +186,8 @@ var setUploader = function(path){
 
 			if(fname != ''){
 				foldername = cleanString(fname);
-
-				$.getJSON(fileConnector + '?mode=addfolder&path=' + $('#currentpath').val() + '&name=' + foldername, function(result){
+				var d = new Date(); // to prevent IE cache issues
+				$.getJSON(fileConnector + '?mode=addfolder&path=' + $('#currentpath').val() + '&name=' + foldername + '&time=' + d.getMilliseconds(), function(result){
 					if(result['Code'] == 0){
 						addFolder(result['Parent'], result['Name']);
 						getFolderInfo(result['Parent']);
@@ -479,9 +479,7 @@ var removeNode = function(path){
     }
     // remove fileinfo when item to remove is currently selected
     if ($('#preview').length) {
-		$('#fileinfo').fadeOut('slow', function(){
-			$(this).empty().show();
-		});
+    	getFolderInfo(path.substr(0, path.lastIndexOf('/') + 1));
 	}
 }
 
@@ -547,7 +545,8 @@ function getContextMenuOptions(elem) {
 
 // Binds contextual menus to items in list and grid views.
 var setMenus = function(action, path){
-	$.getJSON(fileConnector + '?mode=getinfo&path=' + path, function(data){
+	var d = new Date(); // to prevent IE cache issues
+	$.getJSON(fileConnector + '?mode=getinfo&path=' + path + '&time=' + d.getMilliseconds(), function(data){
 		if($('#fileinfo').data('view') == 'grid'){
 			var item = $('#fileinfo').find('img[alt="' + data['Path'] + '"]').parent();
 		} else {
@@ -568,9 +567,7 @@ var setMenus = function(action, path){
 				break;
 				
 			case 'delete':
-				// TODO: When selected, the file is deleted and the
-				// file tree is updated, but the grid/list view is not.
-				if(deleteItem(data)) item.fadeOut('slow', function(){ $(this).remove(); });
+				deleteItem(data);
 				break;
 		}
 	});
@@ -600,7 +597,8 @@ var getFileInfo = function(file){
 	$('#parentfolder').click(function() {getFolderInfo(currentpath);});
 	
 	// Retrieve the data & populate the template.
-	$.getJSON(fileConnector + '?mode=getinfo&path=' + file, function(data){
+	var d = new Date(); // to prevent IE cache issues
+	$.getJSON(fileConnector + '?mode=getinfo&path=' + file + '&time=' + d.getMilliseconds(), function(data){
 		if(data['Code'] == 0){
 			$('#fileinfo').find('h1').text(data['Filename']).attr('title', file);
 			$('#fileinfo').find('img').attr('src',data['Preview']);
@@ -634,7 +632,8 @@ var getFolderInfo = function(path){
 	$('#fileinfo').html('<img id="activity" src="images/wait30trans.gif" width="30" height="30" />');
 
 	// Retrieve the data and generate the markup.
-	var url = fileConnector + '?path=' + path + '&mode=getfolder&showThumbs=' + showThumbs;
+	var d = new Date(); // to prevent IE cache issues
+	var url = fileConnector + '?path=' + path + '&mode=getfolder&showThumbs=' + showThumbs + '&time=' + d.getMilliseconds();
 	if ($.urlParam('type')) url += '&type=' + $.urlParam('type');
 	$.getJSON(url, function(data){
 		var result = '';
@@ -769,7 +768,8 @@ var getFolderInfo = function(path){
 // Retrieve data (file/folder listing) for jqueryFileTree and pass the data back
 // to the callback function in jqueryFileTree
 var populateFileTree = function(path, callback){
-	var url = fileConnector + '?path=' + path + '&mode=getfolder&showThumbs=' + showThumbs;
+	var d = new Date(); // to prevent IE cache issues
+	var url = fileConnector + '?path=' + path + '&mode=getfolder&showThumbs=' + showThumbs + '&time=' + d.getMilliseconds();
 	if ($.urlParam('type')) url += '&type=' + $.urlParam('type');
 	$.getJSON(url, function(data) {
 		var result = '';
@@ -881,8 +881,8 @@ $(function(){
 			}
 		},
 		success: function(result){
-			eval('var data = ' + $('#uploadresponse').find('textarea').text());
-
+			var data = jQuery.parseJSON($('#uploadresponse').find('textarea').text());
+			
 			if(data['Code'] == 0){
 				addNode(data['Path'], data['Name']);
 			} else {
