@@ -5,6 +5,9 @@
 // Set culture to display localized messages
 var culture = 'en';
 
+// Set default view mode : 'grid' or 'list'
+var defaultViewMode = 'grid';
+
 // Autoload text in GUI
 // If set to false, set values manually into the HTML file
 var autoload = true;

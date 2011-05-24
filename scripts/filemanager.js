@@ -840,7 +840,7 @@ $(function(){
 	$('button').wrapInner('<span></span>');
 
 	// Set initial view state.
-	$('#fileinfo').data('view', 'grid');
+	$('#fileinfo').data('view', defaultViewMode);
 
 	$('#home').click(function(){
 		$('#fileinfo').data('view', 'grid');
