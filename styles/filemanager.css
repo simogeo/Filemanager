@@ -15,8 +15,9 @@ body {
 #uploader {
 	display: block;
 	text-align: right;
-	height: 30px;
-	max-height: 30px;
+	height: auto;
+	min-height:30px;
+	max-height: 80px;
 	overflow: hidden;
 }
 
@@ -24,6 +25,7 @@ body {
 	display: block;
 	float: left;
 	text-align: left;
+	font-size: 0.8em;
 }
 
 #uploadresponse {
