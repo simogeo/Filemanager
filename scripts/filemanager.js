@@ -856,7 +856,8 @@ $(function(){
 	setViewButtonsFor(defaultViewMode);
 	
 	$('#home').click(function(){
-		$('#fileinfo').data('view', 'grid');
+		var currentViewMode = $('#fileinfo').data('view');
+		$('#fileinfo').data('view', currentViewMode);
 		$('#filetree>ul>li.expanded>a').trigger('click');
 		getFolderInfo(fileRoot);
 	});
