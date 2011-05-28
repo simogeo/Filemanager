@@ -853,7 +853,8 @@ $(function(){
 
 	// Set initial view state.
 	$('#fileinfo').data('view', defaultViewMode);
-
+	setViewButtonsFor(defaultViewMode);
+	
 	$('#home').click(function(){
 		$('#fileinfo').data('view', 'grid');
 		$('#filetree>ul>li.expanded>a').trigger('click');
