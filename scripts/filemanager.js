@@ -665,7 +665,7 @@ var getFolderInfo = function(path){
 				
 				for(key in data){
 					var props = data[key]['Properties'];
-					cap_classes = "";
+					var cap_classes = "";
 					for (cap in capabilities) {
 						if (has_capability(data[key], capabilities[cap])) {
 							cap_classes += " cap_" + capabilities[cap];
@@ -693,6 +693,7 @@ var getFolderInfo = function(path){
 				for(key in data){
 					var path = data[key]['Path'];
 					var props = data[key]['Properties'];
+					var cap_classes = "";
 					for (cap in capabilities) {
 						if (has_capability(data[key], capabilities[cap])) {
 							cap_classes += " cap_" + capabilities[cap];
@@ -797,7 +798,7 @@ var populateFileTree = function(path, callback){
 		if(data) {
 			result += "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
 			for(key in data) {
-				cap_classes = "";
+				var cap_classes = "";
 				for (cap in capabilities) {
 					if (has_capability(data[key], capabilities[cap])) {
 						cap_classes += " cap_" + capabilities[cap];
