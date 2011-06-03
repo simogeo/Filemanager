@@ -64,6 +64,18 @@ var displayPath = function(path) {
 		return path;
 }
 
+// Set the view buttons state
+var setViewButtonsFor = function(viewMode) {
+    if (viewMode == 'grid') {
+        $('#grid').addClass('ON');
+        $('#list').removeClass('ON');
+    }
+    else {
+        $('#list').addClass('ON');
+        $('#grid').removeClass('ON');
+    }
+}
+
 // Test if a given url exists
 function file_exists (url) {
     // http://kevin.vanzonneveld.net
@@ -653,7 +665,7 @@ var getFolderInfo = function(path){
 				
 				for(key in data){
 					var props = data[key]['Properties'];
-					cap_classes = "";
+					var cap_classes = "";
 					for (cap in capabilities) {
 						if (has_capability(data[key], capabilities[cap])) {
 							cap_classes += " cap_" + capabilities[cap];
@@ -681,6 +693,7 @@ var getFolderInfo = function(path){
 				for(key in data){
 					var path = data[key]['Path'];
 					var props = data[key]['Properties'];
+					var cap_classes = "";
 					for (cap in capabilities) {
 						if (has_capability(data[key], capabilities[cap])) {
 							cap_classes += " cap_" + capabilities[cap];
@@ -785,7 +798,7 @@ var populateFileTree = function(path, callback){
 		if(data) {
 			result += "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
 			for(key in data) {
-				cap_classes = "";
+				var cap_classes = "";
 				for (cap in capabilities) {
 					if (has_capability(data[key], capabilities[cap])) {
 						cap_classes += " cap_" + capabilities[cap];
@@ -841,24 +854,24 @@ $(function(){
 
 	// Set initial view state.
 	$('#fileinfo').data('view', defaultViewMode);
-
+	setViewButtonsFor(defaultViewMode);
+	
 	$('#home').click(function(){
-		$('#fileinfo').data('view', 'grid');
+		var currentViewMode = $('#fileinfo').data('view');
+		$('#fileinfo').data('view', currentViewMode);
 		$('#filetree>ul>li.expanded>a').trigger('click');
 		getFolderInfo(fileRoot);
 	});
 
 	// Set buttons to switch between grid and list views.
 	$('#grid').click(function(){
-		$(this).addClass('ON');
-		$('#list').removeClass('ON');
+		setViewButtonsFor('grid');
 		$('#fileinfo').data('view', 'grid');
 		getFolderInfo($('#currentpath').val());
 	});
 	
 	$('#list').click(function(){
-		$(this).addClass('ON');
-		$('#grid').removeClass('ON');
+		setViewButtonsFor('list');
 		$('#fileinfo').data('view', 'list');
 		getFolderInfo($('#currentpath').val());
 	});
