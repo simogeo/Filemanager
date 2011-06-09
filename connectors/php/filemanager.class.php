@@ -336,7 +336,13 @@ class Filemanager {
        
       $this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path=' . $path;
       //if(isset($get['getsize']) && $get['getsize']=='true') {
-      list($width, $height, $type, $attr) = getimagesize($this->doc_root . $path);
+      $this->item['properties']['Size'] = filesize($this->doc_root . $path);
+	  if ($this->item['properties']['Size']) {
+      	list($width, $height, $type, $attr) = getimagesize($this->doc_root . $path);
+	  } else {
+	    $this->item['properties']['Size'] = 0;
+      	list($width, $height) = array(0, 0);
+	  }
       $this->item['properties']['Height'] = $height;
       $this->item['properties']['Width'] = $width;
       $this->item['properties']['Size'] = filesize($this->doc_root . $path);
@@ -346,6 +352,7 @@ class Filemanager {
        
       $this->item['preview'] = $this->config['icons']['path'] . strtolower($this->item['filetype']) . '.png';
       $this->item['properties']['Size'] = filesize($this->doc_root . $path);
+      if (!$this->item['properties']['Size']) $this->item['properties']['Size'] = 0;
        
     }
 
