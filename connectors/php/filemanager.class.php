@@ -171,6 +171,7 @@ class Filemanager {
         }
       }
     }
+    
     return $array;
   }
 
