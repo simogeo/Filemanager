@@ -24,26 +24,26 @@ class Filemanager {
   protected $doc_root = '';
 
   public function __construct($config) {
-  	  $this->config = $config;
-  	  $this->root = dirname(dirname(dirname(__FILE__))).DIRECTORY_SEPARATOR;
-  	  $this->properties = array(
+    $this->config = $config;
+    $this->root = dirname(dirname(dirname(__FILE__))).DIRECTORY_SEPARATOR;
+    $this->properties = array(
   	  	  'Date Created'=>null,
   	  	  'Date Modified'=>null,
   	  	  'Height'=>null,
   	  	  'Width'=>null,
   	  	  'Size'=>null
-  	  );
-  	  if (isset($this->config['doc_root'])) {
-  	  	  $this->doc_root = $this->config['doc_root'];
-  	  } else {
-  	  	  $this->doc_root = $_SERVER['DOCUMENT_ROOT'];
-  	  }
+    );
+    if (isset($this->config['doc_root'])) {
+      $this->doc_root = $this->config['doc_root'];
+    } else {
+      $this->doc_root = $_SERVER['DOCUMENT_ROOT'];
+    }
 
-  	  $this->setParams();
-  	  $this->availableLanguages();
-  	  $this->loadLanguageFile();
+    $this->setParams();
+    $this->availableLanguages();
+    $this->loadLanguageFile();
   }
-  
+
   public function error($string,$textarea=false) {
     $array = array(
 			'Error'=>$string,
@@ -103,6 +103,8 @@ class Filemanager {
 
   public function getfolder() {
     $array = array();
+    $filesDir = array();
+
     $current_path = $this->doc_root . $this->get['path'];
     if(!is_dir($current_path)) {
       $this->error(sprintf($this->lang('DIRECTORY_NOT_EXIST'),$this->get['path']));
@@ -111,7 +113,26 @@ class Filemanager {
       $this->error(sprintf($this->lang('UNABLE_TO_OPEN_DIRECTORY'),$this->get['path']));
     } else {
       while (false !== ($file = readdir($handle))) {
-        if($file != "." && $file != ".." && is_dir($current_path . $file)) {
+        if($file != "." && $file != "..") {
+          array_push($filesDir, $file);
+        }
+      }
+      closedir($handle);
+
+      sort($filesDir); // sorting by names
+
+      // Sort files by modified time, latest to earliest
+      // Use SORT_ASC in place of SORT_DESC for earliest to latest
+      //      array_multisort(
+      //        array_map( 'filemtime', $filesDir ),
+      //        SORT_NUMERIC,
+      //        SORT_DESC,
+      //        $filesDir
+      //      );
+
+      foreach($filesDir as $file) {
+
+        if(is_dir($current_path . $file)) {
           if(!in_array($file, $this->config['unallowed_dirs'])) {
             $array[$this->get['path'] . $file .'/'] = array(
 						'Path'=> $this->get['path'] . $file .'/',
@@ -129,7 +150,7 @@ class Filemanager {
 						'Code'=>0
             );
           }
-        } else if ($file != "." && $file != ".."  && !in_array($file, $this->config['unallowed_files'])) {
+        } else if (!in_array($file, $this->config['unallowed_files'])) {
           $this->item = array();
           $this->item['properties'] = $this->properties;
           $this->get_file_info($this->get['path'] . $file);
@@ -149,7 +170,6 @@ class Filemanager {
           }
         }
       }
-      closedir($handle);
     }
     return $array;
   }
@@ -296,7 +316,7 @@ class Filemanager {
   }
 
   private function setParams() {
-  	$tmp = (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/');
+    $tmp = (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/');
     $tmp = explode('?',$tmp);
     $params = array();
     if(isset($tmp[1]) && $tmp[1]!='') {
@@ -337,12 +357,12 @@ class Filemanager {
       $this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path=' . $path;
       //if(isset($get['getsize']) && $get['getsize']=='true') {
       $this->item['properties']['Size'] = filesize($this->doc_root . $path);
-	  if ($this->item['properties']['Size']) {
-      	list($width, $height, $type, $attr) = getimagesize($this->doc_root . $path);
-	  } else {
-	    $this->item['properties']['Size'] = 0;
-      	list($width, $height) = array(0, 0);
-	  }
+      if ($this->item['properties']['Size']) {
+        list($width, $height, $type, $attr) = getimagesize($this->doc_root . $path);
+      } else {
+        $this->item['properties']['Size'] = 0;
+        list($width, $height) = array(0, 0);
+      }
       $this->item['properties']['Height'] = $height;
       $this->item['properties']['Width'] = $width;
       $this->item['properties']['Size'] = filesize($this->doc_root . $path);
