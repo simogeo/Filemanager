@@ -87,7 +87,6 @@ class Filemanager {
     $this->item = array();
     $this->item['properties'] = $this->properties;
     $this->get_file_info();
-    $full_path = $this->doc_root .$this->get['path'];
 
     $array = array(
 			'Path'=> $this->get['path'],
@@ -105,7 +104,7 @@ class Filemanager {
     $array = array();
     $filesDir = array();
 
-    $current_path = $this->doc_root . $this->get['path'];
+    $current_path = $this->doc_root . rawurldecode($this->get['path']);
     if(!is_dir($current_path)) {
       $this->error(sprintf($this->lang('DIRECTORY_NOT_EXIST'),$this->get['path']));
     }
@@ -217,16 +216,16 @@ class Filemanager {
 
   public function delete() {
 
-    if(is_dir($this->doc_root . $this->get['path'])) {
-      $this->unlinkRecursive($this->doc_root . $this->get['path']);
+    if(is_dir($this->doc_root . rawurldecode($this->get['path']))) {
+      $this->unlinkRecursive($this->doc_root . rawurldecode($this->get['path']));
       $array = array(
 				'Error'=>"",
 				'Code'=>0,
 				'Path'=>$this->get['path']
       );
       return $array;
-    } else if(file_exists($this->doc_root . $this->get['path'])) {
-      unlink($this->doc_root . $this->get['path']);
+    } else if(file_exists($this->doc_root . rawurldecode($this->get['path']))) {
+      unlink($this->doc_root . rawurldecode($this->get['path']));
       $array = array(
 				'Error'=>"",
 				'Code'=>0,
@@ -337,7 +336,7 @@ class Filemanager {
 
   private function get_file_info($path='',$return=array()) {
     if($path=='') {
-      $path = $this->get['path'];
+      $path = rawurldecode($this->get['path']);
     }
     $tmp = explode('/',$path);
     $this->item['filename'] = $tmp[(sizeof($tmp)-1)];
