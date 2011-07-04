@@ -402,7 +402,7 @@ var deleteItem = function(data){
 	
 	var doDelete = function(v, m){
 		if(v != 1) return false;	
-		var connectString = fileConnector + '?mode=delete&path=' + data['Path'];
+		var connectString = fileConnector + '?mode=delete&path=' + encodeURIComponent(data['Path']);
 	
 		$.ajax({
 			type: 'GET',
@@ -613,7 +613,7 @@ var getFileInfo = function(file){
 	
 	// Retrieve the data & populate the template.
 	var d = new Date(); // to prevent IE cache issues
-	$.getJSON(fileConnector + '?mode=getinfo&path=' + file + '&time=' + d.getMilliseconds(), function(data){
+	$.getJSON(fileConnector + '?mode=getinfo&path=' + encodeURIComponent(file) + '&time=' + d.getMilliseconds(), function(data){
 		if(data['Code'] == 0){
 			$('#fileinfo').find('h1').text(data['Filename']).attr('title', file);
 			$('#fileinfo').find('img').attr('src',data['Preview']);
@@ -647,7 +647,7 @@ var getFolderInfo = function(path){
 
 	// Retrieve the data and generate the markup.
 	var d = new Date(); // to prevent IE cache issues
-	var url = fileConnector + '?path=' + path + '&mode=getfolder&showThumbs=' + showThumbs + '&time=' + d.getMilliseconds();
+	var url = fileConnector + '?path=' + encodeURIComponent(path) + '&mode=getfolder&showThumbs=' + showThumbs + '&time=' + d.getMilliseconds();
 	if ($.urlParam('type')) url += '&type=' + $.urlParam('type');
 	$.getJSON(url, function(data){
 		var result = '';
@@ -784,7 +784,7 @@ var getFolderInfo = function(path){
 // to the callback function in jqueryFileTree
 var populateFileTree = function(path, callback){
 	var d = new Date(); // to prevent IE cache issues
-	var url = fileConnector + '?path=' + path + '&mode=getfolder&showThumbs=' + showThumbs + '&time=' + d.getMilliseconds();
+	var url = fileConnector + '?path=' + encodeURIComponent(path) + '&mode=getfolder&showThumbs=' + showThumbs + '&time=' + d.getMilliseconds();
 	if ($.urlParam('type')) url += '&type=' + $.urlParam('type');
 	$.getJSON(url, function(data) {
 		var result = '';
