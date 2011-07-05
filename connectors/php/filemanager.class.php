@@ -289,29 +289,29 @@ class Filemanager {
 
   public function download() {
 
-    if(isset($this->get['path']) && file_exists($this->doc_root .$this->get['path'])) {
+    if(isset($this->get['path']) && file_exists($this->doc_root .rawurldecode($this->get['path']))) {
       header("Content-type: application/force-download");
-      header('Content-Disposition: inline; filename="' . basename($this->get['path']) . '"');
+      header('Content-Disposition: inline; filename="' . basename(rawurldecode($this->get['path'])) . '"');
       header("Content-Transfer-Encoding: Binary");
-      header("Content-length: ".filesize($this->doc_root . $this->get['path']));
+      header("Content-length: ".filesize($this->doc_root . rawurldecode($this->get['path'])));
       header('Content-Type: application/octet-stream');
-      header('Content-Disposition: attachment; filename="' . basename($this->get['path']) . '"');
+      header('Content-Disposition: attachment; filename="' . basename(rawurldecode($this->get['path'])) . '"');
       readfile($this->doc_root . $this->get['path']);
     } else {
-      $this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),$this->get['path']));
+      $this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),rawurldecode($this->get['path'])));
     }
   }
 
   public function preview() {
 
-    if(isset($this->get['path']) && file_exists($this->doc_root . $this->get['path'])) {
-      header("Content-type: image/" .$ext = pathinfo($this->get['path'], PATHINFO_EXTENSION));
+    if(isset($this->get['path']) && file_exists($this->doc_root . rawurldecode($this->get['path']))) {
+      header("Content-type: image/" .$ext = pathinfo(rawurldecode($this->get['path']), PATHINFO_EXTENSION));
       header("Content-Transfer-Encoding: Binary");
-      header("Content-length: ".filesize($this->doc_root . $this->get['path']));
-      header('Content-Disposition: inline; filename="' . basename($this->get['path']) . '"');
-      readfile($this->doc_root . $this->get['path']);
+      header("Content-length: ".filesize($this->doc_root . rawurldecode($this->get['path'])));
+      header('Content-Disposition: inline; filename="' . basename(rawurldecode($this->get['path'])) . '"');
+      readfile($this->doc_root . rawurldecode($this->get['path']));
     } else {
-      $this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),$this->get['path']));
+      $this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),rawurldecode($this->get['path'])));
     }
   }
 
@@ -354,7 +354,7 @@ class Filemanager {
        
     } else if(in_array(strtolower($this->item['filetype']),$this->config['images'])) {
        
-      $this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path=' . $path;
+      $this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path=' . rawurlencode($path);
       //if(isset($get['getsize']) && $get['getsize']=='true') {
       $this->item['properties']['Size'] = filesize($this->doc_root . $path);
       if ($this->item['properties']['Size']) {

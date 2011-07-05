@@ -256,7 +256,7 @@ var bindToolbar = function(data){
 		$('#fileinfo').find('button#download').hide();
 	} else {
 		$('#fileinfo').find('button#download').click(function(){
-			window.location = fileConnector + '?mode=download&path=' + data['Path'];
+			window.location = fileConnector + '?mode=download&path=' + encodeURIComponent(data['Path']);
 		}).show();
 	}
 }
