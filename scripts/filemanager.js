@@ -907,6 +907,9 @@ $(function(){
 			}
 			$('#upload').removeAttr('disabled');
 			$('#upload span').removeClass('loading').text(lg.upload);
+			
+			// clear data in browse input
+                	$("#newfile").replaceWith('<input id="newfile" type="file" name="newfile">');
 		}
 	});
 
