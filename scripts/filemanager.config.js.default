@@ -26,6 +26,9 @@ var am = document.location.pathname.substring(1, document.location.pathname
 // Set this to the directory you wish to manage.
 var fileRoot = '/' + am + 'userfiles/';
 
+// Path to the managed directory on the HTTP server
+var relPath = '';
+
 // Show image previews in grid views?
 var showThumbs = true;
 
