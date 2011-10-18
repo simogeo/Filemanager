@@ -1,3 +1,5 @@
+#Filemanager![project status](http://stillmaintained.com/simogeo/Filemanager.png)#
+
 Installation and Setup
 ----------------------
 
