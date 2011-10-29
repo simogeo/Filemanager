@@ -291,7 +291,7 @@ var formatBytes = function(bytes){
 // contextual menu option in list views. 
 // NOTE: closes the window when finished.
 var selectItem = function(data){
-    var url = relPath+data['Path'];
+    var url = relPath + data['Path'];
     
 	if(window.opener){
 	 	if(window.tinyMCEPopup){
@@ -316,7 +316,7 @@ var selectItem = function(data){
 		} else {
 			// use FCKEditor 2.0 integration method
 			if(data['Properties']['Width'] != ''){
-				var p = data['Path'];
+				var p = url;
 				var w = data['Properties']['Width'];
 				var h = data['Properties']['Height'];			
 				window.opener.SetUrl(p,w,h);
