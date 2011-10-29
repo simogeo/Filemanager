@@ -291,11 +291,13 @@ var formatBytes = function(bytes){
 // contextual menu option in list views. 
 // NOTE: closes the window when finished.
 var selectItem = function(data){
+    var url = relPath+data['Path'];
+    
 	if(window.opener){
 	 	if(window.tinyMCEPopup){
         	// use TinyMCE > 3.0 integration method
             var win = tinyMCEPopup.getWindowArg("window");
-			win.document.getElementById(tinyMCEPopup.getWindowArg("input")).value = data['Path'];
+			win.document.getElementById(tinyMCEPopup.getWindowArg("input")).value = url;
             if (typeof(win.ImageDialog) != "undefined") {
 				// Update image dimensions
             	if (win.ImageDialog.getImageData)
@@ -303,14 +305,14 @@ var selectItem = function(data){
 
                 // Preview if necessary
                 if (win.ImageDialog.showPreviewImage)
-					win.ImageDialog.showPreviewImage(data['Path']);
+					win.ImageDialog.showPreviewImage(url);
 			}
 			tinyMCEPopup.close();
 			return;
 		}
 		if($.urlParam('CKEditor')){
 			// use CKEditor 3.0 integration method
-			window.opener.CKEDITOR.tools.callFunction($.urlParam('CKEditorFuncNum'), data['Path']);
+			window.opener.CKEDITOR.tools.callFunction($.urlParam('CKEditorFuncNum'), url);
 		} else {
 			// use FCKEditor 2.0 integration method
 			if(data['Properties']['Width'] != ''){
@@ -319,7 +321,7 @@ var selectItem = function(data){
 				var h = data['Properties']['Height'];			
 				window.opener.SetUrl(p,w,h);
 			} else {
-				window.opener.SetUrl(data['Path']);
+				window.opener.SetUrl(url);
 			}		
 		}
 
