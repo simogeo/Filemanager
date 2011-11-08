@@ -827,6 +827,11 @@ var populateFileTree = function(path, callback){
 ---------------------------------------------------------*/
 
 $(function(){
+	if($.urlParam('openfolder') != 0) {
+		openfolder = $.urlParam('openfolder');
+	} else {
+		openfolder = '';
+	}
 	// Adjust layout.
 	setDimensions();
 	$(window).resize(setDimensions);
@@ -946,7 +951,7 @@ $(function(){
 		$('.contextMenu .rename').remove();
 		$('.contextMenu .delete').remove();
 	}
-    getDetailView(fileRoot);
+    getDetailView(fileRoot + openfolder);
 });
 
 })(jQuery);
