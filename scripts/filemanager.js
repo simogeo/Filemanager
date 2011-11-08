@@ -827,10 +827,10 @@ var populateFileTree = function(path, callback){
 ---------------------------------------------------------*/
 
 $(function(){
-	if($.urlParam('openfolder') != 0) {
-		openfolder = $.urlParam('openfolder');
+	if($.urlParam('expandedFolder') != 0) {
+		expandedFolder = $.urlParam('expandedFolder');
 	} else {
-		openfolder = '';
+		expandedFolder = null;
 	}
 	// Adjust layout.
 	setDimensions();
@@ -926,6 +926,7 @@ $(function(){
 		datafunc: populateFileTree,
 		multiFolder: false,
 		folderCallback: function(path){ getFolderInfo(path); },
+		expandedFolder: fileRoot + expandedFolder,
 		after: function(data){
 			$('#filetree').find('li a').each(function() {
 				$(this).contextMenu(
@@ -951,7 +952,7 @@ $(function(){
 		$('.contextMenu .rename').remove();
 		$('.contextMenu .delete').remove();
 	}
-    getDetailView(fileRoot + openfolder);
+    getDetailView(fileRoot + expandedFolder);
 });
 
 })(jQuery);

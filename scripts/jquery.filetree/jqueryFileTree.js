@@ -21,7 +21,7 @@
 //           loadMessage    - Message to display while initial tree loads (can be HTML)
 //
 // History:
-//
+// 1.03 (patched by simo for Filemanager) - add an expandedFolder option to open desired folder when init
 // 1.02 (patched by Filemanager) - add a datafunc option to get data through a function instead of a script
 // 1.01 - updated to work with foreign characters in directory/file names (12 April 2008)
 // 1.00 - released (24 March 2008)
@@ -49,6 +49,7 @@ if(jQuery) (function($){
 			if( o.loadMessage == undefined ) o.loadMessage = 'Loading...';
 			if( o.folderCallback == undefined ) o.folderCallback = null;
 			if( o.after == undefined ) o.after = null;
+			if(o.expandedFolder == undefined) o.expandedFolder = '';
 			
 			$(this).each( function() {
 				
@@ -59,6 +60,17 @@ if(jQuery) (function($){
 						if( o.root == t ) $(c).find('UL:hidden').show();
 						else $(c).find('UL:hidden').slideDown({ duration: o.expandSpeed, easing: o.expandEasing });
 						bindTree(c);
+						if (o.expandedFolder != null) {
+						    $(c).find(".directory.collapsed").each(function (i,f) {
+						       if ((o.expandedFolder).match($(f).children().attr('rel'))) {
+						            showTree($(f), escape($(f).children().attr('rel').match(/.*\//)));
+						            $(f).removeClass('collapsed').addClass('expanded');
+						        };
+
+						    });
+						}
+
+
 						o.after(data);
 					}
 					$(c).addClass('wait');
