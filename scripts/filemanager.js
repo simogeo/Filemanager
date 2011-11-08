@@ -829,8 +829,9 @@ var populateFileTree = function(path, callback){
 $(function(){
 	if($.urlParam('expandedFolder') != 0) {
 		expandedFolder = $.urlParam('expandedFolder');
+		fullexpandedFolder = fileRoot + expandedFolder;
 	} else {
-		expandedFolder = null;
+		fullexpandedFolder = null;
 	}
 	// Adjust layout.
 	setDimensions();
@@ -926,7 +927,7 @@ $(function(){
 		datafunc: populateFileTree,
 		multiFolder: false,
 		folderCallback: function(path){ getFolderInfo(path); },
-		expandedFolder: fileRoot + expandedFolder,
+		expandedFolder: fullexpandedFolder,
 		after: function(data){
 			$('#filetree').find('li a').each(function() {
 				$(this).contextMenu(
