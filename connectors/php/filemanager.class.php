@@ -258,6 +258,7 @@ class Filemanager {
       $_FILES['newfile']['name'] = $this->checkFilename($this->doc_root . $this->post['currentpath'],$_FILES['newfile']['name']);
     }
     move_uploaded_file($_FILES['newfile']['tmp_name'], $this->doc_root . $this->post['currentpath'] . $_FILES['newfile']['name']);
+    chmod($this->doc_root . $this->post['currentpath'] . $_FILES['newfile']['name'], 0644);
 
     $response = array(
 			'Path'=>$this->post['currentpath'],
