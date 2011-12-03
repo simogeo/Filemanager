@@ -831,6 +831,7 @@ $(function(){
 		expandedFolder = $.urlParam('expandedFolder');
 		fullexpandedFolder = fileRoot + expandedFolder;
 	} else {
+		expandedFolder = '';
 		fullexpandedFolder = null;
 	}
 	// Adjust layout.
