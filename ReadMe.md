@@ -14,7 +14,7 @@ You can place the FileManager anywhere within your web serving root directory.
 (2) Make a copy of the default configuration file ("filemanager.config.js.default" located in the scripts directory), removing the '.default' from the end of the filename, and edit the options according to the comments in the file.
 
 (3) Find the default configuration file for the connector you chose in Step 2 above, and follow the same procedure to configure the connector. For instance, the default configuration file for the PHP connector is located here:
-    Currently, PHP and JSP connectors are available for Filemanager, but we are waiting for you contributions
+    Currently, PHP, ASHX, ASP, CFM, lasso and JSP connectors are available for Filemanager, but we are waiting for you contributions
     
 [Path to FileManager]/connectors/php/filemanager.config.inc.default
 
@@ -52,12 +52,13 @@ You can create a connector for your server side language of choice by following 
 
 	[path to FileManager]/connectors/[language extension]/filemanager.[language extension]
 
-FileManager currently includes connectors for PHP, JSP, lasso, ASP and CFM in the following locations:
+FileManager currently includes connectors for PHP, JSP, lasso, ASP, ASHX and CFM in the following locations:
 
 	PHP: .../connectors/php/filemanager.php
 	JSP: .../connectors/jsp/filemanager.jsp
 	lasso: .../connectors/lasso/filemanager.lasso
 	ASP: .../connectors/asp/filemanager.asp
+	ASHX: .../connectors/ashx/filemanager.asp
 	CFM: .../connectors/cfm/filemanager.cfm
 
 As long as a script exists at this location to respond to requests, you may split up the code (external libraries, configuration files, etc.) however you see fit.
