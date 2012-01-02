@@ -58,10 +58,16 @@ var setDimensions = function(){
 
 // Display Min Path
 var displayPath = function(path) {
-	if(showFullPath == false)
-		return path.replace(fileRoot, "/");
-	else 
-		return path;
+
+	if(showFullPath == false) {
+    // if a "displayPathDecorator" function is defined, use it to decorate path
+    return 'function' === (typeof displayPathDecorator)
+         ? displayPathDecorator(path)
+         : path.replace(fileRoot, "/");
+  } else {
+    return path;
+  }
+
 }
 
 // Set the view buttons state
@@ -203,6 +209,9 @@ var setUploader = function(path){
 					if(result['Code'] == 0){
 						addFolder(result['Parent'], result['Name']);
 						getFolderInfo(result['Parent']);
+
+                        // seems to be necessary when dealing w/ files located on s3 (need to look into a cleaner solution going forward)
+                        $('#filetree').find('a[rel="' + result['Parent'] +'/"]').click().click();
 					} else {
 						$.prompt(result['Error']);
 					}				
@@ -404,8 +413,9 @@ var deleteItem = function(data){
 	
 	var doDelete = function(v, m){
 		if(v != 1) return false;	
-		var connectString = fileConnector + '?mode=delete&path=' + encodeURIComponent(data['Path']);
-	
+		var connectString = fileConnector + '?mode=delete&path=' + encodeURIComponent(data['Path']),
+        parent        = data['Path'].split('/').reverse().slice(1).reverse().join('/') + '/';
+
 		$.ajax({
 			type: 'GET',
 			url: connectString,
@@ -419,6 +429,9 @@ var deleteItem = function(data){
 					$('#uploader h1').text(lg.current_folder + displayPath(rootpath));
 					isDeleted = true;
 					$.prompt(lg.successful_delete);
+
+                    // seems to be necessary when dealing w/ files located on s3 (need to look into a cleaner solution going forward)
+                    $('#filetree').find('a[rel="' + parent +'/"]').click().click();
 				} else {
 					isDeleted = false;
 					$.prompt(result['Error']);
@@ -911,6 +924,9 @@ $(function(){
 			
 			if(data['Code'] == 0){
 				addNode(data['Path'], data['Name']);
+
+                // seems to be necessary when dealing w/ files located on s3 (need to look into a cleaner solution going forward)
+                $('#filetree').find('a[rel="' + data['Path'] +'/"]').click().click();
 			} else {
 				$.prompt(data['Error']);
 			}
@@ -918,7 +934,7 @@ $(function(){
 			$('#upload span').removeClass('loading').text(lg.upload);
 			
 			// clear data in browse input
-                	$("#newfile").replaceWith('<input id="newfile" type="file" name="newfile">');
+      $("#newfile").replaceWith('<input id="newfile" type="file" name="newfile">');
 		}
 	});
 
