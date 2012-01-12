@@ -24,9 +24,6 @@ $.urlParam = function(name){
   Setup, Layout, and Status Functions
 ---------------------------------------------------------*/
 
-// Sets paths to connectors based on language selection.
-var fileConnector = 'connectors/' + lang + '/filemanager.' + lang;
-
 var capabilities = new Array('select', 'download', 'rename', 'delete');
 
 // Get localized messages from file 
