@@ -298,6 +298,7 @@ class Filemanager {
       header('Content-Type: application/octet-stream');
       header('Content-Disposition: attachment; filename="' . basename(rawurldecode($this->get['path'])) . '"');
       readfile($this->doc_root . $this->get['path']);
+      exit();
     } else {
       $this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),rawurldecode($this->get['path'])));
     }
@@ -311,6 +312,7 @@ class Filemanager {
       header("Content-length: ".filesize($this->doc_root . rawurldecode($this->get['path'])));
       header('Content-Disposition: inline; filename="' . basename(rawurldecode($this->get['path'])) . '"');
       readfile($this->doc_root . rawurldecode($this->get['path']));
+      exit();
     } else {
       $this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),rawurldecode($this->get['path'])));
     }
