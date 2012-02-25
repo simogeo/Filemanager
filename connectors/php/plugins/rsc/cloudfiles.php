@@ -1698,7 +1698,7 @@ class CF_Object
      */
     function _guess_content_type($handle) {
         if ($this->content_type)
-            return;
+            return true;
             
         if (function_exists("finfo_open")) {
             $local_magic = dirname(__FILE__) . "/share/magic";
