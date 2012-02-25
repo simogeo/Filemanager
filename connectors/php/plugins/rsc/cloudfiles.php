@@ -244,12 +244,10 @@ class CF_Authentication
         if(!$storage_url || !$cdnm_url)
         {
                 throw new SyntaxException("Missing Required Interface URL's!");
-                return False;
         }
         if(!$auth_token)
         {
                 throw new SyntaxException("Missing Auth Token!");
-                return False;
         }
 
         $this->storage_url = $storage_url;
@@ -1700,7 +1698,7 @@ class CF_Object
      */
     function _guess_content_type($handle) {
         if ($this->content_type)
-            return;
+            return true;
             
         if (function_exists("finfo_open")) {
             $local_magic = dirname(__FILE__) . "/share/magic";
