@@ -244,12 +244,10 @@ class CF_Authentication
         if(!$storage_url || !$cdnm_url)
         {
                 throw new SyntaxException("Missing Required Interface URL's!");
-                return False;
         }
         if(!$auth_token)
         {
                 throw new SyntaxException("Missing Auth Token!");
-                return False;
         }
 
         $this->storage_url = $storage_url;
