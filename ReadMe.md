@@ -174,6 +174,21 @@ Example Response:
 			},
 			"Error": "",
 			"Code": 0	
+		},
+		"/UserFiles/folder/":{
+			"Path":"/UserFiles/folder/",
+			"Filename":"folder",
+			"File Type":"dir",
+			"Preview":"images\/fileicons\/_Open.png",
+			"Properties": {
+				"Date Created":null,
+				"Date Modified":null,
+				"Height":null,
+				"Width":null,
+				"Size":null
+			},
+			"Error":"",
+			"Code":0
 		}		
 	}
 
