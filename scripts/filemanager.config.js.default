@@ -2,6 +2,8 @@
   Configuration
 ---------------------------------------------------------*/
 
+var urlVars = getUrlVars();
+
 // Set culture to display localized messages
 var culture = 'en';
 
@@ -21,16 +23,35 @@ var browseOnly = false;
 // Set this to the server side language you wish to use.
 var lang = 'php'; // options: php, jsp, lasso, asp, cfm, ashx, asp // we are looking for contributors for lasso, python connectors (partially developed)
 
+// Sets paths to connectors based on language selection.
+var fileConnector =  urlVars["connectorUrl"] ?  decodeURIComponent(urlVars["connectorUrl"]) : 'connectors/' + lang + '/filemanager.' + lang;
+
 var am = document.location.pathname.substring(1, document.location.pathname.lastIndexOf('/') + 1);
 
 // Set this to the directory you wish to manage.
-var fileRoot = '/' + am + 'userfiles/';
+var fileRoot = urlVars["fileRoot"] ?  decodeURIComponent(urlVars["fileRoot"]) : '/' + am + 'userfiles/';
 
 //Path to the manage directory on the HTTP server
-var relPath = window.location.protocol + '//' + document.domain;
+var relPath = urlVars["relPath"] ? decodeURIComponent(urlVars["relPath"]) : window.location.protocol + '//' + document.domain;
 
 // Show image previews in grid views?
 var showThumbs = true;
 
 // Allowed image extensions when type is 'image'
 var imagesExt = ['jpg', 'jpeg', 'gif', 'png'];
+
+// gets array of supplied URL parameters
+function getUrlVars()
+{
+	var vars = [], hash;
+	var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+	
+	for(var i = 0; i < hashes.length; i++)
+	{
+		hash = hashes[i].split('=');
+		vars.push(hash[0]);
+		vars[hash[0]] = hash[1];
+	}
+	
+	return vars;
+}
