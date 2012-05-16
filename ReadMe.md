@@ -39,7 +39,7 @@ CKEDITOR.replace('instancename', {
 
 Create a Javascript callback function that will open the FileManager index.html base page (see URL below for examples)
 Add a line like: "file_browser_callback : 'name_of_callback_function'" in the tinyMCE.init command
-See http://wiki.moxiecode.com/index.php/TinyMCE:Custom_filebrowser for more details.
+See http://www.tinymce.com/wiki.php/How-to_implement_a_custom_file_browser for more details.
 
 
 API
