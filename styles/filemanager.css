@@ -12,6 +12,9 @@ body {
 	background-color: #E2EAF3;
 }
 
+video {
+	margin:3em;
+}
 #uploader {
 	display: block;
 	text-align: right;

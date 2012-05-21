@@ -179,6 +179,14 @@ UL.jqueryFileTree A:hover {
 	background: url(images/music.png) left top no-repeat;
 }
 
+.jqueryFileTree LI.ext_ogv {
+	background: url(images/film.png) left top no-repeat;
+}
+
+.jqueryFileTree LI.ext_webm {
+	background: url(images/film.png) left top no-repeat;
+}
+
 .jqueryFileTree LI.ext_pcx {
 	background: url(images/picture.png) left top no-repeat;
 }

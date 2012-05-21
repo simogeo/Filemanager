@@ -8,8 +8,7 @@ var culture = 'en';
 // Set default view mode : 'grid' or 'list'
 var defaultViewMode = 'grid';
 
-// Autoload text in GUI
-// If set to false, set values manually into the HTML file
+// Autoload text in GUI - If set to false, set values manually into the HTML file
 var autoload = true;
 
 // Display full path - default : false
@@ -34,3 +33,10 @@ var showThumbs = true;
 
 // Allowed image extensions when type is 'image'
 var imagesExt = ['jpg', 'jpeg', 'gif', 'png'];
+
+// Videos player support
+// -----------------------------------------
+var showVideoPlayer = true;
+var videosExt = ['ogv', 'mp4', 'webm']; // Recognized videos extensions
+var videosPlayerWidth = 400; // Videos Player Width
+var videosPlayerHeight = 222; // Videos Player Height

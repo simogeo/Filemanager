@@ -187,6 +187,32 @@ var basename = function(path, suffix) {
     return b;
 }
 
+// return filename extension 
+var getExtension = function(filename) {
+
+	return filename.split('.').pop();
+}
+
+// Test if file is supported web video file
+var isVideoFile = function(filename) {
+	if($.inArray(getExtension(filename), videosExt) != -1) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+var getVideoPlayer = function(data) {
+	
+	var code  = '<video id="player" width=' + videosPlayerWidth + ' height=' + videosPlayerHeight + ' src="' + data['Path'] + '" controls>';
+		code += '<img src="' + data['Preview'] + '" />';
+		code += '</video>';
+	
+	$("#fileinfo img").remove();
+	$('#fileinfo #preview h1').before(code);
+	 
+}
+
 // Sets the folder status, upload, and new folder functions 
 // to the path specified. Called on initial page load and 
 // whenever a new directory is selected.
@@ -632,6 +658,9 @@ var getFileInfo = function(file){
 		if(data['Code'] == 0){
 			$('#fileinfo').find('h1').text(data['Filename']).attr('title', file);
 			$('#fileinfo').find('img').attr('src',data['Preview']);
+			if(isVideoFile(data['Filename']) && showVideoPlayer == true) {
+				getVideoPlayer(data);
+			}
 			
 			var properties = '';
 			
