@@ -40,3 +40,8 @@ var showVideoPlayer = true;
 var videosExt = ['ogv', 'mp4', 'webm']; // Recognized videos extensions
 var videosPlayerWidth = 400; // Videos Player Width
 var videosPlayerHeight = 222; // Videos Player Height
+
+// Audios player support
+//-----------------------------------------
+var showAudioPlayer = true;
+var audiosExt = ['ogg', 'mp3', 'wav']; // Recognized audios extensions

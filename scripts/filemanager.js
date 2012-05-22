@@ -202,11 +202,33 @@ var isVideoFile = function(filename) {
 	}
 }
 
+// Test if file is supported web audio file
+var isAudioFile = function(filename) {
+	if($.inArray(getExtension(filename), audiosExt) != -1) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+// Return HTML video player 
 var getVideoPlayer = function(data) {
 	
-	var code  = '<video id="player" width=' + videosPlayerWidth + ' height=' + videosPlayerHeight + ' src="' + data['Path'] + '" controls>';
+	var code  = '<video width=' + videosPlayerWidth + ' height=' + videosPlayerHeight + ' src="' + data['Path'] + '" controls>';
 		code += '<img src="' + data['Preview'] + '" />';
 		code += '</video>';
+	
+	$("#fileinfo img").remove();
+	$('#fileinfo #preview h1').before(code);
+	 
+}
+
+//Return HTML audio player 
+var getAudioPlayer = function(data) {
+	
+	var code  = '<audio src="' + data['Path'] + '" controls>';
+		code += '<img src="' + data['Preview'] + '" />';
+		code += '</audio>';
 	
 	$("#fileinfo img").remove();
 	$('#fileinfo #preview h1').before(code);
@@ -660,6 +682,9 @@ var getFileInfo = function(file){
 			$('#fileinfo').find('img').attr('src',data['Preview']);
 			if(isVideoFile(data['Filename']) && showVideoPlayer == true) {
 				getVideoPlayer(data);
+			}
+			if(isAudioFile(data['Filename']) && showAudioPlayer == true) {
+				getAudioPlayer(data);
 			}
 			
 			var properties = '';
