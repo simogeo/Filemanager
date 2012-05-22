@@ -12,7 +12,7 @@ body {
 	background-color: #E2EAF3;
 }
 
-video {
+video, audio {
 	margin:3em;
 }
 #uploader {

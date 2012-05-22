@@ -189,8 +189,16 @@ var basename = function(path, suffix) {
 
 // return filename extension 
 var getExtension = function(filename) {
-
 	return filename.split('.').pop();
+}
+
+// return filename without extension {
+var getFilename = function(filename) {
+	if(filename.lastIndexOf('.') != -1) {
+		return filename.substring(0, filename.lastIndexOf('.'));
+	} else {
+		return filename;
+	}
 }
 
 // Test if file is supported web video file
@@ -213,7 +221,6 @@ var isAudioFile = function(filename) {
 
 // Return HTML video player 
 var getVideoPlayer = function(data) {
-	
 	var code  = '<video width=' + videosPlayerWidth + ' height=' + videosPlayerHeight + ' src="' + data['Path'] + '" controls>';
 		code += '<img src="' + data['Preview'] + '" />';
 		code += '</video>';
@@ -225,7 +232,6 @@ var getVideoPlayer = function(data) {
 
 //Return HTML audio player 
 var getAudioPlayer = function(data) {
-	
 	var code  = '<audio src="' + data['Path'] + '" controls>';
 		code += '<img src="' + data['Preview'] + '" />';
 		code += '</audio>';
@@ -394,14 +400,14 @@ var selectItem = function(data){
 // list views.
 var renameItem = function(data){
 	var finalName = '';
-	var msg = lg.new_filename + ' : <input id="rname" name="rname" type="text" value="' + data['Filename'] + '" />';
+	var msg = lg.new_filename + ' : <input id="rname" name="rname" type="text" value="' + getFilename(data['Filename']) + '" />';
 
 	var getNewName = function(v, m){
 		if(v != 1) return false;
 		rname = m.children('#rname').val();
 		
 		if(rname != ''){
-			var givenName = nameFormat(rname);	
+			var givenName = nameFormat(rname) + '.' + getExtension(data['Filename']);	
 			var oldPath = data['Path'];	
 			var connectString = fileConnector + '?mode=rename&old=' + data['Path'] + '&new=' + givenName;
 		
