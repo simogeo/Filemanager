@@ -118,7 +118,7 @@ class Filemanager {
       }
       closedir($handle);
 
-      sort($filesDir); // sorting by names
+      natcasesort($filesDir); // sorting by names
 
       // Sort files by modified time, latest to earliest
       // Use SORT_ASC in place of SORT_DESC for earliest to latest
