@@ -335,7 +335,7 @@ public class filemanager : IHttpHandler
 
                 FileInfo fi = new FileInfo(context.Server.MapPath(context.Request["path"]));
                 
-                context.Response.AddHeader("Content-Disposition", "attachment; filename=" + context.Server.UrlPathEncode(context.Request["path"]));
+                context.Response.AddHeader("Content-Disposition", "attachment; filename=" + context.Server.UrlPathEncode(fi.Name));
                 context.Response.AddHeader("Content-Length", fi.Length.ToString());
                 context.Response.ContentType = "application/octet-stream";
                 context.Response.TransmitFile(fi.FullName);
