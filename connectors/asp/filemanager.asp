@@ -8,7 +8,7 @@
 'ADODB.Stream used to serve a file to the browser (download)
 'Dundas.Upload.2 used when uploading a file to the server
 'GflAx.GflAx used to get an image's dimensions
-'Last update 2011-01-20
+'Last update 2012-07-10
 
 
 Dim mode, userPath, FileManager
@@ -38,11 +38,11 @@ Select Case(lCase(mode))
 	Case "rename":
 		oldName = getPath("old") 'string
 		newName = Trim(Request("new")) 'string
-		
+
 		If inStr(newName,"/") > 0 Or inStr(newName,"\") > 0 Then
 			showErrorMessage("Invalid name.")
 		End If
-		
+
 		Response.Write FileManager.Rename(oldName, newName)
 
 	Case "delete":
@@ -92,8 +92,8 @@ Sub showErrorMessage(text)
 		Response.Clear
 		%>
 		{
-			Error: "<%=text%>",
-			Code: -1
+			"Error": "<%=text%>",
+			"Code": -1
 		}
 		<%
 		Response.End
