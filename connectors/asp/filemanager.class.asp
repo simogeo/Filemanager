@@ -17,7 +17,7 @@ Class cFileManager
 			Set objImage = Server.CreateObject("GflAx.GflAx")
 		End If
 	End Sub
-	
+
 	Private Sub Class_Terminate()
 		Set fs = Nothing
 		Set objStream = Nothing
@@ -31,7 +31,7 @@ Class cFileManager
 	Private Function isFolder(path)
 		isFolder = (Right(path,1) = "/")
 	End Function
-	
+
 	Private Function returnError(message)
 		ReturnError = "		{" & vbCrLf & _
 					"			Error: ""Error: " & message & """," & vbCrLf & _
@@ -48,7 +48,7 @@ Class cFileManager
 			getImageProp = True
 		End If
 	End Function
-	
+
 	Private Function isImageExt(ext)
 		For x = 0 To uBound(imgExtensions)
 			If ext = imgExtensions(x) Then
@@ -64,10 +64,10 @@ Class cFileManager
 
 		'get file type
 		fileExt = lCase(Split(file,".")(uBound(Split(file,"."))))
-		
-		strFileProp = strFileProp & "		'Path': '" & path & "'," & vbCrLf
-		strFileProp = strFileProp & "		'Filename': '" & file.Name & "'," & vbCrLf
-		strFileProp = strFileProp & "		'File Type': 'jpg'," & vbCrLf
+
+		strFileProp = strFileProp & "		""Path"": """ & path & """," & vbCrLf
+		strFileProp = strFileProp & "		""Filename"": """ & file.Name & """," & vbCrLf
+		strFileProp = strFileProp & "		""File Type"": ""jpg""," & vbCrLf
 
 		If isImageExt(fileExt) Then
 			preview = userPath & path
@@ -87,36 +87,36 @@ Class cFileManager
 			preview = ckeditorPath & "images/fileicons/" & preview & ".png"
 		End If
 
-		strFileProp = strFileProp & "		'Preview': '" & preview & "'," & vbCrLf
-		strFileProp = strFileProp & "		'Properties': {" & vbCrLf
-		strFileProp = strFileProp & "			'Date Created': null, " & vbCrLf
-		strFileProp = strFileProp & "			'Date Modified': '" & file.DateLastModified & "', " & vbCrLf
+		strFileProp = strFileProp & "		""Preview"": """ & preview & """," & vbCrLf
+		strFileProp = strFileProp & "		""Properties"": {" & vbCrLf
+		strFileProp = strFileProp & "			""Date Created"": null, " & vbCrLf
+		strFileProp = strFileProp & "			""Date Modified"": """ & file.DateLastModified & """, " & vbCrLf
 		If isImageExt(fileExt) And enableImageHandle Then
 			If getImageProp(path, width, height) Then
-				strFileProp = strFileProp & "			'Height': " & height & "," & vbCrLf
-				strFileProp = strFileProp & "			'Width': " & width & "," & vbCrLf
+				strFileProp = strFileProp & "			""Height"": " & height & "," & vbCrLf
+				strFileProp = strFileProp & "			""Width"": " & width & "," & vbCrLf
 			End If
 		End If
-		strFileProp = strFileProp & "			'Size': " & file.size & " " & vbCrLf
+		strFileProp = strFileProp & "			""Size"": " & file.size & " " & vbCrLf
 		strFileProp = strFileProp & "		}," & vbCrLf
-		strFileProp = strFileProp & "		'Error': ''," & vbCrLf
-		strFileProp = strFileProp & "		'Code': 0" & vbCrLf
+		strFileProp = strFileProp & "		""Error"": """"," & vbCrLf
+		strFileProp = strFileProp & "		""Code"": 0" & vbCrLf
 		getFileInfo = strFileProp
 	End Function
 
 	Private Function getFolderInfo(path, folder)
 		Dim strFileProp
-		strFileProp = strFileProp & "		'Path': '" & path & "'," & vbCrLf
-		strFileProp = strFileProp & "		'Filename': '" & folder.Name & "'," & vbCrLf
-		strFileProp = strFileProp & "		'File Type': 'dir'," & vbCrLf
-		strFileProp = strFileProp & "		'Preview': '" & ckeditorPath & "images/fileicons/_Close.png'," & vbCrLf
-		strFileProp = strFileProp & "		'Properties': {" & vbCrLf
-		strFileProp = strFileProp & "			'Date Created': null, " & vbCrLf
-		strFileProp = strFileProp & "			'Date Modified': '" & folder.DateLastModified & "', " & vbCrLf
-		strFileProp = strFileProp & "			'Size': " & folder.size & " " & vbCrLf
+		strFileProp = strFileProp & "		""Path"": """ & path & """," & vbCrLf
+		strFileProp = strFileProp & "		""Filename"": """ & folder.Name & """," & vbCrLf
+		strFileProp = strFileProp & "		""File Type"": ""dir""," & vbCrLf
+		strFileProp = strFileProp & "		""Preview"": """ & ckeditorPath & "images/fileicons/_Close.png""," & vbCrLf
+		strFileProp = strFileProp & "		""Properties"": {" & vbCrLf
+		strFileProp = strFileProp & "			""Date Created"": null, " & vbCrLf
+		strFileProp = strFileProp & "			""Date Modified"": """ & folder.DateLastModified & """, " & vbCrLf
+		strFileProp = strFileProp & "			""Size"": " & folder.size & " " & vbCrLf
 		strFileProp = strFileProp & "		}," & vbCrLf
-		strFileProp = strFileProp & "		'Error': ''," & vbCrLf
-		strFileProp = strFileProp & "		'Code': 0" & vbCrLf
+		strFileProp = strFileProp & "		""Error"": """"," & vbCrLf
+		strFileProp = strFileProp & "		""Code"": 0" & vbCrLf
 		getFolderInfo = strFileProp
 	End Function
 
@@ -124,7 +124,7 @@ Class cFileManager
 
 	Public Function GetInfo(path)
 		Dim file, strFileProp
-		
+
 		strFileProp = strFileProp & "{" & vbCrLf
 		On Error Resume Next
 		If isFolder(path) Then
@@ -153,16 +153,16 @@ Class cFileManager
 		Dim count
 
 '		On Error Resume Next
-	
+
 		Set folder = fs.GetFolder(Server.MapPath(userPath + path))
-		
+
 		ReDim arrFileProp(folder.subfolders.Count + folder.files.Count - 1)
 
 		count = 0
 
 		'loop folders
 		For Each item in folder.subfolders
-			arrFileProp(count) = "	'" & path & item.Name & "/': {" & vbCrLf & _
+			arrFileProp(count) = "	""" & path & item.Name & "/"": {" & vbCrLf & _
 								getFolderInfo(path & item.Name & "/", item) & _
 								"}" & vbCrLf
 			count = count + 1
@@ -170,17 +170,17 @@ Class cFileManager
 
 		'loop files
 		For Each item in folder.files
-			arrFileProp(count) = "	'" & path & item.Name & "': {" & vbCrLf  & _
+			arrFileProp(count) = "	""" & path & item.Name & """: {" & vbCrLf  & _
 								getFileInfo(path & item.name, item) & _
 								"}" & vbCrLf
 			count = count + 1
 		Next
-		
+
 		If Err.Number <> 0 Then
 			GetFolder = returnError ("Can't open folder")
 			Exit Function
 		End If
-		
+
 		On Error Goto 0
 
 		GetFolder = "{" & vbCrLf & Join(arrFileProp,",") & vbCrLf & "}"
@@ -206,10 +206,10 @@ Class cFileManager
 			On Error Goto 0
 
 			AddFolder = "		{" & vbCrLf &_
-					"			'Parent': '" & path & "'," & vbCrLf &_
-					"			'Name': '" & name & "'," & vbCrLf &_
-					"			'Error': 'No error'," & vbCrLf &_
-					"			'Code': 0" & vbCrLf &_
+					"			""Parent"": """ & path & """," & vbCrLf &_
+					"			""Name"": """ & name & """," & vbCrLf &_
+					"			""Error"": ""No error""," & vbCrLf &_
+					"			""Code"": 0" & vbCrLf &_
 					"		}" & vbCrLf
 		End If
 
@@ -238,12 +238,12 @@ Class cFileManager
 		On Error Goto 0
 
         Rename = "		{" & vbCrLf &_
-				"			'Error': 'No error'," & vbCrLf &_
-				"			'Code': 0," & vbCrLf &_
-				"			'Old Path': '" & oldName & "'," & vbCrLf &_
-				"			'Old Name': '" & originalName & "'," & vbCrLf &_
-				"			'New Path': '" & Join(arrPath,"/") & "/" & newName & "/'," & vbCrLf &_
-				"			'New Name': '" & newName & "'" & vbCrLf &_
+				"			""Error"": ""No error""," & vbCrLf &_
+				"			""Code"": 0," & vbCrLf &_
+				"			""Old Path"": """ & oldName & """," & vbCrLf &_
+				"			""Old Name"": """ & originalName & """," & vbCrLf &_
+				"			""New Path"": """ & Join(arrPath,"/") & "/" & newName & "/""," & vbCrLf &_
+				"			""New Name"": """ & newName & """" & vbCrLf &_
 				"		}" & vbCrLf
 	End Function
 
@@ -273,10 +273,10 @@ Class cFileManager
 		On Error Goto 0
 
         Add = "		{" & vbCrLf &_
-				"			'Path': '" & path & "'," & vbCrLf &_
-				"			'Name': '" & fileName & "'," & vbCrLf &_
-				"			'Error': 'No error'," & vbCrLf &_
-				"			'Code': 0" & vbCrLf &_
+				"			""Path"": """ & path & """," & vbCrLf &_
+				"			""Name"": """ & fileName & """," & vbCrLf &_
+				"			""Error"": ""No error""," & vbCrLf &_
+				"			""Code"": 0" & vbCrLf &_
 				"		}" & vbCrLf
 	End Function
 
@@ -296,13 +296,13 @@ Class cFileManager
 			Delete = returnError ("Can't remove folder or file")
 			Exit Function
 		End If
-		
+
 		On Error Goto 0
 
         Delete = "		{" & vbCrLf &_
-				"			'Error': 'No error'," & vbCrLf &_
-				"			'Code': 0," & vbCrLf &_
-				"			'Path': '" & path & "'" & vbCrLf &_
+				"			""Error"": ""No error""," & vbCrLf &_
+				"			""Code"": 0," & vbCrLf &_
+				"			""Path"": """ & path & """" & vbCrLf &_
 				"		}" & vbCrLf
 	End Function
 
@@ -318,7 +318,7 @@ Class cFileManager
 '		Response.AddHeader "Content-Length", item.Size
 		Set item = Nothing
 
-		Response.Buffer = False 
+		Response.Buffer = False
 
 		Set objStream = Server.CreateObject("ADODB.Stream")
 		objStream.Open
@@ -327,7 +327,7 @@ Class cFileManager
 		Response.BinaryWrite(objStream.Read)
 		objStream.Close
 		Response.End
-		
+
 	End Sub
 
 End Class
