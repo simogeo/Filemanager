@@ -4,6 +4,7 @@ use JSON;
 use Image::Info qw( image_info image_type);
 use File::Basename;
 use File::MimeInfo;
+use File::Find::Rule;
 use strict;
 
 our $q;
@@ -29,17 +30,21 @@ sub main {
 }
 
 #?mode=getinfo&path=/UserFiles/Image/logo.png&getsize=true
+#For now return image size info anyway
 sub getinfo {
-  return unless params_valid([qw(path getsize)]);
+  return unless params_valid([qw(path)]);
 
   my $filename = get_absolute_file_name($q->param('path'));
+
+  print_json(file_info($filename));
+}
+
+sub file_info {
+  my $filename = shift;
+
   my $info = image_info($filename);
 
-  print_json($info);
-
-  my $is_image = $info->{error} ? 0 : 1;
-
-  print_json({
+  return {
     "Path" => $filename,
     "Filename" => fileparse($filename),
     "File Type" => "png",
@@ -53,11 +58,49 @@ sub getinfo {
     },
     "Error" => "",
     "Code" => 0
-  });
+  }
 }
 
-sub getfolder {
+sub directory_info {
+  my $directory = shift;
 
+  return {
+    "Path" => $directory,
+    "Filename" =>"folder",
+    "File Type" =>"dir",
+    "Preview" =>"images\/fileicons\/_Open.png",
+    "Properties" => {
+      "Date Created" => undef,
+      "Date Modified" => undef,
+      "Height" => undef,
+      "Width" => undef,
+      "Size" => undef
+    },
+    "Error" =>"",
+    "Code" =>0      
+  }
+}
+
+# ?mode=getfolder&path=/UserFiles/Image/&getsizes=true&type=images
+#Ignoring type for now
+sub getfolder {
+  return unless params_valid([qw(path type)]);
+
+  my @directory_list = ();
+
+  my $directory = get_absolute_file_name($q->param('path'));
+  my @directories = File::Find::Rule->directory->in( $directory );
+  my @files = File::Find::Rule->file->in( $directory );
+
+  foreach my $dir (@directories) {
+    push @directory_list, directory_info($dir);
+  }
+
+  foreach my $file (@files) {
+    push @directory_list, file_info($file);
+  }
+
+  print_json(\@directory_list);
 }
 
 sub rename {
