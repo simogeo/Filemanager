@@ -11,19 +11,20 @@ our $q;
 
 #Edit this with your values in
 my $config = {
-  uploads_directory => "/tmp/uploads/",
-  url_path => "/uploads/"
+  uploads_directory => "/tmp/uploads", #Absolute path to where the root of your files are
+  url_path => "/Filemanager/userfiles" #The root that the user thinks the files are at
 };
 
 my $MODE_MAPPING = {
   '' => \&root,
   getinfo => \&getinfo,
   getfolder => \&getfolder,
+  rename => \&rename
 };
 
 sub main {
   $q = CGI->new;
-  my $method = $MODE_MAPPING->{$q->param('mode')} || 'root';
+  my $method = $MODE_MAPPING->{$q->param('mode')} || \&root;
 
   print $q->header('application/json');
   &$method;
@@ -34,27 +35,31 @@ sub main {
 sub getinfo {
   return unless params_valid([qw(path)]);
 
-  my $filename = get_absolute_file_name($q->param('path'));
+  my $filename = relative_file_name_from_url($q->param('path'));
 
   print_json(file_info($filename));
 }
 
 sub file_info {
-  my $filename = shift;
+  my $rel_filename = shift;
+  my $abs_filename = absolute_file_name_from_url($rel_filename);
+  my $url_filename = url_for_relative_filename($rel_filename);
 
-  my $info = image_info($filename);
+  my $info = image_info($abs_filename);
+  my $fileparse = fileparse($abs_filename);
+
 
   return {
-    "Path" => $filename,
-    "Filename" => fileparse($filename),
+    "Path" => $url_filename,
+    "Filename" => $fileparse,
     "File Type" => "png",
-    "Preview" => url_for_filename($filename),
+    "Preview" => $url_filename,
     "Properties" => {
       "Date Created" => '', #TODO
       "Date Modified" => '', #"02/09/2007 14:01:06", 
       "Height" => $info->{height},
       "Width" => $info->{width},
-      "Size" => -s $filename 
+      "Size" => -s $abs_filename 
     },
     "Error" => "",
     "Code" => 0
@@ -62,11 +67,17 @@ sub file_info {
 }
 
 sub directory_info {
-  my $directory = shift;
+  my $rel_filename = shift;
 
-  return {
-    "Path" => $directory,
-    "Filename" =>"folder",
+  my $filename = fileparse(absolute_file_name_from_relative($rel_filename));
+
+  print STDERR $rel_filename . "\n";  
+  print STDERR absolute_file_name_from_relative($rel_filename) . "\n";
+  print STDERR fileparse(absolute_file_name_from_relative($rel_filename)) . "\n";
+
+  return({
+    "Path" => url_for_relative_filename($rel_filename),
+    "Filename" => $filename,
     "File Type" =>"dir",
     "Preview" =>"images\/fileicons\/_Open.png",
     "Properties" => {
@@ -78,7 +89,7 @@ sub directory_info {
     },
     "Error" =>"",
     "Code" =>0      
-  }
+  })
 }
 
 # ?mode=getfolder&path=/UserFiles/Image/&getsizes=true&type=images
@@ -88,24 +99,49 @@ sub getfolder {
 
   my @directory_list = ();
 
-  my $directory = get_absolute_file_name($q->param('path'));
-  my @directories = File::Find::Rule->directory->in( $directory );
-  my @files = File::Find::Rule->file->in( $directory );
+  my $rel_directory = relative_file_name_from_url($q->param('path'));
+  my $directory = absolute_file_name_from_relative($rel_directory);
+
+  my @directories = File::Find::Rule->maxdepth(1)->directory->in( $directory );
+  my @files = File::Find::Rule->maxdepth(1)->file->in( $directory );
 
   foreach my $dir (@directories) {
-    push @directory_list, directory_info($dir);
+    my $url_filename = url_for_relative_filename(relative_file_name_from_absolute($dir));
+    next if relative_file_name_from_absolute($dir) eq "";
+    # push(@directory_list, { $url_filename => directory_info(relative_file_name_from_absolute($dir)) });
+    push(@directory_list, directory_info(relative_file_name_from_absolute($dir)));
   }
 
   foreach my $file (@files) {
-    push @directory_list, file_info($file);
+    my $url_filename = url_for_relative_filename(relative_file_name_from_absolute($file));
+    # push(@directory_list, { $url_filename => file_info(relative_file_name_from_absolute($file)) });
+    push(@directory_list, file_info(relative_file_name_from_absolute($file)) );
   }
 
   print_json(\@directory_list);
 }
 
+# ?mode=rename&old=/UserFiles/Image/logo.png&new=id.png
 sub rename {
+  return unless params_valid([qw(old new)]);
+  my $full_old = get_absolute_file_name($q->param('old'));
+  my $full_new = get_absolute_file_name($q->param('new'));
 
+  my $old_name = fileparse($full_old);
+  my $new_name = fileparse($full_new);
+
+  my $success = rename $full_old, $full_new;
+
+  print_json({
+    "Error" => $success ? "No error" : "Could not rename",
+    "Code" => !$success,
+    "Old Path" => $q->param('old'),
+    "Old Name" => $old_name,
+    "New Path" => $q->param('new'), 
+    "New Name" => $new_name
+  });
 }
+
 
 sub delete {
 
@@ -123,20 +159,49 @@ sub download {
 
 }
 
-sub get_absolute_file_name {
+#Get relative_file_name
+#Get absolute_file_name
+#Get url_for
+
+sub relative_file_name_from_url {
+  my $file = shift;
+
+  $file =~ s/$config->{url_path}//;
+  return remove_extra_slashes($file);
+}
+
+sub relative_file_name_from_absolute {
+  my $file = shift;
+  $file =~ s/$config->{uploads_directory}//;
+  return remove_extra_slashes($file);  
+}
+
+sub absolute_file_name_from_url {
   my $file_path = shift;
 
   if($file_path =~ /\.\./g) {
     error("Invalid file path");
     return undef;
   } 
-
-  return $config->{uploads_directory} . $file_path;
+  my $filename =  $config->{uploads_directory} . relative_file_name_from_url($file_path);
+  return remove_extra_slashes($filename);
 }
 
-sub url_for_filename {
+sub absolute_file_name_from_relative {
+  my $filename = $config->{uploads_directory} . "/" . shift;
+  return remove_extra_slashes($filename);  
+}
+
+sub url_for_relative_filename {
   my $filename = shift;
-  return $config->{url_path} . $filename;
+  my $url = $config->{url_path} . '/' .$filename;
+  return remove_extra_slashes($url);
+}
+
+sub remove_extra_slashes {
+  my $filename = shift;
+  $filename =~ s/\/\//\//g;
+  return $filename;  
 }
 
 sub params_valid {
@@ -162,7 +227,9 @@ sub error {
   print_json ({
     "Error" => $error,
     "Code" =>  -1    
-  })
+  });
+  $q->end_html;  
+  die "Couldn't carry on";
 }
 
 sub print_json {
