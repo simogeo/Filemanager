@@ -107,7 +107,9 @@ sub getfolder {
 
   foreach my $dir (@directories) {
     my $url_filename = url_for_relative_filename(relative_file_name_from_absolute($dir));
-    next if relative_file_name_from_absolute($dir) eq "";
+    #Skip current directory
+    next if relative_file_name_from_absolute($dir) eq $rel_directory;
+
     # push(@directory_list, { $url_filename => directory_info(relative_file_name_from_absolute($dir)) });
     push(@directory_list, directory_info(relative_file_name_from_absolute($dir)));
   }
@@ -201,6 +203,8 @@ sub url_for_relative_filename {
 sub remove_extra_slashes {
   my $filename = shift;
   $filename =~ s/\/\//\//g;
+  #Strip ending slash too
+  $filename =~ s/\/$//g;
   return $filename;  
 }
 
