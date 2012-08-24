@@ -907,6 +907,12 @@ var populateFileTree = function(path, callback){
 ---------------------------------------------------------*/
 
 $(function(){
+	if(extra_js) {
+		for(var i=0; i< extra_js.length; i++) {
+			$.getScript(extra_js[i]);
+		}
+	}
+
 	if($.urlParam('expandedFolder') != 0) {
 		expandedFolder = $.urlParam('expandedFolder');
 		fullexpandedFolder = fileRoot + expandedFolder;
