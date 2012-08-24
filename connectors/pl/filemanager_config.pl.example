@@ -1,0 +1,6 @@
+package Filemanager::Config;
+
+our $config = {
+  uploads_directory => "/tmp/uploads", #Absolute path to where the root of your files are
+  url_path => "/Filemanager/userfiles" #The root that the user thinks the files are at
+}

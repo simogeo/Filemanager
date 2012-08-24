@@ -189,6 +189,9 @@ var basename = function(path, suffix) {
 
 // return filename extension 
 var getExtension = function(filename) {
+	if(filename.split('.').length = 1) {
+		return "";
+	}
 	return filename.split('.').pop();
 }
 
@@ -356,7 +359,7 @@ var formatBytes = function(bytes){
 var selectItem = function(data){
     var url = relPath + data['Path'];
     
-	if(window.opener){
+	if(window.opener || window.tinyMCEPopup){
 	 	if(window.tinyMCEPopup){
         	// use TinyMCE > 3.0 integration method
             var win = tinyMCEPopup.getWindowArg("window");
@@ -407,7 +410,11 @@ var renameItem = function(data){
 		rname = m.children('#rname').val();
 		
 		if(rname != ''){
-			var givenName = nameFormat(rname) + '.' + getExtension(data['Filename']);	
+			var givenName = nameFormat(rname);
+			var suffix = getExtension(data['Filename']);	
+			if(suffix.length > 0) {
+				givenName = givenName + '.' + suffix;
+			}
 			var oldPath = data['Path'];	
 			var connectString = fileConnector + '?mode=rename&old=' + data['Path'] + '&new=' + givenName;
 		
@@ -670,7 +677,7 @@ var getFileInfo = function(file){
 	// Include the template.
 	var template = '<div id="preview"><img /><h1></h1><dl></dl></div>';
 	template += '<form id="toolbar">';
-	if(window.opener != null) template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
+	if(window.opener || window.tinyMCEPopup) template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
 	template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
 	if(browseOnly != true) template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
 	if(browseOnly != true) template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.del + '</button>';
@@ -900,6 +907,12 @@ var populateFileTree = function(path, callback){
 ---------------------------------------------------------*/
 
 $(function(){
+	if(extra_js) {
+		for(var i=0; i< extra_js.length; i++) {
+			$.getScript(extra_js[i]);
+		}
+	}
+
 	if($.urlParam('expandedFolder') != 0) {
 		expandedFolder = $.urlParam('expandedFolder');
 		fullexpandedFolder = fileRoot + expandedFolder;
@@ -1020,7 +1033,7 @@ $(function(){
 		getFileInfo(file);
 	});
 	// Disable select function if no window.opener
-	if(window.opener == null) $('#itemOptions a[href$="#select"]').remove();
+	if(! (window.opener || window.tinyMCEPopup) ) $('#itemOptions a[href$="#select"]').remove();
 	// Keep only browseOnly features if needed
 	if(browseOnly == true) {
 		$('#newfile').remove();
