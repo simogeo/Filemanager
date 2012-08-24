@@ -9,10 +9,8 @@ use strict;
 our $q;
 
 #Edit this with your values in
-my $config = {
-  uploads_directory => "/tmp/uploads", #Absolute path to where the root of your files are
-  url_path => "/Filemanager/userfiles" #The root that the user thinks the files are at
-};
+require 'filemanager_config.pl';
+my $config = $Filemanager::Config::config;
 
 my $MODE_MAPPING = {
   '' => \&root,
@@ -224,10 +222,6 @@ sub download {
   print @fileholder;     
 
 }
-
-#Get relative_file_name
-#Get absolute_file_name
-#Get url_for
 
 sub relative_file_name_from_url {
   my $file = shift;
