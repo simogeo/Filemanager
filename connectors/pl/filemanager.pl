@@ -20,14 +20,20 @@ my $MODE_MAPPING = {
   '' => \&root,
   getinfo => \&getinfo,
   getfolder => \&getfolder,
-  rename => \&rename
+  rename => \&rename,
+  delete => \&delete,
+  addfolder => \&addfolder,
+  add => \&add,
+  download => \&download
 };
 
 sub main {
   $q = CGI->new;
   my $method = $MODE_MAPPING->{$q->param('mode')} || \&root;
 
-  print $q->header('application/json');
+  unless($q->param('mode') eq "download") {
+    print $q->header('application/json') ;
+  }
   &$method;
 }
 
@@ -125,20 +131,66 @@ sub rename {
   });
 }
 
-
+#?mode=delete&path=/UserFiles/Image/logo.png
 sub delete {
+  return unless params_valid([qw(path)]);
+  my $full_old = absolute_file_name_from_url($q->param('path'));
+  my $success;
+  if(-d $full_old) {
+    $success = rmdir $full_old; 
+  } else {
+    $success = unlink $full_old;
+  }  
 
+  print_json({
+    "Error" => $success ? "No error" : "Could not delete",
+    "Code" => !$success,
+    "Path" => $q->param('path')
+  }); 
 }
 
+#Assuming this is the upload action? Documentation isn't much help
 sub add {
 
 }
 
+#Nice confusing path name for a folder!
+# ?mode=addfolder&path=/UserFiles/&name=new%20logo.png
 sub addfolder {
+  return unless params_valid([qw(path name)]);
 
+  my $path = $q->param('path');
+  my $name = $q->param('name');
+  my $full_path = absolute_file_name_from_url($path);
+  my $new_name = relative_file_name_from_url($name); #We don't really need to cast to absolute path, but this gives us '..' security for free
+
+  my $success = mkdir $full_path . "/" . $new_name;
+
+  print_json({
+    "Parent" => $path,
+    "Name" => $new_name,
+    "Error" => $success ? "No error" : "Could not add that folder", 
+    "Code" => !$success
+  });
 }
 
+# ?mode=download&path=/UserFiles/new%20logo.png
 sub download {
+  return unless params_valid(["path"]);
+
+  my $full_path = absolute_file_name_from_url($q->param('path'));
+  my $rel_path = relative_file_name_from_url($q->param('path'));
+  my $info = file_info($rel_path);
+
+  # print $q->redirect($q->param('path')); #Would be easier to just redirect
+
+  print $q->header(-type => 'application/x-download', -attachment => $info->{Filename});
+
+  open(DLFILE, "<$full_path") || error("couldn't open the file for sending");     
+  my @fileholder = <DLFILE>;     
+  close (DLFILE);     
+
+  print @fileholder;     
 
 }
 
@@ -148,7 +200,10 @@ sub download {
 
 sub relative_file_name_from_url {
   my $file = shift;
-
+  if($file =~ /\.\./g) {
+    error("Invalid file path");
+    return undef;
+  } 
   $file =~ s/$config->{url_path}//;
   return remove_extra_slashes($file);
 }
