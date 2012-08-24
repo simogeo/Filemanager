@@ -3,10 +3,8 @@ use CGI;
 use JSON;
 use Image::Info qw( image_info image_type);
 use File::Basename;
-use File::MimeInfo;
 use File::Find::Rule;
 use strict;
-use Data::Dumper;
 
 our $q;
 
