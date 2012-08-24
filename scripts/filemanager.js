@@ -189,6 +189,9 @@ var basename = function(path, suffix) {
 
 // return filename extension 
 var getExtension = function(filename) {
+	if(filename.split('.').length = 1) {
+		return "";
+	}
 	return filename.split('.').pop();
 }
 
@@ -407,7 +410,11 @@ var renameItem = function(data){
 		rname = m.children('#rname').val();
 		
 		if(rname != ''){
-			var givenName = nameFormat(rname) + '.' + getExtension(data['Filename']);	
+			var givenName = nameFormat(rname);
+			var suffix = getExtension(data['Filename']);	
+			if(suffix.length > 0) {
+				givenName = givenName + '.' + suffix;
+			}
 			var oldPath = data['Path'];	
 			var connectString = fileConnector + '?mode=rename&old=' + data['Path'] + '&new=' + givenName;
 		
