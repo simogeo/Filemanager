@@ -31,7 +31,7 @@ sub main {
   $q = CGI->new;
   my $method = $MODE_MAPPING->{$q->param('mode')} || \&root;
 
-  unless($q->param('mode') eq "download") {
+  unless($q->param('mode') eq "download" || $q->param('mode') eq "add") {
     print $q->header('application/json') ;
   }
   &$method;
@@ -151,6 +151,39 @@ sub delete {
 
 #Assuming this is the upload action? Documentation isn't much help
 sub add {
+  return unless params_valid([qw(currentpath newfile)]);
+
+  my $path = $q->param('currentpath');
+  my $abs_path = absolute_file_name_from_url($path);
+  my $success = 0;
+
+  my $lightweight_fh  = $q->upload('newfile');
+  my $filename = $q->param('newfile');
+  my $abs_filename = $abs_path . "/" . $filename ;
+  $filename = relative_file_name_from_absolute($abs_filename);
+
+  my $buffer;
+  # undef may be returned if it's not a valid file handle
+  if (defined $lightweight_fh) {
+    # Upgrade the handle to one compatible with IO::Handle:
+    my $io_handle = $lightweight_fh->handle;
+    open (OUTFILE,'>>',$abs_filename);
+    while (my $bytesread = $io_handle->read($buffer,1024)) {
+      print OUTFILE $buffer;
+    }
+    $success = 1;
+  }
+
+  print $q->header('text/html');
+  print "<textarea>";
+  print_json({
+    Path => $path,
+    Name => $filename,
+    Error => $success ? "No error" : "Could not upload",
+    Code => !$success
+
+  });
+  print "</textarea>";
 
 }
 
