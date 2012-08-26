@@ -189,7 +189,7 @@ var basename = function(path, suffix) {
 
 // return filename extension 
 var getExtension = function(filename) {
-	if(filename.split('.').length = 1) {
+	if(filename.split('.').length == 1) {
 		return "";
 	}
 	return filename.split('.').pop();
@@ -224,7 +224,7 @@ var isAudioFile = function(filename) {
 
 // Return HTML video player 
 var getVideoPlayer = function(data) {
-	var code  = '<video width=' + videosPlayerWidth + ' height=' + videosPlayerHeight + ' src="' + data['Path'] + '" controls>';
+	var code  = '<video width=' + videosPlayerWidth + ' height=' + videosPlayerHeight + ' src="' + data['Path'] + '" controls="controls">';
 		code += '<img src="' + data['Preview'] + '" />';
 		code += '</video>';
 	
@@ -235,7 +235,7 @@ var getVideoPlayer = function(data) {
 
 //Return HTML audio player 
 var getAudioPlayer = function(data) {
-	var code  = '<audio src="' + data['Path'] + '" controls>';
+	var code  = '<audio src="' + data['Path'] + '" controls="controls">';
 		code += '<img src="' + data['Preview'] + '" />';
 		code += '</audio>';
 	
