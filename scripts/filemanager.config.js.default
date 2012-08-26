@@ -26,7 +26,7 @@ var am = document.location.pathname.substring(1, document.location.pathname.last
 var fileRoot = '/' + am + 'userfiles/';
 
 //Path to the manage directory on the HTTP server
-var relPath = window.location.protocol + '//' + document.domain;
+var relPath = window.location.protocol + '//' + window.location.host;
 
 // Show image previews in grid views?
 var showThumbs = true;
