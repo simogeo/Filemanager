@@ -22,7 +22,7 @@ public class filemanager : IHttpHandler
     //==================== EDIT CONFIGURE HERE ==========================
     //===================================================================
 
-    public string IconDirectory = "/simogeo/images/fileicons/"; // Icon directory for filemanager. [string]
+    public string IconDirectory = "./images/fileicons/"; // Icon directory for filemanager. [string]
     public string[] imgExtensions = new string[] { ".jpg", ".png", ".jpeg", ".gif", ".bmp" }; // Only allow this image extensions. [string]
 
     //===================================================================
