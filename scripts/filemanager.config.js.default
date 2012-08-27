@@ -18,7 +18,7 @@ var showFullPath = false;
 var browseOnly = false;
 
 // Set this to the server side language you wish to use.
-var lang = 'php'; // options: php, jsp, lasso, asp, cfm, ashx, asp // we are looking for contributors for lasso, python connectors (partially developed)
+var lang = 'php'; // options: php, jsp, lasso, asp, cfm, ashx, asp, pl // we are looking for contributors for lasso, python connectors (partially developed)
 
 var am = document.location.pathname.substring(1, document.location.pathname.lastIndexOf('/') + 1);
 

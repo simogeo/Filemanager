@@ -15,9 +15,10 @@ You can place the FileManager anywhere within your web serving root directory.
 (2) Make a copy of the default configuration file ("filemanager.config.js.default" located in the scripts directory), removing the '.default' from the end of the filename, and edit the options according to the comments in the file.
 
 (3) Find the default configuration file for the connector you chose in Step 2 above, and follow the same procedure to configure the connector. For instance, the default configuration file for the PHP connector is located here:
-    Currently, PHP, ASHX, ASP, CFM, lasso and JSP connectors are available for Filemanager, but we are waiting for you contributions
+		[Path to FileManager]/connectors/php/filemanager.config.php
+		
+    Currently, PHP, ASHX, ASP, CFM, lasso, PL and JSP connectors are available for Filemanager, but we are waiting for you contributions
     
-[Path to FileManager]/connectors/php/filemanager.config.php
 
 (4a) If you are integrating the FileManager with FCKEditor, open your fckconfig.js file and find the lines which specify what file browser to use for images, links, etc. Look toward the bottom of the file. You will need to change lines such as this:
 
