@@ -989,6 +989,8 @@ $(function(){
 					}
 				}
 				$.prompt(lg.UPLOAD_IMAGES_ONLY);
+				$('#upload').removeAttr('disabled');
+				$('#upload span').removeClass('loading').text(lg.upload);
 				return false;
 			}
 		},
