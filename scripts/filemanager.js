@@ -296,9 +296,8 @@ var bindToolbar = function(data){
 	if (!has_capability(data, 'select')) {
 		$('#fileinfo').find('button#select').hide();
 	} else {
-		$('#fileinfo').find('button#select').click(function(){
-			selectItem(data);
-		}).show();
+        $('#fileinfo').find('button#select').click(function () { selectItem(data); }).show();
+        $('#preview img').click(function () { selectItem(data); }).css("cursor", "pointer");
 	}
 	
 	if (!has_capability(data, 'rename')) {
