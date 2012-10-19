@@ -49,3 +49,6 @@ var videosPlayerHeight = 222; // Videos Player Height
 //-----------------------------------------
 var showAudioPlayer = true;
 var audiosExt = ['ogg', 'mp3', 'wav']; // Recognized audios extensions
+
+// File size limit for HTML5 file size check. In MB.
+var fileSizeLimit = 30;
