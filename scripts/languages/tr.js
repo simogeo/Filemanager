@@ -13,7 +13,7 @@
 	"INVALID_DIRECTORY_OR_FILE": "Hatalı klasör veya dosya.",
 	"INVALID_FILE_UPLOAD": "Hatalı dosya yükleme işlemi.",
 	"UPLOAD_FILES_SMALLER_THAN": "Yükleyeceğiniz dosya boyutu %s boyutunu aşmamalıdır.",
-	"UPLOAD_IMAGES_ONLY": "Lütfen yalnızca resim yükleyiniz, farklı dosya tipleri desteklenmemektedir.",
+	"UPLOAD_IMAGES_ONLY": "Lütfen yalnızca resim yükleyiniz, farklı dosya türleri desteklenmemektedir.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Lütfen yalnızca JPEG, GIF ve PNG resimleri yükleyiniz.",
 	"FILE_DOES_NOT_EXIST": "%s isimli dosya bulunamadı.",
 	"LANGUAGE_FILE_NOT_FOUND": "Dil dosyası bulunamadı.",
