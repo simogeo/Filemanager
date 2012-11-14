@@ -14,7 +14,7 @@ using System.Web.Configuration;
 using System.Web.Script.Serialization;
 using System.Web.Mvc;
 
-namespace Lighthouse.Areas.FilemanagerArea.Controllers
+namespace MyProject.Areas.FilemanagerArea.Controllers
 {
     /// <summary>
     /// Filemanager controller

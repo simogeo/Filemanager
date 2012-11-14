@@ -25,7 +25,7 @@ $.urlParam = function(name){
 ---------------------------------------------------------*/
 
 // Sets paths to connectors based on language selection.
-var fileConnector = connectorPath || 'connectors/' + lang + '/filemanager.' + lang;
+var fileConnector = 'connectors/' + lang + '/filemanager.' + lang;
 
 var capabilities = new Array('select', 'download', 'rename', 'delete');
 
