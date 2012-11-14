@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "Seules des images peuvent être transférées (les autres types de fichiers ne sont pas supportés).",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Les images doivent être aux formats : jpg, gif ou png.",
 	"FILE_DOES_NOT_EXIST": "Le fichier %s n'existe pas.",
+	"file_too_big": "Le fichier est trop volumineux.",
+	"file_size_limit": "La taille limite du fichier est : ",
 	"LANGUAGE_FILE_NOT_FOUND": "Fichier de langue introuvable.",
 	"default_foldername": "Mon dossier",
 	"prompt_foldername": "Entrer le nom du nouveau dossier",

@@ -995,7 +995,7 @@ $(function(){
 				// Check file size using html5 FileReader API
 				var size = $('#newfile', form).get(0).files[0].size;
 				if (size > fileSizeLimit * 1024 * 1024) {
-					$.prompt("<p>The file is too big.</p><p>The file size limit is " + fileSizeLimit + "mb.</p>");
+					$.prompt("<p>" + lg.file_too_big + "</p><p>" + lg.file_size_limit + fileSizeLimit + " " + lg.mb + ".</p>");
 					$('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
 					return false;
 				}

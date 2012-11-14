@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "Please upload only images, no other files are supported.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Please upload only images of type JPEG, GIF or PNG.",
 	"FILE_DOES_NOT_EXIST": "The file %s does not exist.",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "Language file not found.",
 	"default_foldername": "My folder",
 	"prompt_foldername": "Enter the name of the new folder",
