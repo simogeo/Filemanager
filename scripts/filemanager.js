@@ -296,9 +296,8 @@ var bindToolbar = function(data){
 	if (!has_capability(data, 'select')) {
 		$('#fileinfo').find('button#select').hide();
 	} else {
-		$('#fileinfo').find('button#select').click(function(){
-			selectItem(data);
-		}).show();
+        $('#fileinfo').find('button#select').click(function () { selectItem(data); }).show();
+        $('#preview img').click(function () { selectItem(data); }).css("cursor", "pointer");
 	}
 	
 	if (!has_capability(data, 'rename')) {
@@ -977,37 +976,50 @@ $(function(){
 
 	$('#uploader').ajaxForm({
 		target: '#uploadresponse',
-		beforeSubmit: function(arr, form, options) {
+		beforeSubmit: function (arr, form, options) {
 			$('#upload').attr('disabled', true);
 			$('#upload span').addClass('loading').text(lg.loading_data);
 			if ($.urlParam('type').toString().toLowerCase() == 'images') {
 				// Test if uploaded file extension is in valid image extensions
 				var newfileSplitted = $('#newfile', form).val().toLowerCase().split('.');
 				for (key in imagesExt) {
-					if (imagesExt[key] == newfileSplitted[newfileSplitted.length-1]) {
+					if (imagesExt[key] == newfileSplitted[newfileSplitted.length - 1]) {
 						return true;
 					}
 				}
 				$.prompt(lg.UPLOAD_IMAGES_ONLY);
+				$('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
 				return false;
 			}
+			if (typeof FileReader !== "undefined" && typeof fileSizeLimit !== "undefined") {
+				// Check file size using html5 FileReader API
+				var size = $('#newfile', form).get(0).files[0].size;
+				if (size > fileSizeLimit * 1024 * 1024) {
+					$.prompt("<p>The file is too big.</p><p>The file size limit is " + fileSizeLimit + "mb.</p>");
+					$('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
+					return false;
+				}
+			}
 		},
-		success: function(result){
+		error: function (jqXHR, textStatus, errorThrown) {
+			$('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
+			$.prompt("Error uploading file");
+		},
+		success: function (result) {
 			var data = jQuery.parseJSON($('#uploadresponse').find('textarea').text());
-			
-			if(data['Code'] == 0){
+			if (data['Code'] == 0) {
 				addNode(data['Path'], data['Name']);
 
-                // seems to be necessary when dealing w/ files located on s3 (need to look into a cleaner solution going forward)
-                $('#filetree').find('a[rel="' + data['Path'] +'/"]').click().click();
+				// seems to be necessary when dealing w/ files located on s3 (need to look into a cleaner solution going forward)
+				$('#filetree').find('a[rel="' + data['Path'] + '/"]').click().click();
 			} else {
 				$.prompt(data['Error']);
 			}
 			$('#upload').removeAttr('disabled');
 			$('#upload span').removeClass('loading').text(lg.upload);
-			
+
 			// clear data in browse input
-      $("#newfile").replaceWith('<input id="newfile" type="file" name="newfile">');
+			$("#newfile").replaceWith('<input id="newfile" type="file" name="newfile">');
 		}
 	});
 
