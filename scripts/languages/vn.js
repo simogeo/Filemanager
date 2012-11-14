@@ -16,6 +16,8 @@
     "UPLOAD_IMAGES_ONLY": "Chỉ tải hình ảnh, các loại tập tin khác không tải được.",
     "UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Chỉ tải được các loại hình ảnh sau: JPEG, GIF or PNG.",
     "FILE_DOES_NOT_EXIST": "Không tìm thấy tập tin %s.",
+    "file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
     "LANGUAGE_FILE_NOT_FOUND": "Không thấy tập tin ngôn ngữ.",
     "default_foldername": "Thư mục chính",
     "prompt_foldername": "Nhập tên thư mục mới",

@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "Tipo di file non supportato. Caricare esclusivamente immagini.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Caricare esclusivamente immagini JPEG, GIF o PNG.",
 	"FILE_DOES_NOT_EXIST": "Il file %s non esiste.",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "File della lingua non trovato.",
 	"default_foldername": "Nuova Cartella",
 	"prompt_foldername": "Inserisci il nome della nuova cartella",

@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "Kérem kizárólag képetek töltsön fel, egyéb formátumok nincsenek támogatva.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Kérem kizárólag JPEG, GIF vagy PNG képeket töltsön fel",
 	"FILE_DOES_NOT_EXIST": "A %s fájl nem található.",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "A megadott fordítás nem található.",
 	"default_foldername": "Saját mappa",
 	"prompt_foldername": "Kérem adja meg az új mappa nevét",

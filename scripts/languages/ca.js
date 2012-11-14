@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "Si us plau, pugeu només imatges, els altres tipus d'arxius no estan permesos.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Si us plau, pugeu només arxius de tipus JPEG, GIF o PNG.",
 	"FILE_DOES_NOT_EXIST": "L'arxiu %s no existeix.",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "No s'ha trobat l'arxiu d'idioma.",
 	"default_foldername": "La meva carpeta",
 	"prompt_foldername": "Introdueix el nom de la nova carpeta",

@@ -16,6 +16,8 @@
     "UPLOAD_IMAGES_ONLY": "בבקשה העלה רק תמונות, קבצים אחרים אינם נתמכים",
     "UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "בבקשה העלה רק תמונות מסוג: JPG, JPEG, GIF, PNG",
     "FILE_DOES_NOT_EXIST": "הקובץ %s אינו קיים",
+    "file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
     "LANGUAGE_FILE_NOT_FOUND": "Language file not found",
     "default_foldername": "My folder",
     "prompt_foldername": "הכנס שם לתיקייה החדשה",

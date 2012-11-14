@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "Por favor, sube solo imágenes, no se admiten otro tipo de archivos.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Por favor, sube solo imágenes de tipo JPEG, GIF o PNG.",
 	"FILE_DOES_NOT_EXIST": "El archivo %s no existe.",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "Archivo de idioma no encontrado.",
 	"default_foldername": "Mi carpeta",
 	"prompt_foldername": "Introduce el nombre de la nueva carpeta",

@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "Lütfen yalnızca resim yükleyiniz, farklı dosya türlerimi desteklenmemektedir.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Lütfen yalnızca JPEG, GIF ve PNG uzantılı resimleri yükleyiniz.",
 	"FILE_DOES_NOT_EXIST": "%s isimli dosya bulunamadı.",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "Dil dosyası bulunamadı.",
 	"default_foldername": "Yeni Klasor",
 	"prompt_foldername": "Lütfen klasör ismi giriniz",

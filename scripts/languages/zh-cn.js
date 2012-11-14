@@ -15,6 +15,8 @@
 	"UPLOAD_IMAGES_ONLY": "请上传只有图像，不支持其他文件。",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "请上传类型仅限JPEG图像，GIF或PNG格式。",
 	"FILE_DOES_NOT_EXIST": "文件%s不存在。",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "语言文件未找到。",
 	"default_foldername": "我的文件夹",
 	"prompt_foldername": "请输入新文件夹的名称",

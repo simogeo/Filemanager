@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "画像ファイルのみアップロードして下さい, その他のファイルは無効です.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "JPEG, GIF または PNGの画像ファイルだけをアップロードして下さい.",
 	"FILE_DOES_NOT_EXIST": "ファイル %s は存在しません.",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "言語ファイルがありません.",
 	"default_foldername": "新フォルダー",
 	"prompt_foldername": "新しいフォルダー名を記入してください",

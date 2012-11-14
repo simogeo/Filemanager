@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "請上傳圖檔，不支援圖檔以外的格式。",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "圖檔格式僅限於 JPEG, GIF or PNG。",
 	"FILE_DOES_NOT_EXIST": "檔案 %s 不存在。",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "語系檔不存在。",
 	"default_foldername": "我的文件",
 	"prompt_foldername": "輸入新目錄的名稱。",

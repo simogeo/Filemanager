@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "Lähetä vain kuvatiedostoja, muut tiedostotyypit eivät ole tuettuja.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Lähetä vain kuvatiedostoja, joiden tyyppi on JPEG, GIF tai PNG.",
 	"FILE_DOES_NOT_EXIST": "Tiedostoa %s ei löydy.",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "Kielitiedostoa ei löydy.",
 	"default_foldername": "Uusi hakemisto",
 	"prompt_foldername": "Anna uudelle hakemistolle nimi",

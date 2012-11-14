@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "Пожалуйста, загружайте только изображения, другие типы файлов не поддерживаются.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Пожалуйста, загружайте только изображения типа JPEG, GIF или PNG.",
 	"FILE_DOES_NOT_EXIST": "Файл %s не существует.",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "Файл с настройками для языка не найден.",
 	"default_foldername": "Моя папка",
 	"prompt_foldername": "Введите имя новой папки",

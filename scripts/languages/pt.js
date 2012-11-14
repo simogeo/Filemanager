@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "Favor enviar apenas imagens. Outros arquivos não são aceitos.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Favor enviar apenas imagens no formato JPG, GIF ou PNG.",
 	"FILE_DOES_NOT_EXIST": "O arquivo %s não existe.",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "Arquivo de língua não encontrado.",
 	"default_foldername": "Nova pasta",
 	"prompt_foldername": "Entre com o nome da nova pasta",

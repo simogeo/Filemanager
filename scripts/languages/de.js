@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "Bitte lade nur Bilder hoch, andere Dateien werden noch nicht unterstützt.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Bitte lade nur JPEG, GIF oder PNG Dateien hoch.",
 	"FILE_DOES_NOT_EXIST": "Die Datei %s existiert nicht.",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "Sprachdatei wurde nicht gefunden.",
 	"default_foldername": "Mein Ordner",
 	"prompt_foldername": "Gib den Namen des neuen Ordners ein:",

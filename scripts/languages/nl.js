@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "Alleen het uploaden van afbeeldingen is toegestaan.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Alleen het uploaden van afbeeldingen van het type JPEG, GIF of PNG is toegestaan.",
 	"FILE_DOES_NOT_EXIST": "Het bestand %s bestaat niet.",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "Het taalbestand is niet gevonden.",
 	"default_foldername": "Mijn map",
 	"prompt_foldername": "Vul de nieuwe mapnaam in",

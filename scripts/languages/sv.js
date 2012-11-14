@@ -16,6 +16,8 @@
 "UPLOAD_IMAGES_ONLY": "Du kan endast ladda upp bilder, inga andra filtyper stöds.",
 "UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Du kan endast ladda upp bilder av typen JPEG, GIF eller PNG.",
 "FILE_DOES_NOT_EXIST": "Filen %s finns inte.",
+"file_too_big": "The file is too big.",
+"file_size_limit": "The file size limit is : ",
 "LANGUAGE_FILE_NOT_FOUND": "Språkfil saknas.",
 "default_foldername": "Min mapp",
 "prompt_foldername": "Ange namnet på den nya mappen",

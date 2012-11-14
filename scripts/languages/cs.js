@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "Nahrávejte prosím pouze obrázky, soubory ostatních typů nejsou podporovány.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Nahrávejte prosím pouze obrázky typu JPEG, GIF nebo PNG.",
 	"FILE_DOES_NOT_EXIST": "Soubor %s nebyl nalezen.",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "Chyba při načítání jazykového souboru.",
 	"default_foldername": "Moje složka",
 	"prompt_foldername": "Zadejte název nového adresáře",

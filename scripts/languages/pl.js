@@ -15,6 +15,8 @@
 	"UPLOAD_IMAGES_ONLY": "Użyj pliku obrazkowego, inne typy plików nie są wspierane.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Proszę użyj plików obrazkowych w formacie JPEG, GIF lub PNG.",
 	"FILE_DOES_NOT_EXIST": "Plik %s nie istnieje.",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "Plik językowy nie znaleziony.",
 	"default_foldername": "Mój folder",
 	"prompt_foldername": "Wpisz nazwę nowego folderu (nie używaj polskich znaków)",

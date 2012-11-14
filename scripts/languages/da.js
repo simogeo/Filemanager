@@ -16,6 +16,8 @@
 	"UPLOAD_IMAGES_ONLY": "Upload kun billeder, ingen andre filer er tilladte.",
 	"UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG": "Kun billeder af typen JPEG, GIF eller PNG kan blive uploadet.",
 	"FILE_DOES_NOT_EXIST": "Filen %s eksisterer ikke.",
+	"file_too_big": "The file is too big.",
+	"file_size_limit": "The file size limit is : ",
 	"LANGUAGE_FILE_NOT_FOUND": "Sprogfil ikke fundet.",
 	"default_foldername": "Min mappe",
 	"prompt_foldername": "Skriv navnet på den nye mappe",
