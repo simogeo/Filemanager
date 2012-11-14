@@ -17,7 +17,7 @@ var showFullPath = false;
 // Browse only - default : false
 var browseOnly = false;
 
-// Set this to the server side language you wish to use.
+// Set this to the server side language you wish to use, or explicitly set the connectorPath
 var lang = 'php'; // options: php, jsp, lasso, asp, cfm, ashx, asp, pl // we are looking for contributors for lasso, python connectors (partially developed)
 
 var am = document.location.pathname.substring(1, document.location.pathname.lastIndexOf('/') + 1);
@@ -49,3 +49,6 @@ var videosPlayerHeight = 222; // Videos Player Height
 //-----------------------------------------
 var showAudioPlayer = true;
 var audiosExt = ['ogg', 'mp3', 'wav']; // Recognized audios extensions
+
+// File size limit for HTML5 file size check. In MB.
+var fileSizeLimit = 30;
