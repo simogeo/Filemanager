@@ -297,6 +297,7 @@ var bindToolbar = function(data){
 		$('#fileinfo').find('button#select').hide();
 	} else {
         $('#fileinfo').find('button#select').click(function () { selectItem(data); }).show();
+        $('#preview img').attr('title', lg.select);
         $('#preview img').click(function () { selectItem(data); }).css("cursor", "pointer");
 	}
 	
