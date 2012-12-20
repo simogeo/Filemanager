@@ -1,4 +1,4 @@
-﻿{
+{
     "AUTHORIZATION_REQUIRED": "Nemáte dostatečná oprávnění pro práci se soubory.", 
     "INVALID_ACTION": "Neplatná akce.",
     "MODE_ERROR": "Mode error.",
