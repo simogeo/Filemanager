@@ -980,6 +980,10 @@ $(function(){
 	$('#uploader').ajaxForm({
 		target: '#uploadresponse',
 		beforeSubmit: function (arr, form, options) {
+			// Test if a value is given
+			if($('#newfile', form).val()=='') {
+				return false;
+			}
 			$('#upload').attr('disabled', true);
 			$('#upload span').addClass('loading').text(lg.loading_data);
 			if ($.urlParam('type').toString().toLowerCase() == 'images') {
@@ -1003,6 +1007,8 @@ $(function(){
 					return false;
 				}
 			}
+			
+			
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
 			$('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
