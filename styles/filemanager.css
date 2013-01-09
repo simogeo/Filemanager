@@ -233,8 +233,8 @@ div.clip {
 	cursor: pointer;
 }
 
-#contents.list th.headerSortUp,
-#contents.list th.headerSortDown {
+#contents.list th.tablesorter-headerAsc,
+#contents.list th.tablesorter-headerDesc {
 	background: rgb(214,212,209); /* Old browsers */
 	background: -moz-linear-gradient(top, rgba(214,212,209,1) 0%, rgba(244,241,237,1) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(214,212,209,1)), color-stop(100%,rgba(244,241,237,1))); /* Chrome,Safari4+ */
@@ -244,7 +244,7 @@ div.clip {
 	background: linear-gradient(to bottom, rgba(214,212,209,1) 0%,rgba(244,241,237,1) 100%); /* W3C */
 }
 
-#contents.list th.headerSortUp span {
+#contents.list th.tablesorter-headerAsc span {
 	display: block;
 	width: 100%;
 	padding-right: 20px;
@@ -253,7 +253,7 @@ div.clip {
 	background-position: right center;
 }
 
-#contents.list th.headerSortDown span {
+#contents.list th.tablesorter-headerDesc span {
 	display: block;
 	width: 100%;
 	padding-right: 20px;
