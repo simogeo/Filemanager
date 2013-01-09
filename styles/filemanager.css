@@ -1,3 +1,8 @@
+/**
+* Icons are from http://icomoon.io/app/
+* color code : #666666
+**/
+
 * {
 	font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
 	color: #333;
@@ -9,7 +14,7 @@
 
 body {
 	padding: 10px;
-	background-color: #E2EAF3;
+	background-color:#F4F1ED;
 }
 
 video, audio {
@@ -28,7 +33,9 @@ video, audio {
 	display: block;
 	float: left;
 	text-align: left;
+	line-height:1.9em;
 	font-size: 0.8em;
+	text-shadow:1px 1px 0px #ffffff;
 }
 
 #uploadresponse {
@@ -38,13 +45,13 @@ video, audio {
 #splitter {
 	background-color: white;
 	height: 400px;
-	border: 1px solid #ccc;
 	/* no padding allowed */
 }
 
 #filetree {
 	overflow: auto;
 	min-width: 100px;	/* optional */
+	border: 1px solid #ccc;
 	/* no margin or border allowed */
 }
 
@@ -55,14 +62,13 @@ video, audio {
 #fileinfo {
 	min-width: 100px;
 	overflow: auto;
+	border: 1px solid #ccc;
 	/* no margin or border allowed */
 }
 
 #splitter .vsplitbar {
 	width: 6px;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	background: #E2EAF3 url(../scripts/jquery.splitter/vgrabber.gif) no-repeat center;
+	background: #F4F1ED url(../scripts/jquery.splitter/vgrabber.gif) no-repeat center;
 }
 
 #fileinfo {
@@ -116,16 +122,30 @@ video, audio {
 }
 
 button {
-	border: 1px outset #ccc;
-	padding: 2px;
-	margin-left: 4px;
-	background-image: url(../images/btnOFF.gif);
-	background-repeat: repeat-x;
+  -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+	background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+	background-color:#ededed;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	color:#777777;
+	padding:0.1em 0.3em;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #ffffff;
+	margin:0 0.2em 0.5em 0.2em;
 }
 
 button:hover {
-	border: 1px inset #ccc;
-	background-image: url(../images/btnON.gif);
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+	background-color:#dfdfdf;
 }
 
 button span {
@@ -134,7 +154,6 @@ button span {
 	background-position: left center;
 	background-repeat: no-repeat;
 	background-color: transparent;
-	height: 16px;
 	white-space: nowrap;
 }
 
@@ -154,21 +173,20 @@ button:focus {
 #contents.grid li {
 	display: block;
 	float: left;
-	width: 25%;
+	width: 20%;
 	min-height: 128px;
 	text-align: center;
 	overflow: hidden;
 	margin-bottom: 25px;
 	border: 1px solid white;
-	border-radius: 8px;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	-ms-border-radius: 8px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
 }
 
 #contents.grid li:hover {
-	border: 1px solid #ccc;
-	background-color: #eee;
+	border: 1px solid #E5E5E5;
+	background-color:#F7F7F7;
 	cursor: pointer;
 }
 
@@ -200,8 +218,13 @@ div.clip {
 }
 
 #contents.list thead {
-	background-image: url(../images/btnOFF.gif);
-	background-repeat: repeat-x;
+	background: rgb(244,241,237); /* Old browsers */
+	background: -moz-linear-gradient(top, rgba(244,241,237,1) 0%, rgba(214,212,209,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(244,241,237,1)), color-stop(100%,rgba(214,212,209,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(244,241,237,1) 0%,rgba(214,212,209,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(244,241,237,1) 0%,rgba(214,212,209,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(244,241,237,1) 0%,rgba(214,212,209,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom, rgba(244,241,237,1) 0%,rgba(214,212,209,1) 100%); /* W3C */
 	border-bottom: 1px solid #ccc;
 }
 
@@ -212,7 +235,13 @@ div.clip {
 
 #contents.list th.headerSortUp,
 #contents.list th.headerSortDown {
-	background-image: url(../images/btnON.gif);
+	background: rgb(214,212,209); /* Old browsers */
+	background: -moz-linear-gradient(top, rgba(214,212,209,1) 0%, rgba(244,241,237,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(214,212,209,1)), color-stop(100%,rgba(244,241,237,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(214,212,209,1) 0%,rgba(244,241,237,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(214,212,209,1) 0%,rgba(244,241,237,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(214,212,209,1) 0%,rgba(244,241,237,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom, rgba(214,212,209,1) 0%,rgba(244,241,237,1) 100%); /* W3C */
 }
 
 #contents.list th.headerSortUp span {
@@ -258,7 +287,7 @@ div.clip {
 }
 
 .contextMenu {
-	background-color: #E2EAF3;
+	background-color:#F4F1ED;
 }
 
 .contextMenu li.hover a {
@@ -270,12 +299,11 @@ div.clip {
 }
 
 /* these apply to the contextual menus as well as the buttons */
-button {outline: none;}
 #select span, .contextMenu li.select a { background-image: url(../images/accept.png); }
-#download span, .contextMenu li.download a { background-image: url(../images/disk.png); }
+#download span, .contextMenu li.download a { background-image: url(../images/download.png); }
 #rename span, .contextMenu li.rename a { background-image: url(../images/pencil.png); }
 #delete span, .contextMenu li.delete a { background-image: url(../images/bin_closed.png); }
-#upload span { background-image: url(../images/add.png); }
+#upload span { background-image: url(../images/upload.png); }
 #upload span.loading { background-image: url(../images/ajax-loader.gif);color:#555555;font-size:0.9em; }
 #parentfolder span { background-image: url(../images/parentfolder.png); }
 #newfolder span { background-image: url(../images/folder_add.png); }
@@ -289,16 +317,12 @@ div.jqi {
 	font-weight: bold;
 	min-width: 300px;
 	padding: 10px;
-	background-color: #E2EAF3;
-	border: 2px solid #ccc;
-	border-radius: 8px;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
+	background-color:#F4F1ED;
+	border: 1px solid #888;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
 	-ms-border-radius: 8px;
-	box-shadow: 2px 2px 8px #ccc;
-	-moz-box-shadow: 2px 2px 8px #ccc;
-	-webkit-box-shadow: 2px 2px 8px #ccc;
-	-ms-box-shadow: 2px 2px 8px #ccc;
 }
 
 .jqiclose {
@@ -312,11 +336,12 @@ div.jqi {
 
 div.jqi button {
 	margin-top: 20px;
+	margin-right:0.5em;
 	float: right;
 }
-
-.jqifade{
-	background-color: white;
+div#jqistates {padding:1em;}
+div.jqifade{
+	background-color: #000000;
 }
 
 #grid span,
@@ -327,7 +352,7 @@ div.jqi button {
 }
 
 button.ON {
-	background-image: url(../images/btnON.gif);
+	background:none repeat scroll 0 0 #F9F8F7;
 	border: 1px inset #ccc;
 }
 
