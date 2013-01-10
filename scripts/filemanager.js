@@ -912,7 +912,11 @@ var populateFileTree = function(path, callback){
 $(function(){
 	if(extra_js) {
 		for(var i=0; i< extra_js.length; i++) {
-			$.getScript(extra_js[i]);
+			$.ajax({
+				url: extra_js[i],
+				dataType: "script",
+				async: extra_js_async
+			});
 		}
 	}
 

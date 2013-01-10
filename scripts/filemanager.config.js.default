@@ -34,9 +34,11 @@ var showThumbs = true;
 // Allowed image extensions when type is 'image'
 var imagesExt = ['jpg', 'jpeg', 'gif', 'png'];
 
-//Add the name of scripts you want to load in addition to the standard ones
-//For example use this to load tiny_mce_popup.js
+// Add the name of scripts you want to load in addition to the standard ones
+// For example use this to load tiny_mce_popup.js
+// extra_js_async specify if request is asynchronous or not (takes value true or false)
 var extra_js = [''];
+var extra_js_async = true;
 
 // Videos player support
 // -----------------------------------------
