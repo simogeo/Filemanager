@@ -46,8 +46,8 @@ $.ajax({
 $.prompt.setDefaults({
     overlayspeed: 'fast',
     show: 'fadeIn',
-    persistent: false,
-    opacity: 0.4
+    opacity: 0.4,
+    persistent: false
 });
 
 // Forces columns to fill the layout vertically.
@@ -408,7 +408,7 @@ var renameItem = function(data){
 	var finalName = '';
 	var msg = lg.new_filename + ' : <input id="rname" name="rname" type="text" value="' + getFilename(data['Filename']) + '" />';
 
-	var getNewName = function(v, m) {
+	var getNewName = function(v, m){
 		if(v != 1) return false;
 		rname = m.children('#rname').val();
 		
