@@ -447,7 +447,7 @@ var renameItem = function(data){
 							$('#fileinfo td[title="' + oldPath + '"]').attr('title', newPath);
 						}
 										
-						$.prompt(lg.successful_rename);
+						if(showConfirmation) $.prompt(lg.successful_rename);
 					} else {
 						$.prompt(result['Error']);
 					}
@@ -492,7 +492,8 @@ var deleteItem = function(data){
 					rootpath = rootpath.substr(0, rootpath.lastIndexOf('/') + 1);
 					$('#uploader h1').text(lg.current_folder + displayPath(rootpath));
 					isDeleted = true;
-					$.prompt(lg.successful_delete);
+					
+					if(showConfirmation) $.prompt(lg.successful_delete);
 
                     // seems to be necessary when dealing w/ files located on s3 (need to look into a cleaner solution going forward)
                     $('#filetree').find('a[rel="' + parent +'/"]').click().click();
@@ -533,7 +534,7 @@ var addNode = function(path, name){
 
 	getFolderInfo(path);
 
-	$.prompt(lg.successful_added_file);
+	if(showConfirmation) $.prompt(lg.successful_added_file);
 }
 
 // Updates the specified node with a new name. Called after
@@ -601,7 +602,7 @@ var addFolder = function(parent, name){
 			);
 	}
 	
-	$.prompt(lg.successful_added_folder);
+	if(showConfirmation) $.prompt(lg.successful_added_folder);
 }
 
 
@@ -943,6 +944,22 @@ $(function(){
 		$('#itemOptions a[href$="#download"]').append(lg.download);
 		$('#itemOptions a[href$="#rename"]').append(lg.rename);
 		$('#itemOptions a[href$="#delete"]').append(lg.del);
+		/** Input file Replacement */
+		$('#browse').append('+');
+		$('#browse').attr('title', lg.browse);
+		$('#alt-fileinput').click(function() {
+			$("#newfile").click();
+		});
+		$("#newfile").change(function() {
+			$("#filepath").val($(this).val());
+		});
+		$("#uploader").submit(function() {
+			$("#filepath").val('');
+		});
+		$("#filepath").change(function() {
+			$("#newfile").val($(this).val());
+		});
+		/** Input file Replacement - end */
 	}
 
 	// Provides support for adjustible columns.
