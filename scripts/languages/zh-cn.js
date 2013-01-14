@@ -34,6 +34,7 @@
 	"successful_added_folder": "新建文件夹添加成功。",
 	"select": "选择",
 	"download": "下载",
+	"browse": "Browse...",
 	"del": "删除",
 	"parentfolder": "父文件夹",
 	"dimensions": "尺寸",

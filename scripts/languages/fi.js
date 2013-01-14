@@ -35,6 +35,7 @@
 	"successful_added_folder": "Uusi hakemisto lisätty onnistuneesti.",
 	"select": "Valitse",
 	"download": "Lataa",
+	"browse": "Browse...",
 	"del": "Poista",
 	"parentfolder": "Edellinen hakemisto",
 	"dimensions": "Mittasuhteet",

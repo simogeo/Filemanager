@@ -35,6 +35,7 @@
 	"successful_added_folder": "Novo pasta adicionada com sucesso.",
 	"select": "Selecionar",
 	"download": "Download",
+	"browse": "Browse...",
 	"del": "Excluir",
 	"parentfolder": "Pasta anterior",
 	"dimensions": "Dimensões",

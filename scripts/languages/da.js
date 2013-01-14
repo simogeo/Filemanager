@@ -35,6 +35,7 @@
 	"successful_added_folder": "Den nye mappe blev oprettet.",
 	"select": "Vælg",
 	"download": "Hent",
+	"browse": "Browse...",
 	"del": "Slet",
 	"parentfolder": "Hovedmappe",
 	"dimensions": "Dimensioner",

@@ -35,6 +35,7 @@
 	"successful_added_folder": "Az új mappa sikeresen létre lett hozva.",
 	"select": "Kiválasztás",
 	"download": "Letöltés",
+	"browse": "Browse...",
 	"del": "Törlés",
 	"parentfolder": "Előző mappa",
 	"dimensions": "Méretek",

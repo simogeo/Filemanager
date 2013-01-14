@@ -35,6 +35,7 @@
 	"successful_added_folder": "De nieuwe map is toegevoegd.",
 	"select": "Selecteren",
 	"download": "Downloaden",
+	"browse": "Browse...",
 	"del": "Verwijderen",
 	"parentfolder": "Terug naar bestanden",
 	"dimensions": "Formaat",

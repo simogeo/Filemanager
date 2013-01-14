@@ -35,6 +35,7 @@
 	"successful_added_folder": "Klasör başarıyla eklendi.",
 	"select": "Seç",
 	"download": "İndir",
+	"browse": "Browse...",
 	"del": "Sil",
 	"parentfolder": "Önceki klasör",
 	"dimensions": "Boyutları",

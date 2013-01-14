@@ -35,6 +35,7 @@
 	"successful_added_folder": "新しいフォルダーの追加に成功しました.",
 	"select": "選択",
 	"download": "ダウンロード",
+	"browse": "Browse...",
 	"del": "削除",
 	"parentfolder": "上のフォルダーに移動",
 	"dimensions": "寸法",

@@ -35,6 +35,7 @@
 	"successful_added_folder": "Новая папка добавлена успешно.",
 	"select": "Выбрать",
 	"download": "Скачать",
+	"browse": "Browse...",
 	"del": "Удалить",
 	"parentfolder": "На уровень выше",
 	"dimensions": "Размеры",

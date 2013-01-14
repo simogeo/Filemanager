@@ -35,6 +35,7 @@
 	"successful_added_folder": "Nova carpeta afegida satisfactòriament.",
 	"select": "Seleccionar",
 	"download": "Descarregar",
+	"browse": "Browse...",
 	"del": "Eliminar",
 	"parentfolder": "Directori pare",
 	"dimensions": "Dimensions",

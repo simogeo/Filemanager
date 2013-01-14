@@ -35,6 +35,7 @@
     "successful_added_folder": "Đã thêm thư mục.",
     "select": "Chọn",
     "download": "Tải xuống",
+    "browse": "Browse...",
     "del": "Xóa",
     "parentfolder": "Thư mục cha",
     "dimensions": "Kích thước",

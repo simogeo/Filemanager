@@ -35,6 +35,7 @@
 	"successful_added_folder": "Nouveau dossier ajouté avec succès.",
 	"select": "Sélectionner",
 	"download": "Télécharger",
+	"browse": "Parcourir...",
 	"del": "Supprimer",
 	"parentfolder": "Dossier parent",
 	"dimensions": "Dimensions",

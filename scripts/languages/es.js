@@ -35,6 +35,7 @@
 	"successful_added_folder": "Nueva carpeta creada.",
 	"select": "Seleccionar",
 	"download": "Descargar",
+	"browse": "Browse...",
 	"del": "Eliminar",
 	"parentfolder": "Directorio padre",
 	"dimensions": "Dimensiones",

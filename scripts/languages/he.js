@@ -35,6 +35,7 @@
     "successful_added_folder": "התיקייה החדשה נוספה בהצלחה",
     "select": "בחר",
     "download": "הורד",
+    "browse": "Browse...",
     "del": "מחק",
     "parentfolder": "תיקיית אב",
     "dimensions": "מימדים",

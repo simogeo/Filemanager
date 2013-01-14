@@ -35,6 +35,7 @@
 	"successful_added_folder": "Nuova cartella aggiunta.",
 	"select": "Seleziona",
 	"download": "Scarica",
+	"browse": "Browse...",
 	"del": "Elimina",
 	"parentfolder": "Cartella principale",
 	"dimensions": "Dimensioni",

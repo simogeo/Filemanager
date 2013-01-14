@@ -35,6 +35,7 @@
 "successful_added_folder": "En ny mapp skapades.",
 "select": "Välj",
 "download": "Ladda ner",
+"browse": "Browse...",
 "del": "Radera",
 "parentfolder": "Upp en nivå",
 "dimensions": "Dimension",

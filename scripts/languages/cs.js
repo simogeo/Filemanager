@@ -35,6 +35,7 @@
 	"successful_added_folder": "Adresář byl úspěšně vytvořen.",
 	"select": "Vybrat",
 	"download": "Download",
+	"browse": "Browse...",
 	"del": "Smazat",
 	"parentfolder": "Nadřazený adresář",
 	"dimensions": "Rozměry",

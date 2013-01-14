@@ -35,6 +35,7 @@
 	"successful_added_folder": "Neuer Ordner wurde erfolgreich hinzugefügt.",
 	"select": "Auswählen",
 	"download": "Herunterladen",
+	"browse": "Browse...",
 	"del": "Löschen",
 	"parentfolder": "Übersicht",
 	"dimensions": "Abmessungen",

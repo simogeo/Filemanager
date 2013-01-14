@@ -35,6 +35,7 @@
 	"successful_added_folder": "New folder added successfully.",
 	"select": "Select",
 	"download": "Download",
+	"browse": "Browse...",
 	"del": "Delete",
 	"parentfolder": "Parent folder",
 	"dimensions": "Dimensions",
