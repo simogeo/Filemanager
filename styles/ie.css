@@ -1,3 +1,7 @@
 * {
 	zoom: 1;
 }
+#filepath {
+	height:27px;
+	line-height:1.6em;
+}
