@@ -139,6 +139,7 @@ button {
 	text-decoration:none;
 	text-shadow:1px 1px 0px #ffffff;
 	margin:0 0.2em 0.5em 0.2em;
+	line-height:1.7em;
 }
 
 button:hover {
@@ -164,6 +165,48 @@ button:focus {
 	outline-style: none;
 	outline-width: 0;
 }
+
+/** Input file Replacement */
+#newfile {visibility:hidden;position:absolute;top:-50px}
+#alt-fileinput {display: inline;wrap:no-wrap;}
+#filepath {
+	background-color: #F4F1ED;
+	border:1px solid #dcdcdc;
+	margin:0;
+	padding:0.1em 0.3em;
+	line-height:1.7em;
+	-webkit-border-top-left-radius: 6px;
+	-webkit-border-bottom-left-radius: 6px;
+	-moz-border-radius-topleft: 6px;
+	-moz-border-radius-bottomleft: 6px;
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+}
+@-moz-document url-prefix() {
+	#filepath {
+		padding:0.2em 0.3em;
+	}
+}
+button#browse {
+	margin-left:0;
+	-webkit-border-top-left-radius: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+	-moz-border-radius-topleft: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	min-height: 16px;
+	min-width: 40px;
+}
+button#browse span {
+	margin:0;
+	padding:0;
+	background: url(../images/plus.png) no-repeat center center;
+	display: block;
+	color:#666;
+	text-shadow: none;
+}
+/** Input file Replacement - end */
 
 #contents.grid {
 	padding: 25px;
