@@ -8,7 +8,7 @@ Installation and Setup
 
 git clone http://github.com/simogeo/Filemanager.git
 
-or download the archive from Github : http://github.com/simogeo/Filemanager/archives/master
+or download the archive from Github : https://github.com/simogeo/Filemanager/archive/master.zip
 
 You can place the FileManager anywhere within your web serving root directory.
 
