@@ -588,8 +588,8 @@ var addFolder = function(parent, name){
 	if(parent != fileRoot){
 		parentNode.next('ul').prepend(newNode).prev('a').click().click();
 	} else {
-		$('#filetree > ul').prepend(newNode); 
-		$('#filetree').find('li a[rel="' + parent + name + '/"]').click(function(){
+		$('#filetree > ul').prepend(newNode);
+		$('#filetree').find('li a[rel="' + parent + name + '/"]').attr('class', 'cap_rename cap_delete').click(function(){
 				getFolderInfo(parent + name + '/');
 			}).each(function() {
 				$(this).contextMenu(
