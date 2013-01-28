@@ -523,16 +523,33 @@ var deleteItem = function(data){
 // Adds a new node as the first item beneath the specified
 // parent node. Called after a successful file upload.
 var addNode = function(path, name){
-	var ext = name.substr(name.lastIndexOf('.') + 1);
+	var ext = getExtension(name);
 	var thisNode = $('#filetree').find('a[rel="' + path + '"]');
 	var parentNode = thisNode.parent();
-	var newNode = '<li class="file ext_' + ext + '"><a rel="' + path + name + '" href="#">' + name + '</a></li>';
+	var newNode = '<li class="file ext_' + ext + '"><a rel="' + path + name + '" href="#" class="">' + name + '</a></li>';
 	
-	if(!parentNode.find('ul').size()) parentNode.append('<ul></ul>');		
-	parentNode.find('ul').prepend(newNode);
-	thisNode.click().click();
+	// if is root folder
+	// TODO the select action is not working - To implement
+	if(!parentNode.find('ul').size()) {
+		parentNode = $('#filetree').find('ul.jqueryFileTree');
 
-	getFolderInfo(path);
+		parentNode.prepend(newNode);
+		$('#filetree').find('li a').each(function() {
+			$(this).contextMenu(
+				{ menu: getContextMenuOptions($(this)) },
+				function(action, el, pos){
+					var path = $(el).attr('rel');
+					setMenus(action, path);
+				}
+			)
+		});
+		
+	} else {
+		parentNode.find('ul').prepend(newNode);
+		thisNode.click().click();
+	}
+
+	getFolderInfo(path); // update list in main window
 
 	if(showConfirmation) $.prompt(lg.successful_added_file);
 }
