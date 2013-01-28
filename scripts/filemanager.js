@@ -159,6 +159,23 @@ var nameFormat = function(input) {
 	return filename;
 }
 
+//Converts bytes to kb, mb, or gb as needed for display.
+var formatBytes = function(bytes){
+	var n = parseFloat(bytes);
+	var d = parseFloat(1024);
+	var c = 0;
+	var u = [lg.bytes,lg.kb,lg.mb,lg.gb];
+	
+	while(true){
+		if(n < d){
+			n = Math.round(n * 100) / 100;
+			return n + u[c];
+		} else {
+			n /= d;
+			c += 1;
+		}
+	}
+}
 
 // Handle Error. Freeze interactive buttons and display
 // error message. Also called when auth() function return false (Code == "-1")
@@ -330,22 +347,31 @@ var bindToolbar = function(data){
 	}
 }
 
-// Converts bytes to kb, mb, or gb as needed for display.
-var formatBytes = function(bytes){
-	var n = parseFloat(bytes);
-	var d = parseFloat(1024);
-	var c = 0;
-	var u = [lg.bytes,lg.kb,lg.mb,lg.gb];
-	
-	while(true){
-		if(n < d){
-			n = Math.round(n * 100) / 100;
-			return n + u[c];
-		} else {
-			n /= d;
-			c += 1;
+//Create FileTree and bind elements
+//called during initialization and also when adding a file 
+//directly in root folder (via addNode)
+var createFileTree = function() {
+	// Creates file tree.
+ $('#filetree').fileTree({
+		root: fileRoot,
+		datafunc: populateFileTree,
+		multiFolder: false,
+		folderCallback: function(path){ getFolderInfo(path); },
+		expandedFolder: fullexpandedFolder,
+		after: function(data){
+			$('#filetree').find('li a').each(function() {
+				$(this).contextMenu(
+					{ menu: getContextMenuOptions($(this)) },
+					function(action, el, pos){
+						var path = $(el).attr('rel');
+						setMenus(action, path);
+					}
+				)
+			});
 		}
-	}
+	}, function(file){
+		getFileInfo(file);
+	});
 }
 
 
@@ -529,20 +555,12 @@ var addNode = function(path, name){
 	var newNode = '<li class="file ext_' + ext + '"><a rel="' + path + name + '" href="#" class="">' + name + '</a></li>';
 	
 	// if is root folder
-	// TODO the select action is not working - To implement
+	// TODO optimize
 	if(!parentNode.find('ul').size()) {
 		parentNode = $('#filetree').find('ul.jqueryFileTree');
 
 		parentNode.prepend(newNode);
-		$('#filetree').find('li a').each(function() {
-			$(this).contextMenu(
-				{ menu: getContextMenuOptions($(this)) },
-				function(action, el, pos){
-					var path = $(el).attr('rel');
-					setMenus(action, path);
-				}
-			)
-		});
+		createFileTree();
 		
 	} else {
 		parentNode.find('ul').prepend(newNode);
@@ -594,7 +612,6 @@ var removeNode = function(path){
     	getFolderInfo(path.substr(0, path.lastIndexOf('/') + 1));
 	}
 }
-
 
 // Adds a new folder as the first item beneath the
 // specified parent node. Called after a new folder is
@@ -1075,26 +1092,8 @@ $(function(){
 	});
 
 	// Creates file tree.
-    $('#filetree').fileTree({
-		root: fileRoot,
-		datafunc: populateFileTree,
-		multiFolder: false,
-		folderCallback: function(path){ getFolderInfo(path); },
-		expandedFolder: fullexpandedFolder,
-		after: function(data){
-			$('#filetree').find('li a').each(function() {
-				$(this).contextMenu(
-					{ menu: getContextMenuOptions($(this)) },
-					function(action, el, pos){
-						var path = $(el).attr('rel');
-						setMenus(action, path);
-					}
-				)
-			});
-		}
-	}, function(file){
-		getFileInfo(file);
-	});
+	createFileTree();
+	
 	// Disable select function if no window.opener
 	if(! (window.opener || window.tinyMCEPopup) ) $('#itemOptions a[href$="#select"]').remove();
 	// Keep only browseOnly features if needed
