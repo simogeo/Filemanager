@@ -167,7 +167,9 @@ button:focus {
 }
 
 /** Input file Replacement */
+/**
 #newfile {visibility:hidden;position:absolute;top:-50px}
+*/
 #alt-fileinput {display: inline;wrap:no-wrap;}
 #filepath {
 	background-color: #F4F1ED;

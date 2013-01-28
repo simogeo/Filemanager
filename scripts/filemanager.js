@@ -962,20 +962,23 @@ $(function(){
 		$('#itemOptions a[href$="#rename"]').append(lg.rename);
 		$('#itemOptions a[href$="#delete"]').append(lg.del);
 		/** Input file Replacement */
+		/**
 		$('#browse').append('+');
 		$('#browse').attr('title', lg.browse);
 		$('#alt-fileinput').click(function() {
 			$("#newfile").click();
+			console.log('#filepath' + $("#filepath").val() + ' newfile : ' + $("#newfile").val());
 		});
 		$("#newfile").change(function() {
 			$("#filepath").val($(this).val());
 		});
 		$("#uploader").submit(function() {
-			$("#filepath").val('');
+			$("#filepath, #newfile").val('');
 		});
 		$("#filepath").change(function() {
 			$("#newfile").val($(this).val());
 		});
+		*/
 		/** Input file Replacement - end */
 	}
 
@@ -1057,7 +1060,7 @@ $(function(){
 			var data = jQuery.parseJSON($('#uploadresponse').find('textarea').text());
 			if (data['Code'] == 0) {
 				addNode(data['Path'], data['Name']);
-
+				$("#filepath, #newfile").val('');
 				// seems to be necessary when dealing w/ files located on s3 (need to look into a cleaner solution going forward)
 				$('#filetree').find('a[rel="' + data['Path'] + '/"]').click().click();
 			} else {
