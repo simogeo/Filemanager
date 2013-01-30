@@ -167,16 +167,23 @@ button:focus {
 }
 
 /** Input file Replacement */
-/**
-#newfile {visibility:hidden;position:absolute;top:-50px}
-*/
-#alt-fileinput {display: inline;wrap:no-wrap;}
+#newfile {
+	visibility: hidden;
+	position: absolute;
+	top: -50px
+}
+
+#alt-fileinput {
+	display: inline;
+	wrap: no-wrap;
+}
+
 #filepath {
 	background-color: #F4F1ED;
-	border:1px solid #dcdcdc;
-	margin:0;
-	padding:0.1em 0.3em;
-	line-height:1.7em;
+	border: 1px solid #dcdcdc;
+	margin: 0;
+	padding: 0.1em 0.3em;
+	line-height: 1.7em;
 	-webkit-border-top-left-radius: 6px;
 	-webkit-border-bottom-left-radius: 6px;
 	-moz-border-radius-topleft: 6px;
@@ -184,6 +191,7 @@ button:focus {
 	border-top-left-radius: 6px;
 	border-bottom-left-radius: 6px;
 }
+
 @-moz-document url-prefix() {
 	#filepath {
 		padding:0.2em 0.3em;

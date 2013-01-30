@@ -979,23 +979,21 @@ $(function(){
 		$('#itemOptions a[href$="#rename"]').append(lg.rename);
 		$('#itemOptions a[href$="#delete"]').append(lg.del);
 		/** Input file Replacement */
-		/**
 		$('#browse').append('+');
+		
 		$('#browse').attr('title', lg.browse);
 		$('#alt-fileinput').click(function() {
 			$("#newfile").click();
-			console.log('#filepath' + $("#filepath").val() + ' newfile : ' + $("#newfile").val());
 		});
 		$("#newfile").change(function() {
 			$("#filepath").val($(this).val());
 		});
 		$("#uploader").submit(function() {
-			$("#filepath, #newfile").val('');
+			$("#filepath").val('');
 		});
 		$("#filepath").change(function() {
 			$("#newfile").val($(this).val());
 		});
-		*/
 		/** Input file Replacement - end */
 	}
 
@@ -1086,8 +1084,6 @@ $(function(){
 			$('#upload').removeAttr('disabled');
 			$('#upload span').removeClass('loading').text(lg.upload);
 
-			// clear data in browse input
-			$("#newfile").replaceWith('<input id="newfile" type="file" name="newfile">');
 		}
 	});
 
