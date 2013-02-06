@@ -990,7 +990,6 @@ $(function(){
 		$("#uploader").submit(function() {
 			$("#filepath").val('');
 		});
-
 		/** Input file Replacement - end */
 	}
 
