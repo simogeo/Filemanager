@@ -982,18 +982,15 @@ $(function(){
 		$('#browse').append('+');
 		
 		$('#browse').attr('title', lg.browse);
-		$('#alt-fileinput').click(function() {
-			$("#newfile").click();
-		});
+
 		$("#newfile").change(function() {
 			$("#filepath").val($(this).val());
 		});
+		
 		$("#uploader").submit(function() {
 			$("#filepath").val('');
 		});
-		$("#filepath").change(function() {
-			$("#newfile").val($(this).val());
-		});
+
 		/** Input file Replacement - end */
 	}
 

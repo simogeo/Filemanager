@@ -5,3 +5,10 @@
 	height:27px;
 	line-height:1.6em;
 }
+#file-input-container {
+	width:205px;
+	top:13px;
+}
+#newfile {
+	width:205px
+}

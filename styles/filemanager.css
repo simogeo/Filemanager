@@ -167,10 +167,35 @@ button:focus {
 }
 
 /** Input file Replacement */
+#file-input-container {
+	display:inline-block;
+	margin:0;
+	position:relative;
+	top:0px;
+	width:215px;
+	height:32px;
+	overflow: hidden;
+}
+
+/** Firefox hack */
+@-moz-document url-prefix() {
+	#file-input-container  {
+		top:11px;
+		width:255px;
+	}
+}
+
+/** Opera hack */
+x:-o-prefocus, #file-input-container {top:16px;width:198px;}
+
 #newfile {
-	visibility: hidden;
 	position: absolute;
-	top: -50px
+	top:0;
+	left:0;
+	height:32px;
+	opacity:0;  filter: alpha(opacity=0);
+	cursor: pointer;
+	border:1px solid blue;
 }
 
 #alt-fileinput {
