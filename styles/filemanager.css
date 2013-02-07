@@ -73,10 +73,16 @@ video, audio {
 
 #fileinfo {
 	text-align: center;
+	padding:0;
+	margin:0;
 }
 
 #fileinfo * {
 	font-size: 12px;
+}
+
+#preview {
+	width: 100%;
 }
 
 #preview > img {

@@ -7,8 +7,11 @@
 }
 #file-input-container {
 	width:205px;
-	top:13px;
+	top:14px;
 }
 #newfile {
 	width:205px
+}
+#uploader {
+	min-height: 32px;
 }
