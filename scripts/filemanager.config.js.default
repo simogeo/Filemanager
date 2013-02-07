@@ -36,7 +36,7 @@ var showThumbs = true;
 
 //Security policy : take value "ALLOW_ALL" / "DISALLOW_ALL"
 var uploadPolicy = "DISALLOW_ALL";
-var uploadRestrictions = ['jpg', 'jpeg', 'gif', 'png', 'txt', 'pdf', 'odp', 'ods', 'odt', 'rtf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'ogv', 'mp4', 'webm'];
+var uploadRestrictions = ['jpg', 'jpeg', 'gif', 'png', 'txt', 'pdf', 'odp', 'ods', 'odt', 'rtf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'ogv', 'mp4', 'webm', 'ogg', 'mp3', 'wav'];
 
 // Allowed image extensions when type is 'image'
 var imagesExt = ['jpg', 'jpeg', 'gif', 'png'];
