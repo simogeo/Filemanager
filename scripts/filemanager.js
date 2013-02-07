@@ -194,6 +194,18 @@ function has_capability(data, cap) {
 	else return $.inArray(cap, data['Capabilities']) > -1;
 }
 
+// Test if file is authorized
+var isAuthorizedFile = function(filename) {
+	if(uploadPolicy == 'DISALLOW_ALL') {
+		if($.inArray(getExtension(filename), uploadRestrictions) == 1) return true;
+	}
+	if(uploadPolicy == 'ALLOW_ALL') {
+		if($.inArray(getExtension(filename), uploadRestrictions) == -1) return true;
+	}
+    
+    return false;
+};
+
 // from http://phpjs.org/functions/basename:360
 var basename = function(path, suffix) {
     var b = path.replace(/^.*[\/\\]/g, '');
@@ -1035,6 +1047,18 @@ $(function(){
 		beforeSubmit: function (arr, form, options) {
 			// Test if a value is given
 			if($('#newfile', form).val()=='') {
+				return false;
+			}
+			// Check if file extension is allowed
+			if (!isAuthorizedFile($('#newfile', form).val())) { 
+				var str = '<p>' + lg.INVALID_FILE_TYPE + '</p>';
+				if(uploadPolicy == 'DISALLOW_ALL') {
+					str += '<p>' + lg.ALLOWED_FILE_TYPE +  uploadRestrictions.join(', ') + '.</p>';
+				}
+				if(uploadPolicy == 'ALLOW_ALL') {
+					str += '<p>' + lg.DISALLOWED_FILE_TYPE +  uploadRestrictions.join(', ') + '.</p>';
+				}
+				$.prompt(str); 
 				return false;
 			}
 			$('#upload').attr('disabled', true);
