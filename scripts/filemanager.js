@@ -197,7 +197,7 @@ function has_capability(data, cap) {
 // Test if file is authorized
 var isAuthorizedFile = function(filename) {
 	if(uploadPolicy == 'DISALLOW_ALL') {
-		if($.inArray(getExtension(filename), uploadRestrictions) == 1) return true;
+		if($.inArray(getExtension(filename), uploadRestrictions) != -1) return true;
 	}
 	if(uploadPolicy == 'ALLOW_ALL') {
 		if($.inArray(getExtension(filename), uploadRestrictions) == -1) return true;
@@ -999,9 +999,6 @@ $(function(){
 			$("#filepath").val($(this).val());
 		});
 		
-		$("#uploader").submit(function() {
-			$("#filepath").val('');
-		});
 		/** Input file Replacement - end */
 	}
 
@@ -1058,6 +1055,7 @@ $(function(){
 				if(uploadPolicy == 'ALLOW_ALL') {
 					str += '<p>' + lg.DISALLOWED_FILE_TYPE +  uploadRestrictions.join(', ') + '.</p>';
 				}
+				$("#filepath").val('');
 				$.prompt(str); 
 				return false;
 			}
@@ -1103,7 +1101,7 @@ $(function(){
 			}
 			$('#upload').removeAttr('disabled');
 			$('#upload span').removeClass('loading').text(lg.upload);
-
+			$("#filepath").val('');
 		}
 	});
 
