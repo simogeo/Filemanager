@@ -75,10 +75,17 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                     case "addfolder":
                         return Content(AddFolder(path, Request.QueryString["name"]), "application/json", Encoding.UTF8);
                     case "download":
-                        FileInfo fi = new FileInfo(Server.MapPath(path));
-                        Response.AddHeader("Content-Disposition", "attachment; filename=" + Server.UrlPathEncode(path));
-                        Response.AddHeader("Content-Length", fi.Length.ToString());
-                        return File(fi.FullName, "application/octet-stream");
+                        if (System.IO.File.Exists(Server.MapPath(path)) && IsInRootPath(path))
+                        {
+                            FileInfo fi = new FileInfo(Server.MapPath(path));
+                            Response.AddHeader("Content-Disposition", "attachment; filename=" + Server.UrlPathEncode(path));
+                            Response.AddHeader("Content-Length", fi.Length.ToString());
+                            return File(fi.FullName, "application/octet-stream");
+                        }
+                        else
+                        {
+                            return new HttpNotFoundResult("File not found");
+                        }
                     case "add":
                         return Content(AddFile(Request.Form["currentpath"]), "text/html", Encoding.UTF8);
                     default:
@@ -453,21 +460,18 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
 
             if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
             {
-                DirectoryInfo dirInfo = new DirectoryInfo(Server.MapPath(path));
-                Directory.Move(Server.MapPath(path), Path.Combine(dirInfo.Parent.FullName, newName));
-
-                DirectoryInfo fileInfo2 = new DirectoryInfo(Path.Combine(dirInfo.Parent.FullName, newName));
+                DirectoryInfo oldDir = new DirectoryInfo(Server.MapPath(path));
+                Directory.Move(Server.MapPath(path), Path.Combine(oldDir.Parent.FullName, newName));
+                DirectoryInfo newDir = new DirectoryInfo(Path.Combine(oldDir.Parent.FullName, newName));
 
                 sb.AppendLine("{");
                 sb.AppendLine("\"Error\": \"No error\",");
                 sb.AppendLine("\"Code\": 0,");
                 sb.AppendLine("\"Old Path\": \"" + path + "\",");
-                sb.AppendLine("\"Old Name\": \"" + newName + "\",");
-                sb.AppendLine("\"New Path\": \"" +
-                    fileInfo2.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/') + "\",");
-                sb.AppendLine("\"New Name\": \"" + fileInfo2.Name + "\"");
+                sb.AppendLine("\"Old Name\": \"" + oldDir.Name + "\",");
+                sb.AppendLine("\"New Path\": \"" + newDir.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/') + "\",");
+                sb.AppendLine("\"New Name\": \"" + newDir.Name + "\"");
                 sb.AppendLine("}");
-
             }
             else
             {
@@ -481,9 +485,8 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                 sb.AppendLine("\"Error\": \"No error\",");
                 sb.AppendLine("\"Code\": 0,");
                 sb.AppendLine("\"Old Path\": \"" + path + "\",");
-                sb.AppendLine("\"Old Name\": \"" + newName + "\",");
-                sb.AppendLine("\"New Path\": \"" +
-                    newFile.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/') + "\",");
+                sb.AppendLine("\"Old Name\": \"" + oldFile.Name + "\",");
+                sb.AppendLine("\"New Path\": \"" + newFile.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/') + "\",");
                 sb.AppendLine("\"New Name\": \"" + newFile.Name + "\"");
                 sb.AppendLine("}");
             }
