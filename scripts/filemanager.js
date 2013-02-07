@@ -320,8 +320,13 @@ var setUploader = function(path){
 // Binds specific actions to the toolbar in detail views.
 // Called when detail views are loaded.
 var bindToolbar = function(data){
+	
 	// this little bit is purely cosmetic
-	$('#fileinfo').find('button').wrapInner('<span></span>');
+	$( "#fileinfo button" ).each(function( index ) {
+		// check if span doesn't exist yet, when bindToolbar called from renameItem for example
+		if($(this).find('span').length == 0)
+			$(this).wrapInner('<span></span>');
+	});
 
 	if (!has_capability(data, 'select')) {
 		$('#fileinfo').find('button#select').hide();
@@ -484,7 +489,17 @@ var renameItem = function(data){
 							$('#fileinfo td[title="' + oldPath + '"]').text(newName);
 							$('#fileinfo td[title="' + oldPath + '"]').attr('title', newPath);
 						}
-										
+						$("#preview h1").html(newName);
+						
+						// actualized data for binding
+						data['Path']=newPath;
+						data['Filename']=newName;
+						console.log(data);
+						
+						// Bind toolbar functions.
+						$('#fileinfo').find('button#rename, button#delete, button#download').unbind();
+						bindToolbar(data);
+						
 						if(showConfirmation) $.prompt(lg.successful_rename);
 					} else {
 						$.prompt(result['Error']);
