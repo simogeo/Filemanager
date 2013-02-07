@@ -197,7 +197,7 @@ x:-o-prefocus, #file-input-container {top:16px;width:198px;}
 #newfile {
 	position: absolute;
 	top:0;
-	left:0;
+	right:0;
 	height:32px;
 	opacity:0;  filter: alpha(opacity=0);
 	cursor: pointer;
