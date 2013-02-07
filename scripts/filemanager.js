@@ -18,7 +18,7 @@ $.urlParam = function(name){
 		return results[1]; 
 	else
 		return 0;
-}
+};
 
 /*---------------------------------------------------------
   Setup, Layout, and Status Functions
@@ -55,7 +55,7 @@ $.prompt.setDefaults({
 var setDimensions = function(){
 	var newH = $(window).height() - $('#uploader').height() - 30;	
 	$('#splitter, #filetree, #fileinfo, .vsplitbar').height(newH);
-}
+};
 
 // Display Min Path
 var displayPath = function(path) {
@@ -69,7 +69,7 @@ var displayPath = function(path) {
     return path;
   }
 
-}
+};
 
 // Set the view buttons state
 var setViewButtonsFor = function(viewMode) {
@@ -81,7 +81,7 @@ var setViewButtonsFor = function(viewMode) {
         $('#list').addClass('ON');
         $('#grid').removeClass('ON');
     }
-}
+};
 
 // Test if a given url exists
 function file_exists (url) {
@@ -118,7 +118,7 @@ var preg_replace = function(array_pattern, array_pattern_replace, str)  {
 			new_str = new_str.replace (reg_exp, val_to_replace);
 		}
 		return new_str;
-	}
+	};
 
 // cleanString (), on the same model as server side (connector)
 // cleanString
@@ -144,7 +144,7 @@ var cleanString = function(str) {
 	cleaned = cleaned.replace(/[_]+/g, "_");
 	
 	return cleaned;
-}
+};
 
 // nameFormat (), separate filename from extension before calling cleanString()
 // nameFormat
@@ -157,7 +157,7 @@ var nameFormat = function(input) {
 		filename = cleanString(input);
 	}
 	return filename;
-}
+};
 
 //Converts bytes to kb, mb, or gb as needed for display.
 var formatBytes = function(bytes){
@@ -175,7 +175,7 @@ var formatBytes = function(bytes){
 			c += 1;
 		}
 	}
-}
+};
 
 // Handle Error. Freeze interactive buttons and display
 // error message. Also called when auth() function return false (Code == "-1")
@@ -184,7 +184,7 @@ var handleError = function(errMsg) {
 	$('#newfile').attr("disabled", "disabled");
 	$('#upload').attr("disabled", "disabled");
 	$('#newfolder').attr("disabled", "disabled");
-}
+};
 
 // Test if Data structure has the 'cap' capability
 // 'cap' is one of 'select', 'rename', 'delete', 'download'
@@ -203,7 +203,7 @@ var basename = function(path, suffix) {
     }
     
     return b;
-}
+};
 
 // return filename extension 
 var getExtension = function(filename) {
@@ -211,7 +211,7 @@ var getExtension = function(filename) {
 		return "";
 	}
 	return filename.split('.').pop();
-}
+};
 
 // return filename without extension {
 var getFilename = function(filename) {
@@ -220,7 +220,7 @@ var getFilename = function(filename) {
 	} else {
 		return filename;
 	}
-}
+};
 
 // Test if file is supported web video file
 var isVideoFile = function(filename) {
@@ -229,7 +229,7 @@ var isVideoFile = function(filename) {
 	} else {
 		return false;
 	}
-}
+};
 
 // Test if file is supported web audio file
 var isAudioFile = function(filename) {
@@ -238,7 +238,7 @@ var isAudioFile = function(filename) {
 	} else {
 		return false;
 	}
-}
+};
 
 // Return HTML video player 
 var getVideoPlayer = function(data) {
@@ -249,7 +249,7 @@ var getVideoPlayer = function(data) {
 	$("#fileinfo img").remove();
 	$('#fileinfo #preview h1').before(code);
 	 
-}
+};
 
 //Return HTML audio player 
 var getAudioPlayer = function(data) {
@@ -260,7 +260,7 @@ var getAudioPlayer = function(data) {
 	$("#fileinfo img").remove();
 	$('#fileinfo #preview h1').before(code);
 	 
-}
+};
 
 // Sets the folder status, upload, and new folder functions 
 // to the path specified. Called on initial page load and 
@@ -294,7 +294,7 @@ var setUploader = function(path){
 			} else {
 				$.prompt(lg.no_foldername);
 			}
-		}
+		};
 		var btns = {}; 
 		btns[lg.create_folder] = true; 
 		btns[lg.cancel] = false; 
@@ -303,7 +303,7 @@ var setUploader = function(path){
 			buttons: btns 
 		});	
 	});	
-}
+};
 
 // Binds specific actions to the toolbar in detail views.
 // Called when detail views are loaded.
@@ -345,7 +345,7 @@ var bindToolbar = function(data){
 			window.location = fileConnector + '?mode=download&path=' + encodeURIComponent(data['Path']);
 		}).show();
 	}
-}
+};
 
 //Create FileTree and bind elements
 //called during initialization and also when adding a file 
@@ -366,13 +366,13 @@ var createFileTree = function() {
 						var path = $(el).attr('rel');
 						setMenus(action, path);
 					}
-				)
+				);
 			});
 		}
 	}, function(file){
 		getFileInfo(file);
 	});
-}
+};
 
 
 /*---------------------------------------------------------
@@ -424,7 +424,7 @@ var selectItem = function(data){
 	} else {
 		$.prompt(lg.fck_select_integration);
 	}
-}
+};
 
 // Renames the current item and returns the new name.
 // Called by clicking the "Rename" button in detail views
@@ -482,7 +482,7 @@ var renameItem = function(data){
 				}
 			});	
 		}
-	}
+	};
 	var btns = {}; 
 	btns[lg.rename] = true; 
 	btns[lg.cancel] = false; 
@@ -492,7 +492,7 @@ var renameItem = function(data){
 	});
 	
 	return finalName;
-}
+};
 
 // Prompts for confirmation, then deletes the current item.
 // Called by clicking the "Delete" button in detail views
@@ -529,7 +529,7 @@ var deleteItem = function(data){
 				}			
 			}
 		});	
-	}
+	};
 	var btns = {}; 
 	btns[lg.yes] = true; 
 	btns[lg.no] = false; 
@@ -539,7 +539,7 @@ var deleteItem = function(data){
 	});
 	
 	return isDeleted;
-}
+};
 
 
 /*---------------------------------------------------------
@@ -570,7 +570,7 @@ var addNode = function(path, name){
 	getFolderInfo(path); // update list in main window
 
 	if(showConfirmation) $.prompt(lg.successful_added_file);
-}
+};
 
 // Updates the specified node with a new name. Called after
 // a successful rename operation.
@@ -580,7 +580,7 @@ var updateNode = function(oldPath, newPath, newName){
 	thisNode.attr('rel', newPath).text(newName);
 	parentNode.click().click();
 
-}
+};
 
 // Removes the specified node. Called after a successful 
 // delete operation.
@@ -611,7 +611,7 @@ var removeNode = function(path){
     if ($('#preview').length) {
     	getFolderInfo(path.substr(0, path.lastIndexOf('/') + 1));
 	}
-}
+};
 
 // Adds a new folder as the first item beneath the
 // specified parent node. Called after a new folder is
@@ -637,7 +637,7 @@ var addFolder = function(parent, name){
 	}
 	
 	if(showConfirmation) $.prompt(lg.successful_added_folder);
-}
+};
 
 
 
@@ -655,7 +655,7 @@ var getDetailView = function(path){
 	} else {
 		getFileInfo(path);
 	}
-}
+};
 
 function getContextMenuOptions(elem) {
 	var optionsID = elem.attr('class').replace(/ /g, '_');
@@ -700,7 +700,7 @@ var setMenus = function(action, path){
 				break;
 		}
 	});
-}
+};
 
 // Retrieves information about the specified file as a JSON
 // object and uses that data to populate a template for
@@ -752,7 +752,7 @@ var getFileInfo = function(file){
 			$.prompt(data['Error']);
 		}
 	});	
-}
+};
 
 // Retrieves data for all items within the given folder and
 // creates a list view. Binds contextual menu options.
@@ -898,7 +898,7 @@ var getFolderInfo = function(path){
 			});
 		}
 	});
-}
+};
 
 // Retrieve data (file/folder listing) for jqueryFileTree and pass the data back
 // to the callback function in jqueryFileTree
@@ -935,7 +935,7 @@ var populateFileTree = function(path, callback){
 		}
 		callback(result);
 	});
-}
+};
 
 
 
