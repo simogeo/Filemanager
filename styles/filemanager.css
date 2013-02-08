@@ -4,12 +4,12 @@
 **/
 
 * {
-	font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
-	color: #333;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-ms-box-sizing: border-box;
+    font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
+    color: #333;
+    box-sizing: content-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: content-box;
 }
 
 body {
