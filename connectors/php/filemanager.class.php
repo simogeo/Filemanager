@@ -22,9 +22,23 @@ class Filemanager {
   protected $languages = array();
   protected $root = '';
   protected $doc_root = '';
+  
+  public function __debug($msg) {
+  	
+  		$filename = "/tmp/filemanager_debug.txt";
+  		$fd = fopen($filename, "a");
+  		$str = "[" . date("d/m/Y h:i:s", mktime()) . "] " . $msg;
+  		fwrite($fd, $str . PHP_EOL);
+  		fclose($fd);
+  }
 
   public function __construct($config) {
+  	
+  	$content = file_get_contents("../../scripts/filemanager.config.js");
+  	$config = json_decode($content, true);
+  	
     $this->config = $config;
+    
     $this->root = dirname(dirname(dirname(__FILE__))).DIRECTORY_SEPARATOR;
     $this->properties = array(
   	  	  'Date Created'=>null,
@@ -33,11 +47,13 @@ class Filemanager {
   	  	  'Width'=>null,
   	  	  'Size'=>null
     );
-    if (isset($this->config['doc_root'])) {
-      $this->doc_root = $this->config['doc_root'];
+    if (isset($this->config['options']['docRoot'])) {
+      $this->doc_root = $this->config['options']['docRoot'];
     } else {
       $this->doc_root = $_SERVER['DOCUMENT_ROOT'];
     }
+
+    $this->__debug('$this->doc_root value : ' . $this->doc_root);
 
     $this->setParams();
     $this->availableLanguages();
@@ -132,7 +148,7 @@ class Filemanager {
       foreach($filesDir as $file) {
 
         if(is_dir($current_path . $file)) {
-          if(!in_array($file, $this->config['unallowed_dirs'])) {
+          if(!in_array($file, $this->config['exclude']['unallowed_dirs']) && !preg_match( $this->config['exclude']['unallowed_dirs_REGEXP'], $file)) {
             $array[$this->get['path'] . $file .'/'] = array(
 						'Path'=> $this->get['path'] . $file .'/',
 						'Filename'=>$file,
@@ -149,13 +165,13 @@ class Filemanager {
 						'Code'=>0
             );
           }
-        } else if (!in_array($file, $this->config['unallowed_files'])) {
+        } else if (!in_array($file, $this->config['exclude']['unallowed_files'])  && !preg_match( $this->config['exclude']['unallowed_files_REGEXP'], $file)) {
           $this->item = array();
           $this->item['properties'] = $this->properties;
           $this->get_file_info($this->get['path'] . $file);
            
-          if(!isset($this->params['type']) || (isset($this->params['type']) && strtolower($this->params['type'])=='images' && in_array(strtolower($this->item['filetype']),$this->config['images']))) {
-            if($this->config['upload']['imagesonly']== false || ($this->config['upload']['imagesonly']== true && in_array(strtolower($this->item['filetype']),$this->config['images']))) {
+          if(!isset($this->params['type']) || (isset($this->params['type']) && strtolower($this->params['type'])=='images' && in_array(strtolower($this->item['filetype']),$this->config['images']['imagesExt']))) {
+            if($this->config['upload']['imagesOnly']== false || ($this->config['upload']['imagesOnly']== true && in_array(strtolower($this->item['filetype']),$this->config['images']['imagesExt']))) {
               $array[$this->get['path'] . $file] = array(
 							'Path'=>$this->get['path'] . $file,
 							'Filename'=>$this->item['filename'],
@@ -245,7 +261,7 @@ class Filemanager {
     if(($this->config['upload']['size']!=false && is_numeric($this->config['upload']['size'])) && ($_FILES['newfile']['size'] > ($this->config['upload']['size'] * 1024 * 1024))) {
       $this->error(sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['size'] . 'Mb'),true);
     }
-    if($this->config['upload']['imagesonly'] || (isset($this->params['type']) && strtolower($this->params['type'])=='images')) {
+    if($this->config['upload']['imagesOnly'] || (isset($this->params['type']) && strtolower($this->params['type'])=='images')) {
       if(!($size = @getimagesize($_FILES['newfile']['tmp_name']))){
         $this->error(sprintf($this->lang('UPLOAD_IMAGES_ONLY')),true);
       }
@@ -355,7 +371,7 @@ class Filemanager {
        
       $this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['directory'];
        
-    } else if(in_array(strtolower($this->item['filetype']),$this->config['images'])) {
+    } else if(in_array(strtolower($this->item['filetype']),$this->config['images']['imagesExt'])) {
        
       $this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path=' . rawurlencode($path);
       //if(isset($get['getsize']) && $get['getsize']=='true') {
@@ -379,8 +395,14 @@ class Filemanager {
        
     }
 
-    $this->item['properties']['Date Modified'] = date($this->config['date'], $this->item['filemtime']);
-    //$return['properties']['Date Created'] = date($config['date'], $return['filectime']); // PHP cannot get create timestamp
+    $this->item['properties']['Date Modified'] = date($this->config['options']['dateFormat'], $this->item['filemtime']);
+    //$return['properties']['Date Created'] = $this->config['options']['dateFormat'], $return['filectime']); // PHP cannot get create timestamp
+  }
+  
+  private function isValidPath($path) {
+  	
+  	return !strncmp($path, $this->doc_root, strlen($this->doc_root));
+  	
   }
 
   private function unlinkRecursive($dir,$deleteRootToo=true) {
@@ -470,7 +492,7 @@ class Filemanager {
 
     // we load langCode var passed into URL if present and if exists
     // else, we use default configuration var
-    $lang = $this->config['culture'];
+    $lang = $this->config['options']['culture'];
     if(isset($this->params['langCode']) && in_array($this->params['langCode'], $this->languages)) $lang = $this->params['langCode'];
 
     if(file_exists($this->root. 'scripts/languages/'.$lang.'.js')) {

@@ -24,17 +24,34 @@ $.urlParam = function(name){
   Setup, Layout, and Status Functions
 ---------------------------------------------------------*/
 
+// We retrieve config settings from filemanager.config.js
+var config = (function () {
+    var json = null;
+    $.ajax({
+        'async': false,
+        'url': './scripts/filemanager.config.js',
+        'dataType': "json",
+        cache: false, 
+        'success': function (data) {
+            json = data;
+        }
+    });
+    return json;
+})();
+
+
 // Sets paths to connectors based on language selection.
-var fileConnector = 'connectors/' + lang + '/filemanager.' + lang;
+var fileConnector = 'connectors/' + config.options.lang + '/filemanager.' + config.options.lang;
 
 var capabilities = new Array('select', 'download', 'rename', 'delete');
 
 // Get localized messages from file 
 // through culture var or from URL
-if($.urlParam('langCode') != 0 && file_exists ('scripts/languages/'  + $.urlParam('langCode') + '.js')) culture = $.urlParam('langCode');
+if($.urlParam('langCode') != 0 && file_exists ('scripts/languages/'  + $.urlParam('langCode') + '.js')) config.options.culture = $.urlParam('langCode');
+
 var lg = [];
 $.ajax({
-  url: 'scripts/languages/'  + culture + '.js',
+  url: 'scripts/languages/'  + config.options.culture + '.js',
   async: false,
   dataType: 'json',
   success: function (json) {
@@ -60,7 +77,7 @@ var setDimensions = function(){
 // Display Min Path
 var displayPath = function(path) {
 
-	if(showFullPath == false) {
+	if(config.options.showFullPath == false) {
     // if a "displayPathDecorator" function is defined, use it to decorate path
     return 'function' === (typeof displayPathDecorator)
          ? displayPathDecorator(path)
@@ -196,11 +213,11 @@ function has_capability(data, cap) {
 
 // Test if file is authorized
 var isAuthorizedFile = function(filename) {
-	if(uploadPolicy == 'DISALLOW_ALL') {
-		if($.inArray(getExtension(filename), uploadRestrictions) != -1) return true;
+	if(config.security.uploadPolicy == 'DISALLOW_ALL') {
+		if($.inArray(getExtension(filename), config.security.uploadRestrictions) != -1) return true;
 	}
-	if(uploadPolicy == 'ALLOW_ALL') {
-		if($.inArray(getExtension(filename), uploadRestrictions) == -1) return true;
+	if(config.security.uploadPolicy == 'ALLOW_ALL') {
+		if($.inArray(getExtension(filename), config.security.uploadRestrictions) == -1) return true;
 	}
     
     return false;
@@ -236,7 +253,7 @@ var getFilename = function(filename) {
 
 // Test if file is supported web video file
 var isVideoFile = function(filename) {
-	if($.inArray(getExtension(filename), videosExt) != -1) {
+	if($.inArray(getExtension(filename), config.videos.videosExt) != -1) {
 		return true;
 	} else {
 		return false;
@@ -245,7 +262,7 @@ var isVideoFile = function(filename) {
 
 // Test if file is supported web audio file
 var isAudioFile = function(filename) {
-	if($.inArray(getExtension(filename), audiosExt) != -1) {
+	if($.inArray(getExtension(filename), config.audios.audiosExt) != -1) {
 		return true;
 	} else {
 		return false;
@@ -254,7 +271,7 @@ var isAudioFile = function(filename) {
 
 // Return HTML video player 
 var getVideoPlayer = function(data) {
-	var code  = '<video width=' + videosPlayerWidth + ' height=' + videosPlayerHeight + ' src="' + data['Path'] + '" controls="controls">';
+	var code  = '<video width=' + config.videos.videosPlayerWidth + ' height=' + config.videos.videosPlayerHeight + ' src="' + data['Path'] + '" controls="controls">';
 		code += '<img src="' + data['Preview'] + '" />';
 		code += '</video>';
 	
@@ -500,7 +517,7 @@ var renameItem = function(data){
 						$('#fileinfo').find('button#rename, button#delete, button#download').unbind();
 						bindToolbar(data);
 						
-						if(showConfirmation) $.prompt(lg.successful_rename);
+						if(config.options.showConfirmation) $.prompt(lg.successful_rename);
 					} else {
 						$.prompt(result['Error']);
 					}
@@ -546,7 +563,7 @@ var deleteItem = function(data){
 					$('#uploader h1').text(lg.current_folder + displayPath(rootpath));
 					isDeleted = true;
 					
-					if(showConfirmation) $.prompt(lg.successful_delete);
+					if(config.options.showConfirmation) $.prompt(lg.successful_delete);
 
                     // seems to be necessary when dealing w/ files located on s3 (need to look into a cleaner solution going forward)
                     $('#filetree').find('a[rel="' + parent +'/"]').click().click();
@@ -596,7 +613,7 @@ var addNode = function(path, name){
 
 	getFolderInfo(path); // update list in main window
 
-	if(showConfirmation) $.prompt(lg.successful_added_file);
+	if(config.options.showConfirmation) $.prompt(lg.successful_added_file);
 };
 
 // Updates the specified node with a new name. Called after
@@ -663,7 +680,7 @@ var addFolder = function(parent, name){
 			);
 	}
 	
-	if(showConfirmation) $.prompt(lg.successful_added_folder);
+	if(config.options.showConfirmation) $.prompt(lg.successful_added_folder);
 };
 
 
@@ -744,8 +761,8 @@ var getFileInfo = function(file){
 	template += '<form id="toolbar">';
 	if(window.opener || window.tinyMCEPopup) template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
 	template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
-	if(browseOnly != true) template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
-	if(browseOnly != true) template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.del + '</button>';
+	if(config.options.browseOnly != true) template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
+	if(config.options.browseOnly != true) template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.del + '</button>';
 	template += '<button id="parentfolder">' + lg.parentfolder + '</button>';
 	template += '</form>';
 	
@@ -758,10 +775,10 @@ var getFileInfo = function(file){
 		if(data['Code'] == 0){
 			$('#fileinfo').find('h1').text(data['Filename']).attr('title', file);
 			$('#fileinfo').find('img').attr('src',data['Preview']);
-			if(isVideoFile(data['Filename']) && showVideoPlayer == true) {
+			if(isVideoFile(data['Filename']) && config.videos.showVideoPlayer == true) {
 				getVideoPlayer(data);
 			}
-			if(isAudioFile(data['Filename']) && showAudioPlayer == true) {
+			if(isAudioFile(data['Filename']) && config.audios.showAudioPlayer == true) {
 				getAudioPlayer(data);
 			}
 			
@@ -794,7 +811,7 @@ var getFolderInfo = function(path){
 
 	// Retrieve the data and generate the markup.
 	var d = new Date(); // to prevent IE cache issues
-	var url = fileConnector + '?path=' + encodeURIComponent(path) + '&mode=getfolder&showThumbs=' + showThumbs + '&time=' + d.getMilliseconds();
+	var url = fileConnector + '?path=' + encodeURIComponent(path) + '&mode=getfolder&showThumbs=' + config.options.showThumbs + '&time=' + d.getMilliseconds();
 	if ($.urlParam('type')) url += '&type=' + $.urlParam('type');
 	$.getJSON(url, function(data){
 		var result = '';
@@ -931,7 +948,7 @@ var getFolderInfo = function(path){
 // to the callback function in jqueryFileTree
 var populateFileTree = function(path, callback){
 	var d = new Date(); // to prevent IE cache issues
-	var url = fileConnector + '?path=' + encodeURIComponent(path) + '&mode=getfolder&showThumbs=' + showThumbs + '&time=' + d.getMilliseconds();
+	var url = fileConnector + '?path=' + encodeURIComponent(path) + '&mode=getfolder&showThumbs=' + config.options.showThumbs + '&time=' + d.getMilliseconds();
 	if ($.urlParam('type')) url += '&type=' + $.urlParam('type');
 	$.getJSON(url, function(data) {
 		var result = '';
@@ -972,15 +989,30 @@ var populateFileTree = function(path, callback){
 ---------------------------------------------------------*/
 
 $(function(){
-	if(extra_js) {
-		for(var i=0; i< extra_js.length; i++) {
+	if(config.extras.extra_js) {
+		for(var i=0; i< config.extras.extra_js.length; i++) {
 			$.ajax({
-				url: extra_js[i],
+				url: config.extras.extra_js[i],
 				dataType: "script",
-				async: extra_js_async
+				async: config.extras.extra_js_async
 			});
 		}
 	}
+
+	if(!config.options.fileRoot) {
+		fileRoot = '/' + document.location.pathname.substring(1, document.location.pathname.lastIndexOf('/') + 1) + 'userfiles/';
+	} else {
+		fileRoot = config.options.fileRoot;
+	}
+
+	if(!config.options.RelPath) {
+		relPath = window.location.protocol + "//" + window.location.host;
+	} else {
+		relPath = config.options.RelPath;
+	}
+	console.log('fileRoot : ' + fileRoot);
+	console.log('RelPath : ' + relPath);
+	
 
 	if($.urlParam('expandedFolder') != 0) {
 		expandedFolder = $.urlParam('expandedFolder');
@@ -995,7 +1027,7 @@ $(function(){
 
 	// we finalize the FileManager UI initialization 
 	// with localized text if necessary
-	if(autoload == true) {
+	if(config.options.autoload == true) {
 		$('#upload').append(lg.upload);
 		$('#newfolder').append(lg.new_folder);
 		$('#grid').attr('title', lg.grid_view);
@@ -1026,8 +1058,8 @@ $(function(){
 	$('button').wrapInner('<span></span>');
 
 	// Set initial view state.
-	$('#fileinfo').data('view', defaultViewMode);
-	setViewButtonsFor(defaultViewMode);
+	$('#fileinfo').data('view', config.options.defaultViewMode);
+	setViewButtonsFor(config.options.defaultViewMode);
 	
 	$('#home').click(function(){
 		var currentViewMode = $('#fileinfo').data('view');
@@ -1064,11 +1096,11 @@ $(function(){
 			// Check if file extension is allowed
 			if (!isAuthorizedFile($('#newfile', form).val())) { 
 				var str = '<p>' + lg.INVALID_FILE_TYPE + '</p>';
-				if(uploadPolicy == 'DISALLOW_ALL') {
-					str += '<p>' + lg.ALLOWED_FILE_TYPE +  uploadRestrictions.join(', ') + '.</p>';
+				if(config.security.uploadPolicy == 'DISALLOW_ALL') {
+					str += '<p>' + lg.ALLOWED_FILE_TYPE +  config.security.uploadRestrictions.join(', ') + '.</p>';
 				}
-				if(uploadPolicy == 'ALLOW_ALL') {
-					str += '<p>' + lg.DISALLOWED_FILE_TYPE +  uploadRestrictions.join(', ') + '.</p>';
+				if(config.security.uploadPolicy == 'ALLOW_ALL') {
+					str += '<p>' + lg.DISALLOWED_FILE_TYPE +  config.security.uploadRestrictions.join(', ') + '.</p>';
 				}
 				$("#filepath").val('');
 				$.prompt(str); 
@@ -1079,8 +1111,8 @@ $(function(){
 			if ($.urlParam('type').toString().toLowerCase() == 'images') {
 				// Test if uploaded file extension is in valid image extensions
 				var newfileSplitted = $('#newfile', form).val().toLowerCase().split('.');
-				for (key in imagesExt) {
-					if (imagesExt[key] == newfileSplitted[newfileSplitted.length - 1]) {
+				for (key in config.images.imagesExt) {
+					if (config.images.imagesExt[key] == newfileSplitted[newfileSplitted.length - 1]) {
 						return true;
 					}
 				}
@@ -1088,11 +1120,11 @@ $(function(){
 				$('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
 				return false;
 			}
-			if (typeof FileReader !== "undefined" && typeof fileSizeLimit !== "undefined") {
+			if (typeof FileReader !== "undefined" && typeof config.upload.fileSizeLimit !== "undefined") {
 				// Check file size using html5 FileReader API
 				var size = $('#newfile', form).get(0).files[0].size;
-				if (size > fileSizeLimit * 1024 * 1024) {
-					$.prompt("<p>" + lg.file_too_big + "</p><p>" + lg.file_size_limit + fileSizeLimit + " " + lg.mb + ".</p>");
+				if (size > config.upload.fileSizeLimit * 1024 * 1024) {
+					$.prompt("<p>" + lg.file_too_big + "</p><p>" + lg.file_size_limit + config.upload.fileSizeLimit + " " + lg.mb + ".</p>");
 					$('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
 					return false;
 				}
@@ -1126,7 +1158,7 @@ $(function(){
 	// Disable select function if no window.opener
 	if(! (window.opener || window.tinyMCEPopup) ) $('#itemOptions a[href$="#select"]').remove();
 	// Keep only browseOnly features if needed
-	if(browseOnly == true) {
+	if(config.options.browseOnly == true) {
 		$('#newfile').remove();
 		$('#upload').remove();
 		$('#newfolder').remove();
