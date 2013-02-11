@@ -4,7 +4,7 @@ Filemanager
 Installation and Setup
 ----------------------
 
-(1) Check out a copy of the FileManager from the repository using Git :
+**(1)** Check out a copy of the FileManager from the repository using Git :
 
 git clone http://github.com/simogeo/Filemanager.git
 
@@ -12,9 +12,9 @@ or download the archive from Github : https://github.com/simogeo/Filemanager/arc
 
 You can place the FileManager anywhere within your web serving root directory.
 
-(2) Make a copy of the default configuration file ("filemanager.config.js.default" located in the scripts directory), removing the '.default' from the end of the filename, and edit the options according to the following wiki page : https://github.com/simogeo/Filemanager/wiki/Filemanager-configuration-file
+**(2)** Make a copy of the default configuration file ("filemanager.config.js.default" located in the scripts directory), removing the '.default' from the end of the filename, and edit the options according to the following wiki page : https://github.com/simogeo/Filemanager/wiki/Filemanager-configuration-file
 
-(3) Find the default configuration file for the connector you chose in Step 2 above, and follow the same procedure to configure the connector. For instance, the default configuration file for the PHP connector is located here:
+**(3)** Find the default configuration file for the connector you chose in Step 2 above, and follow the same procedure to configure the connector. For instance, the default configuration file for the PHP connector is located here:
 		[Path to FileManager]/connectors/php/filemanager.config.php
 		
 **Since many changes have been done recently, only PHP connector is now available**
@@ -23,7 +23,7 @@ To use other connectors, please download v0.8 version from https://github.com/si
 (PHP, ASHX, ASP, CFM, lasso, PL and JSP connectors are available)
     
 
-(4a) If you are integrating the FileManager with FCKEditor, open your fckconfig.js file and find the lines which specify what file browser to use for images, links, etc. Look toward the bottom of the file. You will need to change lines such as this:
+**(4a)** If you are integrating the FileManager with FCKEditor, open your fckconfig.js file and find the lines which specify what file browser to use for images, links, etc. Look toward the bottom of the file. You will need to change lines such as this:
 
 FCKConfig.ImageBrowser = false ;
 FCKConfig.ImageBrowserURL = FCKConfig.BasePath + 'filemanager/browser/default/browser.html?Type=Image&Connector=../../connectors/' + _FileBrowserLanguage + '/connector.' + _FileBrowserExtension ;
@@ -33,14 +33,14 @@ FCKConfig.ImageBrowserURL = FCKConfig.BasePath + 'filemanager/browser/default/br
 FCKConfig.ImageBrowser = true ;
 FCKConfig.ImageBrowserURL = '[Path to Filemanager]/index.html' ;
 
-(4b) If you are integrating the FileManager with CKEditor 3.x or higher, simply set the URL when you configure your instance, like so:
+**(4b)** If you are integrating the FileManager with CKEditor 3.x or higher, simply set the URL when you configure your instance, like so:
 
 CKEDITOR.replace('instancename', {
 	filebrowserBrowseUrl: '[Path to Filemanager]/index.html',
 	...other configuration options...
 });
 
-(4c) If you are integrating the FileManager with TinyMCE (>= 3.0), you should:
+**(4c)** If you are integrating the FileManager with TinyMCE (>= 3.0), you should:
 
 Create a Javascript callback function that will open the FileManager index.html base page (see URL below for examples)
 Add a line like: "file_browser_callback : 'name_of_callback_function'" in the tinyMCE.init command
