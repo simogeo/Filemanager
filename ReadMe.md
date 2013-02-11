@@ -17,10 +17,10 @@ You can place the FileManager anywhere within your web serving root directory.
 (3) Find the default configuration file for the connector you chose in Step 2 above, and follow the same procedure to configure the connector. For instance, the default configuration file for the PHP connector is located here:
 		[Path to FileManager]/connectors/php/filemanager.config.php
 		
-		*Since many changes have been done recently, only PHP connector is now available*
+ *Since many changes have been done recently, only PHP connector is now available*
 		
-		To use other connectors, please download v0.8 version from https://github.com/simogeo/Filemanager/archive/v0.8.zip
-		(PHP, ASHX, ASP, CFM, lasso, PL and JSP connectors are available)
+ To use other connectors, please download v0.8 version from https://github.com/simogeo/Filemanager/archive/v0.8.zip
+ (PHP, ASHX, ASP, CFM, lasso, PL and JSP connectors are available)
     
 
 (4a) If you are integrating the FileManager with FCKEditor, open your fckconfig.js file and find the lines which specify what file browser to use for images, links, etc. Look toward the bottom of the file. You will need to change lines such as this:
