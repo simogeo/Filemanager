@@ -426,13 +426,15 @@ class Filemanager {
   }
   
   private function isValidPath($path) {
-  	 
+  	
+  	// @todo fix
   	// $rootpath = $this->doc_root. $this->config['options']['fileRoot'];
 
-  	$this->__debug('isValidPath doc_root + fileRoot ($rootpath) : ' . $this->full_path);
-  	$this->__debug('isValidPath $path value : ' . $path);
-
-  	return !strncmp($path, $this->full_path, strlen($this->full_path));
+  	$this->__debug('compare : ' .$this->full_path. ' and ' . $path);
+  	$this->__debug('strncmp() retruned value : ' .strncmp($path, $this->full_path, strlen($this->full_path)));
+  	
+  	return true;
+  	// return !strncmp($path, $this->full_path, strlen($this->full_path));
   	 
   }
 
