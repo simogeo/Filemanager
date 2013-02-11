@@ -102,12 +102,16 @@ if(!isset($_GET)) {
           $fm->download();
         }
         break;
+        
       case 'preview':
         if($fm->getvar('path')) {
           $fm->preview();
         }
         break;
-
+			
+      case 'maxuploadfilesize':
+        $fm->getMaxUploadFileSize();
+        break;
     }
 
   } else if(isset($_POST['mode']) && $_POST['mode']!='') {

@@ -420,7 +420,11 @@ var createFileTree = function() {
 // contextual menu option in list views. 
 // NOTE: closes the window when finished.
 var selectItem = function(data){
-    var url = relPath + data['Path'];
+	if(config.options.relPath != false ) {
+		var url = relPath + data['Path'].replace(fileRoot,""); 
+	} else {
+		var url = relPath + data['Path'];
+	}
     
 	if(window.opener || window.tinyMCEPopup){
 	 	if(window.tinyMCEPopup){
@@ -511,7 +515,6 @@ var renameItem = function(data){
 						// actualized data for binding
 						data['Path']=newPath;
 						data['Filename']=newName;
-						console.log(data);
 						
 						// Bind toolbar functions.
 						$('#fileinfo').find('button#rename, button#delete, button#download').unbind();
@@ -1005,13 +1008,14 @@ $(function(){
 		fileRoot = config.options.fileRoot;
 	}
 
-	if(!config.options.RelPath) {
+	if(!config.options.relPath) {
 		relPath = window.location.protocol + "//" + window.location.host;
 	} else {
-		relPath = config.options.RelPath;
+		relPath = config.options.relPath;
 	}
-	console.log('fileRoot : ' + fileRoot);
-	console.log('RelPath : ' + relPath);
+	// @todo remove 
+	// console.log('fileRoot : ' + fileRoot);
+	// console.log('RelPath : ' + relPath);
 	
 
 	if($.urlParam('expandedFolder') != 0) {
@@ -1159,7 +1163,7 @@ $(function(){
 	if(! (window.opener || window.tinyMCEPopup) ) $('#itemOptions a[href$="#select"]').remove();
 	// Keep only browseOnly features if needed
 	if(config.options.browseOnly == true) {
-		$('#newfile').remove();
+		$('#file-input-container').remove();
 		$('#upload').remove();
 		$('#newfolder').remove();
 		$('#toolbar').remove('#rename');

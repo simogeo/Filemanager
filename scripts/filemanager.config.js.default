@@ -41,18 +41,29 @@
         ]
     },
     "upload": {
-    	"overwrite": false,
-    	"imagesOnly": false,
-    	"fileSizeLimit": 30
+        "overwrite": false,
+        "imagesOnly": false,
+        "fileSizeLimit": 16
     },
     "exclude": {
-    	"unallowed_files": [".htaccess"],
-    	"unallowed_dirs": ["_thumbs",".CDN_ACCESS_LOGS", "cloudservers"],
-    	"unallowed_files_REGEXP": "/^\\./uis",
-    	"unallowed_dirs_REGEXP": "/^\\./uis"
+        "unallowed_files": [
+            ".htaccess"
+        ],
+        "unallowed_dirs": [
+            "_thumbs",
+            ".CDN_ACCESS_LOGS",
+            "cloudservers"
+        ],
+        "unallowed_files_REGEXP": "/^\\./uis",
+        "unallowed_dirs_REGEXP": "/^\\./uis"
     },
     "images": {
-        "imagesExt": ["jpg",            "jpeg",  "gif", "png"]
+        "imagesExt": [
+            "jpg",
+            "jpeg",
+            "gif",
+            "png"
+        ]
     },
     "videos": {
         "showVideoPlayer": true,
@@ -77,8 +88,8 @@
         "extra_js_async": true
     },
     "icons": {
-    	"path": "images/fileicons/",
-    	"directory": "_Open.png",
-    	"default": "default.png"
+        "path": "images/fileicons/",
+        "directory": "_Open.png",
+        "default": "default.png"
     }
 }

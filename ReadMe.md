@@ -12,12 +12,15 @@ or download the archive from Github : https://github.com/simogeo/Filemanager/arc
 
 You can place the FileManager anywhere within your web serving root directory.
 
-(2) Make a copy of the default configuration file ("filemanager.config.js.default" located in the scripts directory), removing the '.default' from the end of the filename, and edit the options according to the comments in the file.
+(2) Make a copy of the default configuration file ("filemanager.config.js.default" located in the scripts directory), removing the '.default' from the end of the filename, and edit the options according to the following wiki page : https://github.com/simogeo/Filemanager/wiki/Filemanager-configuration-file
 
 (3) Find the default configuration file for the connector you chose in Step 2 above, and follow the same procedure to configure the connector. For instance, the default configuration file for the PHP connector is located here:
 		[Path to FileManager]/connectors/php/filemanager.config.php
 		
-    Currently, PHP, ASHX, ASP, CFM, lasso, PL and JSP connectors are available for Filemanager, but we are waiting for you contributions
+		*Since many changes have been done recently, only PHP connector is now available*
+		
+		To use other connectors, please download v0.8 version from https://github.com/simogeo/Filemanager/archive/v0.8.zip
+		(PHP, ASHX, ASP, CFM, lasso, PL and JSP connectors are available)
     
 
 (4a) If you are integrating the FileManager with FCKEditor, open your fckconfig.js file and find the lines which specify what file browser to use for images, links, etc. Look toward the bottom of the file. You will need to change lines such as this:
@@ -54,9 +57,10 @@ You can create a connector for your server side language of choice by following 
 
 	[path to FileManager]/connectors/[language extension]/filemanager.[language extension]
 
-FileManager currently includes connectors for PHP, JSP, lasso, ASP, ASHX, PL and CFM in the following locations:
+FileManager currently includes connectors for PHP, MVC, JSP, lasso, ASP, ASHX, PL and CFM in the following locations:
 
 	PHP: .../connectors/php/filemanager.php
+	ASP.NET MVC Framework .../connectors/mvc/FilemanagerController.cs
 	JSP: .../connectors/jsp/filemanager.jsp
 	lasso: .../connectors/lasso/filemanager.lasso
 	ASP: .../connectors/asp/filemanager.asp

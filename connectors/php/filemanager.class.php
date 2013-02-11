@@ -22,15 +22,8 @@ class Filemanager {
   protected $languages = array();
   protected $root = '';
   protected $doc_root = '';
-  
-  public function __debug($msg) {
-  	
-  		$filename = "/tmp/filemanager_debug.txt";
-  		$fd = fopen($filename, "a");
-  		$str = "[" . date("d/m/Y h:i:s", mktime()) . "] " . $msg;
-  		fwrite($fd, $str . PHP_EOL);
-  		fclose($fd);
-  }
+  protected $full_path = '';
+  protected $debug = false;
 
   public function __construct($config) {
   	
@@ -47,11 +40,14 @@ class Filemanager {
   	  	  'Width'=>null,
   	  	  'Size'=>null
     );
-    if (isset($this->config['options']['docRoot'])) {
-      $this->doc_root = $this->config['options']['docRoot'];
+
+    if ($this->config['options']['fileRoot'] !== false ) {
+    	$this->doc_root = '';
     } else {
-      $this->doc_root = $_SERVER['DOCUMENT_ROOT'];
+    	$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
     }
+    $this->full_path = $this->doc_root. $this->config['options']['fileRoot'];
+    
 
     $this->__debug('$this->doc_root value : ' . $this->doc_root);
 
@@ -121,6 +117,13 @@ class Filemanager {
     $filesDir = array();
 
     $current_path = $this->doc_root . rawurldecode($this->get['path']);
+    $this->__debug('$this->doc_root value in ' . __FUNCTION__ . ' : ' . $this->doc_root);
+    $this->__debug('$this->get[path] value in ' . __FUNCTION__ . ' : ' . $current_path);
+    
+    if(!$this->isValidPath($current_path)) {
+    	$this->error("No way.");
+    }
+    
     if(!is_dir($current_path)) {
       $this->error(sprintf($this->lang('DIRECTORY_NOT_EXIST'),$this->get['path']));
     }
@@ -232,6 +235,10 @@ class Filemanager {
 
   public function delete() {
 
+  	if(!$this->isValidPath(rawurldecode($this->get['path']))) {
+  		$this->error("No way.");
+  	}
+  	
     if(is_dir($this->doc_root . rawurldecode($this->get['path']))) {
       $this->unlinkRecursive($this->doc_root . rawurldecode($this->get['path']));
       $array = array(
@@ -287,6 +294,10 @@ class Filemanager {
   }
 
   public function addfolder() {
+  	
+  	if(!$this->isValidPath(rawurldecode($this->get['path']))) {
+  		$this->error("No way.");
+  	}
     if(is_dir($this->doc_root . $this->get['path'] . $this->get['name'])) {
       $this->error(sprintf($this->lang('DIRECTORY_ALREADY_EXISTS'),$this->get['name']));
        
@@ -305,6 +316,10 @@ class Filemanager {
   }
 
   public function download() {
+  	
+  	if(!$this->isValidPath(rawurldecode($this->get['path']))) {
+  		$this->error("No way.");
+  	}
 
     if(isset($this->get['path']) && file_exists($this->doc_root .rawurldecode($this->get['path']))) {
       header("Content-type: application/force-download");
@@ -321,7 +336,7 @@ class Filemanager {
   }
 
   public function preview() {
-
+  	
     if(isset($this->get['path']) && file_exists($this->doc_root . rawurldecode($this->get['path']))) {
       header("Content-type: image/" .$ext = pathinfo(rawurldecode($this->get['path']), PATHINFO_EXTENSION));
       header("Content-Transfer-Encoding: Binary");
@@ -332,6 +347,17 @@ class Filemanager {
     } else {
       $this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),rawurldecode($this->get['path'])));
     }
+  }
+  
+  public function getMaxUploadFileSize() {
+  	
+  	$max_upload = (int) ini_get('upload_max_filesize');
+		$max_post = (int) ini_get('post_max_size');
+		$memory_limit = (int) ini_get('memory_limit');
+		
+		$upload_mb = min($max_upload, $max_post, $memory_limit);
+		
+		return $upload_mb;
   }
 
   private function setParams() {
@@ -373,7 +399,7 @@ class Filemanager {
        
     } else if(in_array(strtolower($this->item['filetype']),$this->config['images']['imagesExt'])) {
        
-      $this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path=' . rawurlencode($path);
+      $this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path='. rawurlencode($path);
       //if(isset($get['getsize']) && $get['getsize']=='true') {
       $this->item['properties']['Size'] = filesize($this->doc_root . $path);
       if ($this->item['properties']['Size']) {
@@ -400,9 +426,14 @@ class Filemanager {
   }
   
   private function isValidPath($path) {
-  	
-  	return !strncmp($path, $this->doc_root, strlen($this->doc_root));
-  	
+  	 
+  	// $rootpath = $this->doc_root. $this->config['options']['fileRoot'];
+
+  	$this->__debug('isValidPath doc_root + fileRoot ($rootpath) : ' . $this->full_path);
+  	$this->__debug('isValidPath $path value : ' . $path);
+
+  	return !strncmp($path, $this->full_path, strlen($this->full_path));
+  	 
   }
 
   private function unlinkRecursive($dir,$deleteRootToo=true) {
@@ -514,6 +545,18 @@ class Filemanager {
       }
       closedir($handle);
     }
+  }
+  
+  private function __debug($msg) {
+  	
+  	if($this->debug == true) {
+	  	$filename = "/tmp/filemanager_debug.txt";
+	  	$fd = fopen($filename, "a");
+	  	$str = "[" . date("d/m/Y h:i:s", mktime()) . "] " . $msg;
+	  	fwrite($fd, $str . PHP_EOL);
+	  	fclose($fd);
+  	}
+  	
   }
 }
 ?>
