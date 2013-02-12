@@ -10,7 +10,6 @@
 #file-input-container {
 	width: 205px;
 	top: 14px;
-	top: 13px; /* IE8 and below */
 }
 
 #file-input-container * {
