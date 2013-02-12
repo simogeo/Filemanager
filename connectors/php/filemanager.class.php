@@ -208,6 +208,10 @@ class Filemanager {
     $new_file = $this->getFullPath($path . '/' . $this->get['new']);
     $old_file = $this->getFullPath($this->get['old']);
     
+    if(!$this->isValidPath($old_file)) {
+    	$this->error("No way.");
+    }
+    
     $this->__debug('rename() : $new_file '. $new_file);
     $this->__debug('rename() : $old_file '. $old_file);
     $this->__debug('rename() : $this->get[new] '. $this->get['new']);
@@ -290,6 +294,10 @@ class Filemanager {
     $_FILES['newfile']['name'] = $this->cleanString($_FILES['newfile']['name'],array('.','-'));
     
     $current_path = $this->getFullPath($this->post['currentpath']);
+    
+    if(!$this->isValidPath($current_path)) {
+    	$this->error("No way.");
+    }
     
     if(!$this->config['upload']['overwrite']) {
       $_FILES['newfile']['name'] = $this->checkFilename($current_path,$_FILES['newfile']['name']);
