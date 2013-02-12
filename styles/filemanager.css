@@ -192,7 +192,7 @@ button:focus {
 }
 
 /** Opera hack */
-x:-o-prefocus, #file-input-container {top:16px;width:198px;}
+x:-o-prefocus, #file-input-container {top:16px;width:205px;}
 
 #newfile {
 	position: absolute;
