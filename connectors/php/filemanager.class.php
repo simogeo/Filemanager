@@ -421,8 +421,8 @@ class Filemanager {
 
     $tmp = explode('.',$this->item['filename']);
     $this->item['filetype'] = $tmp[(sizeof($tmp)-1)];
-    $this->item['filemtime'] = filemtime($current_path);
-    $this->item['filectime'] = filectime($current_path);
+    $this->item['filemtime'] = filemtime($this->getFullPath($current_path));
+    $this->item['filectime'] = filectime($this->getFullPath($current_path));
 
     $this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['default'];
 
@@ -434,22 +434,22 @@ class Filemanager {
 
       $this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path='. rawurlencode($current_path);
       //if(isset($get['getsize']) && $get['getsize']=='true') {
-      $this->item['properties']['Size'] = filesize($current_path);
+      $this->item['properties']['Size'] = filesize($this->getFullPath($current_path));
       if ($this->item['properties']['Size']) {
-        list($width, $height, $type, $attr) = getimagesize($current_path);
+        list($width, $height, $type, $attr) = getimagesize($this->getFullPath($current_path));
       } else {
         $this->item['properties']['Size'] = 0;
         list($width, $height) = array(0, 0);
       }
       $this->item['properties']['Height'] = $height;
       $this->item['properties']['Width'] = $width;
-      $this->item['properties']['Size'] = filesize($current_path);
+      $this->item['properties']['Size'] = filesize($this->getFullPath($current_path));
       //}
        
     } else if(file_exists($this->root . $this->config['icons']['path'] . strtolower($this->item['filetype']) . '.png')) {
        
       $this->item['preview'] = $this->config['icons']['path'] . strtolower($this->item['filetype']) . '.png';
-      $this->item['properties']['Size'] = filesize($current_path);
+      $this->item['properties']['Size'] = filesize($this->getFullPath($current_path));
       if (!$this->item['properties']['Size']) $this->item['properties']['Size'] = 0;
        
     }
