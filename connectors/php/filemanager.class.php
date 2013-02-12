@@ -24,7 +24,7 @@ class Filemanager {
   protected $doc_root = '';
   protected $debug = false;
 
-  public function __construct($config) {
+  public function __construct() {
   	
   	$content = file_get_contents("../../scripts/filemanager.config.js");
   	$config = json_decode($content, true);
