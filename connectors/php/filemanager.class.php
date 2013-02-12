@@ -22,7 +22,6 @@ class Filemanager {
   protected $languages = array();
   protected $root = '';
   protected $doc_root = '';
-  protected $full_path = '';
   protected $debug = false;
 
   public function __construct($config) {
@@ -41,15 +40,14 @@ class Filemanager {
   	  	  'Size'=>null
     );
 
+    // if fileRoot is set manually, $this->doc_root takes fileRoot value
+    // for security check in isValidPath() method
+    // else it takes $_SERVER['DOCUMENT_ROOT'] default value
     if ($this->config['options']['fileRoot'] !== false ) {
-    	$this->doc_root = '';
+    	$this->doc_root = $this->config['options']['fileRoot'];
     } else {
     	$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
     }
-    $this->full_path = $this->doc_root. $this->config['options']['fileRoot'];
-    
-
-    $this->__debug('$this->doc_root value : ' . $this->doc_root);
 
     $this->setParams();
     $this->availableLanguages();
@@ -116,9 +114,10 @@ class Filemanager {
     $array = array();
     $filesDir = array();
 
-    $current_path = $this->doc_root . rawurldecode($this->get['path']);
-    $this->__debug('$this->doc_root value in ' . __FUNCTION__ . ' : ' . $this->doc_root);
-    $this->__debug('$this->get[path] value in ' . __FUNCTION__ . ' : ' . $current_path);
+    $current_path = $this->getFullPath();
+    
+    // $this->__debug('$this->doc_root value in ' . __FUNCTION__ . ' : ' . $this->doc_root);
+    // $this->__debug('$this->get[path] value in ' . __FUNCTION__ . ' : ' . $current_path);
     
     if(!$this->isValidPath($current_path)) {
     	$this->error("No way.");
@@ -205,18 +204,26 @@ class Filemanager {
     $tmp = explode('/',$this->get['old']);
     $filename = $tmp[(sizeof($tmp)-1)];
     $path = str_replace('/' . $filename,'',$this->get['old']);
+    
+    $new_file = $this->getFullPath($path . '/' . $this->get['new']);
+    $old_file = $this->getFullPath($this->get['old']);
+    
+    $this->__debug('rename() : $new_file '. $new_file);
+    $this->__debug('rename() : $old_file '. $old_file);
+    $this->__debug('rename() : $this->get[new] '. $this->get['new']);
+    $this->__debug('rename() : $this->get[old] '. $this->get['old']);
 
-    if(file_exists ($this->doc_root . $path . '/' . $this->get['new'])) {
-      if($suffix=='/' && is_dir($this->doc_root . $path . '/' . $this->get['new'])) {
+    if(file_exists ($new_file)) {
+      if($suffix=='/' && is_dir($new_file)) {
         $this->error(sprintf($this->lang('DIRECTORY_ALREADY_EXISTS'),$this->get['new']));
       }
-      if($suffix=='' && is_file($this->doc_root . $path . '/' . $this->get['new'])) {
+      if($suffix=='' && is_file($new_file)) {
         $this->error(sprintf($this->lang('FILE_ALREADY_EXISTS'),$this->get['new']));
       }
     }
 
-    if(!rename($this->doc_root . $this->get['old'],$this->doc_root . $path . '/' . $this->get['new'])) {
-      if(is_dir($this->get['old'])) {
+    if(!rename($old_file,$new_file)) {
+      if(is_dir($old_file)) {
         $this->error(sprintf($this->lang('ERROR_RENAMING_DIRECTORY'),$filename,$this->get['new']));
       } else {
         $this->error(sprintf($this->lang('ERROR_RENAMING_FILE'),$filename,$this->get['new']));
@@ -235,20 +242,22 @@ class Filemanager {
 
   public function delete() {
 
-  	if(!$this->isValidPath(rawurldecode($this->get['path']))) {
+  	$current_path = $this->getFullPath();
+  	
+  	if(!$this->isValidPath($current_path)) {
   		$this->error("No way.");
   	}
   	
-    if(is_dir($this->doc_root . rawurldecode($this->get['path']))) {
-      $this->unlinkRecursive($this->doc_root . rawurldecode($this->get['path']));
+    if(is_dir($current_path)) {
+      $this->unlinkRecursive($current_path);
       $array = array(
 				'Error'=>"",
 				'Code'=>0,
 				'Path'=>$this->get['path']
       );
       return $array;
-    } else if(file_exists($this->doc_root . rawurldecode($this->get['path']))) {
-      unlink($this->doc_root . rawurldecode($this->get['path']));
+    } else if(file_exists($current_path)) {
+      unlink($current_path);
       $array = array(
 				'Error'=>"",
 				'Code'=>0,
@@ -261,7 +270,9 @@ class Filemanager {
   }
 
   public function add() {
+  	
     $this->setParams();
+    
     if(!isset($_FILES['newfile']) || !is_uploaded_file($_FILES['newfile']['tmp_name'])) {
       $this->error(sprintf($this->lang('INVALID_FILE_UPLOAD')),true);
     }
@@ -277,11 +288,14 @@ class Filemanager {
       }
     }
     $_FILES['newfile']['name'] = $this->cleanString($_FILES['newfile']['name'],array('.','-'));
+    
+    $current_path = $this->getFullPath($this->post['currentpath']);
+    
     if(!$this->config['upload']['overwrite']) {
-      $_FILES['newfile']['name'] = $this->checkFilename($this->doc_root . $this->post['currentpath'],$_FILES['newfile']['name']);
+      $_FILES['newfile']['name'] = $this->checkFilename($current_path,$_FILES['newfile']['name']);
     }
-    move_uploaded_file($_FILES['newfile']['tmp_name'], $this->doc_root . $this->post['currentpath'] . $_FILES['newfile']['name']);
-    chmod($this->doc_root . $this->post['currentpath'] . $_FILES['newfile']['name'], 0644);
+    move_uploaded_file($_FILES['newfile']['tmp_name'], $current_path . $_FILES['newfile']['name']);
+    chmod($current_path . $_FILES['newfile']['name'], 0644);
 
     $response = array(
 			'Path'=>$this->post['currentpath'],
@@ -295,15 +309,17 @@ class Filemanager {
 
   public function addfolder() {
   	
-  	if(!$this->isValidPath(rawurldecode($this->get['path']))) {
+  	$current_path = $this->getFullPath();
+  	
+  	if(!$this->isValidPath($current_path)) {
   		$this->error("No way.");
   	}
-    if(is_dir($this->doc_root . $this->get['path'] . $this->get['name'])) {
+    if(is_dir($current_path . $this->get['name'])) {
       $this->error(sprintf($this->lang('DIRECTORY_ALREADY_EXISTS'),$this->get['name']));
        
     }
     $newdir = $this->cleanString($this->get['name']);
-    if(!mkdir($this->doc_root . $this->get['path'] . $newdir,0755)) {
+    if(!mkdir($current_path . $newdir,0755)) {
       $this->error(sprintf($this->lang('UNABLE_TO_CREATE_DIRECTORY'),$newdir));
     }
     $array = array(
@@ -317,35 +333,39 @@ class Filemanager {
 
   public function download() {
   	
-  	if(!$this->isValidPath(rawurldecode($this->get['path']))) {
+  	$current_path = $this->getFullPath();
+  	
+  	if(!$this->isValidPath($current_path)) {
   		$this->error("No way.");
   	}
 
-    if(isset($this->get['path']) && file_exists($this->doc_root .rawurldecode($this->get['path']))) {
+    if(isset($this->get['path']) && file_exists($current_path)) {
       header("Content-type: application/force-download");
-      header('Content-Disposition: inline; filename="' . basename(rawurldecode($this->get['path'])) . '"');
+      header('Content-Disposition: inline; filename="' . basename($current_path) . '"');
       header("Content-Transfer-Encoding: Binary");
-      header("Content-length: ".filesize($this->doc_root . rawurldecode($this->get['path'])));
+      header("Content-length: ".$current_path);
       header('Content-Type: application/octet-stream');
-      header('Content-Disposition: attachment; filename="' . basename(rawurldecode($this->get['path'])) . '"');
-      readfile($this->doc_root . $this->get['path']);
+      header('Content-Disposition: attachment; filename="' . basename($current_path) . '"');
+      readfile($current_path);
       exit();
     } else {
-      $this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),rawurldecode($this->get['path'])));
+      $this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),$current_path));
     }
   }
 
   public function preview() {
   	
-    if(isset($this->get['path']) && file_exists($this->doc_root . rawurldecode($this->get['path']))) {
-      header("Content-type: image/" .$ext = pathinfo(rawurldecode($this->get['path']), PATHINFO_EXTENSION));
+  	$current_path = $this->getFullPath();
+  	
+    if(isset($this->get['path']) && file_exists($current_path)) {
+      header("Content-type: image/" .$ext = pathinfo($current_path, PATHINFO_EXTENSION));
       header("Content-Transfer-Encoding: Binary");
-      header("Content-length: ".filesize($this->doc_root . rawurldecode($this->get['path'])));
-      header('Content-Disposition: inline; filename="' . basename(rawurldecode($this->get['path'])) . '"');
-      readfile($this->doc_root . rawurldecode($this->get['path']));
+      header("Content-length: ".filesize($current_path));
+      header('Content-Disposition: inline; filename="' . basename($current_path) . '"');
+      readfile($current_path);
       exit();
     } else {
-      $this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),rawurldecode($this->get['path'])));
+      $this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),$current_path));
     }
   }
   
@@ -380,43 +400,48 @@ class Filemanager {
 
 
   private function get_file_info($path='',$return=array()) {
+  	
+  	// DO NOT  rawurlencode() since $current_path it
+  	// is used for displaying name file
     if($path=='') {
-      $path = rawurldecode($this->get['path']);
+      $current_path = $this->get['path'];
+    } else {
+    	$current_path = $path;
     }
-    $tmp = explode('/',$path);
+    $tmp = explode('/',$current_path);
     $this->item['filename'] = $tmp[(sizeof($tmp)-1)];
 
     $tmp = explode('.',$this->item['filename']);
     $this->item['filetype'] = $tmp[(sizeof($tmp)-1)];
-    $this->item['filemtime'] = filemtime($this->doc_root . $path);
-    $this->item['filectime'] = filectime($this->doc_root . $path);
+    $this->item['filemtime'] = filemtime($current_path);
+    $this->item['filectime'] = filectime($current_path);
 
     $this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['default'];
 
-    if(is_dir($this->doc_root . $path)) {
+    if(is_dir($current_path)) {
        
       $this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['directory'];
        
     } else if(in_array(strtolower($this->item['filetype']),$this->config['images']['imagesExt'])) {
-       
-      $this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path='. rawurlencode($path);
+
+      $this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path='. rawurlencode($current_path);
       //if(isset($get['getsize']) && $get['getsize']=='true') {
-      $this->item['properties']['Size'] = filesize($this->doc_root . $path);
+      $this->item['properties']['Size'] = filesize($current_path);
       if ($this->item['properties']['Size']) {
-        list($width, $height, $type, $attr) = getimagesize($this->doc_root . $path);
+        list($width, $height, $type, $attr) = getimagesize($current_path);
       } else {
         $this->item['properties']['Size'] = 0;
         list($width, $height) = array(0, 0);
       }
       $this->item['properties']['Height'] = $height;
       $this->item['properties']['Width'] = $width;
-      $this->item['properties']['Size'] = filesize($this->doc_root . $path);
+      $this->item['properties']['Size'] = filesize($current_path);
       //}
        
     } else if(file_exists($this->root . $this->config['icons']['path'] . strtolower($this->item['filetype']) . '.png')) {
        
       $this->item['preview'] = $this->config['icons']['path'] . strtolower($this->item['filetype']) . '.png';
-      $this->item['properties']['Size'] = filesize($this->doc_root . $path);
+      $this->item['properties']['Size'] = filesize($current_path);
       if (!$this->item['properties']['Size']) $this->item['properties']['Size'] = 0;
        
     }
@@ -425,16 +450,31 @@ class Filemanager {
     //$return['properties']['Date Created'] = $this->config['options']['dateFormat'], $return['filectime']); // PHP cannot get create timestamp
   }
   
+  private function getFullPath($path = '') {
+  	
+  	if($path == '') {
+  		$path = $this->get['path'];
+  	}
+
+  	// $this->__debug('getCurrentPath : $this->doc_root ' .$this->doc_root. '   $this->get[path] : ' . $path . '');
+  	
+  	if($this->config['options']['fileRoot'] !== false) {
+  		$full_path = $this->doc_root . rawurldecode(str_replace ( $this->doc_root , '' , $path));
+  	} else {
+  		$full_path = $this->doc_root . rawurldecode($path);
+  	}
+  	
+  return $full_path;
+  	
+  }
+  
   private function isValidPath($path) {
   	
-  	// @todo fix
-  	// $rootpath = $this->doc_root. $this->config['options']['fileRoot'];
-
-  	$this->__debug('compare : ' .$this->full_path. ' and ' . $path);
-  	$this->__debug('strncmp() retruned value : ' .strncmp($path, $this->full_path, strlen($this->full_path)));
+  	// @todo remove debug message
+  	// $this->__debug('compare : ' .$this->getFullPath(). '($this->getFullPath())  and ' . $path . '(path)');
+  	// $this->__debug('strncmp() retruned value : ' .strncmp($path, $this->getFullPath(), strlen($this->getFullPath())));
   	
-  	return true;
-  	// return !strncmp($path, $this->full_path, strlen($this->full_path));
+  	return !strncmp($path, $this->getFullPath(), strlen($this->getFullPath()));
   	 
   }
 
