@@ -22,7 +22,8 @@ class Filemanager {
   protected $languages = array();
   protected $root = '';
   protected $doc_root = '';
-  protected $debug = false;
+  protected $logger = false;
+  protected $logfile = '/tmp/filemanager.log';
 
   public function __construct() {
   	
@@ -60,6 +61,9 @@ class Filemanager {
 			'Code'=>'-1',
 			'Properties'=>$this->properties
     );
+    
+    $this->__log( __METHOD__ . ' - error message : ' . $string);
+    
     if($textarea) {
       echo '<textarea>' . json_encode($array) . '</textarea>';
     } else {
@@ -116,8 +120,8 @@ class Filemanager {
 
     $current_path = $this->getFullPath();
     
-    // $this->__debug('$this->doc_root value in ' . __FUNCTION__ . ' : ' . $this->doc_root);
-    // $this->__debug('$this->get[path] value in ' . __FUNCTION__ . ' : ' . $current_path);
+    // $this->__log('$this->doc_root value in ' . __FUNCTION__ . ' : ' . $this->doc_root);
+    // $this->__log('$this->get[path] value in ' . __FUNCTION__ . ' : ' . $current_path);
     
     if(!$this->isValidPath($current_path)) {
     	$this->error("No way.");
@@ -205,17 +209,14 @@ class Filemanager {
     $filename = $tmp[(sizeof($tmp)-1)];
     $path = str_replace('/' . $filename,'',$this->get['old']);
     
-    $new_file = $this->getFullPath($path . '/' . $this->get['new']);
-    $old_file = $this->getFullPath($this->get['old']);
+    $new_file = $this->getFullPath($path . '/' . $this->get['new']). $suffix;
+    $old_file = $this->getFullPath($this->get['old']) . $suffix;
     
     if(!$this->isValidPath($old_file)) {
     	$this->error("No way.");
     }
     
-    $this->__debug('rename() : $new_file '. $new_file);
-    $this->__debug('rename() : $old_file '. $old_file);
-    $this->__debug('rename() : $this->get[new] '. $this->get['new']);
-    $this->__debug('rename() : $this->get[old] '. $this->get['old']);
+    $this->__log(__METHOD__ . ' - renaming '. $old_file. ' to ' . $new_file);
 
     if(file_exists ($new_file)) {
       if($suffix=='/' && is_dir($new_file)) {
@@ -259,7 +260,10 @@ class Filemanager {
 				'Code'=>0,
 				'Path'=>$this->get['path']
       );
+      
+      $this->__log(__METHOD__ . ' - deleting folder '. $current_path);
       return $array;
+      
     } else if(file_exists($current_path)) {
       unlink($current_path);
       $array = array(
@@ -267,7 +271,10 @@ class Filemanager {
 				'Code'=>0,
 				'Path'=>$this->get['path']
       );
+      
+      $this->__log(__METHOD__ . ' - deleting file '. $current_path);
       return $array;
+      
     } else {
       $this->error(sprintf($this->lang('INVALID_DIRECTORY_OR_FILE')));
     }
@@ -280,7 +287,11 @@ class Filemanager {
     if(!isset($_FILES['newfile']) || !is_uploaded_file($_FILES['newfile']['tmp_name'])) {
       $this->error(sprintf($this->lang('INVALID_FILE_UPLOAD')),true);
     }
-    if(($this->config['upload']['size']!=false && is_numeric($this->config['upload']['size'])) && ($_FILES['newfile']['size'] > ($this->config['upload']['size'] * 1024 * 1024))) {
+    // we determine max upload size if not set
+    if($this->config['upload']['fileSizeLimit'] == 'auto') {
+    	$this->config['upload']['fileSizeLimit'] = $this->getMaxUploadFileSize();
+    }
+    if($_FILES['newfile']['size'] > ($this->config['upload']['fileSizeLimit'] * 1024 * 1024)) {
       $this->error(sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['size'] . 'Mb'),true);
     }
     if($this->config['upload']['imagesOnly'] || (isset($this->params['type']) && strtolower($this->params['type'])=='images')) {
@@ -311,6 +322,9 @@ class Filemanager {
 			'Error'=>"",
 			'Code'=>0
     );
+    
+    $this->__log(__METHOD__ . ' - adding file '. $_FILES['newfile']['name']. ' into '. $current_path);
+    
     echo '<textarea>' . json_encode($response) . '</textarea>';
     die();
   }
@@ -336,6 +350,8 @@ class Filemanager {
 			'Error'=>"",
 			'Code'=>0
     );
+    $this->__log(__METHOD__ . ' - adding folder '. $current_path . $newdir);
+    
     return $array;
   }
 
@@ -355,6 +371,7 @@ class Filemanager {
       header('Content-Type: application/octet-stream');
       header('Content-Disposition: attachment; filename="' . basename($current_path) . '"');
       readfile($current_path);
+      $this->__log(__METHOD__ . ' - downloading '. $current_path);
       exit();
     } else {
       $this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),$current_path));
@@ -371,6 +388,7 @@ class Filemanager {
       header("Content-length: ".filesize($current_path));
       header('Content-Disposition: inline; filename="' . basename($current_path) . '"');
       readfile($current_path);
+      $this->__log(__METHOD__ . ' - previewing '. $current_path);
       exit();
     } else {
       $this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),$current_path));
@@ -384,6 +402,8 @@ class Filemanager {
 		$memory_limit = (int) ini_get('memory_limit');
 		
 		$upload_mb = min($max_upload, $max_post, $memory_limit);
+		
+		$this->__log(__METHOD__ . ' - max upload file size is '. $upload_mb. 'Mb');
 		
 		return $upload_mb;
   }
@@ -464,7 +484,7 @@ class Filemanager {
   		$path = $this->get['path'];
   	}
 
-  	// $this->__debug('getCurrentPath : $this->doc_root ' .$this->doc_root. '   $this->get[path] : ' . $path . '');
+  	// $this->__log('getCurrentPath : $this->doc_root ' .$this->doc_root. '   $this->get[path] : ' . $path . '');
   	
   	if($this->config['options']['fileRoot'] !== false) {
   		$full_path = $this->doc_root . rawurldecode(str_replace ( $this->doc_root , '' , $path));
@@ -479,8 +499,8 @@ class Filemanager {
   private function isValidPath($path) {
   	
   	// @todo remove debug message
-  	// $this->__debug('compare : ' .$this->getFullPath(). '($this->getFullPath())  and ' . $path . '(path)');
-  	// $this->__debug('strncmp() retruned value : ' .strncmp($path, $this->getFullPath(), strlen($this->getFullPath())));
+  	// $this->__log('compare : ' .$this->getFullPath(). '($this->getFullPath())  and ' . $path . '(path)');
+  	// $this->__log('strncmp() retruned value : ' .strncmp($path, $this->getFullPath(), strlen($this->getFullPath())));
   	
   	return !strncmp($path, $this->getFullPath(), strlen($this->getFullPath()));
   	 
@@ -505,6 +525,7 @@ class Filemanager {
     if ($deleteRootToo) {
       @rmdir($dir);
     }
+    
     return;
   }
 
@@ -597,16 +618,35 @@ class Filemanager {
     }
   }
   
-  private function __debug($msg) {
+  private function __log($msg) {
   	
-  	if($this->debug == true) {
-	  	$filename = "/tmp/filemanager_debug.txt";
-	  	$fd = fopen($filename, "a");
+  	if($this->logger == true) {
+  		
+	  	$fp = fopen($this->logfile, "a");
 	  	$str = "[" . date("d/m/Y h:i:s", mktime()) . "] " . $msg;
-	  	fwrite($fd, $str . PHP_EOL);
-	  	fclose($fd);
+	  	fwrite($fp, $str . PHP_EOL);
+	  	fclose($fp);
   	}
   	
+  }
+  
+  public function enableLog($logfile = '') {
+  	
+  	$this->logger = true;
+  	
+  	if($logfile != '') {
+  		$this->logfile = $logfile;
+  	}
+  	
+  	$this->__log(__METHOD__ . ' - Log enabled (in '. $this->logfile. 'file)');
+  	
+  }
+  
+  public function disableLog() {
+  	 
+  	$this->logger = false;
+
+  	$this->__log(__METHOD__ . ' - Log disabled');
   }
 }
 ?>
