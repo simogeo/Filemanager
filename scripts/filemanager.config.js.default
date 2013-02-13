@@ -12,6 +12,7 @@
         "dateFormat": "d M Y H:i",
         "fileRoot": false,
         "relPath": false,
+        "logger": false,
         "plugins": []
     },
     "security": {

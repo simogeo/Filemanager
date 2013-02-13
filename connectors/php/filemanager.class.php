@@ -40,6 +40,14 @@ class Filemanager {
   	  	  'Width'=>null,
   	  	  'Size'=>null
     );
+    
+    // Log actions or not?
+    if ($this->config['options']['logger'] == true ) {
+    	$this->enableLog();
+    	if(isset($this->config['options']['logfile'])) {
+    		$this->logfile = $this->config['options']['logfile'];
+    	}
+    }
 
     // if fileRoot is set manually, $this->doc_root takes fileRoot value
     // for security check in isValidPath() method
