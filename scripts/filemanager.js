@@ -1124,7 +1124,8 @@ $(function(){
 				$('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
 				return false;
 			}
-			if (typeof FileReader !== "undefined" && typeof config.upload.fileSizeLimit !== "undefined") {
+			// if config.upload.fileSizeLimit == auto we delegate size test to connector
+			if (typeof FileReader !== "undefined" && typeof config.upload.fileSizeLimit != "auto") {
 				// Check file size using html5 FileReader API
 				var size = $('#newfile', form).get(0).files[0].size;
 				if (size > config.upload.fileSizeLimit * 1024 * 1024) {
