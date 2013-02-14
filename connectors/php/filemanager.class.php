@@ -25,12 +25,17 @@ class Filemanager {
   protected $logger = false;
   protected $logfile = '/tmp/filemanager.log';
 
-  public function __construct() {
+  public function __construct($config = '') {
   	
   	$content = file_get_contents("../../scripts/filemanager.config.js");
   	$config = json_decode($content, true);
   	
     $this->config = $config;
+    
+    // override config options if needed
+    if(!empty($config)) {
+    	$this->setup($config);
+    }
     
     $this->root = dirname(dirname(dirname(__FILE__))).DIRECTORY_SEPARATOR;
     $this->properties = array(
@@ -61,6 +66,13 @@ class Filemanager {
     $this->setParams();
     $this->availableLanguages();
     $this->loadLanguageFile();
+  }
+  
+  // $extraconfig should be formatted as json config array.
+  public function setup($extraconfig) {
+		
+  	$this->config = array_merge($this->config, $extraconfig);
+  	
   }
 
   public function error($string,$textarea=false) {
@@ -491,8 +503,6 @@ class Filemanager {
   	if($path == '') {
   		$path = $this->get['path'];
   	}
-
-  	// $this->__log('getCurrentPath : $this->doc_root ' .$this->doc_root. '   $this->get[path] : ' . $path . '');
   	
   	if($this->config['options']['fileRoot'] !== false) {
   		$full_path = $this->doc_root . rawurldecode(str_replace ( $this->doc_root , '' , $path));
