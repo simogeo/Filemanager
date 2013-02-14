@@ -15,6 +15,7 @@
 body {
 	padding: 10px;
 	background-color:#F4F1ED;
+	overflow-x:hidden; /** prevent overflow if #uploader h1 path value is too long */
 }
 
 video, audio {
