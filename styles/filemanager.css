@@ -25,7 +25,6 @@ video, audio {
 	text-align: right;
 	height: auto;
 	min-height:30px;
-	max-height: 80px;
 	overflow: hidden;
 }
 
@@ -36,6 +35,7 @@ video, audio {
 	line-height:1.9em;
 	font-size: 0.8em;
 	text-shadow:1px 1px 0px #ffffff;
+	word-break: break-all;
 }
 
 #uploadresponse {
