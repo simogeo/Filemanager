@@ -39,6 +39,8 @@
 	"select": "Выбрать",
 	"download": "Скачать",
 	"browse": "Browse...",
+	"search": "Search",
+	"search_reset": "Reset",
 	"del": "Удалить",
 	"parentfolder": "На уровень выше",
 	"dimensions": "Размеры",

@@ -39,6 +39,8 @@
 	"select": "Valitse",
 	"download": "Lataa",
 	"browse": "Browse...",
+	"search": "Search",
+	"search_reset": "Reset",
 	"del": "Poista",
 	"parentfolder": "Edellinen hakemisto",
 	"dimensions": "Mittasuhteet",

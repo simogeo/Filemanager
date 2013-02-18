@@ -38,6 +38,8 @@
 	"select": "选择",
 	"download": "下载",
 	"browse": "Browse...",
+	"search": "Search",
+	"search_reset": "Reset",
 	"del": "删除",
 	"parentfolder": "父文件夹",
 	"dimensions": "尺寸",

@@ -39,6 +39,8 @@
 	"select": "Vybrat",
 	"download": "Download",
 	"browse": "Browse...",
+	"search": "Search",
+	"search_reset": "Reset",
 	"del": "Smazat",
 	"parentfolder": "Nadřazený adresář",
 	"dimensions": "Rozměry",

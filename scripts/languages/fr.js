@@ -39,6 +39,8 @@
 	"select": "Sélectionner",
 	"download": "Télécharger",
 	"browse": "Parcourir...",
+	"search": "Rechercher",
+	"search_reset": "Ré-initialiser",
 	"del": "Supprimer",
 	"parentfolder": "Dossier parent",
 	"dimensions": "Dimensions",

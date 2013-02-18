@@ -39,6 +39,8 @@
 	"select": "Vælg",
 	"download": "Hent",
 	"browse": "Browse...",
+	"search": "Search",
+	"search_reset": "Reset",
 	"del": "Slet",
 	"parentfolder": "Hovedmappe",
 	"dimensions": "Dimensioner",

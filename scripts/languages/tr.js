@@ -39,6 +39,8 @@
 	"select": "Seç",
 	"download": "İndir",
 	"browse": "Browse...",
+	"search": "Search",
+	"search_reset": "Reset",
 	"del": "Sil",
 	"parentfolder": "Önceki klasör",
 	"dimensions": "Boyutları",

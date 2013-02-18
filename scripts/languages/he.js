@@ -39,6 +39,8 @@
     "select": "בחר",
     "download": "הורד",
     "browse": "Browse...",
+    "search": "Search",
+	"search_reset": "Reset",
     "del": "מחק",
     "parentfolder": "תיקיית אב",
     "dimensions": "מימדים",

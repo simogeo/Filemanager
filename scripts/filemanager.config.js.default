@@ -9,6 +9,7 @@
         "browseOnly": false,
         "showConfirmation": true,
         "showThumbs": true,
+        "searchBox": true,
         "dateFormat": "d M Y H:i",
         "fileRoot": false,
         "relPath": false,

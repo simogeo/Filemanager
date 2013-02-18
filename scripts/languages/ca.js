@@ -39,6 +39,8 @@
 	"select": "Seleccionar",
 	"download": "Descarregar",
 	"browse": "Browse...",
+	"search": "Search",
+	"search_reset": "Reset",
 	"del": "Eliminar",
 	"parentfolder": "Directori pare",
 	"dimensions": "Dimensions",

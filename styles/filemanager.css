@@ -250,6 +250,39 @@ button#browse span {
 }
 /** Input file Replacement - end */
 
+#q {
+	background-color: #F2F2F2;
+	border: 1px solid #dcdcdc;
+	margin: 0.5em 0 0;
+	padding: 0.1em 0.3em;
+	line-height: 1.7em;
+	width: 200px;
+	
+}
+
+#search span.q-inactive {
+	color: #a1a1a1;
+	font-style: italic;
+	font-size: 0.85em;
+	position: relative;
+	left: -200px;
+}
+
+#search a.q-reset {
+	display: inline-table;
+	width: 20px;
+	height: 20px;
+	background: url(../images/reset.png) no-repeat center center;
+	position: relative;
+	opacity:0.5;
+	left: -30px;
+	top: 5px;
+	z-index: 24;
+}
+
+/** Opera hack */
+x:-o-prefocus, #search a.q-reset {top:-14px;}
+
 #contents.grid {
 	padding: 25px;
 	text-align: left;

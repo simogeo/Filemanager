@@ -70,7 +70,11 @@ $.prompt.setDefaults({
 // Forces columns to fill the layout vertically.
 // Called on initial page load and on resize.
 var setDimensions = function(){
-	var newH = $(window).height() - $('#uploader').height() - 30;	
+	var bheight = 20;
+
+	if(config.options.searchBox === true) bheight +=33;
+
+	var newH = $(window).height() - $('#uploader').height() - bheight;	
 	$('#splitter, #filetree, #fileinfo, .vsplitbar').height(newH);
 };
 
@@ -402,10 +406,17 @@ var createFileTree = function() {
 					}
 				);
 			});
+			//Search function
+			if(config.options.searchBox == true)  {
+				$('#q').liveUpdate('#filetree ul').blur();
+				$('#search span.q-inactive').html(lg.search);
+				$('#search a.q-reset').attr('title', lg.search_reset);
+			}
 		}
 	}, function(file){
 		getFileInfo(file);
 	});
+
 };
 
 
@@ -842,7 +853,7 @@ var getFolderInfo = function(path){
 					var actualWidth = props['Width'];
 					if(actualWidth > 1 && actualWidth < scaledWidth) scaledWidth = actualWidth;
 				
-					result += '<li class="' + cap_classes + '"><div class="clip"><img src="' + data[key]['Preview'] + '" width="' + scaledWidth + '" alt="' + data[key]['Path'] + '" /></div><p>' + data[key]['Filename'] + '</p>';
+					result += '<li class="' + cap_classes + '" title="' + data[key]['Path'] + '"><div class="clip"><img src="' + data[key]['Preview'] + '" width="' + scaledWidth + '" alt="' + data[key]['Path'] + '" /></div><p>' + data[key]['Filename'] + '</p>';
 					if(props['Width'] && props['Width'] != '') result += '<span class="meta dimensions">' + props['Width'] + 'x' + props['Height'] + '</span>';
 					if(props['Size'] && props['Size'] != '') result += '<span class="meta size">' + props['Size'] + '</span>';
 					if(props['Date Created'] && props['Date Created'] != '') result += '<span class="meta created">' + props['Date Created'] + '</span>';
@@ -1025,6 +1036,7 @@ $(function(){
 		expandedFolder = '';
 		fullexpandedFolder = null;
 	}
+	
 	// Adjust layout.
 	setDimensions();
 	$(window).resize(setDimensions);
@@ -1041,16 +1053,20 @@ $(function(){
 		$('#itemOptions a[href$="#download"]').append(lg.download);
 		$('#itemOptions a[href$="#rename"]').append(lg.rename);
 		$('#itemOptions a[href$="#delete"]').append(lg.del);
-		/** Input file Replacement */
-		$('#browse').append('+');
-		
-		$('#browse').attr('title', lg.browse);
-
-		$("#newfile").change(function() {
-			$("#filepath").val($(this).val());
-		});
-		
-		/** Input file Replacement - end */
+	}
+	
+	/** Input file Replacement */
+	$('#browse').append('+');
+	$('#browse').attr('title', lg.browse);
+	$("#newfile").change(function() {
+		$("#filepath").val($(this).val());
+	});
+	
+	/** load searchbox */
+	if(config.options.searchBox === true)  {
+		$.getScript("./scripts/filemanager.liveSearch.js");
+	} else {
+		$('#search').remove();
 	}
 
 	// Provides support for adjustible columns.

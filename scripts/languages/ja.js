@@ -39,6 +39,8 @@
 	"select": "選択",
 	"download": "ダウンロード",
 	"browse": "Browse...",
+	"search": "Search",
+	"search_reset": "Reset",
 	"del": "削除",
 	"parentfolder": "上のフォルダーに移動",
 	"dimensions": "寸法",

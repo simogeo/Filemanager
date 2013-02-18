@@ -38,6 +38,8 @@
 	"select": "Wybierz",
 	"download": "Pobierz",
 	"browse": "Browse...",
+	"search": "Search",
+	"search_reset": "Reset",
 	"del": "Usuń",
 	"parentfolder": "Parent folder",
 	"dimensions": "Wymiary",

@@ -39,6 +39,8 @@
     "select": "Chọn",
     "download": "Tải xuống",
     "browse": "Browse...",
+    "search": "Search",
+	"search_reset": "Reset",
     "del": "Xóa",
     "parentfolder": "Thư mục cha",
     "dimensions": "Kích thước",

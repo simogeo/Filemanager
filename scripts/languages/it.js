@@ -39,6 +39,8 @@
 	"select": "Seleziona",
 	"download": "Scarica",
 	"browse": "Browse...",
+	"search": "Search",
+	"search_reset": "Reset",
 	"del": "Elimina",
 	"parentfolder": "Cartella principale",
 	"dimensions": "Dimensioni",

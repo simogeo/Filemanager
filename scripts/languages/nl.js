@@ -39,6 +39,8 @@
 	"select": "Selecteren",
 	"download": "Downloaden",
 	"browse": "Browse...",
+	"search": "Search",
+	"search_reset": "Reset",
 	"del": "Verwijderen",
 	"parentfolder": "Terug naar bestanden",
 	"dimensions": "Formaat",

@@ -39,6 +39,8 @@
 "select": "Välj",
 "download": "Ladda ner",
 "browse": "Browse...",
+"search": "Search",
+"search_reset": "Reset",
 "del": "Radera",
 "parentfolder": "Upp en nivå",
 "dimensions": "Dimension",

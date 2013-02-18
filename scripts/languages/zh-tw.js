@@ -39,6 +39,8 @@
 	"select": "選取",
 	"download": "下載",
 	"browse": "Browse...",
+	"search": "Search",
+	"search_reset": "Reset",
 	"del": "刪除",
 	"parentfolder": "上層目錄",
 	"dimensions": "尺寸",

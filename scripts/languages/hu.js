@@ -39,6 +39,8 @@
 	"select": "Kiválasztás",
 	"download": "Letöltés",
 	"browse": "Browse...",
+	"search": "Search",
+	"search_reset": "Reset",
 	"del": "Törlés",
 	"parentfolder": "Előző mappa",
 	"dimensions": "Méretek",
