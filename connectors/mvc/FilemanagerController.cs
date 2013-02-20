@@ -109,7 +109,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
         /// <returns></returns>
         private bool IsImage(FileInfo fileInfo)
         {
-            return imgExtensions.Contains(Path.GetExtension(fileInfo.FullName));
+            return imgExtensions.Contains(Path.GetExtension(fileInfo.FullName).ToLower());
         }
 
         /// <summary>

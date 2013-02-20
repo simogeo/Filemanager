@@ -243,7 +243,7 @@ var getExtension = function(filename) {
 	if(filename.split('.').length == 1) {
 		return "";
 	}
-	return filename.split('.').pop();
+	return filename.split('.').pop().toLowerCase();
 };
 
 // return filename without extension {
