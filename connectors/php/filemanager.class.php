@@ -58,10 +58,16 @@ class Filemanager {
     // for security check in isValidPath() method
     // else it takes $_SERVER['DOCUMENT_ROOT'] default value
     if ($this->config['options']['fileRoot'] !== false ) {
-    	$this->doc_root = $this->config['options']['fileRoot'];
+    	if($this->config['options']['serverRoot'] == true) {
+    		$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
+    	} else {
+    		$this->doc_root = $this->config['options']['fileRoot'];
+    	}
     } else {
     	$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
     }
+    
+    $this->__log(__METHOD__ . ' $this->doc_root value ' . $this->doc_root);
 
     $this->setParams();
     $this->availableLanguages();
@@ -139,9 +145,7 @@ class Filemanager {
     $filesDir = array();
 
     $current_path = $this->getFullPath();
-    
-    // $this->__log('$this->doc_root value in ' . __FUNCTION__ . ' : ' . $this->doc_root);
-    // $this->__log('$this->get[path] value in ' . __FUNCTION__ . ' : ' . $current_path);
+
     
     if(!$this->isValidPath($current_path)) {
     	$this->error("No way.");
@@ -656,7 +660,7 @@ class Filemanager {
   		$this->logfile = $logfile;
   	}
   	
-  	$this->__log(__METHOD__ . ' - Log enabled (in '. $this->logfile. 'file)');
+  	$this->__log(__METHOD__ . ' - Log enabled (in '. $this->logfile. ' file)');
   	
   }
   

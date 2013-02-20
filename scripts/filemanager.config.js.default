@@ -11,6 +11,7 @@
         "showThumbs": true,
         "searchBox": true,
         "dateFormat": "d M Y H:i",
+        "serverRoot": true,
         "fileRoot": false,
         "relPath": false,
         "logger": false,

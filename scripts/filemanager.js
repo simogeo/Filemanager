@@ -1016,7 +1016,11 @@ $(function(){
 	if(!config.options.fileRoot) {
 		fileRoot = '/' + document.location.pathname.substring(1, document.location.pathname.lastIndexOf('/') + 1) + 'userfiles/';
 	} else {
-		fileRoot = config.options.fileRoot;
+		if(!config.options.serverRoot) {
+			fileRoot = config.options.fileRoot;
+		} else {
+			fileRoot = '/' + config.options.fileRoot;
+		}
 	}
 
 	if(!config.options.relPath) {
