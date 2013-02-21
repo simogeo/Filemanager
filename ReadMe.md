@@ -13,6 +13,7 @@ or download the archive from Github : https://github.com/simogeo/Filemanager/arc
 You can place the FileManager anywhere within your web serving root directory.
 
 **(2)** Make a copy of the default configuration file ("filemanager.config.js.default" located in the scripts directory), removing the '.default' from the end of the filename, and edit the options according to the following wiki page : https://github.com/simogeo/Filemanager/wiki/Filemanager-configuration-file
+   Having a look on configuration cases study may also be helpful to you : https://github.com/simogeo/Filemanager/wiki/Specify-user-folder%2C-configurations-cases
 
 **(3)** Find the default configuration file for the connector you chose in Step 2 above, and follow the same procedure to configure the connector. For instance, the default configuration file for the PHP connector is located here:
 		[Path to FileManager]/connectors/php/filemanager.config.php
