@@ -58,7 +58,7 @@ class Filemanager {
     // for security check in isValidPath() method
     // else it takes $_SERVER['DOCUMENT_ROOT'] default value
     if ($this->config['options']['fileRoot'] !== false ) {
-    	if($this->config['options']['serverRoot'] == true) {
+    	if($this->config['options']['serverRoot'] === true) {
     		$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
     	} else {
     		$this->doc_root = $this->config['options']['fileRoot'];
@@ -79,6 +79,17 @@ class Filemanager {
 		
   	$this->config = array_merge($this->config, $extraconfig);
   	
+  }
+  
+  // allow Filemanager to be used with dynamic folders
+  public function setFileRoot($path) {
+  
+  	if($this->config['options']['serverRoot'] === true) {
+  		$this->doc_root = $_SERVER['DOCUMENT_ROOT']. '/'.  $path;
+  	} else {
+  		$this->doc_root =  $path;;
+  	}
+  	 
   }
 
   public function error($string,$textarea=false) {
@@ -513,6 +524,10 @@ class Filemanager {
   	} else {
   		$full_path = $this->doc_root . rawurldecode($path);
   	}
+  	
+  	$full_path = str_replace("//", "/", $full_path);
+  	
+  	// $this->__log(__METHOD_. " path : " . $full_path);
   	
   return $full_path;
   	
