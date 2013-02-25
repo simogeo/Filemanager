@@ -144,6 +144,7 @@ var preg_replace = function(array_pattern, array_pattern_replace, str)  {
 // cleanString (), on the same model as server side (connector)
 // cleanString
 var cleanString = function(str) {
+
 	var cleaned = "";
 	var p_search  = 	new Array("Š", "š", "Đ", "đ", "Ž", "ž", "Č", "č", "Ć", "ć", "À", 
 						"Á", "Â", "Ã", "Ä", "Å", "Æ", "Ç", "È", "É", "Ê", "Ë", "Ì", "Í", "Î", "Ï", 
@@ -161,7 +162,12 @@ var cleanString = function(str) {
 					);
 
 	cleaned = preg_replace(p_search, p_replace, str);
-	cleaned = cleaned.replace(/[^_a-zA-Z0-9]/g, "");
+	
+	// allow only latin alphabet
+	if(config.options.chars_only_latin) {
+		cleaned = cleaned.replace(/[^_a-zA-Z0-9]/g, "");
+	}
+	
 	cleaned = cleaned.replace(/[_]+/g, "_");
 	
 	return cleaned;
@@ -308,7 +314,7 @@ var setUploader = function(path){
 		
 		var getFolderName = function(v, m){
 			if(v != 1) return false;		
-			var fname = m.children('#fname').val();		
+			var fname = m.children('#fname').val();
 
 			if(fname != ''){
 				foldername = cleanString(fname);
