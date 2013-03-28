@@ -79,13 +79,22 @@ var setDimensions = function(){
 };
 
 // Display Min Path
-var displayPath = function(path) {
+var displayPath = function(path, reduce) {
+	
+	reduce = (typeof reduce === "undefined") ? true : false;
 
 	if(config.options.showFullPath == false) {
     // if a "displayPathDecorator" function is defined, use it to decorate path
-    return 'function' === (typeof displayPathDecorator)
-         ? displayPathDecorator(path)
-         : path.replace(fileRoot, "/");
+	if('function' === typeof displayPathDecorator) {
+		return displayPathDecorator(path.replace(fileRoot, "/"));
+	} else {
+		path = path.replace(fileRoot, "/");
+		if(path.length > 50 && reduce === true) {
+			var n = path.split("/");
+			path = '/' + n[1] + '/' + n[2] + '/(...)/' + n[n.length-2] + '/';
+		}
+		return path;
+	}
   } else {
     return path;
   }
@@ -306,7 +315,7 @@ var getAudioPlayer = function(data) {
 // whenever a new directory is selected.
 var setUploader = function(path){
 	$('#currentpath').val(path);
-	$('#uploader h1').text(lg.current_folder + displayPath(path));
+	$('#uploader h1').text(lg.current_folder + displayPath(path)).attr('title', displayPath(path, false));
 
 	$('#newfolder').unbind().click(function(){
 		var foldername =  lg.default_foldername;
@@ -580,7 +589,7 @@ var deleteItem = function(data){
 					removeNode(result['Path']);
 					var rootpath = result['Path'].substring(0, result['Path'].length-1); // removing the last slash
 					rootpath = rootpath.substr(0, rootpath.lastIndexOf('/') + 1);
-					$('#uploader h1').text(lg.current_folder + displayPath(rootpath));
+					$('#uploader h1').text(lg.current_folder + displayPath(rootpath)).attr("title", displayPath(rootpath, false));
 					isDeleted = true;
 					
 					if(config.options.showConfirmation) $.prompt(lg.successful_delete);
