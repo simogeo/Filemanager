@@ -25,7 +25,7 @@ class Filemanager {
 	protected $logger = false;
 	protected $logfile = '/tmp/filemanager.log';
 
-	public function __construct($config = '') {
+	public function __construct($extraConfig = '') {
 			
 		$content = file_get_contents("../../scripts/filemanager.config.js");
 		$config = json_decode($content, true);
@@ -33,8 +33,8 @@ class Filemanager {
 		$this->config = $config;
 
 		// override config options if needed
-		if(!empty($config)) {
-			$this->setup($config);
+		if(!empty($extraConfig)) {
+			$this->setup($extraConfig);
 		}
 
 		$this->root = dirname(dirname(dirname(__FILE__))).DIRECTORY_SEPARATOR;
@@ -77,7 +77,7 @@ class Filemanager {
 	// $extraconfig should be formatted as json config array.
 	public function setup($extraconfig) {
 
-		$this->config = array_merge($this->config, $extraconfig);
+		$this->config = array_merge_recursive($this->config, $extraconfig);
 			
 	}
 
