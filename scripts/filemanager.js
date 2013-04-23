@@ -1054,11 +1054,7 @@ $(function(){
 	} else {
 		expandedFolder = '';
 		fullexpandedFolder = null;
-	}
-	
-	// Adjust layout.
-	setDimensions();
-	$(window).resize(setDimensions);
+        }
 
 	// we finalize the FileManager UI initialization 
 	// with localized text if necessary
@@ -1087,11 +1083,6 @@ $(function(){
 	} else {
 		$('#search').remove();
 	}
-
-	// Provides support for adjustible columns.
-	$('#splitter').splitter({
-		sizeLeft: 200
-	});
 
 	// cosmetic tweak for buttons
 	$('button').wrapInner('<span></span>');
@@ -1206,6 +1197,15 @@ $(function(){
 		$('.contextMenu .rename').remove();
 		$('.contextMenu .delete').remove();
 	}
+        
+        // Adjust layout.
+	setDimensions();
+	$(window).resize(setDimensions);
+        
+        // Provides support for adjustible columns.
+	$('#splitter').splitter({
+		sizeLeft: 200
+	});
     getDetailView(fileRoot + expandedFolder);
 });
 
