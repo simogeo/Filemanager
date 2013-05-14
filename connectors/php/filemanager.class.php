@@ -148,6 +148,7 @@ class Filemanager {
 		// handle path when set dynamically with $fm->setFileRoot() method
 		if($this->dynamic_fileroot != '') {
 			$path = $this->dynamic_fileroot. $this->get['path'];
+			$path = preg_replace('~/+~', '/', $path); // remove multiple slashes
 		} else {
 			$path = $this->get['path'];
 		}
