@@ -22,6 +22,7 @@ class Filemanager {
 	protected $languages = array();
 	protected $root = '';
 	protected $doc_root = '';
+	protected $dynamic_fileroot = '';
 	protected $logger = false;
 	protected $logfile = '/tmp/filemanager.log';
 
@@ -87,9 +88,14 @@ class Filemanager {
 		if($this->config['options']['serverRoot'] === true) {
 			$this->doc_root = $_SERVER['DOCUMENT_ROOT']. '/'.  $path;
 		} else {
-			$this->doc_root =  $path;;
+			$this->doc_root =  $path;
 		}
-
+		
+		// necessary for retrieving path when set dynamically with $fm->setFileRoot() method
+		$this->dynamic_fileroot = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->doc_root);
+		
+		$this->__log(__METHOD__ . ' $this->doc_root value overwritten : ' . $this->doc_root);
+		$this->__log(__METHOD__ . ' $this->dynamic_fileroot value ' . $this->dynamic_fileroot);
 	}
 
 	public function error($string,$textarea=false) {
@@ -138,9 +144,17 @@ class Filemanager {
 		$this->item = array();
 		$this->item['properties'] = $this->properties;
 		$this->get_file_info();
+		
+		// handle path when set dynamically with $fm->setFileRoot() method
+		if($this->dynamic_fileroot != '') {
+			$path = $this->dynamic_fileroot. $this->get['path'];
+		} else {
+			$path = $this->get['path'];
+		}
+		
 
 		$array = array(
-				'Path'=> $this->get['path'],
+				'Path'=> $path,
 				'Filename'=>$this->item['filename'],
 				'File Type'=>$this->item['filetype'],
 				'Preview'=>$this->item['preview'],
