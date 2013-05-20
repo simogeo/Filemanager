@@ -554,10 +554,11 @@ private function sortFiles($array) {
 
 	// handle 'TYPE_ASC' and 'TYPE_DESC'
 	if(strpos($this->config['options']['fileSorting'], 'TYPE_') !== false || $this->config['options']['fileSorting'] == 'default') {
+		
 		$a = array();
 		$b = array();
+		
 		foreach ($array as $key=>$item){
-			//print_r($key);
 			if(strcmp($item["File Type"], "dir") == 0) {
 				$a[$key]=$item;
 			}else{
@@ -585,7 +586,6 @@ private function sortFiles($array) {
 
 		if($this->config['options']['fileSorting'] == 'MODIFIED_ASC') {
 			array_multisort($modified_order_array, SORT_ASC, $array);
-				
 		}
 		if($this->config['options']['fileSorting'] == 'MODIFIED_DESC') {
 			array_multisort($modified_order_array, SORT_DESC, $array);
