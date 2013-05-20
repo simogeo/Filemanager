@@ -189,17 +189,10 @@ class Filemanager {
 				}
 			}
 			closedir($handle);
-
-			natcasesort($filesDir); // sorting by names
-
-			// Sort files by modified time, latest to earliest
-			// Use SORT_ASC in place of SORT_DESC for earliest to latest
-			//      array_multisort(
-			//        array_map( 'filemtime', $filesDir ),
-			//        SORT_NUMERIC,
-			//        SORT_DESC,
-			//        $filesDir
-			//      );
+			
+			// By default
+			// Sorting files by name ('default' or 'NAME_DESC' cases from $this->config['options']['fileSorting']
+			natcasesort($filesDir);
 
 			foreach($filesDir as $file) {
 
@@ -211,8 +204,9 @@ class Filemanager {
 								'File Type'=>'dir',
 								'Preview'=> $this->config['icons']['path'] . $this->config['icons']['directory'],
 								'Properties'=>array(
-										'Date Created'=>null,
-										'Date Modified'=>null,
+										'Date Created'=> date($this->config['options']['dateFormat'], filectime($this->getFullPath($this->get['path'] . $file .'/'))),
+										'Date Modified'=> date($this->config['options']['dateFormat'], filemtime($this->getFullPath($this->get['path'] . $file .'/'))),
+										'filemtime'=> filemtime($this->getFullPath($this->get['path'] . $file .'/')),
 										'Height'=>null,
 										'Width'=>null,
 										'Size'=>null
@@ -242,6 +236,8 @@ class Filemanager {
 				}
 			}
 		}
+		
+		$array = $this->sortFiles($array);
 
 		return $array;
 	}
@@ -525,6 +521,7 @@ class Filemanager {
 	}
 
 	$this->item['properties']['Date Modified'] = date($this->config['options']['dateFormat'], $this->item['filemtime']);
+	$this->item['properties']['filemtime'] = filemtime($this->getFullPath($current_path));
 	//$return['properties']['Date Created'] = $this->config['options']['dateFormat'], $return['filectime']); // PHP cannot get create timestamp
 }
 
@@ -546,6 +543,60 @@ private function getFullPath($path = '') {
 		
 	return $full_path;
 		
+}
+
+private function sortFiles($array) {
+
+	// handle 'NAME_ASC'
+	if($this->config['options']['fileSorting'] == 'NAME_ASC') {
+		$array = array_reverse($array);
+	}
+
+	// handle 'TYPE_ASC' and 'TYPE_DESC'
+	if(strpos($this->config['options']['fileSorting'], 'TYPE_') !== false || $this->config['options']['fileSorting'] == 'default') {
+		$a = array();
+		$b = array();
+		foreach ($array as $key=>$item){
+			//print_r($key);
+			if(strcmp($item["File Type"], "dir") == 0) {
+				$a[$key]=$item;
+			}else{
+				$b[$key]=$item;
+			}
+		}
+
+		if($this->config['options']['fileSorting'] == 'TYPE_ASC') {
+			$array = array_merge($a, $b);
+		}
+
+		if($this->config['options']['fileSorting'] == 'TYPE_DESC' || $this->config['options']['fileSorting'] == 'default') {
+			$array = array_merge($b, $a);
+		}
+	}
+
+	// handle 'MODIFIED_ASC' and 'MODIFIED_DESC'
+	if(strpos($this->config['options']['fileSorting'], 'MODIFIED_') !== false) {
+
+		$modified_order_array = array();  // new array as a column to sort collector
+
+		foreach ($array as $item) {
+			$modified_order_array[] = $item['Properties']['filemtime'];
+		}
+
+		if($this->config['options']['fileSorting'] == 'MODIFIED_ASC') {
+			array_multisort($modified_order_array, SORT_ASC, $array);
+				
+		}
+		if($this->config['options']['fileSorting'] == 'MODIFIED_DESC') {
+			array_multisort($modified_order_array, SORT_DESC, $array);
+		}
+		return $array;
+
+	}
+	
+	return $array;
+
+
 }
 
 private function isValidPath($path) {

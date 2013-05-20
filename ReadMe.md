@@ -103,7 +103,8 @@ Example Response:
 		"Preview": "/UserFiles/Image/logo.png",
 		"Properties": {
 			"Date Created": null, 
-			"Date Modified": "02/09/2007 14:01:06", 
+			"Date Modified": "02/09/2007 14:01:06",
+			"filemtime": 1360237058,
 			"Height": 14,
 			"Width": 14,
 			"Size": 384 
@@ -160,7 +161,8 @@ Example Response:
 			"Preview": "/UserFiles/Image/logo.png",
 			"Properties": {
 				"Date Created": null, 
-				"Date Modified": "02/09/2007 14:01:06", 
+				"Date Modified": "02/09/2007 14:01:06",
+				"filemtime": 1360237058,
 				"Height": 14,
 				"Width": 14,
 				"Size": 384 
@@ -175,7 +177,8 @@ Example Response:
 			"Preview": "/UserFiles/Image/icon.png",
 			"Properties": {
 				"Date Created": null, 
-				"Date Modified": "02/09/2007 14:01:06", 
+				"Date Modified": "02/09/2007 14:01:06",
+				"filemtime": 1360237058,
 				"Height": 14,
 				"Width": 14,
 				"Size": 384 
@@ -190,7 +193,8 @@ Example Response:
 			"Preview":"images\/fileicons\/_Open.png",
 			"Properties": {
 				"Date Created":null,
-				"Date Modified":null,
+				"Date Modified": "02/09/2007 14:01:06",
+				"filemtime": 1360237058,
 				"Height":null,
 				"Width":null,
 				"Size":null
