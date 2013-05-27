@@ -497,8 +497,13 @@ class Filemanager {
 			$this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['directory'];
 
 		} else if(in_array(strtolower($this->item['filetype']),$this->config['images']['imagesExt'])) {
-
-			$this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path='. rawurlencode($current_path);
+			
+			// svg should not be previewed as raster formats images
+			if($this->item['filetype'] == 'svg') {
+				$this->item['preview'] = $current_path;
+			} else {
+				$this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path='. rawurlencode($current_path);
+			}
 			//if(isset($get['getsize']) && $get['getsize']=='true') {
 			$this->item['properties']['Size'] = filesize($this->getFullPath($current_path));
 			if ($this->item['properties']['Size']) {

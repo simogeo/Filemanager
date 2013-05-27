@@ -26,6 +26,7 @@
             "jpeg",
             "gif",
             "png",
+            "svg",
             "txt",
             "pdf",
             "odp",
@@ -68,7 +69,8 @@
             "jpg",
             "jpeg",
             "gif",
-            "png"
+            "png",
+            "svg"
         ]
     },
     "videos": {
