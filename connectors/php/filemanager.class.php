@@ -413,7 +413,7 @@ class Filemanager {
 			header("Content-type: application/force-download");
 			header('Content-Disposition: inline; filename="' . basename($current_path) . '"');
 			header("Content-Transfer-Encoding: Binary");
-			header("Content-length: ".$current_path);
+			header("Content-length: ".filesize($current_path));
 			header('Content-Type: application/octet-stream');
 			header('Content-Disposition: attachment; filename="' . basename($current_path) . '"');
 			readfile($current_path);
