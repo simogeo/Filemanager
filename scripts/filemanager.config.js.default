@@ -10,6 +10,7 @@
         "showConfirmation": true,
         "showThumbs": true,
         "searchBox": true,
+        "listFiles": true,
         "fileSorting": "default",
         "chars_only_latin": true,
         "dateFormat": "d M Y H:i",

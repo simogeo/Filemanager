@@ -999,7 +999,9 @@ var populateFileTree = function(path, callback){
 				if (data[key]['File Type'] == 'dir') {
 					result += "<li class=\"directory collapsed\"><a href=\"#\" class=\"" + cap_classes + "\" rel=\"" + data[key]['Path'] + "\">" + data[key]['Filename'] + "</a></li>";
 				} else {
+					if(config.options.listFiles) {
 					result += "<li class=\"file ext_" + data[key]['File Type'].toLowerCase() + "\"><a href=\"#\" class=\"" + cap_classes + "\" rel=\"" + data[key]['Path'] + "\">" + data[key]['Filename'] + "</a></li>";
+					}
 				}
 			}
 			result += "</ul>";
