@@ -49,10 +49,10 @@ class Filemanager {
 
 		// Log actions or not?
 		if ($this->config['options']['logger'] == true ) {
-			$this->enableLog();
 			if(isset($this->config['options']['logfile'])) {
 				$this->logfile = $this->config['options']['logfile'];
 			}
+			$this->enableLog();
 		}
 
 		// if fileRoot is set manually, $this->doc_root takes fileRoot value
@@ -535,16 +535,23 @@ private function getFullPath($path = '') {
 	if($path == '') {
 		$path = $this->get['path'];
 	}
-		
+	
+	// $this->__log(__METHOD_. " given path : " . $this->get['path']);
+	// $this->__log(__METHOD_. " doc_root value : " . $this->doc_root);
+	// $this->__log(__METHOD_. " dynamic_fileroot value : " . $this->dynamic_fileroot);
+	
 	if($this->config['options']['fileRoot'] !== false) {
 		$full_path = $this->doc_root . rawurldecode(str_replace ( $this->doc_root , '' , $path));
+		if($this->dynamic_fileroot != '') {
+			$full_path = $this->doc_root . rawurldecode(str_replace ( $this->dynamic_fileroot , '' , $path));
+		}
 	} else {
 		$full_path = $this->doc_root . rawurldecode($path);
 	}
 		
 	$full_path = str_replace("//", "/", $full_path);
 		
-	// $this->__log(__METHOD_. " path : " . $full_path);
+	// $this->__log(__METHOD_. " returned path : " . $full_path);
 		
 	return $full_path;
 		
