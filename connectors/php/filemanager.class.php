@@ -533,7 +533,7 @@ class Filemanager {
 private function getFullPath($path = '') {
 		
 	if($path == '') {
-		$path = $this->get['path'];
+		if(isset($this->get['path'])) $path = $this->get['path'];
 	}
 	
 	// $this->__log(__METHOD_. " given path : " . $this->get['path']);
