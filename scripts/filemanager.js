@@ -489,7 +489,8 @@ var selectItem = function(data){
 	 	// tinymce 4
 	 	if($.urlParam('field_name')){
 	 		parent.document.getElementById($.urlParam('field_name')).value = url;
-	 		parent.tinyMCE.activeEditor.windowManager.close();
+	 		// parent.tinyMCE.activeEditor.windowManager.close(); it seems parent. does not work with IE9 /IE10
+	 		top.tinyMCE.activeEditor.windowManager.close();
 	 	}
 	 	
 		else if($.urlParam('CKEditor')){
