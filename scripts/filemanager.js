@@ -310,6 +310,23 @@ var getAudioPlayer = function(data) {
 	 
 };
 
+
+// Display icons on list view 
+// retrieving them from filetree
+// Called using SetInterval
+var display_icons = function(timer) {
+	$('#fileinfo').find('td:first-child').each(function(){
+		var path = $(this).attr('title');
+		var treenode = $('#filetree').find('a[rel="' + path + '"]').parent();
+	
+		if (typeof treenode.css('background-image') !== "undefined") {
+			$(this).css('background-image', treenode.css('background-image'));
+			window.clearInterval(timer);
+		}
+
+	});
+};
+
 // Sets the folder status, upload, and new folder functions 
 // to the path specified. Called on initial page load and 
 // whenever a new directory is selected.
@@ -941,12 +958,6 @@ var getFolderInfo = function(path){
 				);
 			});
 		} else {
-			$('#fileinfo').find('td:first-child').each(function(){
-				var path = $(this).attr('title');
-				var treenode = $('#filetree').find('a[rel="' + path + '"]').parent();
-				$(this).css('background-image', treenode.css('background-image'));
-			});
-			
 			$('#fileinfo tbody tr').click(function(){
 				var path = $('td:first-child', this).attr('title');
 				getDetailView(path);		
@@ -969,6 +980,12 @@ var getFolderInfo = function(path){
 					}
 				}
 			});
+			// Calling display_icons() function
+			// to get icons from filteree
+			// Necessary to fix bug #170
+			// https://github.com/simogeo/Filemanager/issues/170
+			var timer = setInterval(function() {display_icons(timer)}, 300);
+
 		}
 	});
 };
