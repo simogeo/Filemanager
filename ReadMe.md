@@ -47,7 +47,7 @@ Create a Javascript callback function that will open the FileManager index.html 
 Add a line like: "file_browser_callback : 'name_of_callback_function'" in the tinyMCE.init command
 See http://www.tinymce.com/wiki.php/TinyMCE3x:How-to_implement_a_custom_file_browser for more details.
 
-See also the dedicated wiki page, with TinyMCE 4 sample : https://github.com/simogeo/Filemanager/wiki/How-to-use-the-Filemanager-with-tinyMCE---3-%3F
+See also the dedicated wiki page, with TinyMCE 4 sample : https://github.com/simogeo/Filemanager/wiki/How-to-use-the-Filemanager-with-tinyMCE--3-or-4-%3F
 
 
 API
