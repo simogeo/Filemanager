@@ -469,7 +469,7 @@ var selectItem = function(data){
 		var url = relPath + data['Path'];
 	}
     
-	if(window.opener || window.tinyMCEPopup){
+	if(window.opener || window.tinyMCEPopup || $.urlParam('field_name')){
 	 	if(window.tinyMCEPopup){
         	// use TinyMCE > 3.0 integration method
             var win = tinyMCEPopup.getWindowArg("window");
@@ -486,7 +486,13 @@ var selectItem = function(data){
 			tinyMCEPopup.close();
 			return;
 		}
-		if($.urlParam('CKEditor')){
+	 	// tinymce 4
+	 	if($.urlParam('field_name')){
+	 		parent.document.getElementById($.urlParam('field_name')).value = url;
+	 		parent.tinyMCE.activeEditor.windowManager.close();
+	 	}
+	 	
+		else if($.urlParam('CKEditor')){
 			// use CKEditor 3.0 integration method
 			window.opener.CKEDITOR.tools.callFunction($.urlParam('CKEditorFuncNum'), url);
 		} else {
@@ -805,7 +811,7 @@ var getFileInfo = function(file){
 	// Include the template.
 	var template = '<div id="preview"><img /><h1></h1><dl></dl></div>';
 	template += '<form id="toolbar">';
-	if(window.opener || window.tinyMCEPopup) template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
+	if(window.opener || window.tinyMCEPopup || $.urlParam('field_name')) template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
 	template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
 	if(config.options.browseOnly != true) template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
 	if(config.options.browseOnly != true) template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.del + '</button>';
@@ -1206,7 +1212,7 @@ $(function(){
 	createFileTree();
 	
 	// Disable select function if no window.opener
-	if(! (window.opener || window.tinyMCEPopup) ) $('#itemOptions a[href$="#select"]').remove();
+	if(! (window.opener || window.tinyMCEPopup || $.urlParam('field_name')) ) $('#itemOptions a[href$="#select"]').remove();
 	// Keep only browseOnly features if needed
 	if(config.options.browseOnly == true) {
 		$('#file-input-container').remove();
