@@ -1064,14 +1064,11 @@ $(function(){
 		}
 	}
 
-	if(!config.options.relPath) {
+	if(config.options.relPath === false) {
 		relPath = window.location.protocol + "//" + window.location.host;
 	} else {
 		relPath = config.options.relPath;
 	}
-	// @todo remove 
-	// console.log('fileRoot : ' + fileRoot);
-	// console.log('RelPath : ' + relPath);
 	
 
 	if($.urlParam('expandedFolder') != 0) {
