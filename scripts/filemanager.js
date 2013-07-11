@@ -76,6 +76,9 @@ var setDimensions = function(){
 
 	var newH = $(window).height() - $('#uploader').height() - bheight;	
 	$('#splitter, #filetree, #fileinfo, .vsplitbar').height(newH);
+	
+	var newW = $('#splitter').width() - 6 - $('#filetree').width();
+    $('#fileinfo').width(newW);
 };
 
 // Display Min Path
