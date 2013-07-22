@@ -489,11 +489,17 @@ var selectItem = function(data){
 			tinyMCEPopup.close();
 			return;
 		}
-	 	// tinymce 4
+	 // tinymce 4 and colorbox
 	 	if($.urlParam('field_name')){
 	 		parent.document.getElementById($.urlParam('field_name')).value = url;
-	 		// parent.tinyMCE.activeEditor.windowManager.close(); it seems parent. does not work with IE9 /IE10
-	 		top.tinyMCE.activeEditor.windowManager.close();
+	 		
+	 		if(typeof top.tinyMCE !== "undefined") {
+	 			// parent.tinyMCE.activeEditor.windowManager.close(); it seems parent. does not work with IE9 /IE10
+		 		top.tinyMCE.activeEditor.windowManager.close();
+		 	}
+		 	if(typeof parent.$.fn.colorbox !== "undefined") {
+		 		parent.$.fn.colorbox.close();
+		 	}
 	 	}
 	 	
 		else if($.urlParam('CKEditor')){
