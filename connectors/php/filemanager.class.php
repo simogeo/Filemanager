@@ -25,6 +25,9 @@ class Filemanager {
 	protected $dynamic_fileroot = '';
 	protected $logger = false;
 	protected $logfile = '/tmp/filemanager.log';
+	protected $cachefolder = '_thumbs/';
+	protected $thumbnail_width = 64;
+	protected $thumbnail_height = 64;
 
 	public function __construct($extraConfig = '') {
 			
@@ -143,7 +146,7 @@ class Filemanager {
 	public function getinfo() {
 		$this->item = array();
 		$this->item['properties'] = $this->properties;
-		$this->get_file_info();
+		$this->get_file_info('', false);
 		
 		// handle path when set dynamically with $fm->setFileRoot() method
 		if($this->dynamic_fileroot != '') {
@@ -218,7 +221,7 @@ class Filemanager {
 				} else if (!in_array($file, $this->config['exclude']['unallowed_files'])  && !preg_match( $this->config['exclude']['unallowed_files_REGEXP'], $file)) {
 					$this->item = array();
 					$this->item['properties'] = $this->properties;
-					$this->get_file_info($this->get['path'] . $file);
+					$this->get_file_info($this->get['path'] . $file, true);
 
 					if(!isset($this->params['type']) || (isset($this->params['type']) && strtolower($this->params['type'])=='images' && in_array(strtolower($this->item['filetype']),$this->config['images']['imagesExt']))) {
 						if($this->config['upload']['imagesOnly']== false || ($this->config['upload']['imagesOnly']== true && in_array(strtolower($this->item['filetype']),$this->config['images']['imagesExt']))) {
@@ -424,18 +427,28 @@ class Filemanager {
 		}
 	}
 
-	public function preview() {
+	public function preview($thumbnail) {
 			
 		$current_path = $this->getFullPath();
 			
 		if(isset($this->get['path']) && file_exists($current_path)) {
-			header("Content-type: image/" .$ext = pathinfo($current_path, PATHINFO_EXTENSION));
+			
+			// if $thumbnail is set to true we return the thumbnail
+			if($this->config['options']['generateThumbnails'] == true && $thumbnail == true) {
+				// get thumbnail (and create it if needed)
+				$returned_path = $this->get_thumbnail($current_path);
+			} else {
+				$returned_path = $current_path;
+			}
+			
+			header("Content-type: image/" .$ext = pathinfo($returned_path, PATHINFO_EXTENSION));
 			header("Content-Transfer-Encoding: Binary");
-			header("Content-length: ".filesize($current_path));
-			header('Content-Disposition: inline; filename="' . basename($current_path) . '"');
-			readfile($current_path);
-			$this->__log(__METHOD__ . ' - previewing '. $current_path);
+			header("Content-length: ".filesize($returned_path));
+			header('Content-Disposition: inline; filename="' . basename($returned_path) . '"');
+			readfile($returned_path);
+			
 			exit();
+			
 		} else {
 			$this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),$current_path));
 		}
@@ -473,7 +486,7 @@ class Filemanager {
 	}
 
 
-	private function get_file_info($path='',$return=array()) {
+	private function get_file_info($path='', $thumbnail = false) {
 			
 		// DO NOT  rawurlencode() since $current_path it
 		// is used for displaying name file
@@ -503,6 +516,7 @@ class Filemanager {
 				$this->item['preview'] = $current_path;
 			} else {
 				$this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path='. rawurlencode($current_path);
+				if($thumbnail) $this->item['preview'] .= '&thumbnail=true';
 			}
 			//if(isset($get['getsize']) && $get['getsize']=='true') {
 			$this->item['properties']['Size'] = filesize($this->getFullPath($current_path));
@@ -687,6 +701,49 @@ private function cleanString($string, $allowed = array()) {
 		
 	}
 	return $cleaned;
+}
+
+/**
+ * For debugging just call
+ * the direct URL http://localhost/Filemanager/connectors/php/filemanager.php?mode=preview&path=%2FFilemanager%2Fuserfiles%2FMy%20folder3%2Fblanches_neiges.jPg&thumbnail=true
+ * @param string $path
+ * @todo Fix path issue - for now only working with default root settings 
+ */
+private function get_thumbnail($path) {
+	
+	require_once('./inc/vendor/wideimage/lib/WideImage.php');
+	
+	// this is bricolage : Has to be fixed seriously
+	if(empty($this->dynamic_fileroot)) {
+		//echo $path.'<br>';
+		$a = explode('userfiles', $path);
+	}
+	
+	$path_parts = pathinfo($path);
+	
+	// $thumbnail_path = $path_parts['dirname'].'/'.$this->cachefolder;
+	$thumbnail_path = $a[0].'userfiles/'.$this->cachefolder.dirname(end($a)).'/';
+	$thumbnail_name = $path_parts['filename'] . '_' . $this->thumbnail_width . 'x' . $this->thumbnail_height . 'px.' . $path_parts['extension'];
+	$thumbnail_fullpath = $thumbnail_path.$thumbnail_name;
+	
+	// echo $thumbnail_fullpath.'<br>';
+	
+	// if thumbnail does not exist we generate it
+	if(!file_exists($thumbnail_fullpath)) {
+		
+		// create folder if it does not exist
+		if(!file_exists($thumbnail_path)) {
+			mkdir($thumbnail_path);
+		}
+		$image = WideImage::load($path);
+		$resized = $image->resize($this->thumbnail_width, $this->thumbnail_height, 'outside')->crop('center', 'center', $this->thumbnail_width, $this->thumbnail_height);
+		$resized->saveToFile($thumbnail_fullpath);
+
+		$this->__log(__METHOD__ . ' - generating thumbnail :  '. $thumbnail_fullpath);
+		
+	}
+	
+	return $thumbnail_fullpath;
 }
 
 private function sanitize($var) {

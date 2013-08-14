@@ -17,7 +17,6 @@
 require_once('./inc/filemanager.inc.php');
 require_once('filemanager.class.php');
 
-
 /**
  *	Check if user is authorized
  *
@@ -105,7 +104,12 @@ if(!isset($_GET)) {
         
       case 'preview':
         if($fm->getvar('path')) {
-          $fm->preview();
+        	if(isset($_GET['thumbnail'])) {
+        		$thumbnail = true;
+        	} else {
+        		$thumbnail = false;
+        	}
+          $fm->preview($thumbnail);
         }
         break;
 			

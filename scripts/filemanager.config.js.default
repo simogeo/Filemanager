@@ -9,6 +9,7 @@
         "browseOnly": false,
         "showConfirmation": true,
         "showThumbs": true,
+        "generateThumbnails": true,
         "searchBox": true,
         "listFiles": true,
         "fileSorting": "default",
