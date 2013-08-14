@@ -1106,7 +1106,7 @@ $(function(){
 	$('#browse').append('+');
 	$('#browse').attr('title', lg.browse);
 	$("#newfile").change(function() {
-		$("#filepath").val($(this).val());
+		$("#filepath").val($(this).val().replace(/.+[\\\/]/, ""));
 	});
 	
 	/** load searchbox */
