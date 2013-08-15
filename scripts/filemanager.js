@@ -1071,6 +1071,8 @@ $(function(){
 		} else {
 			fileRoot = '/' + config.options.fileRoot;
 		}
+		// we remove double slashes - can happen when using PHP SetFileRoot() function with fileRoot = '/' value
+		fileRoot = fileRoot.replace(/\/\//g, '\/');
 	}
 
 	if(config.options.relPath === false) {

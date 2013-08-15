@@ -28,6 +28,7 @@ class Filemanager {
 	protected $cachefolder = '_thumbs/';
 	protected $thumbnail_width = 64;
 	protected $thumbnail_height = 64;
+	protected $separator = 'userfiles'; // @todo fix keep it or not?
 
 	public function __construct($extraConfig = '') {
 			
@@ -64,14 +65,17 @@ class Filemanager {
 		if ($this->config['options']['fileRoot'] !== false ) {
 			if($this->config['options']['serverRoot'] === true) {
 				$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
+				$this->separator = basename($this->config['options']['fileRoot']);
 			} else {
 				$this->doc_root = $this->config['options']['fileRoot'];
+				$this->separator = basename($this->config['options']['fileRoot']);
 			}
 		} else {
 			$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
 		}
 
 		$this->__log(__METHOD__ . ' $this->doc_root value ' . $this->doc_root);
+		$this->__log(__METHOD__ . ' $this->separator value ' . $this->separator);
 
 		$this->setParams();
 		$this->availableLanguages();
@@ -96,9 +100,11 @@ class Filemanager {
 		
 		// necessary for retrieving path when set dynamically with $fm->setFileRoot() method
 		$this->dynamic_fileroot = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->doc_root);
+		$this->separator = basename($this->doc_root);
 		
 		$this->__log(__METHOD__ . ' $this->doc_root value overwritten : ' . $this->doc_root);
 		$this->__log(__METHOD__ . ' $this->dynamic_fileroot value ' . $this->dynamic_fileroot);
+		$this->__log(__METHOD__ . ' $this->separator value ' . $this->separator);
 	}
 
 	public function error($string,$textarea=false) {
@@ -307,7 +313,7 @@ class Filemanager {
 			$array = array(
 					'Error'=>"",
 					'Code'=>0,
-					'Path'=>$this->get['path']
+					'Path'=>$this->formatPath($this->get['path'])
 			);
 
 			$this->__log(__METHOD__ . ' - deleting folder '. $current_path);
@@ -318,7 +324,7 @@ class Filemanager {
 			$array = array(
 					'Error'=>"",
 					'Code'=>0,
-					'Path'=>$this->get['path']
+					'Path'=>$this->formatPath($this->get['path'])
 			);
 
 			$this->__log(__METHOD__ . ' - deleting file '. $current_path);
@@ -550,10 +556,6 @@ private function getFullPath($path = '') {
 		if(isset($this->get['path'])) $path = $this->get['path'];
 	}
 	
-	// $this->__log(__METHOD_. " given path : " . $this->get['path']);
-	// $this->__log(__METHOD_. " doc_root value : " . $this->doc_root);
-	// $this->__log(__METHOD_. " dynamic_fileroot value : " . $this->dynamic_fileroot);
-	
 	if($this->config['options']['fileRoot'] !== false) {
 		$full_path = $this->doc_root . rawurldecode(str_replace ( $this->doc_root , '' , $path));
 		if($this->dynamic_fileroot != '') {
@@ -569,6 +571,25 @@ private function getFullPath($path = '') {
 		
 	return $full_path;
 		
+}
+
+/**
+ * format path regarding the initial configuration
+ * @param string $path
+ */
+private function formatPath($path) {
+	
+	if($this->dynamic_fileroot != '') {
+		
+		$a = explode($this->separator, $path);
+		return end($a);
+		
+	} else {
+		
+		return $path;
+		
+	}
+
 }
 
 private function sortFiles($array) {
@@ -706,23 +727,21 @@ private function cleanString($string, $allowed = array()) {
 /**
  * For debugging just call
  * the direct URL http://localhost/Filemanager/connectors/php/filemanager.php?mode=preview&path=%2FFilemanager%2Fuserfiles%2FMy%20folder3%2Fblanches_neiges.jPg&thumbnail=true
+ * and echo vars below
  * @param string $path
- * @todo Fix path issue - for now only working with default root settings 
  */
 private function get_thumbnail($path) {
 	
 	require_once('./inc/vendor/wideimage/lib/WideImage.php');
 	
-	// this is bricolage : Has to be fixed seriously
-	if(empty($this->dynamic_fileroot)) {
-		//echo $path.'<br>';
-		$a = explode('userfiles', $path);
-	}
+
+	// echo $path.'<br>';
+	$a = explode($this->separator, $path);
 	
 	$path_parts = pathinfo($path);
 	
 	// $thumbnail_path = $path_parts['dirname'].'/'.$this->cachefolder;
-	$thumbnail_path = $a[0].'userfiles/'.$this->cachefolder.dirname(end($a)).'/';
+	$thumbnail_path = $a[0].$this->separator.'/'.$this->cachefolder.dirname(end($a)).'/';
 	$thumbnail_name = $path_parts['filename'] . '_' . $this->thumbnail_width . 'x' . $this->thumbnail_height . 'px.' . $path_parts['extension'];
 	$thumbnail_fullpath = $thumbnail_path.$thumbnail_name;
 	
