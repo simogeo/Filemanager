@@ -752,7 +752,7 @@ private function get_thumbnail($path) {
 		
 		// create folder if it does not exist
 		if(!file_exists($thumbnail_path)) {
-			mkdir($thumbnail_path);
+			mkdir($thumbnail_path, 0755, true);
 		}
 		$image = WideImage::load($path);
 		$resized = $image->resize($this->thumbnail_width, $this->thumbnail_height, 'outside')->crop('center', 'center', $this->thumbnail_width, $this->thumbnail_height);
