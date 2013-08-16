@@ -184,6 +184,11 @@ button:focus {
 	overflow: hidden;
 }
 
+/** IE10 hack */
+_::-ms-reveal, #file-input-container {
+	overflow:auto;
+}
+
 /** Firefox hack */
 @-moz-document url-prefix() {
 	#file-input-container  {
