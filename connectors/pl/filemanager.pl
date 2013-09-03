@@ -4,6 +4,7 @@ use JSON;
 use Image::Info qw( image_info image_type);
 use File::Basename;
 use File::Find::Rule;
+use File::Slurp;
 use strict;
 
 our $q;
@@ -11,6 +12,7 @@ our $q;
 #Edit this with your values in
 require 'filemanager_config.pl';
 my $config = $Filemanager::Config::config;
+my $config_js = from_json(read_file( '../../scripts/filemanager.config.js', binmode => ':utf8' ), {utf8 => 1}) ;
 
 my $MODE_MAPPING = {
   '' => \&root,
@@ -51,18 +53,24 @@ sub file_info {
   my $info = image_info($abs_filename);
   my ($fileparse_filename, $fileparse_dirs, $fileparse_suffix) = fileparse($abs_filename);
   $fileparse_filename =~ /\.(.+)/;
-  my $suffix = $1 || "";
+  my $suffix = lc($1) || "";
 
   my $directory = -d $abs_filename;
   if($directory) {
     $url_filename .= "/";
   }
 
+  my $preview = $config_js->{icons}{path}.(($directory)?$config_js->{icons}{directory}:$config_js->{icons}{default}); 
+  if (grep{$suffix eq $_}@{$config_js->{images}->{imagesExt}}){
+    $preview = $url_filename;
+  } elsif (-e $config->{base_path}.$config_js->{icons}{path}.$suffix.'.png'){
+    $preview = $config_js->{icons}{path}.$suffix.'.png';
+  };
   return {
     "Path" => $url_filename,
     "Filename" => $fileparse_filename,
     "File Type" => $directory ? "dir" : $suffix,
-    "Preview" => $directory ? "images\/fileicons\/_Open.png" : $url_filename,
+    "Preview" => $preview,
     "Properties" => {
       "Date Created" => '', #TODO
       "Date Modified" => '', #"02/09/2007 14:01:06", 
@@ -78,7 +86,7 @@ sub file_info {
 # ?mode=getfolder&path=/UserFiles/Image/&getsizes=true&type=images
 #Ignoring type for now
 sub getfolder {
-  return unless params_valid([qw(path type)]);
+  return unless params_valid([qw(path)]);
 
   my @directory_list = ();
 
