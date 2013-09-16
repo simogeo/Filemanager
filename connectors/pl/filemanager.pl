@@ -63,7 +63,7 @@ sub file_info {
   my $preview = $config_js->{icons}{path}.(($directory)?$config_js->{icons}{directory}:$config_js->{icons}{default}); 
   if (grep{$suffix eq $_}@{$config_js->{images}->{imagesExt}}){
     $preview = $url_filename;
-  } elsif (-e $config->{base_path}.$config_js->{icons}{path}.$suffix.'.png'){
+  } elsif (-e '../../'.$config_js->{icons}{path}.$suffix.'.png'){
     $preview = $config_js->{icons}{path}.$suffix.'.png';
   };
   return {
@@ -117,20 +117,24 @@ sub getfolder {
 # ?mode=rename&old=/UserFiles/Image/logo.png&new=id.png
 sub rename {
   return unless params_valid([qw(old new)]);
+  my $path = '';
+  my $old_name = '';
+  my $error = 0;
   my $full_old = absolute_file_name_from_url($q->param('old'));
-  my $full_new = absolute_file_name_from_url($q->param('new'));
+  ($path, $old_name) = ($1, $2) if $full_old =~ m|^ ( (?: .* / (?: \.\.?\z )? )? ) ([^/]*) |xs;
+  my $new_name = $q->param('new');
+  $new_name =~ s|^ .* / (?: \.\.?\z )? ||xs;
+  $error = 1 if $new_name =~ /^\.?\.?\z/;
+  my $full_new = remove_extra_slashes("$path/$new_name");
 
-  my $old_name = fileparse($full_old);
-  my $new_name = fileparse($full_new);
-
-  my $success = rename $full_old, $full_new;
+  $error ||= (rename($full_old, $full_new))?0:1;
 
   print_json({
-    "Error" => $success ? "No error" : "Could not rename",
-    "Code" => !$success,
-    "Old Path" => $q->param('old'),
+    "Error" => $error ? "Could not rename" : "No error",
+    "Code" => $error,
+    "Old Path" => url_for_relative_filename(relative_file_name_from_absolute($full_old)),
     "Old Name" => $old_name,
-    "New Path" => $q->param('new'), 
+    "New Path" => url_for_relative_filename(relative_file_name_from_absolute($full_new)),
     "New Name" => $new_name
   });
 }
