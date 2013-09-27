@@ -502,3 +502,23 @@ button.ON {
 	width:30px;
 	height:30px;
 }
+
+/* IE10-11 styles */
+html[data-useragent*='MSIE 10.0'] #uploader button,
+html[data-useragent*='MSIE 11.0'] #uploader button {
+	vertical-align: top;
+}
+html[data-useragent*='MSIE 10.0'] #file-input-container,
+html[data-useragent*='MSIE 11.0'] #file-input-container {
+ 	width: 220px;
+ 	height: 32px;
+ 	overflow: hidden;
+}
+html[data-useragent*='MSIE 10.0'] #filepath,
+html[data-useragent*='MSIE 11.0'] #filepath {
+	height: 22px;
+}
+html[data-useragent*='MSIE 10.0'] #newfile,
+html[data-useragent*='MSIE 11.0'] #newfile {
+	height: 23px;
+}
