@@ -1243,4 +1243,8 @@ $(function(){
     getDetailView(fileRoot + expandedFolder);
 });
 
+// add useragent string to html element for IE 10/11 detection
+var doc = document.documentElement;
+doc.setAttribute('data-useragent', navigator.userAgent);
+
 })(jQuery);
