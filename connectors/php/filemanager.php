@@ -13,7 +13,7 @@
  *  @author		Simon Georget <simon (at) linea21 (dot) com>
  *	@copyright	Authors
  */
-
+session_start();
 require_once('./inc/filemanager.inc.php');
 require_once('filemanager.class.php');
 
@@ -39,10 +39,35 @@ function auth() {
 // } else {
 // 	$fm = new Filemanager($config);
 // }
+if (substr_count($_SERVER['HTTP_HOST'], "ca-dev") > 0 OR $_SERVER['HTTP_HOST'] == 'localhost' OR substr_count($_SERVER['HTTP_HOST'], 'localhost.enguehard.info') > 0) {
+  $tab = explode('.', $_SERVER['SERVER_NAME']);
+  if ($_SERVER['HTTP_HOST'] == 'localhost') {
+    $sys['base_dir'] = $_SERVER["DOCUMENT_ROOT"];
+    $sys['documentRoot'] = $_SERVER["DOCUMENT_ROOT"].'../';
+  } else {
+    $sys['base_dir'] = $_SERVER["DOCUMENT_ROOT"].$tab[0].'/www';
+    $sys['documentRoot'] = $_SERVER["DOCUMENT_ROOT"].$tab[0];
+  }
+  $sys['env'] = 'dev';
+} else {
+  $sys['base_dir'] = $_SERVER["DOCUMENT_ROOT"];
+  $sys['documentRoot'] = $_SERVER["DOCUMENT_ROOT"].'/../';
+  $sys['env'] = 'prod';
+}
+
+if (isset($_SESSION['userfoldername'])) {
+  $folderPath = $sys['base_dir'].'/userfiles/image/'.$_SESSION['userfoldername'].'/';
+} else {
+  $folderPath = $sys['base_dir'].'/userfiles/image/';
+}
+
 
 $fm = new Filemanager();
+$fm->setFileRoot($folderPath);
+// $fm->enableLog('/tmp/filemanager.log');
 
 $response = '';
+
 
 if(!auth()) {
   $fm->error($fm->lang('AUTHORIZATION_REQUIRED'));
@@ -55,7 +80,7 @@ if(!isset($_GET)) {
   if(isset($_GET['mode']) && $_GET['mode']!='') {
 
     switch($_GET['mode']) {
-      	
+
       default:
 
         $fm->error($fm->lang('MODE_ERROR'));
@@ -69,7 +94,7 @@ if(!isset($_GET)) {
         break;
 
       case 'getfolder':
-        	
+
         if($fm->getvar('path')) {
           $response = $fm->getfolder();
         }
@@ -101,7 +126,7 @@ if(!isset($_GET)) {
           $fm->download();
         }
         break;
-        
+
       case 'preview':
         if($fm->getvar('path')) {
         	if(isset($_GET['thumbnail'])) {
@@ -112,7 +137,7 @@ if(!isset($_GET)) {
           $fm->preview($thumbnail);
         }
         break;
-			
+
       case 'maxuploadfilesize':
         $fm->getMaxUploadFileSize();
         break;
@@ -121,12 +146,12 @@ if(!isset($_GET)) {
   } else if(isset($_POST['mode']) && $_POST['mode']!='') {
 
     switch($_POST['mode']) {
-      	
+
       default:
 
         $fm->error($fm->lang('MODE_ERROR'));
         break;
-        	
+
       case 'add':
 
         if($fm->postvar('currentpath')) {

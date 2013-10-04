@@ -31,10 +31,10 @@ class Filemanager {
 	protected $separator = 'userfiles'; // @todo fix keep it or not?
 
 	public function __construct($extraConfig = '') {
-			
+
 		$content = file_get_contents("../../scripts/filemanager.config.js");
 		$config = json_decode($content, true);
-			
+
 		$this->config = $config;
 
 		// override config options if needed
@@ -64,7 +64,24 @@ class Filemanager {
 		// else it takes $_SERVER['DOCUMENT_ROOT'] default value
 		if ($this->config['options']['fileRoot'] !== false ) {
 			if($this->config['options']['serverRoot'] === true) {
-				$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
+				// $this->doc_root = $_SERVER['DOCUMENT_ROOT'];
+				// global $sys;
+				if (substr_count($_SERVER['HTTP_HOST'], "ca-dev") > 0 OR $_SERVER['HTTP_HOST'] == 'localhost' OR substr_count($_SERVER['HTTP_HOST'], 'localhost.enguehard.info') > 0) {
+					$tab = explode('.', $_SERVER['SERVER_NAME']);
+					if ($_SERVER['HTTP_HOST'] == 'localhost') {
+						$sys['base_dir'] = $_SERVER["DOCUMENT_ROOT"];
+						$sys['documentRoot'] = $_SERVER["DOCUMENT_ROOT"].'../';
+					} else {
+						$sys['base_dir'] = $_SERVER["DOCUMENT_ROOT"].$tab[0].'/www';
+						$sys['documentRoot'] = $_SERVER["DOCUMENT_ROOT"].$tab[0];
+					}
+					$sys['env'] = 'dev';
+				} else {
+					$sys['base_dir'] = $_SERVER["DOCUMENT_ROOT"];
+					$sys['documentRoot'] = $_SERVER["DOCUMENT_ROOT"].'/../';
+					$sys['env'] = 'prod';
+				}
+				$this->doc_root = $sys['base_dir'];
 				$this->separator = basename($this->config['options']['fileRoot']);
 			} else {
 				$this->doc_root = $this->config['options']['fileRoot'];
@@ -74,8 +91,9 @@ class Filemanager {
 			$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
 		}
 
-		$this->__log(__METHOD__ . ' $this->doc_root value ' . $this->doc_root);
-		$this->__log(__METHOD__ . ' $this->separator value ' . $this->separator);
+		$this->__log(__METHOD__.' $this->doc_root value ' . $this->doc_root);
+		$this->__log(__METHOD__.' $this->separator value ' . $this->separator);
+		$this->__log(__METHOD__.' $this->config[\'options\'][\'fileRoot\'] value ' . $this->config['options']['fileRoot']);
 
 		$this->setParams();
 		$this->availableLanguages();
@@ -86,25 +104,44 @@ class Filemanager {
 	public function setup($extraconfig) {
 
 		$this->config = array_merge_recursive($this->config, $extraconfig);
-			
+
 	}
 
 	// allow Filemanager to be used with dynamic folders
 	public function setFileRoot($path) {
+		// global $sys
+		if (substr_count($_SERVER['HTTP_HOST'], "ca-dev") > 0 OR $_SERVER['HTTP_HOST'] == 'localhost' OR substr_count($_SERVER['HTTP_HOST'], 'localhost.enguehard.info') > 0) {
+			$tab = explode('.', $_SERVER['SERVER_NAME']);
+			if ($_SERVER['HTTP_HOST'] == 'localhost') {
+				$sys['base_dir'] = $_SERVER["DOCUMENT_ROOT"];
+				$sys['documentRoot'] = $_SERVER["DOCUMENT_ROOT"].'../';
+			} else {
+				$sys['base_dir'] = $_SERVER["DOCUMENT_ROOT"].$tab[0].'/www';
+				$sys['documentRoot'] = $_SERVER["DOCUMENT_ROOT"].$tab[0];
+			}
+			$sys['env'] = 'dev';
+		} else {
+			$sys['base_dir'] = $_SERVER["DOCUMENT_ROOT"];
+			$sys['documentRoot'] = $_SERVER["DOCUMENT_ROOT"].'/../';
+			$sys['env'] = 'prod';
+		}
 
 		if($this->config['options']['serverRoot'] === true) {
-			$this->doc_root = $_SERVER['DOCUMENT_ROOT']. '/'.  $path;
+			// $this->doc_root = $_SERVER['DOCUMENT_ROOT']. $path;
+			$this->doc_root = $sys['base_dir'].$path;
 		} else {
 			$this->doc_root =  $path;
 		}
-		
+
 		// necessary for retrieving path when set dynamically with $fm->setFileRoot() method
-		$this->dynamic_fileroot = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->doc_root);
+		// $this->dynamic_fileroot = str_replace($_SERVER['DOCUMENT_ROOT'], '/', $this->doc_root);
+		$this->dynamic_fileroot = str_replace($sys['base_dir'], '', $this->doc_root);
 		$this->separator = basename($this->doc_root);
-		
-		$this->__log(__METHOD__ . ' $this->doc_root value overwritten : ' . $this->doc_root);
-		$this->__log(__METHOD__ . ' $this->dynamic_fileroot value ' . $this->dynamic_fileroot);
-		$this->__log(__METHOD__ . ' $this->separator value ' . $this->separator);
+
+		$this->__log(__METHOD__.' $this->doc_root value overwritten : ' . $this->doc_root);
+		$this->__log(__METHOD__.' $this->dynamic_fileroot value ' . $this->dynamic_fileroot);
+		$this->__log(__METHOD__.' $this->separator value ' . $this->separator);
+		$this->__log(__METHOD__.' $this->config[\'options\'][\'fileRoot\'] value ' . $this->config['options']['fileRoot']);
 	}
 
 	public function error($string,$textarea=false) {
@@ -153,7 +190,7 @@ class Filemanager {
 		$this->item = array();
 		$this->item['properties'] = $this->properties;
 		$this->get_file_info('', false);
-		
+
 		// handle path when set dynamically with $fm->setFileRoot() method
 		if($this->dynamic_fileroot != '') {
 			$path = $this->dynamic_fileroot. $this->get['path'];
@@ -161,7 +198,7 @@ class Filemanager {
 		} else {
 			$path = $this->get['path'];
 		}
-		
+
 
 		$array = array(
 				'Path'=> $path,
@@ -198,7 +235,7 @@ class Filemanager {
 				}
 			}
 			closedir($handle);
-			
+
 			// By default
 			// Sorting files by name ('default' or 'NAME_DESC' cases from $this->config['options']['fileSorting']
 			natcasesort($filesDir);
@@ -245,7 +282,7 @@ class Filemanager {
 				}
 			}
 		}
-		
+
 		$array = $this->sortFiles($array);
 
 		return $array;
@@ -303,11 +340,11 @@ class Filemanager {
 	public function delete() {
 
 		$current_path = $this->getFullPath();
-			
+
 		if(!$this->isValidPath($current_path)) {
 			$this->error("No way.");
 		}
-			
+
 		if(is_dir($current_path)) {
 			$this->unlinkRecursive($current_path);
 			$array = array(
@@ -316,7 +353,7 @@ class Filemanager {
 					'Path'=>$this->formatPath($this->get['path'])
 			);
 
-			$this->__log(__METHOD__ . ' - deleting folder '. $current_path);
+			$this->__log(__METHOD__.' - deleting folder '.$current_path);
 			return $array;
 
 		} else if(file_exists($current_path)) {
@@ -327,7 +364,7 @@ class Filemanager {
 					'Path'=>$this->formatPath($this->get['path'])
 			);
 
-			$this->__log(__METHOD__ . ' - deleting file '. $current_path);
+			$this->__log(__METHOD__.' - deleting file '.$current_path);
 			return $array;
 
 		} else {
@@ -336,7 +373,7 @@ class Filemanager {
 	}
 
 	public function add() {
-			
+
 		$this->setParams();
 
 		if(!isset($_FILES['newfile']) || !is_uploaded_file($_FILES['newfile']['tmp_name'])) {
@@ -378,16 +415,16 @@ class Filemanager {
 				'Code'=>0
 		);
 
-		$this->__log(__METHOD__ . ' - adding file '. $_FILES['newfile']['name']. ' into '. $current_path);
+		$this->__log(__METHOD__.' - adding file '. $_FILES['newfile']['name'].' into '.$current_path);
 
-		echo '<textarea>' . json_encode($response) . '</textarea>';
+		echo '<textarea>'.json_encode($response).'</textarea>';
 		die();
 	}
 
 	public function addfolder() {
-			
+
 		$current_path = $this->getFullPath();
-			
+
 		if(!$this->isValidPath($current_path)) {
 			$this->error("No way.");
 		}
@@ -411,34 +448,34 @@ class Filemanager {
 	}
 
 	public function download() {
-			
+
 		$current_path = $this->getFullPath();
-			
+
 		if(!$this->isValidPath($current_path)) {
 			$this->error("No way.");
 		}
 
 		if(isset($this->get['path']) && file_exists($current_path)) {
 			header("Content-type: application/force-download");
-			header('Content-Disposition: inline; filename="' . basename($current_path) . '"');
+			header('Content-Disposition: inline; filename="'.basename($current_path).'"');
 			header("Content-Transfer-Encoding: Binary");
 			header("Content-length: ".filesize($current_path));
 			header('Content-Type: application/octet-stream');
-			header('Content-Disposition: attachment; filename="' . basename($current_path) . '"');
+			header('Content-Disposition: attachment; filename="'.basename($current_path).'"');
 			readfile($current_path);
-			$this->__log(__METHOD__ . ' - downloading '. $current_path);
+			$this->__log(__METHOD__.' - downloading '.$current_path);
 			exit();
 		} else {
-			$this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),$current_path));
+			$this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'), $current_path));
 		}
 	}
 
 	public function preview($thumbnail) {
-			
+
 		$current_path = $this->getFullPath();
-			
+
 		if(isset($this->get['path']) && file_exists($current_path)) {
-			
+
 			// if $thumbnail is set to true we return the thumbnail
 			if($this->config['options']['generateThumbnails'] == true && $thumbnail == true) {
 				// get thumbnail (and create it if needed)
@@ -446,22 +483,22 @@ class Filemanager {
 			} else {
 				$returned_path = $current_path;
 			}
-			
+
 			header("Content-type: image/" .$ext = pathinfo($returned_path, PATHINFO_EXTENSION));
 			header("Content-Transfer-Encoding: Binary");
 			header("Content-length: ".filesize($returned_path));
 			header('Content-Disposition: inline; filename="' . basename($returned_path) . '"');
 			readfile($returned_path);
-			
+
 			exit();
-			
+
 		} else {
 			$this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),$current_path));
 		}
 	}
 
 	public function getMaxUploadFileSize() {
-			
+
 		$max_upload = (int) ini_get('upload_max_filesize');
 		$max_post = (int) ini_get('post_max_size');
 		$memory_limit = (int) ini_get('memory_limit');
@@ -493,7 +530,7 @@ class Filemanager {
 
 
 	private function get_file_info($path='', $thumbnail = false) {
-			
+
 		// DO NOT  rawurlencode() since $current_path it
 		// is used for displaying name file
 		if($path=='') {
@@ -516,7 +553,7 @@ class Filemanager {
 			$this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['directory'];
 
 		} else if(in_array(strtolower($this->item['filetype']),$this->config['images']['imagesExt'])) {
-			
+
 			// svg should not be previewed as raster formats images
 			if($this->item['filetype'] == 'svg') {
 				$this->item['preview'] = $current_path;
@@ -551,26 +588,23 @@ class Filemanager {
 }
 
 private function getFullPath($path = '') {
-		
+
 	if($path == '') {
 		if(isset($this->get['path'])) $path = $this->get['path'];
 	}
-	
+
 	if($this->config['options']['fileRoot'] !== false) {
-		$full_path = $this->doc_root . rawurldecode(str_replace ( $this->doc_root , '' , $path));
+		$full_path = $this->doc_root.rawurldecode(str_replace($this->doc_root, '', $path));
 		if($this->dynamic_fileroot != '') {
-			$full_path = $this->doc_root . rawurldecode(str_replace ( $this->dynamic_fileroot , '' , $path));
+			$full_path = $this->doc_root.rawurldecode(str_replace($this->dynamic_fileroot, '', $path));
 		}
 	} else {
 		$full_path = $this->doc_root . rawurldecode($path);
 	}
-		
+
 	$full_path = str_replace("//", "/", $full_path);
-		
-	// $this->__log(__METHOD_. " returned path : " . $full_path);
-		
+
 	return $full_path;
-		
 }
 
 /**
@@ -578,16 +612,16 @@ private function getFullPath($path = '') {
  * @param string $path
  */
 private function formatPath($path) {
-	
+
 	if($this->dynamic_fileroot != '') {
-		
+
 		$a = explode($this->separator, $path);
 		return end($a);
-		
+
 	} else {
-		
+
 		return $path;
-		
+
 	}
 
 }
@@ -601,10 +635,10 @@ private function sortFiles($array) {
 
 	// handle 'TYPE_ASC' and 'TYPE_DESC'
 	if(strpos($this->config['options']['fileSorting'], 'TYPE_') !== false || $this->config['options']['fileSorting'] == 'default') {
-		
+
 		$a = array();
 		$b = array();
-		
+
 		foreach ($array as $key=>$item){
 			if(strcmp($item["File Type"], "dir") == 0) {
 				$a[$key]=$item;
@@ -640,18 +674,18 @@ private function sortFiles($array) {
 		return $array;
 
 	}
-	
+
 	return $array;
 
 
 }
 
 private function isValidPath($path) {
-		
+
 	// @todo remove debug message
 	// $this->__log('compare : ' .$this->getFullPath(). '($this->getFullPath())  and ' . $path . '(path)');
 	// $this->__log('strncmp() retruned value : ' .strncmp($path, $this->getFullPath(), strlen($this->getFullPath())));
-		
+
 	return !strncmp($path, $this->getFullPath(), strlen($this->getFullPath()));
 
 }
@@ -719,7 +753,7 @@ private function cleanString($string, $allowed = array()) {
 			// $clean = preg_replace("/[^{$allow}_a-zA-Z0-9\x{0430}-\x{044F}\x{0410}-\x{042F}]/u", '', $string); // allow only latin alphabet with cyrillic
 		}
 		$cleaned = preg_replace('/[_]+/', '_', $string); // remove double underscore
-		
+
 	}
 	return $cleaned;
 }
@@ -731,25 +765,25 @@ private function cleanString($string, $allowed = array()) {
  * @param string $path
  */
 private function get_thumbnail($path) {
-	
+
 	require_once('./inc/vendor/wideimage/lib/WideImage.php');
-	
+
 
 	// echo $path.'<br>';
 	$a = explode($this->separator, $path);
-	
+
 	$path_parts = pathinfo($path);
-	
+
 	// $thumbnail_path = $path_parts['dirname'].'/'.$this->cachefolder;
 	$thumbnail_path = $a[0].$this->separator.'/'.$this->cachefolder.dirname(end($a)).'/';
 	$thumbnail_name = $path_parts['filename'] . '_' . $this->thumbnail_width . 'x' . $this->thumbnail_height . 'px.' . $path_parts['extension'];
 	$thumbnail_fullpath = $thumbnail_path.$thumbnail_name;
-	
+
 	// echo $thumbnail_fullpath.'<br>';
-	
+
 	// if thumbnail does not exist we generate it
 	if(!file_exists($thumbnail_fullpath)) {
-		
+
 		// create folder if it does not exist
 		if(!file_exists($thumbnail_path)) {
 			mkdir($thumbnail_path, 0755, true);
@@ -759,9 +793,9 @@ private function get_thumbnail($path) {
 		$resized->saveToFile($thumbnail_fullpath);
 
 		$this->__log(__METHOD__ . ' - generating thumbnail :  '. $thumbnail_fullpath);
-		
+
 	}
-	
+
 	return $thumbnail_fullpath;
 }
 
@@ -818,34 +852,32 @@ private function availableLanguages() {
 }
 
 private function __log($msg) {
-		
 	if($this->logger == true) {
-
 		$fp = fopen($this->logfile, "a");
-		$str = "[" . date("d/m/Y h:i:s", mktime()) . "] " . $msg;
-		fwrite($fp, $str . PHP_EOL);
+		// $str = "[".date("d/m/Y h:i:s", mktime())."] ".$msg;
+		$str = "[".date("d/m/Y h:i:s")."] ".$msg;
+		fwrite($fp, $str.PHP_EOL);
 		fclose($fp);
 	}
-		
 }
 
 public function enableLog($logfile = '') {
-		
+
 	$this->logger = true;
-		
+
 	if($logfile != '') {
 		$this->logfile = $logfile;
 	}
-		
-	$this->__log(__METHOD__ . ' - Log enabled (in '. $this->logfile. ' file)');
-		
+
+	$this->__log(__METHOD__.' - Log enabled (in '.$this->logfile.' file)');
+
 }
 
 public function disableLog() {
 
 	$this->logger = false;
 
-	$this->__log(__METHOD__ . ' - Log disabled');
+	$this->__log(__METHOD__.' - Log disabled');
 }
 }
 ?>
