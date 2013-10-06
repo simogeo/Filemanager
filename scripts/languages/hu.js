@@ -42,6 +42,7 @@
     "loading_data": "Transferring data ...", 
     "mb": "mb", 
     "modified": "Módosítva", 
+    "move": "Move to ...", 
     "name": "Név", 
     "new_filename": "Adja meg a fájl új nevét", 
     "new_folder": "Új mappa", 
@@ -58,6 +59,7 @@
     "successful_added_file": "Az új fájl sikeresen létre lett hozva.", 
     "successful_added_folder": "Az új mappa sikeresen létre lett hozva.", 
     "successful_delete": "Sikeres törlés.", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "Sikeres átnevezés.", 
     "upload": "Feltöltés", 
     "yes": "Igen"

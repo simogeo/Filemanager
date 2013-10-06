@@ -43,6 +43,7 @@
     "loading_data": "Transferring data ...", 
     "mb": "mb", 
     "modified": "Senast ändrad", 
+    "move": "Move to ...", 
     "name": "Namn", 
     "new_filename": "Ange nytt namn på filen", 
     "new_folder": "Ny mapp", 
@@ -59,6 +60,7 @@
     "successful_added_file": "En ny fil har lagts till.", 
     "successful_added_folder": "En ny mapp skapades.", 
     "successful_delete": "Radering utförd.", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "Namnbyte utfört.", 
     "upload": "Ladda upp", 
     "yes": "Ja"

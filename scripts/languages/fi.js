@@ -42,6 +42,7 @@
     "loading_data": "Transferring data ...", 
     "mb": "Mt", 
     "modified": "Muokattu", 
+    "move": "Move to ...", 
     "name": "Nimi", 
     "new_filename": "Anna tiedostolle uusi nimi", 
     "new_folder": "Uusi kansio", 
@@ -58,6 +59,7 @@
     "successful_added_file": "Uusi tiedosto lisätty onnistuneesti.", 
     "successful_added_folder": "Uusi hakemisto lisätty onnistuneesti.", 
     "successful_delete": "Poisto onnistui.", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "Uudelleen nimeäminen onnistui.", 
     "upload": "Lähetä", 
     "yes": "Kyllä"

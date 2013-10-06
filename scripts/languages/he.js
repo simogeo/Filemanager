@@ -42,6 +42,7 @@
     "loading_data": "Transferring data ...", 
     "mb": "mb", 
     "modified": "שונה לאחרונה", 
+    "move": "Move to ...", 
     "name": "שם", 
     "new_filename": "הכנס שם חדש לקובץ", 
     "new_folder": "תיקייה חדשה", 
@@ -58,6 +59,7 @@
     "successful_added_file": "הקובץ נוסף בהצלחה", 
     "successful_added_folder": "התיקייה החדשה נוספה בהצלחה", 
     "successful_delete": "הקובץ נמחק", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "השם שונה בהצלחה", 
     "upload": "העלה קובץ", 
     "yes": "כן"

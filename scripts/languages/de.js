@@ -42,6 +42,7 @@
     "loading_data": "Transferring data ...", 
     "mb": "mb", 
     "modified": "Geändert", 
+    "move": "Move to ...", 
     "name": "Name", 
     "new_filename": "Gib einen neuen Namen für die Datei an", 
     "new_folder": "Neuer Ordner", 
@@ -58,6 +59,7 @@
     "successful_added_file": "Neue Datei wurde erfolgreich hinzugefügt.", 
     "successful_added_folder": "Neuer Ordner wurde erfolgreich hinzugefügt.", 
     "successful_delete": "Erfolgreich gelöscht.", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "Erfolgreich umbenannt.", 
     "upload": "Hochladen", 
     "yes": "Ja"

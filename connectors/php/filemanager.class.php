@@ -132,11 +132,11 @@ class Filemanager {
 		}
 	}
 
-	public function getvar($var) {
+	public function getvar($var, $preserve = null) {
 		if(!isset($_GET[$var]) || $_GET[$var]=='') {
 			$this->error(sprintf($this->lang('INVALID_VAR'),$var));
 		} else {
-			$this->get[$var] = $this->sanitize($_GET[$var]);
+			$this->get[$var] = $this->sanitize($_GET[$var], $preserve);
 			return true;
 		}
 	}
@@ -296,6 +296,77 @@ class Filemanager {
 				'Old Name'=>$filename,
 				'New Path'=>$path . '/' . $this->get['new'].$suffix,
 				'New Name'=>$this->get['new']
+		);
+		return $array;
+	}
+
+	public function move() {
+
+		$rootDir = $this->get['root'];
+		$oldPath = $this->getFullPath($this->get['old']);
+
+        // old path
+        $tmp = explode('/',trim($this->get['old'], '/'));
+        $fileName = array_pop($tmp); // file name or new dir name
+        $path = '/' . implode('/', $tmp) . '/';
+
+		// new path
+		if (substr($this->get['new'], 0, 1) != "/") {
+			// make path relative from old dir
+			$newPath = $path . '/' . $this->get['new'] . '/';
+		} else {
+			$newPath = $rootDir . '/' . $this->get['new'] . '/';
+		}
+
+		$newPath = preg_replace('#/+#', '/', $newPath);
+		$newPath = $this->expandPath($newPath, true);
+
+		//!important! check that we are stil under ROOT dir
+		if (strncasecmp($newPath, $rootDir, strlen($rootDir))) {
+			$this->error(sprintf($this->lang('INVALID_DIRECTORY_OR_FILE'),$this->get['new']));
+		}
+
+		if(!$this->isValidPath($oldPath)) {
+			$this->error("No way.");
+		}
+
+        $newRelativePath = $newPath;
+		$newPath = $this->getFullPath($newPath);
+
+		// check if file already exists
+		if (file_exists($newPath.$fileName)) {
+			if(is_dir($newPath.$fileName)) {
+				$this->error(sprintf($this->lang('DIRECTORY_ALREADY_EXISTS'),rtrim($this->get['new'], '/').'/'.$fileName));
+			} else {
+				$this->error(sprintf($this->lang('FILE_ALREADY_EXISTS'),rtrim($this->get['new'], '/').'/'.$fileName));
+			}
+		}
+
+		// create dir if not exists
+		if (!file_exists($newPath)) {
+			if(!mkdir($newPath,0755, true)) {
+				$this->error(sprintf($this->lang('UNABLE_TO_CREATE_DIRECTORY'),$newPath));
+			}
+		}
+
+		// move
+		$this->__log(__METHOD__ . ' - moving '. $oldPath. ' to directory ' . $newPath);
+
+		if(!rename($oldPath,$newPath . $fileName)) {
+			if(is_dir($oldPath)) {
+				$this->error(sprintf($this->lang('ERROR_RENAMING_DIRECTORY'),$path,$this->get['new']));
+			} else {
+				$this->error(sprintf($this->lang('ERROR_RENAMING_FILE'),$path . $fileName,$this->get['new']));
+			}
+		}
+
+		$array = array(
+				'Error'=>"",
+				'Code'=>0,
+				'Old Path'=>$path,
+				'Old Name'=>$fileName,
+				'New Path'=>$newRelativePath,
+				'New Name'=>$fileName,
 		);
 		return $array;
 	}
@@ -765,11 +836,13 @@ private function get_thumbnail($path) {
 	return $thumbnail_fullpath;
 }
 
-private function sanitize($var) {
+private function sanitize($var, $preserve = null) {
 	$sanitized = strip_tags($var);
 	$sanitized = str_replace('http://', '', $sanitized);
 	$sanitized = str_replace('https://', '', $sanitized);
-	$sanitized = str_replace('../', '', $sanitized);
+	if ($preserve != 'parent_dir') {
+		$sanitized = str_replace('../', '', $sanitized);
+	}
 	return $sanitized;
 }
 
@@ -846,6 +919,34 @@ public function disableLog() {
 	$this->logger = false;
 
 	$this->__log(__METHOD__ . ' - Log disabled');
+}
+
+/**
+ * Remove "../" from path
+ *
+ * @param string path to be converted
+ * @param bool if dir names should be cleaned
+ * @return string or false in case of error (as exception are not used here)
+ */
+public function expandPath($path, $clean = false)
+{
+	$todo  = explode('/', $path);
+	$fullPath = array();
+
+	foreach ($todo as $dir) {
+		if ($dir == '..') {
+			$element = array_pop($fullPath);
+			if (is_null($element)) {
+				return false;
+			}
+		} else {
+			if ($clean) {
+				$dir = $this->cleanString($dir);
+			}
+			array_push($fullPath, $dir);
+		}
+	}
+	return implode('/', $fullPath);
 }
 }
 ?>
