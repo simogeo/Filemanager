@@ -640,7 +640,7 @@ var moveItem = function(data){
                         getDetailView(newPath);
                         getFolderInfo(newPath); // update list in main window
 
-                        // TODO open new folder -> not working now
+                        // TODO open new folder in fileTree-> not working now
                         //vvvv
                         var re = new RegExp(fileRoot,"g");
                         path = newPath.replace(re, '');
@@ -649,7 +649,6 @@ var moveItem = function(data){
                     	nodes = path.split('/');
                     	for (i in nodes) {
                     		node = fileRoot + nodes[i] + '/';
-                    		alert(node);
                     		$('#filetree').find('a[rel="' + node + '"]').click().click();
                     	}
                     	//$('#filetree').find('a[rel="' + newPath +'/"]').click().click();
