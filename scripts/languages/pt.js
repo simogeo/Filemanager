@@ -42,6 +42,7 @@
     "loading_data": "Transferring data ...", 
     "mb": "mb", 
     "modified": "Modificado", 
+    "move": "Move to ...", 
     "name": "Nome", 
     "new_filename": "Entre com o nome para o novo arquivo", 
     "new_folder": "Nova Pasta", 
@@ -58,6 +59,7 @@
     "successful_added_file": "Novo arquivo adicionado com sucesso.", 
     "successful_added_folder": "Novo pasta adicionada com sucesso.", 
     "successful_delete": "Excluiu com sucesso.", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "Renomeou com sucesso.", 
     "upload": "Enviar", 
     "yes": "Sim"

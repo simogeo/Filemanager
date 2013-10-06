@@ -82,6 +82,13 @@ if(!isset($_GET)) {
         }
         break;
 
+      case 'move':
+        // allow "../"
+        if($fm->getvar('old') && $fm->getvar('new', 'parent_dir') && $fm->getvar('root')) {
+          $response = $fm->move();
+        }
+        break;
+
       case 'delete':
 
         if($fm->getvar('path')) {

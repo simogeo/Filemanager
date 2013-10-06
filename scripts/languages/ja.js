@@ -42,6 +42,7 @@
     "loading_data": "Transferring data ...", 
     "mb": "mb", 
     "modified": "データ修正日時", 
+    "move": "Move to ...", 
     "name": "名前", 
     "new_filename": "新しいファイル名を記入してください.", 
     "new_folder": "新しいフォルダー", 
@@ -58,6 +59,7 @@
     "successful_added_file": "新しいファイルの追加に成功しました.", 
     "successful_added_folder": "新しいフォルダーの追加に成功しました.", 
     "successful_delete": "消去に成功しました.", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "ファイル名変更に成功しました.", 
     "upload": "アップロード", 
     "yes": "はい"

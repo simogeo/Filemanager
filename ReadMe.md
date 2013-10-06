@@ -236,6 +236,42 @@ Example Response:
 	"New Name": "a_renamed_file"
 }
 
+move
+------
+The move method move "old" file or directory to specified "new" directory. It is possible to specify absolute path from fileRoot dir or relative path from "old" item. "root" value is mandatory to secure that relative paths don't get above fileRoot.
+
+Example Request: Move file
+	
+	[path to connector]?mode=rename&old=/uploads/images/original/Image/logo.png&new=/moved/&root=/uploads/images/
+
+Example Response:
+
+{
+	"Error": "No error",
+	"Code": 0,
+	"Old Path": "/uploads/images/original/Image/",
+	"Old Name": "logo.png",
+	"New Path": "/uploads/images/moved/", 
+	"New Name": "logo.png"
+}
+
+Example Request: Move directory to not existing directory (will be created)
+	
+	[path to connector]?mode=rename&old=/uploads/images/original/Image&new=../new_dir/&root=/uploads/images/
+
+Example Response:
+
+{
+	"Error": "No error",
+	"Code": 0,
+	"Old Path": "/uploads/images/original/",
+	"Old Name": "Image",
+	"New Path": "/uploads/images/new_dir/", 
+	"New Name": "Image"
+}
+
+
+
 
 delete
 ------

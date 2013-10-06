@@ -43,6 +43,7 @@
     "loading_data": "Transferring data ...", 
     "mb": "mb", 
     "modified": "修改", 
+    "move": "Move to ...", 
     "name": "名称", 
     "new_filename": "输入一个文件的新名称", 
     "new_folder": "新建文件夹", 
@@ -59,6 +60,7 @@
     "successful_added_file": "新文件添加成功。", 
     "successful_added_folder": "新建文件夹添加成功。", 
     "successful_delete": "删除成功。", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "重命名成功。", 
     "upload": "上传", 
     "yes": "是"

@@ -42,6 +42,7 @@
     "loading_data": "Transfert en cours ...", 
     "mb": "mo", 
     "modified": "Modifié", 
+    "move": "Move to ...", 
     "name": "Nom", 
     "new_filename": "Entrer un nouveau nom pour votre fichier", 
     "new_folder": "Nouveau dossier", 
@@ -58,6 +59,7 @@
     "successful_added_file": "Nouveau fichier ajouté avec succès.", 
     "successful_added_folder": "Nouveau dossier ajouté avec succès.", 
     "successful_delete": "Suppression réalisée avec succès.", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "Renommage réalisé avec succès.", 
     "upload": "Télécharger", 
     "yes": "Oui"

@@ -42,6 +42,7 @@
     "loading_data": "傳送檔案...", 
     "mb": "mb", 
     "modified": "修改", 
+    "move": "Move to ...", 
     "name": "名稱", 
     "new_filename": "輸入新檔案的名稱", 
     "new_folder": "新目錄", 
@@ -58,6 +59,7 @@
     "successful_added_file": "檔案建立成功。", 
     "successful_added_folder": "目錄建立成功。", 
     "successful_delete": "刪除成功。", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "更名成功", 
     "upload": "上傳", 
     "yes": "是"

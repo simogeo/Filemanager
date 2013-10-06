@@ -42,6 +42,7 @@
     "loading_data": "Veri transfer ediliyor ...", 
     "mb": "mb", 
     "modified": "Güncelleme", 
+    "move": "Move to ...", 
     "name": "Adı", 
     "new_filename": "Dosyanın yeni ismini giriniz", 
     "new_folder": "Yeni Klasör", 
@@ -58,6 +59,7 @@
     "successful_added_file": "Dosya başarıyla eklendi.", 
     "successful_added_folder": "Klasör başarıyla eklendi.", 
     "successful_delete": "Silme işlemi başarıyla tamamlandı.", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "Dosya ismi başarıyla değiştirildi.", 
     "upload": "Yükle", 
     "yes": "Evet"

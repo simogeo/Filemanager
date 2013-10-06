@@ -42,6 +42,7 @@
     "loading_data": "Transferring data ...", 
     "mb": "mb", 
     "modified": "Gewijzigd", 
+    "move": "Move to ...", 
     "name": "Naam", 
     "new_filename": "Vul een nieuwe naam in voor het bestand", 
     "new_folder": "Nieuwe map", 
@@ -58,6 +59,7 @@
     "successful_added_file": "Het nieuwe bestand is toegevoegd.", 
     "successful_added_folder": "De nieuwe map is toegevoegd.", 
     "successful_delete": "Het bestand is verwijderd.", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "De naam is gewijzigd.", 
     "upload": "Upload", 
     "yes": "Ja"
