@@ -425,7 +425,7 @@ div.clip {
 #select span, .contextMenu li.select a { background-image: url(../images/accept.png); }
 #download span, .contextMenu li.download a { background-image: url(../images/download.png); }
 #rename span, .contextMenu li.rename a { background-image: url(../images/pencil.png); }
-#move span, .contextMenu li.move a { background-image: url(../images/folder_add.png); }
+#move span, .contextMenu li.move a { background-image: url(../images/move.png); }
 #delete span, .contextMenu li.delete a { background-image: url(../images/bin_closed.png); }
 #upload span { background-image: url(../images/upload.png); }
 #upload span.loading { background-image: url(../images/ajax-loader.gif);color:#555555;font-size:0.9em; }
