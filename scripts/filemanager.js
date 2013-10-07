@@ -45,7 +45,7 @@ var fileConnector = config.options.fileConnector || 'connectors/' + config.optio
 
 // Read capabilities from config files if exists
 // else apply default settings
-var capabilities = config.options.actions || new Array('select', 'download', 'rename', 'move', 'delete');
+var capabilities = config.options.capabilities || new Array('select', 'download', 'rename', 'move', 'delete');
 
 // Get localized messages from file 
 // through culture var or from URL
@@ -903,11 +903,11 @@ var getFileInfo = function(file){
 	// Include the template.
 	var template = '<div id="preview"><img /><h1></h1><dl></dl></div>';
 	template += '<form id="toolbar">';
-	if(window.opener || window.tinyMCEPopup || $.urlParam('field_name')) template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
+	if($.inArray('select', capabilities)  != -1 && (window.opener || window.tinyMCEPopup || $.urlParam('field_name'))) template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
 	template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
-	if(config.options.browseOnly != true) template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
-	if(config.options.browseOnly != true) template += '<button id="move" name="move" type="button" value="Move">' + lg.move + '</button>';
-	if(config.options.browseOnly != true) template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.del + '</button>';
+	if($.inArray('rename', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
+	if($.inArray('move', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="move" name="move" type="button" value="Move">' + lg.move + '</button>';
+	if($.inArray('delete', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.del + '</button>';
 	template += '<button id="parentfolder">' + lg.parentfolder + '</button>';
 	template += '</form>';
 	

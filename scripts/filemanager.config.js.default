@@ -19,7 +19,7 @@
         "fileRoot": false,
         "relPath": false,
         "logger": false,
-        "actions": ["select", "download", "rename", "delete"],
+        "capabilities": ["select", "download", "rename", "move", "delete"],
         "plugins": []
     },
     "security": {
