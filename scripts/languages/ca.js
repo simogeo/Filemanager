@@ -42,6 +42,7 @@
     "loading_data": "Transferring data ...", 
     "mb": "mb", 
     "modified": "Modificat", 
+    "move": "Move to ...", 
     "name": "Nom", 
     "new_filename": "Introdueix un nou nom per l'arxiu", 
     "new_folder": "Nova carpeta", 
@@ -58,6 +59,7 @@
     "successful_added_file": "Nou arxiu afegit satisfactòriament.", 
     "successful_added_folder": "Nova carpeta afegida satisfactòriament.", 
     "successful_delete": "Eliminació amb èxit.", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "Canvi de nom amb èxit.", 
     "upload": "Pujar arxiu", 
     "yes": "Sí"

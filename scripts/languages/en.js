@@ -42,7 +42,8 @@
     "loading_data": "Transferring data ...", 
     "mb": "mb", 
     "modified": "Modified", 
-    "name": "Name", 
+    "move": "Move to ...",
+    "name": "Name",
     "new_filename": "Enter a new name for the file", 
     "new_folder": "New folder", 
     "no": "No", 
@@ -58,7 +59,8 @@
     "successful_added_file": "New file added successfully.", 
     "successful_added_folder": "New folder added successfully.", 
     "successful_delete": "Delete successful.", 
-    "successful_rename": "Rename successful.", 
+    "successful_moved": "Move successful.",
+    "successful_rename": "Rename successful.",
     "upload": "Upload", 
     "yes": "Yes"
 }

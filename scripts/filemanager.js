@@ -43,7 +43,7 @@ var config = (function () {
 // Sets paths to connectors based on language selection.
 var fileConnector = config.options.fileConnector || 'connectors/' + config.options.lang + '/filemanager.' + config.options.lang;
 
-var capabilities = new Array('select', 'download', 'rename', 'delete');
+var capabilities = new Array('select', 'download', 'rename', 'move', 'delete');
 
 // Get localized messages from file 
 // through culture var or from URL
@@ -226,7 +226,7 @@ var handleError = function(errMsg) {
 };
 
 // Test if Data structure has the 'cap' capability
-// 'cap' is one of 'select', 'rename', 'delete', 'download'
+// 'cap' is one of 'select', 'rename', 'delete', 'download', move
 function has_capability(data, cap) {
 	if (data['File Type'] == 'dir' && cap == 'download') return false;
 	if (typeof(data['Capabilities']) == "undefined") return true;
@@ -399,6 +399,15 @@ var bindToolbar = function(data){
 	} else {
 		$('#fileinfo').find('button#rename').click(function(){
 			var newName = renameItem(data);
+			if(newName.length) $('#fileinfo > h1').text(newName);
+		}).show();
+	}
+
+	if (!has_capability(data, 'move')) {
+		$('#fileinfo').find('button#move').hide();
+	} else {
+		$('#fileinfo').find('button#move').click(function(){
+			var newName = moveItem(data);
 			if(newName.length) $('#fileinfo > h1').text(newName);
 		}).show();
 	}
@@ -600,6 +609,72 @@ var renameItem = function(data){
 	return finalName;
 };
 
+// Move the current item to specified dir and returns the new name.
+// Called by clicking the "Move" button in detail views
+// or choosing the "Move" contextual menu option in
+// list views.
+var moveItem = function(data){
+	var finalName = '';
+	var msg = lg.move + ' : <input id="rname" name="rname" type="text" value="" />';
+
+	var doMove = function(v, m){
+		if(v != 1) return false;
+		rname = m.children('#rname').val();
+
+		if(rname != ''){
+			var givenName = rname;
+			var oldPath = data['Path'];
+			var connectString = fileConnector + '?mode=move&old=' + encodeURIComponent(data['Path']) + '&new=' + encodeURIComponent(givenName) + '&root=' + encodeURIComponent(fileRoot);
+
+			$.ajax({
+				type: 'GET',
+				url: connectString,
+				dataType: 'json',
+				async: false,
+				success: function(result){
+                    if(result['Code'] == 0){
+                        var newPath = result['New Path'];
+                        var newName = result['New Name'];
+
+                        createFileTree();
+                        getDetailView(newPath);
+                        getFolderInfo(newPath); // update list in main window
+
+                        // TODO open new folder in fileTree-> not working now
+                        //vvvv
+                        var re = new RegExp(fileRoot,"g");
+                        path = newPath.replace(re, '');
+                        path = path.replace(/^\/|\/$/g,""); // trim slashes
+
+                    	nodes = path.split('/');
+                    	for (i in nodes) {
+                    		node = fileRoot + nodes[i] + '/';
+                    		$('#filetree').find('a[rel="' + node + '"]').click().click();
+                    	}
+                    	//$('#filetree').find('a[rel="' + newPath +'/"]').click().click();
+                    	//^^^^
+
+						if(config.options.showConfirmation) $.prompt(lg.successful_moved);
+					} else {
+						$.prompt(result['Error']);
+					}
+
+					finalName = newPath + newName;
+				}
+			});
+		}
+	};
+	var btns = {};
+	btns[lg.move] = true;
+	btns[lg.cancel] = false;
+	$.prompt(msg, {
+		callback: doMove,
+		buttons: btns
+	});
+
+	return finalName;
+};
+
 // Prompts for confirmation, then deletes the current item.
 // Called by clicking the "Delete" button in detail views
 // or choosing the "Delete contextual menu item in list views.
@@ -772,6 +847,7 @@ function getContextMenuOptions(elem) {
 		if (!elem.hasClass('cap_select')) $('.select', newOptions).remove();
 		if (!elem.hasClass('cap_download')) $('.download', newOptions).remove();
 		if (!elem.hasClass('cap_rename')) $('.rename', newOptions).remove();
+		if (!elem.hasClass('cap_move')) $('.move', newOptions).remove();
 		if (!elem.hasClass('cap_delete')) $('.delete', newOptions).remove();
 		$('#itemOptions').after(newOptions);
 	}
@@ -800,7 +876,11 @@ var setMenus = function(action, path){
 			case 'rename':
 				var newName = renameItem(data);
 				break;
-				
+
+			case 'move':
+				var newName = moveItem(data);
+				break;
+
 			case 'delete':
 				deleteItem(data);
 				break;
@@ -824,6 +904,7 @@ var getFileInfo = function(file){
 	if(window.opener || window.tinyMCEPopup || $.urlParam('field_name')) template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
 	template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
 	if(config.options.browseOnly != true) template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
+	if(config.options.browseOnly != true) template += '<button id="move" name="move" type="button" value="Move">' + lg.move + '</button>';
 	if(config.options.browseOnly != true) template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.del + '</button>';
 	template += '<button id="parentfolder">' + lg.parentfolder + '</button>';
 	template += '</form>';
@@ -1101,6 +1182,7 @@ $(function(){
 		$('#itemOptions a[href$="#select"]').append(lg.select);
 		$('#itemOptions a[href$="#download"]').append(lg.download);
 		$('#itemOptions a[href$="#rename"]').append(lg.rename);
+		$('#itemOptions a[href$="#move"]').append(lg.move);
 		$('#itemOptions a[href$="#delete"]').append(lg.del);
 	}
 	
@@ -1229,6 +1311,7 @@ $(function(){
 		$('#newfolder').remove();
 		$('#toolbar').remove('#rename');
 		$('.contextMenu .rename').remove();
+		$('.contextMenu .move').remove();
 		$('.contextMenu .delete').remove();
 	}
         

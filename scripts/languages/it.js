@@ -42,6 +42,7 @@
     "loading_data": "Trasferimento dati ...", 
     "mb": "mb", 
     "modified": "Modificato il", 
+    "move": "Move to ...", 
     "name": "Nome", 
     "new_filename": "Inserisci un nuovo nome per il file", 
     "new_folder": "Nuova cartella", 
@@ -58,6 +59,7 @@
     "successful_added_file": "Nuovo file aggiunto.", 
     "successful_added_folder": "Nuova cartella aggiunta.", 
     "successful_delete": "Eliminato.", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "Rinominato.", 
     "upload": "Aggiungi file", 
     "yes": "Conferma"

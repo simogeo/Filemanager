@@ -42,6 +42,7 @@
     "loading_data": "Transferring data ...", 
     "mb": "mb", 
     "modified": "Đã sửa", 
+    "move": "Move to ...", 
     "name": "Tên", 
     "new_filename": "Nhập tên tập tin mới", 
     "new_folder": "Thư mục mới", 
@@ -58,6 +59,7 @@
     "successful_added_file": "Đã thêm tập tin.", 
     "successful_added_folder": "Đã thêm thư mục.", 
     "successful_delete": "Đã xóa.", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "Đã đổi tên.", 
     "upload": "Tải lên", 
     "yes": "Đồng ý"

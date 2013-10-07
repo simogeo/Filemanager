@@ -42,6 +42,7 @@
     "loading_data": "Transferring data ...", 
     "mb": "mb", 
     "modified": "Ændret", 
+    "move": "Move to ...", 
     "name": "Navn", 
     "new_filename": "Skriv et nyt navn for filen", 
     "new_folder": "Ny mappe", 
@@ -58,6 +59,7 @@
     "successful_added_file": "Den nye fil blev tilføjet.", 
     "successful_added_folder": "Den nye mappe blev oprettet.", 
     "successful_delete": "Slettet med succes.", 
+    "successful_moved": "Move successful.", 
     "successful_rename": "Omdøbt med succes.", 
     "upload": "Upload", 
     "yes": "Ja"
