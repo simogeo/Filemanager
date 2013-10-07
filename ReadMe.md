@@ -242,7 +242,7 @@ The move method move "old" file or directory to specified "new" directory. It is
 
 Example Request: Move file
 	
-	[path to connector]?mode=rename&old=/uploads/images/original/Image/logo.png&new=/moved/&root=/uploads/images/
+	[path to connector]?mode=move&old=/uploads/images/original/Image/logo.png&new=/moved/&root=/uploads/images/
 
 Example Response:
 
@@ -257,7 +257,7 @@ Example Response:
 
 Example Request: Move directory to not existing directory (will be created)
 	
-	[path to connector]?mode=rename&old=/uploads/images/original/Image&new=../new_dir/&root=/uploads/images/
+	[path to connector]?mode=move&old=/uploads/images/original/Image&new=../new_dir/&root=/uploads/images/
 
 Example Response:
 
@@ -266,7 +266,7 @@ Example Response:
 	"Code": 0,
 	"Old Path": "/uploads/images/original/",
 	"Old Name": "Image",
-	"New Path": "/uploads/images/new_dir/", 
+	"New Path": "/uploads/new_dir/", 
 	"New Name": "Image"
 }
 
