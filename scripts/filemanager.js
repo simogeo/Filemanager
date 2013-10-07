@@ -43,7 +43,9 @@ var config = (function () {
 // Sets paths to connectors based on language selection.
 var fileConnector = config.options.fileConnector || 'connectors/' + config.options.lang + '/filemanager.' + config.options.lang;
 
-var capabilities = new Array('select', 'download', 'rename', 'move', 'delete');
+// Read capabilities from config files if exists
+// else apply default settings
+var capabilities = config.options.actions || new Array('select', 'download', 'rename', 'move', 'delete');
 
 // Get localized messages from file 
 // through culture var or from URL
