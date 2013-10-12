@@ -68,6 +68,10 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                         return Content(GetInfo(path), "application/json", Encoding.UTF8);
                     case "getfolder":
                         return Content(GetFolderInfo(path), "application/json", Encoding.UTF8);
+                    case "move":
+                        var oldPath = Request.QueryString["old"];
+                        var newPath = string.Format("{0}{1}/{2}", Request.QueryString["root"], Request.QueryString["new"], Path.GetFileName(oldPath));
+                        return Content(Move(oldPath, newPath), "application/json", Encoding.UTF8);
                     case "rename":
                         return Content(Rename(Request.QueryString["old"], Request.QueryString["new"]), "application/json", Encoding.UTF8);
                     case "delete":
@@ -144,7 +148,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                 else
                 {
                     System.Web.HttpPostedFileBase file = Request.Files[0];
-                    if (!allowedExtensions.Contains(Path.GetExtension(file.FileName)))
+                    if (!allowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower()))
                     {
                         response = Error("Uploaded file type is not allowed.");
                     }
@@ -442,8 +446,68 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
 
         }
 
+
+        private string Move(string oldPath, string newPath)
+        {
+            if (!IsInRootPath(oldPath))
+            {
+                return Error("Attempt to modify file outside root path");
+            }
+            else if (!IsInRootPath(newPath))
+            {
+                return Error("Attempt to move a file outside root path");
+            }
+            else if (!System.IO.File.Exists(Server.MapPath(oldPath)) && !Directory.Exists(Server.MapPath(oldPath)))
+            {
+                return Error("File not found");
+            }
+
+            FileAttributes attr = System.IO.File.GetAttributes(Server.MapPath(oldPath));
+
+            StringBuilder sb = new StringBuilder();
+
+            if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+            {
+                DirectoryInfo oldDir = new DirectoryInfo(Server.MapPath(oldPath));
+                newPath = Path.Combine(newPath, oldDir.Name);
+                Directory.Move(Server.MapPath(oldPath), Server.MapPath(newPath));
+                DirectoryInfo newDir = new DirectoryInfo(Server.MapPath(newPath));
+
+                sb.AppendLine("{");
+                sb.AppendLine("\"Error\": \"No error\",");
+                sb.AppendLine("\"Code\": 0,");
+                sb.AppendLine("\"Old Path\": \"" + oldPath + "\",");
+                sb.AppendLine("\"Old Name\": \"" + oldDir.Name + "\",");
+                sb.AppendLine("\"New Path\": \"" + newDir.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/') + "\",");
+                sb.AppendLine("\"New Name\": \"" + newDir.Name + "\"");
+                sb.AppendLine("}");
+            }
+            else
+            {
+                FileInfo oldFile = new FileInfo(Server.MapPath(oldPath));
+                FileInfo newFile = new FileInfo(Server.MapPath(newPath));
+                if (newFile.Extension != oldFile.Extension)
+                {
+                    //Don't allow extension to be changed
+                    newFile = new FileInfo(Path.ChangeExtension(newFile.FullName, oldFile.Extension));
+                }
+                System.IO.File.Move(oldFile.FullName, newFile.FullName);
+
+                sb.AppendLine("{");
+                sb.AppendLine("\"Error\": \"No error\",");
+                sb.AppendLine("\"Code\": 0,");
+                sb.AppendLine("\"Old Path\": \"" + oldPath.Replace(oldFile.Name, "") + "\",");
+                sb.AppendLine("\"Old Name\": \"" + oldFile.Name + "\",");
+                sb.AppendLine("\"New Path\": \"" + newFile.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/') + "\",").Replace(newFile.Name, "");
+                sb.AppendLine("\"New Name\": \"" + newFile.Name + "\"");
+                sb.AppendLine("}");
+            }
+
+            return sb.ToString();
+        }
+
         /// <summary>
-        /// Rename a file
+        /// Rename a file or directory
         /// </summary>
         /// <param name="path"></param>
         /// <param name="newName"></param>
