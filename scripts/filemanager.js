@@ -637,24 +637,12 @@ var moveItem = function(data){
                     if(result['Code'] == 0){
                         var newPath = result['New Path'];
                         var newName = result['New Name'];
-
+                        
+                        // we set fullexpandedFolder value to automatically open file in 
+                        // filetree when calling createFileTree() function
+                        fullexpandedFolder = fileRoot + newPath;
                         createFileTree();
-                        getDetailView(newPath);
                         getFolderInfo(newPath); // update list in main window
-
-                        // TODO open new folder in fileTree-> not working now
-                        //vvvv
-                        var re = new RegExp(fileRoot,"g");
-                        path = newPath.replace(re, '');
-                        path = path.replace(/^\/|\/$/g,""); // trim slashes
-
-                    	nodes = path.split('/');
-                    	for (i in nodes) {
-                    		node = fileRoot + nodes[i] + '/';
-                    		$('#filetree').find('a[rel="' + node + '"]').click().click();
-                    	}
-                    	//$('#filetree').find('a[rel="' + newPath +'/"]').click().click();
-                    	//^^^^
 
 						if(config.options.showConfirmation) $.prompt(lg.successful_moved);
 					} else {
