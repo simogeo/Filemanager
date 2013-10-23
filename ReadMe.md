@@ -57,7 +57,8 @@ See http://www.tinymce.com/wiki.php/TinyMCE3x:How-to_implement_a_custom_file_bro
 
 See also the dedicated wiki page, with TinyMCE 4 sample : https://github.com/simogeo/Filemanager/wiki/How-to-use-the-Filemanager-with-tinyMCE--3-or-4-%3F
 
-**jQuery dependency and compatibility** 
+**jQuery dependency and compatibility**
+
 We try to keep updating jQuery core library regularly.
 If, for any reason, you can't use the embedded jQuery version just now that the Filemanager will probably work with a jQuery version >= 1.6.
 You'll have to use the [jQuery.migrate() plugin](https://github.com/jquery/jquery-migrate) to use it with jQuery version 1.9+.
