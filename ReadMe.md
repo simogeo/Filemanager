@@ -34,20 +34,26 @@ To use other connectors, please download v0.8 version from https://github.com/si
 
 **(4a)** If you are integrating the FileManager with FCKEditor, open your fckconfig.js file and find the lines which specify what file browser to use for images, links, etc. Look toward the bottom of the file. You will need to change lines such as this:
 
+```javascript
 FCKConfig.ImageBrowser = false ;
 FCKConfig.ImageBrowserURL = FCKConfig.BasePath + 'filemanager/browser/default/browser.html?Type=Image&Connector=../../connectors/' + _FileBrowserLanguage + '/connector.' + _FileBrowserExtension ;
+```
 
 ...to this:
 
+```javascript
 FCKConfig.ImageBrowser = true ;
 FCKConfig.ImageBrowserURL = '[Path to Filemanager]/index.html' ;
+```
 
 **(4b)** If you are integrating the FileManager with CKEditor 3.x or higher, simply set the URL when you configure your instance, like so:
 
+```javascript
 CKEDITOR.replace('instancename', {
 	filebrowserBrowseUrl: '[Path to Filemanager]/index.html',
 	...other configuration options...
 });
+```
 
 **(4c)** If you are integrating the FileManager with TinyMCE (>= 3.0), you should:
 
