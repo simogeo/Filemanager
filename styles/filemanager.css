@@ -197,6 +197,15 @@ _::-ms-reveal, #file-input-container {
 	}
 }
 
+/** Chrome 29+ hack
+* http://browserhacks.com/#hack-ef0fd239f4edc9df7627b9a6ad2e7cf5
+*/
+@media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
+	#file-input-container {
+	top:14px;
+	}
+}
+
 /** Opera hack */
 x:-o-prefocus, #file-input-container {top:16px;width:205px;}
 
