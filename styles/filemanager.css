@@ -32,11 +32,15 @@ video, audio {
 #uploader h1 {
 	display: block;
 	float: left;
-	text-align: left;
+	margin-left:1em;
 	line-height:1.9em;
 	font-size: 0.8em;
 	text-shadow:1px 1px 0px #ffffff;
 	word-break: break-all;
+}
+
+button#home {
+	float:left;
 }
 
 #uploadresponse {
@@ -167,47 +171,28 @@ button span {
 
 button:active,
 button:focus {
-	font-weight: bold;
+	color:#000;
 	outline-color: transparent;
 	outline-style: none;
 	outline-width: 0;
 }
 
 /** Input file Replacement */
+
+
+input, button {
+  vertical-align: text-top;
+}
+
 #file-input-container {
-	display:inline-block;
+	display:inline;
 	margin:0;
 	position:relative;
-	top:0px;
-	width:221px;
+	top:0;
+	width:255px;
 	height:32px;
 	overflow: hidden;
 }
-
-/** IE10 hack */
-_::-ms-reveal, #file-input-container {
-	overflow:auto;
-}
-
-/** Firefox hack */
-@-moz-document url-prefix() {
-	#file-input-container  {
-		top:11px;
-		width:255px;
-	}
-}
-
-/** Chrome 29+ hack
-* http://browserhacks.com/#hack-ef0fd239f4edc9df7627b9a6ad2e7cf5
-*/
-@media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
-	#file-input-container {
-	top:14px;
-	}
-}
-
-/** Opera hack */
-x:-o-prefocus, #file-input-container {top:16px;width:205px;}
 
 #newfile {
 	position: absolute;
@@ -222,6 +207,7 @@ x:-o-prefocus, #file-input-container {top:16px;width:205px;}
 #alt-fileinput {
 	display: inline;
 	wrap: no-wrap;
+	
 }
 
 #filepath {
@@ -230,6 +216,7 @@ x:-o-prefocus, #file-input-container {top:16px;width:205px;}
 	margin: 0;
 	padding: 0.1em 0.3em;
 	line-height: 1.7em;
+	height:100%;
 	-webkit-border-top-left-radius: 6px;
 	-webkit-border-bottom-left-radius: 6px;
 	-moz-border-radius-topleft: 6px;
@@ -243,6 +230,8 @@ x:-o-prefocus, #file-input-container {top:16px;width:205px;}
 		padding:0.2em 0.3em;
 	}
 }
+
+
 button#browse {
 	margin-left:0;
 	-webkit-border-top-left-radius: 0px;
@@ -280,6 +269,7 @@ button#browse span {
 	font-size: 0.85em;
 	position: relative;
 	left: -200px;
+	top: 8px;
 }
 
 #search a.q-reset {
@@ -290,7 +280,7 @@ button#browse span {
 	position: relative;
 	opacity:0.5;
 	left: -30px;
-	top: 5px;
+	top: 13px;
 	z-index: 24;
 }
 
