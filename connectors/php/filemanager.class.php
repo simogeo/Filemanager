@@ -301,8 +301,12 @@ class Filemanager {
 	}
 
 	public function move() {
-
-		$rootDir = $this->get['root'];
+        // dynamic fileroot dir must be used when enabled
+        $rootDir = $this->dynamic_fileroot;
+        if (empty($rootDir)) {
+		    $rootDir = $this->get['root'];
+        }
+        $rootDir = str_replace('//', '/', $rootDir);
 		$oldPath = $this->getFullPath($this->get['old']);
 
         // old path
