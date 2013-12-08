@@ -239,14 +239,14 @@ Example Request:
 
 Example Response:
 
-{
-	"Error": "No error",
-	"Code": 0,
-	"Old Path": "/a_folder_renamed/thisisareallylongincrediblylongfilenamefortesting.txt",
-	"Old Name": "thisisareallylongincrediblylongfilenamefortesting.txt",
-	"New Path": "/a_folder_renamed/a_renamed_file", 
-	"New Name": "a_renamed_file"
-}
+    {
+        "Error": "No error",
+        "Code": 0,
+        "Old Path": "/a_folder_renamed/thisisareallylongincrediblylongfilenamefortesting.txt",
+        "Old Name": "thisisareallylongincrediblylongfilenamefortesting.txt",
+        "New Path": "/a_folder_renamed/a_renamed_file",
+        "New Name": "a_renamed_file"
+    }
 
 move
 ------
@@ -258,14 +258,14 @@ Example Request: Move file
 
 Example Response:
 
-{
-	"Error": "No error",
-	"Code": 0,
-	"Old Path": "/uploads/images/original/Image/",
-	"Old Name": "logo.png",
-	"New Path": "/uploads/images/moved/", 
-	"New Name": "logo.png"
-}
+    {
+        "Error": "No error",
+        "Code": 0,
+        "Old Path": "/uploads/images/original/Image/",
+        "Old Name": "logo.png",
+        "New Path": "/uploads/images/moved/",
+        "New Name": "logo.png"
+    }
 
 Example Request: Move directory to not existing directory (will be created)
 	
@@ -273,14 +273,14 @@ Example Request: Move directory to not existing directory (will be created)
 
 Example Response:
 
-{
-	"Error": "No error",
-	"Code": 0,
-	"Old Path": "/uploads/images/original/",
-	"Old Name": "Image",
-	"New Path": "/uploads/new_dir/", 
-	"New Name": "Image"
-}
+    {
+        "Error": "No error",
+        "Code": 0,
+        "Old Path": "/uploads/images/original/",
+        "Old Name": "Image",
+        "New Path": "/uploads/new_dir/",
+        "New Name": "Image"
+    }
 
 
 
