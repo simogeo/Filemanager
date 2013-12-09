@@ -301,18 +301,20 @@ class Filemanager {
 	}
 
 	public function move() {
-        // dynamic fileroot dir must be used when enabled
-        $rootDir = $this->dynamic_fileroot;
-        if (empty($rootDir)) {
-		    $rootDir = $this->get['root'];
-        }
-        $rootDir = str_replace('//', '/', $rootDir);
+		
+		// dynamic fileroot dir must be used when enabled
+		$rootDir = $this->dynamic_fileroot;
+		
+		if (empty($rootDir)) {
+			$rootDir = $this->get['root'];
+		}
+		$rootDir = str_replace('//', '/', $rootDir);
 		$oldPath = $this->getFullPath($this->get['old']);
 
-        // old path
-        $tmp = explode('/',trim($this->get['old'], '/'));
-        $fileName = array_pop($tmp); // file name or new dir name
-        $path = '/' . implode('/', $tmp) . '/';
+		// old path
+		$tmp = explode('/',trim($this->get['old'], '/'));
+		$fileName = array_pop($tmp); // file name or new dir name
+		$path = '/' . implode('/', $tmp) . '/';
 
 		// new path
 		if (substr($this->get['new'], 0, 1) != "/") {
@@ -325,7 +327,7 @@ class Filemanager {
 		$newPath = preg_replace('#/+#', '/', $newPath);
 		$newPath = $this->expandPath($newPath, true);
 
-		//!important! check that we are stil under ROOT dir
+		//!important! check that we are still under ROOT dir
 		if (strncasecmp($newPath, $rootDir, strlen($rootDir))) {
 			$this->error(sprintf($this->lang('INVALID_DIRECTORY_OR_FILE'),$this->get['new']));
 		}
@@ -334,7 +336,7 @@ class Filemanager {
 			$this->error("No way.");
 		}
 
-        $newRelativePath = $newPath;
+		$newRelativePath = $newPath;
 		$newPath = $this->getFullPath($newPath);
 
 		// check if file already exists
@@ -369,7 +371,7 @@ class Filemanager {
 				'Code'=>0,
 				'Old Path'=>$path,
 				'Old Name'=>$fileName,
-				'New Path'=>$newRelativePath,
+				'New Path'=>$this->formatPath($newRelativePath),
 				'New Name'=>$fileName,
 		);
 		return $array;

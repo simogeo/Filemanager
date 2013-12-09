@@ -640,7 +640,8 @@ var moveItem = function(data) {
                         
                         // we set fullexpandedFolder value to automatically open file in 
                         // filetree when calling createFileTree() function
-                        fullexpandedFolder = fileRoot + newPath;
+                        fullexpandedFolder = newPath;
+
                         createFileTree();
                         getFolderInfo(newPath); // update list in main window
 
