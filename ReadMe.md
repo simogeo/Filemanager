@@ -295,11 +295,11 @@ Example Request:
 
 Example Response:
 
-{
-	"Error": "No error",
-	"Code": 0,
-	"Path": "/UserFiles/Image/logo.png"
-}
+    {
+        "Error": "No error",
+        "Code": 0,
+        "Path": "/UserFiles/Image/logo.png"
+    }
 
 
 add
@@ -308,12 +308,12 @@ The add method adds the uploaded file to the specified path. Unlike the other me
 
 Example Response:
 
-{
-	"Path": "/UserFiles/Image/",
-	"Name": "new_logo.png",
-	"Error": "No error",
-	"Code": 0
-}
+    {
+        "Path": "/UserFiles/Image/",
+        "Name": "new_logo.png",
+        "Error": "No error",
+        "Code": 0
+    }
 
 
 addfolder
@@ -326,12 +326,12 @@ Example Request:
 	
 Example Response:
 
-{
-	"Parent": "/UserFiles/",
-	"Name": "new_logo.png",
-	"Error": "No error",
-	"Code": 0
-}
+    {
+        "Parent": "/UserFiles/",
+        "Name": "new_logo.png",
+        "Error": "No error",
+        "Code": 0
+    }
 
 
 download
