@@ -16,9 +16,10 @@ Dim mode, userPath, FileManager
 Response.ContentType = "application/json"
 Response.Charset = "ISO-8859-1"
 
-If Len(Session("codSite")) = 0 Then
-	showErrorMessage("Your session has expired. Please login again.")
-End If
+' Uncomment these lines to implement session
+' If Len(Session("codSite")) = 0 Then
+' 	showErrorMessage("Your session has expired. Please login again.")
+' End If
 
 Set FileManager = New cFileManager
 
