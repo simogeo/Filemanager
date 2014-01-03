@@ -868,7 +868,7 @@ var setMenus = function(action, path) {
 				break;
 			
 			case 'download':
-				window.location = fileConnector + '?mode=download&path=' + data['Path'];
+				window.location = fileConnector + '?mode=download&path=' + data['Path'] + '&time=' + d.getMilliseconds();
 				break;
 				
 			case 'rename':
