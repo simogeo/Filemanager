@@ -674,8 +674,9 @@ var deleteItem = function(data) {
 	var msg = lg.confirmation_delete;
 	
 	var doDelete = function(v, m){
-		if(v != 1) return false;	
-		var connectString = fileConnector + '?mode=delete&path=' + encodeURIComponent(data['Path']),
+		if(v != 1) return false;
+		var d = new Date(); // to prevent IE cache issues
+		var connectString = fileConnector + '?mode=delete&path=' + encodeURIComponent(data['Path'])  + '&time=' + d.getMilliseconds(),
         parent        = data['Path'].split('/').reverse().slice(1).reverse().join('/') + '/';
 
 		$.ajax({
