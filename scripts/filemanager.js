@@ -1286,6 +1286,9 @@ $(function(){
 			if (data['Code'] == 0) {
 				addNode(data['Path'], data['Name']);
 				$("#filepath, #newfile").val('');
+				// IE can not empty input='file'. A fix consist to replace the element (see github issue #215)
+				if($.browser.msie) $("#newfile").replaceWith($("#newfile").clone(true));
+				
 				// seems to be necessary when dealing w/ files located on s3 (need to look into a cleaner solution going forward)
 				$('#filetree').find('a[rel="' + data['Path'] + '/"]').click().click();
 			} else {
