@@ -45,6 +45,7 @@
             "ogv",
             "mp4",
             "webm",
+            "m4v",
             "ogg",
             "mp3",
             "wav"
@@ -81,7 +82,8 @@
         "videosExt": [
             "ogv",
             "mp4",
-            "webm"
+            "webm",
+            "m4v"
         ],
         "videosPlayerWidth": 400,
         "videosPlayerHeight": 222
