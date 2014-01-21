@@ -144,7 +144,7 @@ class Filemanager {
 		if(!isset($_POST[$var]) || $_POST[$var]=='') {
 			$this->error(sprintf($this->lang('INVALID_VAR'),$var));
 		} else {
-			$this->post[$var] = $_POST[$var];
+			$this->post[$var] = $this->sanitize($_POST[$var]);
 			return true;
 		}
 	}
@@ -426,6 +426,24 @@ class Filemanager {
 		if($_FILES['newfile']['size'] > ($this->config['upload']['fileSizeLimit'] * 1024 * 1024)) {
 			$this->error(sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['size'] . 'Mb'),true);
 		}
+		
+		// we check if extension is allowed regarding the security Policy settings
+		if($this->config['security']['uploadPolicy'] == 'DISALLOW_ALL') {
+			
+			$path_parts = pathinfo($_FILES['newfile']['name']);
+			
+			if(!in_array($path_parts['extension'], $this->config['security']['uploadRestrictions'])) 
+				$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
+		}
+		if($this->config['security']['uploadPolicy'] == 'ALLOW_ALL') {
+				
+			$path_parts = pathinfo($_FILES['newfile']['name']);
+				
+			if(in_array($path_parts['extension'], $this->config['security']['uploadRestrictions']))
+				$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
+		}
+		
+		// we check if only images are allowed
 		if($this->config['upload']['imagesOnly'] || (isset($this->params['type']) && strtolower($this->params['type'])=='images')) {
 			if(!($size = @getimagesize($_FILES['newfile']['tmp_name']))){
 				$this->error(sprintf($this->lang('UPLOAD_IMAGES_ONLY')),true);
