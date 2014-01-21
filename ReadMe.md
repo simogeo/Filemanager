@@ -70,6 +70,12 @@ If, for any reason, you can't use the embedded jQuery version just now that the 
 You'll have to use the [jQuery.migrate() plugin](https://github.com/jquery/jquery-migrate) to use it with jQuery version 1.9+.
 
 
+Security
+--------
+
+Please refer to the dedicated wiki page : https://github.com/simogeo/Filemanager/wiki/Security-concern
+
+
 API
 ---
 
