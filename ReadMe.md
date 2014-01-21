@@ -73,7 +73,7 @@ You'll have to use the [jQuery.migrate() plugin](https://github.com/jquery/jquer
 Set-up & security
 -----------------
 
-** Important** : please refer to the [dedicated wiki page](https://github.com/simogeo/Filemanager/wiki/Security-concern).
+**Important** : please refer to the [dedicated wiki page](https://github.com/simogeo/Filemanager/wiki/Security-concern).
 
 
 API
