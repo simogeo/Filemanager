@@ -428,19 +428,8 @@ class Filemanager {
 		}
 		
 		// we check if extension is allowed regarding the security Policy settings
-		if($this->config['security']['uploadPolicy'] == 'DISALLOW_ALL') {
-			
-			$path_parts = pathinfo($_FILES['newfile']['name']);
-			
-			if(!in_array($path_parts['extension'], $this->config['security']['uploadRestrictions'])) 
-				$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
-		}
-		if($this->config['security']['uploadPolicy'] == 'ALLOW_ALL') {
-				
-			$path_parts = pathinfo($_FILES['newfile']['name']);
-				
-			if(in_array($path_parts['extension'], $this->config['security']['uploadRestrictions']))
-				$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
+		if(!$this->isAllowedFileType($_FILES['newfile']['name'])) {
+			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
 		}
 		
 		// we check if only images are allowed
@@ -511,6 +500,11 @@ class Filemanager {
 			
 		if(!$this->isValidPath($current_path)) {
 			$this->error("No way.");
+		}
+		
+		// we check if extension is allowed regarding the security Policy settings
+		if(!$this->isAllowedFileType(basename($current_path))) {
+			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
 		}
 
 		if(isset($this->get['path']) && file_exists($current_path)) {
@@ -772,6 +766,30 @@ private function unlinkRecursive($dir,$deleteRootToo=true) {
 	}
 
 	return;
+}
+
+/**
+ * isAllowedFile()
+ * check if extension is allowed regarding the security Policy / Restrictions settings
+ * @param string $file
+ */
+private function isAllowedFileType($file) {
+	
+	$path_parts = pathinfo($file);
+	
+	if($this->config['security']['uploadPolicy'] == 'DISALLOW_ALL') {
+			
+		if(!in_array($path_parts['extension'], $this->config['security']['uploadRestrictions']))
+			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
+	}
+	if($this->config['security']['uploadPolicy'] == 'ALLOW_ALL') {
+	
+		if(in_array($path_parts['extension'], $this->config['security']['uploadRestrictions']))
+			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
+	}
+	
+	return true;
+	
 }
 
 private function cleanString($string, $allowed = array()) {
