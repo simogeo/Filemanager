@@ -477,12 +477,12 @@ var createFileTree = function() {
 // contextual menu option in list views. 
 // NOTE: closes the window when finished.
 var selectItem = function(data) {
-	if(config.options.relPath != false ) {
+	if(config.options.relPath !== false ) {
 		var url = relPath + data['Path'].replace(fileRoot,""); 
 	} else {
 		var url = relPath + data['Path'];
 	}
-    
+
 	if(window.opener || window.tinyMCEPopup || $.urlParam('field_name')){
 	 	if(window.tinyMCEPopup){
         	// use TinyMCE > 3.0 integration method
@@ -1159,7 +1159,11 @@ $(function(){
 	} else {
 		relPath = config.options.relPath;
 	}
-	
+
+	if($.urlParam('fileRoot') != 0) {
+		fileRoot += $.urlParam('fileRoot');
+		fileRoot = fileRoot.replace(/\/\//g, '\/');
+	}
 
 	if($.urlParam('expandedFolder') != 0) {
 		expandedFolder = $.urlParam('expandedFolder');
@@ -1167,7 +1171,7 @@ $(function(){
 	} else {
 		expandedFolder = '';
 		fullexpandedFolder = null;
-        }
+	}
 
 	// we finalize the FileManager UI initialization 
 	// with localized text if necessary
