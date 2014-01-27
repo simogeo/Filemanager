@@ -28,6 +28,9 @@ class Filemanager {
 	protected $cachefolder = '_thumbs/';
 	protected $thumbnail_width = 64;
 	protected $thumbnail_height = 64;
+	protected $resize_images = false;
+	protected $image_max_width = 1280;
+	protected $image_max_height = 1024;
 	protected $separator = 'userfiles'; // @todo fix keep it or not?
 
 	public function __construct($extraConfig = '') {
@@ -453,6 +456,21 @@ class Filemanager {
 			$_FILES['newfile']['name'] = $this->checkFilename($current_path,$_FILES['newfile']['name']);
 		}
 		move_uploaded_file($_FILES['newfile']['tmp_name'], $current_path . $_FILES['newfile']['name']);
+
+		// automatically resize image if it's too big
+		if($this->resize_images) {
+			$imagePath = $current_path . $_FILES['newfile']['name'];
+			if ($size = @getimagesize($imagePath)){
+				if ($size[0] > $this->image_max_width || $size[1] > $this->image_max_height) {
+					require_once('./inc/vendor/wideimage/lib/WideImage.php');
+					
+					$image = WideImage::load($imagePath);
+					$resized = $image->resize($this->image_max_width, $this->image_max_height, 'inside');
+					$resized->saveToFile($imagePath);
+				}
+			}
+		}
+
 		chmod($current_path . $_FILES['newfile']['name'], 0644);
 
 		$response = array(
