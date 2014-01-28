@@ -75,7 +75,12 @@
             "gif",
             "png",
             "svg"
-        ]
+        ],
+        "resize": {
+        	"enabled":true,
+        	"maxWidth": 1280,
+            "maxHeight": 1024
+        }
     },
     "videos": {
         "showVideoPlayer": true,

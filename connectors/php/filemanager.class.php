@@ -458,15 +458,17 @@ class Filemanager {
 		move_uploaded_file($_FILES['newfile']['tmp_name'], $current_path . $_FILES['newfile']['name']);
 
 		// automatically resize image if it's too big
-		if($this->resize_images) {
-			$imagePath = $current_path . $_FILES['newfile']['name'];
+		$imagePath = $current_path . $_FILES['newfile']['name'];
+		if($this->is_image($imagePath) && $this->config['images']['resize']['enabled']) {
 			if ($size = @getimagesize($imagePath)){
-				if ($size[0] > $this->image_max_width || $size[1] > $this->image_max_height) {
+				if ($size[0] > $this->config['images']['resize']['maxWidth'] || $size[1] > $this->config['images']['resize']['maxHeight']) {
 					require_once('./inc/vendor/wideimage/lib/WideImage.php');
 					
 					$image = WideImage::load($imagePath);
-					$resized = $image->resize($this->image_max_width, $this->image_max_height, 'inside');
+					$resized = $image->resize($this->config['images']['resize']['maxWidth'], $this->config['images']['resize']['maxHeight'], 'inside');
 					$resized->saveToFile($imagePath);
+					
+					$this->__log(__METHOD__ . ' - resizing image : '. $_FILES['newfile']['name']. ' into '. $current_path);
 				}
 			}
 		}
@@ -949,6 +951,18 @@ private function availableLanguages() {
 		closedir($handle);
 	}
 }
+
+private function is_image($path) {
+	
+	$a = getimagesize($path);
+	$image_type = $a[2];
+
+	if(in_array($image_type , array(IMAGETYPE_GIF , IMAGETYPE_JPEG ,IMAGETYPE_PNG , IMAGETYPE_BMP))) {
+		return true;
+	}
+	return false;
+}
+
 
 private function __log($msg) {
 		
