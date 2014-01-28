@@ -28,9 +28,6 @@ class Filemanager {
 	protected $cachefolder = '_thumbs/';
 	protected $thumbnail_width = 64;
 	protected $thumbnail_height = 64;
-	protected $resize_images = false;
-	protected $image_max_width = 1280;
-	protected $image_max_height = 1024;
 	protected $separator = 'userfiles'; // @todo fix keep it or not?
 
 	public function __construct($extraConfig = '') {
@@ -420,14 +417,24 @@ class Filemanager {
 		$this->setParams();
 
 		if(!isset($_FILES['newfile']) || !is_uploaded_file($_FILES['newfile']['tmp_name'])) {
-			$this->error(sprintf($this->lang('INVALID_FILE_UPLOAD')),true);
+			
+			// if fileSize limit set by the user is greater than size allowed in php.ini file, we apply server restrictions
+			// and log a warning into file
+			if($this->config['upload']['fileSizeLimit'] > $this->getMaxUploadFileSize()) {
+				$this->__log(__METHOD__ . ' [WARNING] : file size limit set by user is greater than size allowed in php.ini file : '. $this->config['upload']['fileSizeLimit']. 'Mb > '. $this->getMaxUploadFileSize().'Mb.');
+				$this->config['upload']['fileSizeLimit'] = $this->getMaxUploadFileSize();
+				$this->error(sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['fileSizeLimit'] . 'Mb'),true);
+			}
+			
+			$this->error(sprintf($this->lang('INVALID_FILE_UPLOAD') . ' '. sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['fileSizeLimit'] . 'Mb')),true);
 		}
 		// we determine max upload size if not set
 		if($this->config['upload']['fileSizeLimit'] == 'auto') {
 			$this->config['upload']['fileSizeLimit'] = $this->getMaxUploadFileSize();
 		}
+
 		if($_FILES['newfile']['size'] > ($this->config['upload']['fileSizeLimit'] * 1024 * 1024)) {
-			$this->error(sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['size'] . 'Mb'),true);
+			$this->error(sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['fileSizeLimit'] . 'Mb'),true);
 		}
 		
 		// we check if extension is allowed regarding the security Policy settings
