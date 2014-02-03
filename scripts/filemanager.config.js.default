@@ -6,6 +6,7 @@
         "defaultViewMode": "grid",
         "autoload": true,
         "showFullPath": false,
+        "showTitleAttr": false,
         "browseOnly": false,
         "showConfirmation": true,
         "showThumbs": true,

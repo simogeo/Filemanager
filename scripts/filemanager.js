@@ -321,8 +321,8 @@ var getAudioPlayer = function(data) {
 // Called using SetInterval
 var display_icons = function(timer) {
 	$('#fileinfo').find('td:first-child').each(function(){
-		var path = $(this).attr('title');
-		var treenode = $('#filetree').find('a[rel="' + path + '"]').parent();
+		var path = $(this).attr('data-path');
+		var treenode = $('#filetree').find('a[data-path="' + path + '"]').parent();
 	
 		if (typeof treenode.css('background-image') !== "undefined") {
 			$(this).css('background-image', treenode.css('background-image'));
@@ -356,7 +356,7 @@ var setUploader = function(path) {
 						getFolderInfo(result['Parent']);
 
                         // seems to be necessary when dealing w/ files located on s3 (need to look into a cleaner solution going forward)
-                        $('#filetree').find('a[rel="' + result['Parent'] +'/"]').click().click();
+                        $('#filetree').find('a[data-path="' + result['Parent'] +'/"]').click().click();
 					} else {
 						$.prompt(result['Error']);
 					}				
@@ -447,7 +447,7 @@ var createFileTree = function() {
 				$(this).contextMenu(
 					{ menu: getContextMenuOptions($(this)) },
 					function(action, el, pos){
-						var path = $(el).attr('rel');
+						var path = $(el).attr('data-path');
 						setMenus(action, path);
 					}
 				);
@@ -574,11 +574,11 @@ var renameItem = function(data) {
 						}
 						
 						if($('#fileinfo').data('view') == 'grid'){
-							$('#fileinfo img[alt="' + oldPath + '"]').parent().next('p').text(newName);
-							$('#fileinfo img[alt="' + oldPath + '"]').attr('alt', newPath);
+							$('#fileinfo img[data-path="' + oldPath + '"]').parent().next('p').text(newName);
+							$('#fileinfo img[data-path="' + oldPath + '"]').attr('data-path', newPath);
 						} else {
-							$('#fileinfo td[title="' + oldPath + '"]').text(newName);
-							$('#fileinfo td[title="' + oldPath + '"]').attr('title', newPath);
+							$('#fileinfo td[data-path="' + oldPath + '"]').text(newName);
+							$('#fileinfo td[data-path="' + oldPath + '"]').attr('data-path', newPath);
 						}
 						$("#preview h1").html(newName);
 						
@@ -695,7 +695,7 @@ var deleteItem = function(data) {
 					if(config.options.showConfirmation) $.prompt(lg.successful_delete);
 
                     // seems to be necessary when dealing w/ files located on s3 (need to look into a cleaner solution going forward)
-                    $('#filetree').find('a[rel="' + parent +'/"]').click().click();
+                    $('#filetree').find('a[data-path="' + parent +'/"]').click().click();
 				} else {
 					isDeleted = false;
 					$.prompt(result['Error']);
@@ -723,9 +723,9 @@ var deleteItem = function(data) {
 // parent node. Called after a successful file upload.
 var addNode = function(path, name) {
 	var ext = getExtension(name);
-	var thisNode = $('#filetree').find('a[rel="' + path + '"]');
+	var thisNode = $('#filetree').find('a[data-path="' + path + '"]');
 	var parentNode = thisNode.parent();
-	var newNode = '<li class="file ext_' + ext + '"><a rel="' + path + name + '" href="#" class="">' + name + '</a></li>';
+	var newNode = '<li class="file ext_' + ext + '"><a data-path="' + path + name + '" href="#" class="">' + name + '</a></li>';
 	
 	// if is root folder
 	// TODO optimize
@@ -748,9 +748,9 @@ var addNode = function(path, name) {
 // Updates the specified node with a new name. Called after
 // a successful rename operation.
 var updateNode = function(oldPath, newPath, newName){
-	var thisNode = $('#filetree').find('a[rel="' + oldPath + '"]');
+	var thisNode = $('#filetree').find('a[data-path="' + oldPath + '"]');
 	var parentNode = thisNode.parent().parent().prev('a');
-	thisNode.attr('rel', newPath).text(newName);
+	thisNode.attr('data-path', newPath).text(newName);
 	
 	// we work directly on root folder
 	// TODO optimize by binding only the renamed element
@@ -765,14 +765,14 @@ var updateNode = function(oldPath, newPath, newName){
 // delete operation.
 var removeNode = function(path) {
     $('#filetree')
-        .find('a[rel="' + path + '"]')
+        .find('a[data-path="' + path + '"]')
         .parent()
         .fadeOut('slow', function(){ 
             $(this).remove();
         });
     // grid case
     if($('#fileinfo').data('view') == 'grid'){
-        $('#contents img[alt="' + path + '"]').parent().parent()
+        $('#contents img[data-path="' + path + '"]').parent().parent()
             .fadeOut('slow', function(){ 
                 $(this).remove();
         });
@@ -780,7 +780,7 @@ var removeNode = function(path) {
     // list case
     else {
         $('table#contents')
-            .find('td[title="' + path + '"]')
+            .find('td[data-path="' + path + '"]')
             .parent()
             .fadeOut('slow', function(){ 
                 $(this).remove();
@@ -796,19 +796,19 @@ var removeNode = function(path) {
 // specified parent node. Called after a new folder is
 // successfully created.
 var addFolder = function(parent, name) {
-	var newNode = '<li class="directory collapsed"><a rel="' + parent + name + '/" href="#">' + name + '</a><ul class="jqueryFileTree" style="display: block;"></ul></li>';
-	var parentNode = $('#filetree').find('a[rel="' + parent + '"]');
+	var newNode = '<li class="directory collapsed"><a data-path="' + parent + name + '/" href="#">' + name + '</a><ul class="jqueryFileTree" style="display: block;"></ul></li>';
+	var parentNode = $('#filetree').find('a[data-path="' + parent + '"]');
 	if(parent != fileRoot){
 		parentNode.next('ul').prepend(newNode).prev('a').click().click();
 	} else {
 		$('#filetree > ul').prepend(newNode);
-		$('#filetree').find('li a[rel="' + parent + name + '/"]').attr('class', 'cap_rename cap_delete').click(function(){
+		$('#filetree').find('li a[data-path="' + parent + name + '/"]').attr('class', 'cap_rename cap_delete').click(function(){
 				getFolderInfo(parent + name + '/');
 			}).each(function() {
 				$(this).contextMenu(
 					{ menu: getContextMenuOptions($(this)) }, 
 					function(action, el, pos){
-						var path = $(el).attr('rel');
+						var path = $(el).attr('data-path');
 						setMenus(action, path);
 					});
 				}
@@ -830,7 +830,7 @@ var addFolder = function(parent, name) {
 var getDetailView = function(path) {
 	if(path.lastIndexOf('/') == path.length - 1){
 		getFolderInfo(path);
-		$('#filetree').find('a[rel="' + path + '"]').click();
+		$('#filetree').find('a[data-path="' + path + '"]').click();
 	} else {
 		getFileInfo(path);
 	}
@@ -857,9 +857,9 @@ var setMenus = function(action, path) {
 	var d = new Date(); // to prevent IE cache issues
 	$.getJSON(fileConnector + '?mode=getinfo&path=' + path + '&time=' + d.getMilliseconds(), function(data){
 		if($('#fileinfo').data('view') == 'grid'){
-			var item = $('#fileinfo').find('img[alt="' + data['Path'] + '"]').parent();
+			var item = $('#fileinfo').find('img[data-path="' + data['Path'] + '"]').parent();
 		} else {
-			var item = $('#fileinfo').find('td[title="' + data['Path'] + '"]').parent();
+			var item = $('#fileinfo').find('td[data-path="' + data['Path'] + '"]').parent();
 		}
 	
 		switch(action){
@@ -867,7 +867,7 @@ var setMenus = function(action, path) {
 				selectItem(data);
 				break;
 			
-			case 'download':
+			case 'download': // todo implement javascript method to test if exstension is correct
 				window.location = fileConnector + '?mode=download&path=' + data['Path'] + '&time=' + d.getMilliseconds();
 				break;
 				
@@ -979,8 +979,10 @@ var getFolderInfo = function(path) {
 					var scaledWidth = 64;
 					var actualWidth = props['Width'];
 					if(actualWidth > 1 && actualWidth < scaledWidth) scaledWidth = actualWidth;
+					
+					config.options.showTitleAttr ? title = ' title="' + data[key]['Path'] + '"' : title = '';
 				
-					result += '<li class="' + cap_classes + '" title="' + data[key]['Path'] + '"><div class="clip"><img src="' + data[key]['Preview'] + '" width="' + scaledWidth + '" alt="' + data[key]['Path'] + '" /></div><p>' + data[key]['Filename'] + '</p>';
+					result += '<li class="' + cap_classes + '"' + title + '"><div class="clip"><img src="' + data[key]['Preview'] + '" width="' + scaledWidth + '" alt="' + data[key]['Path'] + '" data-path="' + data[key]['Path'] + '" /></div><p>' + data[key]['Filename'] + '</p>';
 					if(props['Width'] && props['Width'] != '') result += '<span class="meta dimensions">' + props['Width'] + 'x' + props['Height'] + '</span>';
 					if(props['Size'] && props['Size'] != '') result += '<span class="meta size">' + props['Size'] + '</span>';
 					if(props['Date Created'] && props['Date Created'] != '') result += '<span class="meta created">' + props['Date Created'] + '</span>';
@@ -998,13 +1000,15 @@ var getFolderInfo = function(path) {
 					var path = data[key]['Path'];
 					var props = data[key]['Properties'];
 					var cap_classes = "";
+					config.options.showTitleAttr ? title = ' title="' + data[key]['Path'] + '"' : title = '';
+					
 					for (cap in capabilities) {
 						if (has_capability(data[key], capabilities[cap])) {
 							cap_classes += " cap_" + capabilities[cap];
 						}
 					}
 					result += '<tr class="' + cap_classes + '">';
-					result += '<td title="' + path + '">' + data[key]['Filename'] + '</td>';
+					result += '<td data-path="' + data[key]['Path'] + '"' + title + '">' + data[key]['Filename'] + '</td>';
 
 					if(props['Width'] && props['Width'] != ''){
 						result += ('<td>' + props['Width'] + 'x' + props['Height'] + '</td>');
@@ -1041,26 +1045,26 @@ var getFolderInfo = function(path) {
 		// contextual menu options.
 		if($('#fileinfo').data('view') == 'grid') {
 			$('#fileinfo').find('#contents li').click(function(){
-				var path = $(this).find('img').attr('alt');
+				var path = $(this).find('img').attr('data-path');
 				getDetailView(path);
 			}).each(function() {
 				$(this).contextMenu(
 					{ menu: getContextMenuOptions($(this)) },
 					function(action, el, pos){
-						var path = $(el).find('img').attr('alt');
+						var path = $(el).find('img').attr('data-path');
 						setMenus(action, path);
 					}
 				);
 			});
 		} else {
 			$('#fileinfo tbody tr').click(function(){
-				var path = $('td:first-child', this).attr('title');
+				var path = $('td:first-child', this).attr('data-path');
 				getDetailView(path);		
 			}).each(function() {
 				$(this).contextMenu(
 					{ menu: getContextMenuOptions($(this)) },
 					function(action, el, pos){
-						var path = $('td:first-child', el).attr('title');
+						var path = $('td:first-child', el).attr('data-path');
 						setMenus(action, path);
 					}
 				);
@@ -1103,16 +1107,17 @@ var populateFileTree = function(path, callback) {
 			result += "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
 			for(key in data) {
 				var cap_classes = "";
+				
 				for (cap in capabilities) {
 					if (has_capability(data[key], capabilities[cap])) {
 						cap_classes += " cap_" + capabilities[cap];
 					}
 				}
 				if (data[key]['File Type'] == 'dir') {
-					result += "<li class=\"directory collapsed\"><a href=\"#\" class=\"" + cap_classes + "\" rel=\"" + data[key]['Path'] + "\">" + data[key]['Filename'] + "</a></li>";
+					result += "<li class=\"directory collapsed\"><a href=\"#\" class=\"" + cap_classes + "\" data-path=\"" + data[key]['Path'] + "\">" + data[key]['Filename'] + "</a></li>";
 				} else {
 					if(config.options.listFiles) {
-					result += "<li class=\"file ext_" + data[key]['File Type'].toLowerCase() + "\"><a href=\"#\" class=\"" + cap_classes + "\" rel=\"" + data[key]['Path'] + "\">" + data[key]['Filename'] + "</a></li>";
+					result += "<li class=\"file ext_" + data[key]['File Type'].toLowerCase() + "\"><a href=\"#\" class=\"" + cap_classes + "\" data-path=\"" + data[key]['Path'] + "\">" + data[key]['Filename'] + "</a></li>";
 					}
 				}
 			}
@@ -1290,7 +1295,7 @@ $(function(){
 				if($.browser.msie) $("#newfile").replaceWith($("#newfile").clone(true));
 				
 				// seems to be necessary when dealing w/ files located on s3 (need to look into a cleaner solution going forward)
-				$('#filetree').find('a[rel="' + data['Path'] + '/"]').click().click();
+				$('#filetree').find('a[data-path="' + data['Path'] + '/"]').click().click();
 			} else {
 				$.prompt(data['Error']);
 			}

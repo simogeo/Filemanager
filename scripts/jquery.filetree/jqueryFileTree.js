@@ -62,8 +62,8 @@ if(jQuery) (function($){
 						bindTree(c);
 						if (o.expandedFolder != null) {
 						    $(c).find(".directory.collapsed").each(function (i,f) {
-						       if ((o.expandedFolder).match($(f).children().attr('rel'))) {
-						            showTree($(f), $(f).children().attr('rel').match(/.*\//));
+						       if ((o.expandedFolder).match($(f).children().attr('data-path'))) {
+						            showTree($(f), $(f).children().attr('data-path').match(/.*\//));
 						            $(f).removeClass('collapsed').addClass('expanded');
 						        };
 
@@ -89,7 +89,7 @@ if(jQuery) (function($){
 									$(this).parent().parent().find('LI.directory').removeClass('expanded').addClass('collapsed');
 								}
 								$(this).parent().find('UL').remove(); // cleanup
-								showTree( $(this).parent(), $(this).attr('rel').match( /.*\// ) );
+								showTree( $(this).parent(), $(this).attr('data-path').match( /.*\// ) );
 								$(this).parent().removeClass('collapsed').addClass('expanded');
 							} else {
 								// Collapse
@@ -97,10 +97,10 @@ if(jQuery) (function($){
 								$(this).parent().removeClass('expanded').addClass('collapsed');
 							}
 								
-							o.folderCallback($(this).attr('rel'));
+							o.folderCallback($(this).attr('data-path'));
 						
 						} else {
-							h($(this).attr('rel'));
+							h($(this).attr('data-path'));
 						}
 						return false;
 					});
