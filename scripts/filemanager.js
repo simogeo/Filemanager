@@ -477,7 +477,7 @@ var createFileTree = function() {
 // contextual menu option in list views. 
 // NOTE: closes the window when finished.
 var selectItem = function(data) {
-	if(config.options.relPath != false ) {
+	if(config.options.relPath !== false ) {
 		var url = relPath + data['Path'].replace(fileRoot,""); 
 	} else {
 		var url = relPath + data['Path'];
@@ -1165,6 +1165,11 @@ $(function(){
 		relPath = config.options.relPath;
 	}
 	
+	if($.urlParam('exclusiveFolder') != 0) {
+		fileRoot += $.urlParam('exclusiveFolder');
+		if(fileRoot.charAt(fileRoot.length-1) != '/' ) fileRoot += '/'; // add last '/' if needed
+		fileRoot = fileRoot.replace(/\/\//g, '\/');
+	}
 
 	if($.urlParam('expandedFolder') != 0) {
 		expandedFolder = $.urlParam('expandedFolder');
