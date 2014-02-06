@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "Fehler beim umbenennen des Ordnes %s zu %s.", 
     "ERROR_RENAMING_FILE": "Fehler beim umbenennen der Datei %s zu %s.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "The file '%s' already exists.", 
     "FILE_DOES_NOT_EXIST": "Die Datei %s existiert nicht.", 
     "INVALID_ACTION": "Unbekannter Befehl.", 
@@ -51,6 +53,7 @@
     "parentfolder": "Übersicht", 
     "prompt_foldername": "Gib den Namen des neuen Ordners ein:", 
     "rename": "Umbenennen", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "Auswählen", 
@@ -61,6 +64,7 @@
     "successful_delete": "Erfolgreich gelöscht.", 
     "successful_moved": "Move successful.", 
     "successful_rename": "Erfolgreich umbenannt.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "Hochladen", 
     "yes": "Ja"
 }

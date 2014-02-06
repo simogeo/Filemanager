@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "发生错误当重新命名的目录%s到%s。", 
     "ERROR_RENAMING_FILE": "发生错误当重新命名的文件%s到%s。", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "The file '%s' already exists.", 
     "FILE_DOES_NOT_EXIST": "文件%s不存在。", 
     "INVALID_ACTION": "无效的action.", 
@@ -52,6 +54,7 @@
     "parentfolder": "父文件夹", 
     "prompt_foldername": "请输入新文件夹的名称", 
     "rename": "重命名", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "选择", 
@@ -62,6 +65,7 @@
     "successful_delete": "删除成功。", 
     "successful_moved": "Move successful.", 
     "successful_rename": "重命名成功。", 
+    "successful_replace": "File replacement successful.", 
     "upload": "上传", 
     "yes": "是"
 }

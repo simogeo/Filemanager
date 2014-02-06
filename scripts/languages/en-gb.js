@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "Error while renaming the directory %s to %s.", 
     "ERROR_RENAMING_FILE": "Error while renaming the file %s to %s.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "The file '%s' already exists.", 
     "FILE_DOES_NOT_EXIST": "The file %s does not exist.", 
     "INVALID_ACTION": "Invalid action.", 
@@ -51,6 +53,7 @@
     "parentfolder": "Parent folder", 
     "prompt_foldername": "Enter the name of the new folder", 
     "rename": "Rename", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "Select", 
@@ -61,6 +64,7 @@
     "successful_delete": "Delete successful.", 
     "successful_moved": "Move successful.", 
     "successful_rename": "Rename successful.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "Upload", 
     "yes": "Yes"
 }

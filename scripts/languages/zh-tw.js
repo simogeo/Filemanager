@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "將目錄 %s 更名到 %s 時發生錯誤。", 
     "ERROR_RENAMING_FILE": "將檔案 %s 更名到 %s 時發生錯誤。", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "檔案 '%s' 已經存在。", 
     "FILE_DOES_NOT_EXIST": "檔案 %s 不存在。", 
     "INVALID_ACTION": "無效的動作。", 
@@ -51,6 +53,7 @@
     "parentfolder": "上層目錄", 
     "prompt_foldername": "輸入新目錄的名稱。", 
     "rename": "更名", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "選取", 
@@ -61,6 +64,7 @@
     "successful_delete": "刪除成功。", 
     "successful_moved": "Move successful.", 
     "successful_rename": "更名成功", 
+    "successful_replace": "File replacement successful.", 
     "upload": "上傳", 
     "yes": "是"
 }

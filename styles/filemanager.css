@@ -204,6 +204,13 @@ input, button {
 	border:1px solid blue;
 }
 
+#fileR {
+	position: absolute;
+	bottom:0;
+	right:-1000px;
+	opacity:0;  filter: alpha(opacity=0);
+}
+
 #alt-fileinput {
 	display: inline;
 	wrap: no-wrap;
@@ -425,6 +432,7 @@ div.clip {
 #download span, .contextMenu li.download a { background-image: url(../images/download.png); }
 #rename span, .contextMenu li.rename a { background-image: url(../images/pencil.png); }
 #move span, .contextMenu li.move a { background-image: url(../images/move.png); }
+#replace span, .contextMenu li.replace a { background-image: url(../images/replace.png); }
 #delete span, .contextMenu li.delete a { background-image: url(../images/bin_closed.png); }
 #upload span { background-image: url(../images/upload.png); }
 #upload span.loading { background-image: url(../images/ajax-loader.gif);color:#555555;font-size:0.9em; }

@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Tyto typy souborů nejsou podporovány: ", 
     "ERROR_RENAMING_DIRECTORY": "Pokus o přejmenování adresáře '%s' na '%s' se nezdařil.", 
     "ERROR_RENAMING_FILE": "Pokus o přejmenování souboru '%s' na '%s' se nezdařil.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "Soubor '%s' již existuje.", 
     "FILE_DOES_NOT_EXIST": "Soubor '%s' nebyl nalezen.", 
     "INVALID_ACTION": "Neplatná akce.", 
@@ -51,6 +53,7 @@
     "parentfolder": "Nadřazený adresář", 
     "prompt_foldername": "Zadejte název nového adresáře", 
     "rename": "Přejmenovat", 
+    "replace": "Replace file", 
     "search": "Hledat", 
     "search_reset": "Zrušit", 
     "select": "Vybrat", 
@@ -61,6 +64,7 @@
     "successful_delete": "Položka byla odstraněna.", 
     "successful_moved": "Položka byla přesunuta.", 
     "successful_rename": "Položka byla úspěšně přejmenována.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "Nahrát", 
     "yes": "Ano"
 }

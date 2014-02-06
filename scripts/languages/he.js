@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "שגיאה בעת ניסיון לשנות את התיקייה %s ל %s", 
     "ERROR_RENAMING_FILE": "שגיאה בעת ניסיון לשנות את הקובץ %s ל %s", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "הקובץ '%s' כבר קיים", 
     "FILE_DOES_NOT_EXIST": "הקובץ %s אינו קיים", 
     "INVALID_ACTION": "פעולה לא חוקית", 
@@ -51,6 +53,7 @@
     "parentfolder": "תיקיית אב", 
     "prompt_foldername": "הכנס שם לתיקייה החדשה", 
     "rename": "שנה שם", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "בחר", 
@@ -61,6 +64,7 @@
     "successful_delete": "הקובץ נמחק", 
     "successful_moved": "Move successful.", 
     "successful_rename": "השם שונה בהצלחה", 
+    "successful_replace": "File replacement successful.", 
     "upload": "העלה קובץ", 
     "yes": "כן"
 }

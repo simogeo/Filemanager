@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "Error al intentar renombrar la carpeta %s a %s.", 
     "ERROR_RENAMING_FILE": "Error al intentar renombrar el archivo %s a %s.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "El archivo '%s' ya existe.", 
     "FILE_DOES_NOT_EXIST": "El archivo %s no existe.", 
     "INVALID_ACTION": "Acción inválida.", 
@@ -51,6 +53,7 @@
     "parentfolder": "Directorio padre", 
     "prompt_foldername": "Introduce el nombre de la nueva carpeta", 
     "rename": "Renombrar", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "Seleccionar", 
@@ -61,6 +64,7 @@
     "successful_delete": "Eliminación completada.", 
     "successful_moved": "Move successful.", 
     "successful_rename": "Renombrado con éxito.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "Subir", 
     "yes": "Sí"
 }

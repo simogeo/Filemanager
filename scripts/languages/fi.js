@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "Virhe nimettäessä hakemistoa %s uudelleen hakemistoksi %s.", 
     "ERROR_RENAMING_FILE": "Virhe nimettäessä tiedostoa %s uudelleen tiedostoksi %s.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "Tiedosto '%s' on jo olemassa.", 
     "FILE_DOES_NOT_EXIST": "Tiedostoa %s ei löydy.", 
     "INVALID_ACTION": "Virheellinen toiminto.", 
@@ -51,6 +53,7 @@
     "parentfolder": "Edellinen hakemisto", 
     "prompt_foldername": "Anna uudelle hakemistolle nimi", 
     "rename": "Nimeä uudelleen", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "Valitse", 
@@ -61,6 +64,7 @@
     "successful_delete": "Poisto onnistui.", 
     "successful_moved": "Move successful.", 
     "successful_rename": "Uudelleen nimeäminen onnistui.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "Lähetä", 
     "yes": "Kyllä"
 }

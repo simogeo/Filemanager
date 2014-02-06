@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Указанные файлы запрещены: ", 
     "ERROR_RENAMING_DIRECTORY": "Ошибка при переименовании папки %s в %s.", 
     "ERROR_RENAMING_FILE": "Ошибка при переименовании файла %s в %s.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "Файл '%s' уже существует.", 
     "FILE_DOES_NOT_EXIST": "Файл %s не существует.", 
     "INVALID_ACTION": "Неверное действие.", 
@@ -51,6 +53,7 @@
     "parentfolder": "На уровень выше", 
     "prompt_foldername": "Введите имя новой папки", 
     "rename": "Переименовать", 
+    "replace": "Replace file", 
     "search": "Поиск", 
     "search_reset": "Сброс", 
     "select": "Выбрать", 
@@ -61,6 +64,7 @@
     "successful_delete": "Удаление прошло успешно.", 
     "successful_moved": "Move successful.", 
     "successful_rename": "Переименование успешно.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "Загрузить", 
     "yes": "Да"
 }

@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "A(z) %s mappa átnevezése %s névre sikertelen volt.", 
     "ERROR_RENAMING_FILE": "A(z) %s fájl átnevezése %s fájlnévre sikertelen volt.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "a megadott '%s' fájl már létezik.", 
     "FILE_DOES_NOT_EXIST": "A %s fájl nem található.", 
     "INVALID_ACTION": "Érvénytelen művelet.", 
@@ -51,6 +53,7 @@
     "parentfolder": "Előző mappa", 
     "prompt_foldername": "Kérem adja meg az új mappa nevét", 
     "rename": "Átnevezés", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "Kiválasztás", 
@@ -61,6 +64,7 @@
     "successful_delete": "Sikeres törlés.", 
     "successful_moved": "Move successful.", 
     "successful_rename": "Sikeres átnevezés.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "Feltöltés", 
     "yes": "Igen"
 }

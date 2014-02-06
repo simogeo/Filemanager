@@ -45,7 +45,7 @@ var fileConnector = config.options.fileConnector || 'connectors/' + config.optio
 
 // Read capabilities from config files if exists
 // else apply default settings
-var capabilities = config.options.capabilities || new Array('select', 'download', 'rename', 'move', 'delete');
+var capabilities = config.options.capabilities || new Array('select', 'download', 'rename', 'move', 'delete', 'replace');
 
 // Get localized messages from file 
 // through culture var or from URL
@@ -230,7 +230,7 @@ var handleError = function(errMsg) {
 // Test if Data structure has the 'cap' capability
 // 'cap' is one of 'select', 'rename', 'delete', 'download', move
 function has_capability(data, cap) {
-	if (data['File Type'] == 'dir' && cap == 'download') return false;
+	if (data['File Type'] == 'dir' && (cap == 'download' || cap == 'replace')) return false;
 	if (typeof(data['Capabilities']) == "undefined") return true;
 	else return $.inArray(cap, data['Capabilities']) > -1;
 }
@@ -272,6 +272,15 @@ var getFilename = function(filename) {
 		return filename.substring(0, filename.lastIndexOf('.'));
 	} else {
 		return filename;
+	}
+};
+
+// Test if is iamge file
+var isImageFile = function(filename) {
+	if($.inArray(getExtension(filename), config.images.imagesExt) != -1) {
+		return true;
+	} else {
+		return false;
 	}
 };
 
@@ -411,6 +420,15 @@ var bindToolbar = function(data) {
 		$('#fileinfo').find('button#move').click(function(){
 			var newName = moveItem(data);
 			if(newName.length) $('#fileinfo > h1').text(newName);
+		}).show();
+	}
+	
+	// @todo 
+	if (!has_capability(data, 'replace')) {
+		$('#fileinfo').find('button#replace').hide();
+	} else {
+		$('#fileinfo').find('button#replace').click(function(){
+			replaceItem(data);
 		}).show();
 	}
 
@@ -609,6 +627,98 @@ var renameItem = function(data) {
 	});
 	
 	return finalName;
+};
+
+// Replace the current file and keep the same name.
+// Called by clicking the "Replace" button in detail views
+// or choosing the "Replace" contextual menu option in
+// list views.
+var replaceItem = function(data) {
+	
+	// remove dynamic form if already exists
+	$('#file-replacement').remove();
+	
+	// we create a dynamic form with input File
+	$form = $('<form id="file-replacement" method="post">');
+	$form.append('<input id="fileR" name="fileR" type="file" />');
+	$form.append('<input id="mode" name="mode" type="hidden" value="replace" /> ');
+	$form.append('<input id="filepath" name="filepath" type="hidden" value="' + data["Path"] + '" />');
+	$('body').prepend($form);
+
+	// we auto-submit form when user filled it up
+	$('#fileR').bind('change', function() {
+			$(this).closest("form#file-replacement").submit();
+	});
+	
+	// we open the input file dialog window
+	$('#fileR').click();
+	
+	// we set the connector to send data to
+	$('#file-replacement').attr('action', fileConnector);
+	
+	// submission script
+	$('#file-replacement').ajaxForm({
+		target: '#uploadresponse',
+		beforeSubmit: function (arr, form, options) {
+			
+			var newFile = $('#fileR', form).val();
+			// Test if a value is given
+			if(newFile == '') {
+				return false;
+			}
+			// Check if file extension is matching with the original
+			if(getExtension(newFile) != data["File Type"]) {
+				$.prompt(lg.ERROR_REPLACING_FILE + " ." + getExtension(data["Filename"])); 
+				return false;
+			}
+			$('#replace').attr('disabled', true);
+			$('#upload span').addClass('loading').text(lg.loading_data);
+
+			// if config.upload.fileSizeLimit == auto we delegate size test to connector
+			if (typeof FileReader !== "undefined" && typeof config.upload.fileSizeLimit != "auto") {
+				// Check file size using html5 FileReader API
+				var size = $('#fileR', form).get(0).files[0].size;
+				if (size > config.upload.fileSizeLimit * 1024 * 1024) {
+					$.prompt("<p>" + lg.file_too_big + "</p><p>" + lg.file_size_limit + config.upload.fileSizeLimit + " " + lg.mb + ".</p>");
+					$('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
+					return false;
+				}
+			}
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			$('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
+			$.prompt(lg.ERROR_UPLOADING_FILE);
+			$('#file-replacement').remove(); // we remove the dynamic form
+		},
+		success: function (result) {
+			var data = jQuery.parseJSON($('#uploadresponse').find('textarea').text());
+
+			if (data['Code'] == 0) {
+				var fullpath = data["Path"] + '/' + data["Name"];
+				
+				// if is image /thumbnail , we update the source
+				if(isImageFile(fullpath)) {
+					d = new Date();
+					$('#fileinfo').find('img[data-path="' + fullpath + '"]').attr("src", 'connectors/php/filemanager.php?mode=preview&path=' + encodeURIComponent(fullpath) + '&thumbnail=true&'  + d.getTime());
+					$('#preview').find('img').attr("src", 'connectors/php/filemanager.php?mode=preview&path=' + encodeURIComponent(fullpath) + '&' + d.getTime());
+				}
+				
+				// Visual effects for user to see action is successful
+				$('#fileinfo table#contents').find('td[data-path="' + fullpath + '"]').hide().fadeIn('slow');
+				$('#fileinfo').find('img[data-path="' + fullpath + '"]').hide().fadeIn('slow');
+				$('#preview').find('img').hide().fadeIn('slow');
+				$('ul.jqueryFileTree').find('li a[data-path="' + fullpath + '"]').parent().hide().fadeIn('slow');
+				
+				if(config.options.showConfirmation) $.prompt(lg.successful_replace);
+				
+			} else {
+				$.prompt(data['Error']);
+			}
+			$('#replace').removeAttr('disabled');
+			$('#upload span').removeClass('loading').text(lg.upload);
+			$('#file-replacement').remove(); // we remove the dynamic form
+		}
+	});
 };
 
 // Move the current item to specified dir and returns the new name.
@@ -846,6 +956,7 @@ function getContextMenuOptions(elem) {
 		if (!elem.hasClass('cap_download')) $('.download', newOptions).remove();
 		if (!elem.hasClass('cap_rename')) $('.rename', newOptions).remove();
 		if (!elem.hasClass('cap_move')) $('.move', newOptions).remove();
+		if (!elem.hasClass('cap_replace')) $('.replace', newOptions).remove();
 		if (!elem.hasClass('cap_delete')) $('.delete', newOptions).remove();
 		$('#itemOptions').after(newOptions);
 	}
@@ -874,6 +985,10 @@ var setMenus = function(action, path) {
 			case 'rename':
 				var newName = renameItem(data);
 				break;
+				
+			case 'replace':
+				replaceItem(data);
+				break;
 
 			case 'move':
 				var newName = moveItem(data);
@@ -900,9 +1015,10 @@ var getFileInfo = function(file) {
 	var template = '<div id="preview"><img /><h1></h1><dl></dl></div>';
 	template += '<form id="toolbar">';
 	if($.inArray('select', capabilities)  != -1 && (window.opener || window.tinyMCEPopup || $.urlParam('field_name'))) template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
-	template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
+	if($.inArray('download', capabilities)  != -1) template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
 	if($.inArray('rename', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
 	if($.inArray('move', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="move" name="move" type="button" value="Move">' + lg.move + '</button>';
+	if($.inArray('replace', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="replace" name="replace" type="button" value="Replace">' + lg.replace + '</button>';
 	if($.inArray('delete', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.del + '</button>';
 	template += '<button id="parentfolder">' + lg.parentfolder + '</button>';
 	template += '</form>';
@@ -1191,6 +1307,7 @@ $(function(){
 		$('#itemOptions a[href$="#download"]').append(lg.download);
 		$('#itemOptions a[href$="#rename"]').append(lg.rename);
 		$('#itemOptions a[href$="#move"]').append(lg.move);
+		$('#itemOptions a[href$="#replace"]').append(lg.replace);
 		$('#itemOptions a[href$="#delete"]').append(lg.del);
 	}
 	
@@ -1289,7 +1406,7 @@ $(function(){
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
 			$('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
-			$.prompt("Error uploading file");
+			$.prompt(lg.ERROR_UPLOADING_FILE);
 		},
 		success: function (result) {
 			var data = jQuery.parseJSON($('#uploadresponse').find('textarea').text());
@@ -1323,6 +1440,7 @@ $(function(){
 		$('#toolbar').remove('#rename');
 		$('.contextMenu .rename').remove();
 		$('.contextMenu .move').remove();
+		$('.contextMenu .replace').remove();
 		$('.contextMenu .delete').remove();
 	}
         

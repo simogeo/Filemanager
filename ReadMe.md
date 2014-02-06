@@ -116,7 +116,7 @@ Your script should include support for the following methods/functions. GET requ
 
 getinfo
 -------
-The getinfo method returns information about a single file. Requests with mode "getinfo" will include an additional parameter, "path", indicating which file to inspect. A boolean parameter "getsize" indicates whether the dimensions of the file (if an image) should be returned. 
+The `getinfo` method returns information about a single file. Requests with mode "getinfo" will include an additional parameter, "path", indicating which file to inspect. A boolean parameter "getsize" indicates whether the dimensions of the file (if an image) should be returned. 
 
 Example Request:
 
@@ -172,7 +172,7 @@ The keys are as follows:
 
 getfolder
 ---------
-The getfolder method returns an array of file and folder objects representing the contents of the given directory (indicated by a "path" parameter). It should call the getinfo method to retrieve the properties of each file. A boolean parameter "getsizes" indicates whether image dimensions should be returned for each item. Folders should always be returned before files.
+The `getfolder` method returns an array of file and folder objects representing the contents of the given directory (indicated by a "path" parameter). It should call the getinfo method to retrieve the properties of each file. A boolean parameter "getsizes" indicates whether image dimensions should be returned for each item. Folders should always be returned before files.
 Optionally a "type" parameter can be specified to restrict returned files (depending on the connector). If a "type" parameter is given for the main index.html URL, the same parameter value is reused and passed to getfolder. This can be used for example to only show image files in a file system tree.
 
 Example Request:
@@ -237,7 +237,7 @@ Each key in the array is the path to an individual item, and the value is the fi
 
 rename
 ------
-The rename method renames the item at the path given in the "old" parameter with the name given in the "new" parameter and returns an object indicating the results of that action.
+The `rename` method renames the item at the path given in the "old" parameter with the name given in the "new" parameter and returns an object indicating the results of that action.
 
 Example Request:
 
@@ -256,7 +256,7 @@ Example Response:
 
 move
 ------
-The move method move "old" file or directory to specified "new" directory. It is possible to specify absolute path from fileRoot dir or relative path from "old" item. "root" value is mandatory to secure that relative paths don't get above fileRoot.
+The `move` method move "old" file or directory to specified "new" directory. It is possible to specify absolute path from fileRoot dir or relative path from "old" item. "root" value is mandatory to secure that relative paths don't get above fileRoot.
 
 Example Request: Move file
 	
@@ -293,7 +293,7 @@ Example Response:
 
 delete
 ------
-The delete method deletes the item at the given path.
+The `delete` method deletes the item at the given path.
 
 Example Request:
 
@@ -310,7 +310,20 @@ Example Response:
 
 add
 ---
-The add method adds the uploaded file to the specified path. Unlike the other methods, this method must return its JSON response wrapped in an HTML <textarea>, so the MIME type of the response is text/html instead of text/plain. The upload form in the File Manager passes the current path as a POST param along with the uploaded file. The response includes the path as well as the name used to store the file. The uploaded file's name should be safe to use as a path component in a URL, so URL-encoded at a minimum.
+The `add` method adds the uploaded file to the specified path. Unlike the other methods, this method must return its JSON response wrapped in an HTML <textarea>, so the MIME type of the response is text/html instead of text/plain. The upload form in the File Manager passes the current path as a POST param along with the uploaded file. The response includes the path as well as the name used to store the file. The uploaded file's name should be safe to use as a path component in a URL, so URL-encoded at a minimum.
+
+Example Response:
+
+    {
+        "Path": "/UserFiles/Image/",
+        "Name": "new_logo.png",
+        "Error": "No error",
+        "Code": 0
+    }
+
+replace
+---
+The `replace` method allow the user to replace a specific file whatever the new filename - at least, the new file should have the same extension the original has. The old file is automatically overwritten. Unlike the other methods, this method must return its JSON response wrapped in an HTML <textarea>, so the MIME type of the response is text/html instead of text/plain. The *dynamic* upload form in the File Manager passes the current file path as a POST param along with the uploaded file. The response includes the path as well as the name used to store the file.
 
 Example Response:
 
@@ -324,7 +337,7 @@ Example Response:
 
 addfolder
 ---------
-The addfolder method creates a new directory on the server within the given path.
+The `addfolder` method creates a new directory on the server within the given path.
 
 Example Request:
 
@@ -342,7 +355,7 @@ Example Response:
 
 download
 --------
-The download method serves the requested file to the user. We currently use a MIME type of "application/x-download" to force the file to be downloaded rather than displayed in a browser. In the future we may make exceptions for specific file types that often have in-browser viewers such as PDF's and various movie formats (Flash, Quicktime, etc.).
+The `download` method serves the requested file to the user. We currently use a MIME type of "application/x-download" to force the file to be downloaded rather than displayed in a browser. In the future we may make exceptions for specific file types that often have in-browser viewers such as PDF's and various movie formats (Flash, Quicktime, etc.).
 
 Example Request:
 

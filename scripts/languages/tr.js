@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "%s isimli klasör ismi %s ile değiştirilemiyor.", 
     "ERROR_RENAMING_FILE": "%s isimli dosya %s ismi olarak değiştirilemiyor.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "'%s' isimli dosya mevcut.", 
     "FILE_DOES_NOT_EXIST": "%s isimli dosya bulunamadı.", 
     "INVALID_ACTION": "Hatalı işlem.", 
@@ -51,6 +53,7 @@
     "parentfolder": "Önceki klasör", 
     "prompt_foldername": "Lütfen klasör ismi giriniz", 
     "rename": "Adını değiştir", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "Seç", 
@@ -61,6 +64,7 @@
     "successful_delete": "Silme işlemi başarıyla tamamlandı.", 
     "successful_moved": "Move successful.", 
     "successful_rename": "Dosya ismi başarıyla değiştirildi.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "Yükle", 
     "yes": "Evet"
 }

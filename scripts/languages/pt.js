@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "Erro renomeando a pasta %s para %s.", 
     "ERROR_RENAMING_FILE": "Erro renomeando o arquivo %s para %s.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "O arquivo '%s' já existe.", 
     "FILE_DOES_NOT_EXIST": "O arquivo %s não existe.", 
     "INVALID_ACTION": "Ação inválida.", 
@@ -51,6 +53,7 @@
     "parentfolder": "Pasta anterior", 
     "prompt_foldername": "Entre com o nome da nova pasta", 
     "rename": "Renomear", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "Selecionar", 
@@ -61,6 +64,7 @@
     "successful_delete": "Excluiu com sucesso.", 
     "successful_moved": "Move successful.", 
     "successful_rename": "Renomeou com sucesso.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "Enviar", 
     "yes": "Sim"
 }

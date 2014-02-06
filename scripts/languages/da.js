@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "Omdøbning af mappen %s til %s mislykkedes.", 
     "ERROR_RENAMING_FILE": "Omdøbning af filen %s til %s mislykkedes.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "The file '%s' already exists.", 
     "FILE_DOES_NOT_EXIST": "Filen %s eksisterer ikke.", 
     "INVALID_ACTION": "Invalid handling.", 
@@ -51,6 +53,7 @@
     "parentfolder": "Hovedmappe", 
     "prompt_foldername": "Skriv navnet på den nye mappe", 
     "rename": "Omdøb", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "Vælg", 
@@ -61,6 +64,7 @@
     "successful_delete": "Slettet med succes.", 
     "successful_moved": "Move successful.", 
     "successful_rename": "Omdøbt med succes.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "Upload", 
     "yes": "Ja"
 }

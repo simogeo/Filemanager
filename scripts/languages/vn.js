@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "Có lỗi khi đổi tên thư mục %s thành %s.", 
     "ERROR_RENAMING_FILE": "Có lỗi khi đổi tên tập tin %s thành %s.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "Đã có tập tin '%s'.", 
     "FILE_DOES_NOT_EXIST": "Không tìm thấy tập tin %s.", 
     "INVALID_ACTION": "Thao tác không hợp lệ.", 
@@ -51,6 +53,7 @@
     "parentfolder": "Thư mục cha", 
     "prompt_foldername": "Nhập tên thư mục mới", 
     "rename": "Đổi tên", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "Chọn", 
@@ -61,6 +64,7 @@
     "successful_delete": "Đã xóa.", 
     "successful_moved": "Move successful.", 
     "successful_rename": "Đã đổi tên.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "Tải lên", 
     "yes": "Đồng ý"
 }

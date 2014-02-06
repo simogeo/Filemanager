@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "Kan ej byta namn på mappen %s till %s.", 
     "ERROR_RENAMING_FILE": "Kan ej byta namn på filen %s till %s.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "Filen '%s' finns redan.", 
     "FILE_DOES_NOT_EXIST": "Filen %s finns inte.", 
     "INVALID_ACTION": "Felaktig åtgärd.", 
@@ -52,6 +54,7 @@
     "parentfolder": "Upp en nivå", 
     "prompt_foldername": "Ange namnet på den nya mappen", 
     "rename": "Byt namn", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "Välj", 
@@ -62,6 +65,7 @@
     "successful_delete": "Radering utförd.", 
     "successful_moved": "Move successful.", 
     "successful_rename": "Namnbyte utfört.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "Ladda upp", 
     "yes": "Ja"
 }

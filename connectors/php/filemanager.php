@@ -141,6 +141,13 @@ if(!isset($_GET)) {
         }
         break;
 
+    	case 'replace':
+    
+	    	if($fm->postvar('filepath')) {
+	    		$fm->replace();
+	    	}
+	    	break;
+    
     }
 
   }

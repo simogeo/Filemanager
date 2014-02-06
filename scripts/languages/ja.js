@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "フォルダー名を %s から %sに変更中にエラーがおきました.", 
     "ERROR_RENAMING_FILE": "ファイル名を %s から %sに変更中にエラーがおきました.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "ファイル名'%s'はすでに使用されています.", 
     "FILE_DOES_NOT_EXIST": "ファイル %s は存在しません.", 
     "INVALID_ACTION": "その操作はできません.", 
@@ -51,6 +53,7 @@
     "parentfolder": "上のフォルダーに移動", 
     "prompt_foldername": "新しいフォルダー名を記入してください", 
     "rename": "ファイル名変更", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "選択", 
@@ -61,6 +64,7 @@
     "successful_delete": "消去に成功しました.", 
     "successful_moved": "Move successful.", 
     "successful_rename": "ファイル名変更に成功しました.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "アップロード", 
     "yes": "はい"
 }

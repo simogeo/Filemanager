@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "Nie udało się zmienić lokalizacji z %s na %s.", 
     "ERROR_RENAMING_FILE": "Nie udało się zmienić nazwy pliku z %s na %s.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "The file '%s' already exists.", 
     "FILE_DOES_NOT_EXIST": "Plik %s nie istnieje.", 
     "INVALID_ACTION": "Niewłaściwa akcja.", 
@@ -51,6 +53,7 @@
     "parentfolder": "Parent folder", 
     "prompt_foldername": "Wpisz nazwę nowego folderu (nie używaj polskich znaków)", 
     "rename": "Zmień nazwę", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "Wybierz", 
@@ -61,6 +64,7 @@
     "successful_delete": "Usunięto plik.", 
     "successful_moved": "Move successful.", 
     "successful_rename": "Nazwa pliku została zmieniona.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "Dodaj", 
     "yes": "Tak"
 }

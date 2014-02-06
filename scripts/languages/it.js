@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "I seguenti files non sono permessi : ", 
     "ERROR_RENAMING_DIRECTORY": "Errore nel rinominare la cartella %s in %s.", 
     "ERROR_RENAMING_FILE": "Errore nel rinominare il file %s in %s.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "Il file '%s' esiste già.", 
     "FILE_DOES_NOT_EXIST": "Il file %s non esiste.", 
     "INVALID_ACTION": "Azione non valida.", 
@@ -51,6 +53,7 @@
     "parentfolder": "Cartella principale", 
     "prompt_foldername": "Inserisci il nome della nuova cartella", 
     "rename": "Rinomina", 
+    "replace": "Replace file", 
     "search": "Cerca", 
     "search_reset": "Reset", 
     "select": "Seleziona", 
@@ -61,6 +64,7 @@
     "successful_delete": "Eliminato.", 
     "successful_moved": "Move successful.", 
     "successful_rename": "Rinominato.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "Aggiungi file", 
     "yes": "Conferma"
 }

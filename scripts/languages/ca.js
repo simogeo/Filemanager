@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Following files are not allowed : ", 
     "ERROR_RENAMING_DIRECTORY": "Error al canviar el nom de la carpeta %s a %s.", 
     "ERROR_RENAMING_FILE": "Error al canviar el nom de l'arxiu %s a %s.", 
+    "ERROR_REPLACING_FILE": "Please, provide a file having the following extension :", 
+    "ERROR_UPLOADING_FILE": "Error uploading file.", 
     "FILE_ALREADY_EXISTS": "The file '%s' already exists.", 
     "FILE_DOES_NOT_EXIST": "L'arxiu %s no existeix.", 
     "INVALID_ACTION": "Acció invàlida.", 
@@ -51,6 +53,7 @@
     "parentfolder": "Directori pare", 
     "prompt_foldername": "Introdueix el nom de la nova carpeta", 
     "rename": "Canviar el nom", 
+    "replace": "Replace file", 
     "search": "Search", 
     "search_reset": "Reset", 
     "select": "Seleccionar", 
@@ -61,6 +64,7 @@
     "successful_delete": "Eliminació amb èxit.", 
     "successful_moved": "Move successful.", 
     "successful_rename": "Canvi de nom amb èxit.", 
+    "successful_replace": "File replacement successful.", 
     "upload": "Pujar arxiu", 
     "yes": "Sí"
 }

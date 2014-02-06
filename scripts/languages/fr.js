@@ -6,6 +6,8 @@
     "DISALLOWED_FILE_TYPE": "Les fichiers suivants sont interdits : ", 
     "ERROR_RENAMING_DIRECTORY": "Erreur lors du renommage du répertoire %s vers %s.", 
     "ERROR_RENAMING_FILE": "Erreur lors du renommage du fichier %s vers %s.", 
+    "ERROR_REPLACING_FILE": "Veuillez fournir un fichier ayant l'extension suivante :", 
+    "ERROR_UPLOADING_FILE": "Erreur durant le transfert.", 
     "FILE_ALREADY_EXISTS": "Le fichier '%s' existe déjà.", 
     "FILE_DOES_NOT_EXIST": "Le fichier %s n'existe pas.", 
     "INVALID_ACTION": "Action invalide.", 
@@ -33,7 +35,7 @@
     "dimensions": "Dimensions", 
     "download": "Télécharger", 
     "fck_select_integration": "La fonction 'Sélection' est exclusivement utilisée pour l'intégration avec l'éditeur.", 
-    "file_size_limit": "La taille limite du fichier est : ", 
+    "file_size_limit": "La taille limite autorisée est : ", 
     "file_too_big": "Le fichier est trop volumineux.", 
     "gb": "go", 
     "grid_view": "Affichage en mode 'miniatures'", 
@@ -51,6 +53,7 @@
     "parentfolder": "Dossier parent", 
     "prompt_foldername": "Entrer le nom du nouveau dossier", 
     "rename": "Renommer", 
+    "replace": "Remplacer le fichier", 
     "search": "Rechercher", 
     "search_reset": "Ré-initialiser", 
     "select": "Sélectionner", 
@@ -61,6 +64,7 @@
     "successful_delete": "Suppression réalisée avec succès.", 
     "successful_moved": "Déplacement réalisé avec succès.", 
     "successful_rename": "Renommage réalisé avec succès.", 
+    "successful_replace": "Fichier remplacé avec succès.", 
     "upload": "Télécharger", 
     "yes": "Oui"
 }

@@ -411,6 +411,101 @@ class Filemanager {
 			$this->error(sprintf($this->lang('INVALID_DIRECTORY_OR_FILE')));
 		}
 	}
+	
+	public function replace() {
+		
+		$this->__log(__METHOD__ . ' - APPEL APPEL APPEL APPEL ');
+		
+		$this->setParams();
+
+		if(!isset($_FILES['fileR']) || !is_uploaded_file($_FILES['fileR']['tmp_name'])) {
+			
+			// if fileSize limit set by the user is greater than size allowed in php.ini file, we apply server restrictions
+			// and log a warning into file
+			if($this->config['upload']['fileSizeLimit'] > $this->getMaxUploadFileSize()) {
+				$this->__log(__METHOD__ . ' [WARNING] : file size limit set by user is greater than size allowed in php.ini file : '. $this->config['upload']['fileSizeLimit']. $this->lang('mb') .' > '. $this->getMaxUploadFileSize(). $this->lang('mb'). '.');
+				$this->config['upload']['fileSizeLimit'] = $this->getMaxUploadFileSize();
+				$this->error(sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['fileSizeLimit'] . $this->lang('mb')),true);
+			}
+			
+			$this->error(sprintf($this->lang('INVALID_FILE_UPLOAD') . ' '. sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['fileSizeLimit'] . $this->lang('mb'))),true);
+		}
+		// we determine max upload size if not set
+		if($this->config['upload']['fileSizeLimit'] == 'auto') {
+			$this->config['upload']['fileSizeLimit'] = $this->getMaxUploadFileSize();
+		}
+
+		if($_FILES['fileR']['size'] > ($this->config['upload']['fileSizeLimit'] * 1024 * 1024)) {
+			$this->error(sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['fileSizeLimit'] . $this->lang('mb')),true);
+		}
+		
+		// we check the given file has the same extension as the old one
+		if(pathinfo($_FILES['fileR']['name'], PATHINFO_EXTENSION) != pathinfo($this->post['filepath'], PATHINFO_EXTENSION)) {
+			$this->error(sprintf($this->lang('ERROR_REPLACING_FILE') . ' '. pathinfo($this->post['filepath'], PATHINFO_EXTENSION)),true);
+		}
+		
+		if(!$this->isAllowedFileType($_FILES['fileR']['name'])) {
+			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
+		}
+		
+		// we check if extension is allowed regarding the security Policy settings
+		if(!$this->isAllowedFileType($_FILES['fileR']['name'])) {
+			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
+		}
+		
+		// we check if only images are allowed
+		if($this->config['upload']['imagesOnly'] || (isset($this->params['type']) && strtolower($this->params['type'])=='images')) {
+			if(!($size = @getimagesize($_FILES['fileR']['tmp_name']))){
+				$this->error(sprintf($this->lang('UPLOAD_IMAGES_ONLY')),true);
+			}
+			if(!in_array($size[2], array(1, 2, 3, 7, 8))) {
+				$this->error(sprintf($this->lang('UPLOAD_IMAGES_TYPE_JPEG_GIF_PNG')),true);
+			}
+		}
+
+		$current_path = $this->getFullPath($this->post['filepath']);
+
+		if(!$this->isValidPath($current_path)) {
+			$this->error("No way.");
+		}
+
+		move_uploaded_file($_FILES['fileR']['tmp_name'], $current_path);
+		
+		// we delete thumbnail if file is image and thumbnail already
+		if($this->is_image($current_path) && file_exists($this->get_thumbnail($current_path))) {
+			unlink($this->get_thumbnail($current_path));
+		}
+
+		// automatically resize image if it's too big
+		$imagePath = $current_path;
+		if($this->is_image($imagePath) && $this->config['images']['resize']['enabled']) {
+			if ($size = @getimagesize($imagePath)){
+				if ($size[0] > $this->config['images']['resize']['maxWidth'] || $size[1] > $this->config['images']['resize']['maxHeight']) {
+					require_once('./inc/vendor/wideimage/lib/WideImage.php');
+					
+					$image = WideImage::load($imagePath);
+					$resized = $image->resize($this->config['images']['resize']['maxWidth'], $this->config['images']['resize']['maxHeight'], 'inside');
+					$resized->saveToFile($imagePath);
+					
+					$this->__log(__METHOD__ . ' - resizing image : '. $current_path);
+				}
+			}
+		}
+
+		chmod($current_path, 0644);
+
+		$response = array(
+				'Path'=>dirname($this->post['filepath']),
+				'Name'=>basename($this->post['filepath']),
+				'Error'=>"",
+				'Code'=>0
+		);
+
+		$this->__log(__METHOD__ . ' - replacing file '. $current_path);
+
+		echo '<textarea>' . json_encode($response) . '</textarea>';
+		die();
+	}
 
 	public function add() {
 			
@@ -421,12 +516,12 @@ class Filemanager {
 			// if fileSize limit set by the user is greater than size allowed in php.ini file, we apply server restrictions
 			// and log a warning into file
 			if($this->config['upload']['fileSizeLimit'] > $this->getMaxUploadFileSize()) {
-				$this->__log(__METHOD__ . ' [WARNING] : file size limit set by user is greater than size allowed in php.ini file : '. $this->config['upload']['fileSizeLimit']. 'Mb > '. $this->getMaxUploadFileSize().'Mb.');
+				$this->__log(__METHOD__ . ' [WARNING] : file size limit set by user is greater than size allowed in php.ini file : '. $this->config['upload']['fileSizeLimit'] . 'Mb > '. $this->getMaxUploadFileSize() .'Mb.');
 				$this->config['upload']['fileSizeLimit'] = $this->getMaxUploadFileSize();
-				$this->error(sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['fileSizeLimit'] . 'Mb'),true);
+				$this->error(sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['fileSizeLimit'] . $this->lang('mb')),true);
 			}
 			
-			$this->error(sprintf($this->lang('INVALID_FILE_UPLOAD') . ' '. sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['fileSizeLimit'] . 'Mb')),true);
+			$this->error(sprintf($this->lang('INVALID_FILE_UPLOAD') . ' '. sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['fileSizeLimit'] . $this->lang('mb'))),true);
 		}
 		// we determine max upload size if not set
 		if($this->config['upload']['fileSizeLimit'] == 'auto') {
@@ -434,7 +529,7 @@ class Filemanager {
 		}
 
 		if($_FILES['newfile']['size'] > ($this->config['upload']['fileSizeLimit'] * 1024 * 1024)) {
-			$this->error(sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['fileSizeLimit'] . 'Mb'),true);
+			$this->error(sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['fileSizeLimit'] . $this->lang('mb')),true);
 		}
 		
 		// we check if extension is allowed regarding the security Policy settings
