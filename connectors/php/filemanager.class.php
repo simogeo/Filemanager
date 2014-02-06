@@ -440,8 +440,8 @@ class Filemanager {
 		}
 		
 		// we check the given file has the same extension as the old one
-		if(pathinfo($_FILES['fileR']['name'], PATHINFO_EXTENSION) != pathinfo($this->post['filepath'], PATHINFO_EXTENSION)) {
-			$this->error(sprintf($this->lang('ERROR_REPLACING_FILE') . ' '. pathinfo($this->post['filepath'], PATHINFO_EXTENSION)),true);
+		if(pathinfo($_FILES['fileR']['name'], PATHINFO_EXTENSION) != pathinfo($this->post['newfilepath'], PATHINFO_EXTENSION)) {
+			$this->error(sprintf($this->lang('ERROR_REPLACING_FILE') . ' '. pathinfo($this->post['newfilepath'], PATHINFO_EXTENSION)),true);
 		}
 		
 		if(!$this->isAllowedFileType($_FILES['fileR']['name'])) {
@@ -463,7 +463,7 @@ class Filemanager {
 			}
 		}
 
-		$current_path = $this->getFullPath($this->post['filepath']);
+		$current_path = $this->getFullPath($this->post['newfilepath']);
 
 		if(!$this->isValidPath($current_path)) {
 			$this->error("No way.");
@@ -495,8 +495,8 @@ class Filemanager {
 		chmod($current_path, 0644);
 
 		$response = array(
-				'Path'=>dirname($this->post['filepath']),
-				'Name'=>basename($this->post['filepath']),
+				'Path'=>dirname($this->post['newfilepath']),
+				'Name'=>basename($this->post['newfilepath']),
 				'Error'=>"",
 				'Code'=>0
 		);
