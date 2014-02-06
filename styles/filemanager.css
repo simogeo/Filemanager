@@ -208,10 +208,10 @@ input, button {
 	position: relative;
 	bottom:0;
 	right:100px;
-	height:32px;
 	display:inline-block;
-	opacity:0;  filter: alpha(opacity=0);
-	/*background: yellow;*/
+	opacity:1;  filter: alpha(opacity=0);
+	z-index:-1;
+	visibility:hidden;
 	width:110px;
 }
 
