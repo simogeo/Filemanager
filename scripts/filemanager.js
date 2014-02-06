@@ -636,36 +636,42 @@ var renameItem = function(data) {
 var replaceItem = function(data) {
 	
 	// remove dynamic form if already exists
-	$('#file-replacement').remove();
+	//$('#file-replacement').remove();
 	
 	// we create a dynamic form with input File
-	$form = $('<form id="file-replacement" method="post">');
-	$form.append('<input id="fileR" name="fileR" type="file" />');
-	$form.append('<input id="mode" name="mode" type="hidden" value="replace" /> ');
-	$form.append('<input id="filepath" name="filepath" type="hidden" value="' + data["Path"] + '" />');
-	$('body').prepend($form);
+//	$form = $('<form id="file-replacement" method="post">');
+//	$form.append('<input id="fileR" name="fileR" type="file" />');
+//	$form.append('<input id="mode" name="mode" type="hidden" value="replace" /> ');
+//	$form.append('<input id="newfilepath" name="newfilepath" type="hidden" value="' + data["Path"] + '" />');
+//	$('body').prepend($form);
 
 	// we auto-submit form when user filled it up
 	$('#fileR').bind('change', function() {
-			$(this).closest("form#file-replacement").submit();
+			$(this).closest("form#toolbar").submit();
 	});
 	
 	// we open the input file dialog window
 	$('#fileR').click();
 	
 	// we set the connector to send data to
-	$('#file-replacement').attr('action', fileConnector);
+	$('#toolbar').attr('action', fileConnector);
+	$('#toolbar').attr('method', 'post');
+	
+	// we pass data path value - original file
+	$('#newfilepath').val(data["Path"]);
 	
 	// submission script
-	$('#file-replacement').ajaxForm({
+	$('#toolbar').ajaxForm({
 		target: '#uploadresponse',
 		beforeSubmit: function (arr, form, options) {
 			
 			var newFile = $('#fileR', form).val();
+			
 			// Test if a value is given
 			if(newFile == '') {
 				return false;
 			}
+			
 			// Check if file extension is matching with the original
 			if(getExtension(newFile) != data["File Type"]) {
 				$.prompt(lg.ERROR_REPLACING_FILE + " ." + getExtension(data["Filename"])); 
@@ -688,7 +694,6 @@ var replaceItem = function(data) {
 		error: function (jqXHR, textStatus, errorThrown) {
 			$('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
 			$.prompt(lg.ERROR_UPLOADING_FILE);
-			$('#file-replacement').remove(); // we remove the dynamic form
 		},
 		success: function (result) {
 			var data = jQuery.parseJSON($('#uploadresponse').find('textarea').text());
@@ -716,7 +721,6 @@ var replaceItem = function(data) {
 			}
 			$('#replace').removeAttr('disabled');
 			$('#upload span').removeClass('loading').text(lg.upload);
-			$('#file-replacement').remove(); // we remove the dynamic form
 		}
 	});
 };
@@ -956,7 +960,7 @@ function getContextMenuOptions(elem) {
 		if (!elem.hasClass('cap_download')) $('.download', newOptions).remove();
 		if (!elem.hasClass('cap_rename')) $('.rename', newOptions).remove();
 		if (!elem.hasClass('cap_move')) $('.move', newOptions).remove();
-		if (!elem.hasClass('cap_replace')) $('.replace', newOptions).remove();
+		$('.replace', newOptions).remove(); // we remove replace since it is not implemented on Opera + Chrome and works only if #preview panel is on on FF
 		if (!elem.hasClass('cap_delete')) $('.delete', newOptions).remove();
 		$('#itemOptions').after(newOptions);
 	}
@@ -1014,13 +1018,18 @@ var getFileInfo = function(file) {
 	// Include the template.
 	var template = '<div id="preview"><img /><h1></h1><dl></dl></div>';
 	template += '<form id="toolbar">';
+	template += '<button id="parentfolder">' + lg.parentfolder + '</button>';
 	if($.inArray('select', capabilities)  != -1 && (window.opener || window.tinyMCEPopup || $.urlParam('field_name'))) template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
 	if($.inArray('download', capabilities)  != -1) template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
 	if($.inArray('rename', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
 	if($.inArray('move', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="move" name="move" type="button" value="Move">' + lg.move + '</button>';
-	if($.inArray('replace', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="replace" name="replace" type="button" value="Replace">' + lg.replace + '</button>';
 	if($.inArray('delete', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.del + '</button>';
-	template += '<button id="parentfolder">' + lg.parentfolder + '</button>';
+	if($.inArray('replace', capabilities)  != -1 && config.options.browseOnly != true)  {
+		template += '<button id="replace" name="replace" type="button" value="Replace">' + lg.replace + '</button>';
+		template += '<input id="fileR" name="fileR" type="file" />';
+		template += '<input id="mode" name="mode" type="hidden" value="replace" /> ';
+		template += '<input id="newfilepath" name="newfilepath" type="hidden" />';
+	}
 	template += '</form>';
 	
 	$('#fileinfo').html(template);

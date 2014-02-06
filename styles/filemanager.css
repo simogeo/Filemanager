@@ -205,16 +205,19 @@ input, button {
 }
 
 #fileR {
-	position: absolute;
+	position: relative;
 	bottom:0;
-	right:-1000px;
+	right:100px;
+	height:32px;
+	display:inline-block;
 	opacity:0;  filter: alpha(opacity=0);
+	/*background: yellow;*/
+	width:110px;
 }
 
 #alt-fileinput {
 	display: inline;
 	wrap: no-wrap;
-	
 }
 
 #filepath {
