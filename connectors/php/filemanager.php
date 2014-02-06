@@ -143,7 +143,7 @@ if(!isset($_GET)) {
 
     	case 'replace':
     
-	    	if($fm->postvar('filepath')) {
+	    	if($fm->postvar('newfilepath')) {
 	    		$fm->replace();
 	    	}
 	    	break;
