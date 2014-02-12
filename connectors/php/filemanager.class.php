@@ -630,14 +630,25 @@ class Filemanager {
 		}
 
 		if(isset($this->get['path']) && file_exists($current_path)) {
-			header("Content-type: application/force-download");
-			header('Content-Disposition: inline; filename="' . basename($current_path) . '"');
-			header("Content-Transfer-Encoding: Binary");
-			header("Content-length: ".filesize($current_path));
-			header('Content-Type: application/octet-stream');
-			header('Content-Disposition: attachment; filename="' . basename($current_path) . '"');
-			readfile($current_path);
-			$this->__log(__METHOD__ . ' - downloading '. $current_path);
+			$redirect = $this->config['options']['downloadRedirect'];
+			if($redirect) {
+				$rel_file = preg_replace( $redirect, "/", $current_path );
+				$response = "<html><head><meta http-equiv='refresh' content='1; ".$rel_file."' /></head></html>";
+				header("Content-type: text/html");
+				header("Content-length: ". strlen( $response ) );
+				echo $response;
+				$this->__log(__METHOD__ . ' - downloading through redirect'. $current_path);
+			} else {
+				header("Content-type: application/force-download");
+				header('Content-Disposition: inline; filename="' . basename($current_path) . '"');
+				header("Content-Transfer-Encoding: Binary");
+				header("Content-length: ".filesize($current_path));
+				header('Content-Type: application/octet-stream');
+				header('Content-Disposition: attachment; filename="' . basename($current_path) . '"');
+				readfile($current_path);
+
+				$this->__log(__METHOD__ . ' - downloading '. $current_path);
+			}
 			exit();
 		} else {
 			$this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),$current_path));

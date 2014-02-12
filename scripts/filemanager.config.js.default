@@ -19,6 +19,7 @@
         "serverRoot": true,
         "fileRoot": false,
         "relPath": false,
+        "downloadRedirect": false,
         "logger": false,
         "capabilities": ["select", "download", "rename", "move", "delete", "replace"],
         "plugins": []
