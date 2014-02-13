@@ -636,6 +636,8 @@ class Filemanager {
 			header("Content-length: ".filesize($current_path));
 			header('Content-Type: application/octet-stream');
 			header('Content-Disposition: attachment; filename="' . basename($current_path) . '"');
+			ob_end_clean();
+    	flush();
 			readfile($current_path);
 			$this->__log(__METHOD__ . ' - downloading '. $current_path);
 			exit();
