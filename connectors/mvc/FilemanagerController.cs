@@ -52,6 +52,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
         /// Process file manager action
         /// </summary>
         /// <param name="mode"></param>
+        /// <param name="path"></param>
         /// <returns></returns>
         [Authorize()]
         public ActionResult Index(string mode, string path = null)
@@ -74,6 +75,8 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                         return Content(Move(oldPath, newPath), "application/json", Encoding.UTF8);
                     case "rename":
                         return Content(Rename(Request.QueryString["old"], Request.QueryString["new"]), "application/json", Encoding.UTF8);
+                    case "replace":
+                        return Content(Replace(Request.Form["newfilepath"]), "text/html", Encoding.UTF8);
                     case "delete":
                         return Content(Delete(path), "application/json", Encoding.UTF8);
                     case "addfolder":
@@ -92,6 +95,9 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                         }
                     case "add":
                         return Content(AddFile(Request.Form["currentpath"]), "text/html", Encoding.UTF8);
+                    case "preview":
+                        var fi2 = new FileInfo(Server.MapPath(Request.QueryString["path"]));
+                        return new FilePathResult(fi2.FullName, "image/" + fi2.Extension.TrimStart('.'));
                     default:
                         return Content("");
                 }
@@ -324,7 +330,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
 
                 if (IsImage(fileInfo))
                 {
-                    sb.AppendLine("\"Preview\": \"" + Path.Combine(path, fileInfo.Name) + "\",");
+                    sb.AppendLine("\"Preview\": \"" + Path.Combine(path, fileInfo.Name) + "?" + fileInfo.LastWriteTime.Ticks.ToString() + "\",");
                 }
                 else
                 {
@@ -415,7 +421,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
 
                 if (IsImage(fileInfo))
                 {
-                    sb.AppendLine("\"Preview\": \"" + path + "\",");
+                    sb.AppendLine("\"Preview\": \"" + path + "?" + fileInfo.LastWriteTime.Ticks.ToString() + "\",");
                 }
                 else
                 {
@@ -561,6 +567,52 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
             }
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Replace a file
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private string Replace(string path)
+        {
+            if (Request.Files.Count == 0 || Request.Files[0].ContentLength == 0)
+            {
+                return Error("No file provided.");
+            }
+            else if (!IsInRootPath(path))
+            {
+                return Error("Attempt to replace file outside root path");
+            }
+            else
+            {
+                var fi = new FileInfo(Server.MapPath(path));
+                HttpPostedFileBase file = Request.Files[0];
+                if (!allowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower()))
+                {
+                    return Error("Uploaded file type is not allowed.");
+                }
+                else if (!Path.GetExtension(file.FileName).Equals(fi.Extension))
+                {
+                    return Error("Replacement file must have the same extension as the file being replaced.");
+                }
+                else if (!fi.Exists)
+                {
+                    return Error("File to replace not found.");
+                }
+                else
+                {
+                    file.SaveAs(fi.FullName);
+
+                    return "<textarea>" + json.Serialize(new
+                    {
+                        Path = path.Replace("/" + fi.Name, ""),
+                        Name = fi.Name,
+                        Error = "No error",
+                        Code = 0
+                    }) + "</textarea>";
+                }
+            }
         }
     }
 }
