@@ -522,9 +522,8 @@ var selectItem = function(data) {
 	 	if($.urlParam('field_name')){
 	 		parent.document.getElementById($.urlParam('field_name')).value = url;
 	 		
-	 		if(typeof top.tinyMCE !== "undefined") {
-	 			// parent.tinyMCE.activeEditor.windowManager.close(); it seems parent. does not work with IE9 /IE10
-		 		top.tinyMCE.activeEditor.windowManager.close();
+	 		if(typeof parent.tinyMCE !== "undefined") {
+		 		parent.tinyMCE.activeEditor.windowManager.close();
 		 	}
 		 	if(typeof parent.$.fn.colorbox !== "undefined") {
 		 		parent.$.fn.colorbox.close();
