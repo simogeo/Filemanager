@@ -138,6 +138,7 @@ button {
 	box-shadow:inset 0px 1px 0px 0px #ffffff;
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
 	background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+	cursor: pointer;
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
 	background-color:#ededed;
 	-moz-border-radius:6px;
@@ -204,15 +205,11 @@ input, button {
 	border:1px solid blue;
 }
 
-#fileR {
-	position: relative;
-	bottom:0;
-	right:100px;
-	display:inline-block;
-	opacity:1;  filter: alpha(opacity=0);
-	z-index:-1;
-	visibility:hidden;
-	width:110px;
+.hidden-file-input {
+	display: inline-block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 1px;
 }
 
 #alt-fileinput {
@@ -298,18 +295,17 @@ button#browse span {
 x:-o-prefocus, #search a.q-reset {top:-14px;}
 
 #contents.grid {
-	padding: 25px;
+	padding: 15px;
 	text-align: left;
 }
 
 #contents.grid li {
-	display: block;
-	float: left;
-	width: 20%;
+	display: inline-block;
+	width: 128px;
 	min-height: 128px;
 	text-align: center;
 	overflow: hidden;
-	margin-bottom: 25px;
+	margin: 10px;
 	border: 1px solid white;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
