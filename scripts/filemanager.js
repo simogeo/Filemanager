@@ -644,84 +644,80 @@ var replaceItem = function(data) {
 //	$form.append('<input id="newfilepath" name="newfilepath" type="hidden" value="' + data["Path"] + '" />');
 //	$('body').prepend($form);
 
-	// we auto-submit form when user filled it up
-	$('#fileR').bind('change', function() {
-			$(this).closest("form#toolbar").submit();
-	});
-	
-	// we open the input file dialog window
-	$('#fileR').click();
-	
-	// we set the connector to send data to
-	$('#toolbar').attr('action', fileConnector);
-	$('#toolbar').attr('method', 'post');
-	
-	// we pass data path value - original file
-	$('#newfilepath').val(data["Path"]);
-	
-	// submission script
-	$('#toolbar').ajaxForm({
-		target: '#uploadresponse',
-		beforeSubmit: function (arr, form, options) {
-			
-			var newFile = $('#fileR', form).val();
-			
-			// Test if a value is given
-			if(newFile == '') {
-				return false;
-			}
-			
-			// Check if file extension is matching with the original
-			if(getExtension(newFile) != data["File Type"]) {
-				$.prompt(lg.ERROR_REPLACING_FILE + " ." + getExtension(data["Filename"])); 
-				return false;
-			}
-			$('#replace').attr('disabled', true);
-			$('#upload span').addClass('loading').text(lg.loading_data);
+    // we auto-submit form when user filled it up
+    $('#fileR').bind('change', function () {
+        $(this).closest("form#toolbar").submit();
+    });
 
-			// if config.upload.fileSizeLimit == auto we delegate size test to connector
-			if (typeof FileReader !== "undefined" && typeof config.upload.fileSizeLimit != "auto") {
-				// Check file size using html5 FileReader API
-				var size = $('#fileR', form).get(0).files[0].size;
-				if (size > config.upload.fileSizeLimit * 1024 * 1024) {
-					$.prompt("<p>" + lg.file_too_big + "</p><p>" + lg.file_size_limit + config.upload.fileSizeLimit + " " + lg.mb + ".</p>");
-					$('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
-					return false;
-				}
-			}
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			$('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
-			$.prompt(lg.ERROR_UPLOADING_FILE);
-		},
-		success: function (result) {
-			var data = jQuery.parseJSON($('#uploadresponse').find('textarea').text());
+    // we set the connector to send data to
+    $('#toolbar').attr('action', fileConnector);
+    $('#toolbar').attr('method', 'post');
 
-			if (data['Code'] == 0) {
-				var fullpath = data["Path"] + '/' + data["Name"];
-				
-				// if is image /thumbnail , we update the source
-				if(isImageFile(fullpath)) {
-					d = new Date();
-					$('#fileinfo').find('img[data-path="' + fullpath + '"]').attr("src", 'connectors/php/filemanager.php?mode=preview&path=' + encodeURIComponent(fullpath) + '&thumbnail=true&'  + d.getTime());
-					$('#preview').find('img').attr("src", 'connectors/php/filemanager.php?mode=preview&path=' + encodeURIComponent(fullpath) + '&' + d.getTime());
-				}
-				
-				// Visual effects for user to see action is successful
-				$('#fileinfo table#contents').find('td[data-path="' + fullpath + '"]').hide().fadeIn('slow');
-				$('#fileinfo').find('img[data-path="' + fullpath + '"]').hide().fadeIn('slow');
-				$('#preview').find('img').hide().fadeIn('slow');
-				$('ul.jqueryFileTree').find('li a[data-path="' + fullpath + '"]').parent().hide().fadeIn('slow');
-				
-				if(config.options.showConfirmation) $.prompt(lg.successful_replace);
-				
-			} else {
-				$.prompt(data['Error']);
-			}
-			$('#replace').removeAttr('disabled');
-			$('#upload span').removeClass('loading').text(lg.upload);
-		}
-	});
+    // submission script
+    $('#toolbar').ajaxForm({
+        target: '#uploadresponse',
+        beforeSubmit: function (arr, form, options) {
+
+            var newFile = $('#fileR', form).val();
+
+            // Test if a value is given
+            if (newFile == '') {
+                return false;
+            }
+
+            // Check if file extension is matching with the original
+            if (getExtension(newFile) != data["File Type"]) {
+                $.prompt(lg.ERROR_REPLACING_FILE + " ." + getExtension(data["Filename"]));
+                return false;
+            }
+            $('#replace').attr('disabled', true);
+            $('#upload span').addClass('loading').text(lg.loading_data);
+
+            // if config.upload.fileSizeLimit == auto we delegate size test to connector
+            if (typeof FileReader !== "undefined" && typeof config.upload.fileSizeLimit != "auto") {
+                // Check file size using html5 FileReader API
+                var size = $('#fileR', form).get(0).files[0].size;
+                if (size > config.upload.fileSizeLimit * 1024 * 1024) {
+                    $.prompt("<p>" + lg.file_too_big + "</p><p>" + lg.file_size_limit + config.upload.fileSizeLimit + " " + lg.mb + ".</p>");
+                    $('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
+                    return false;
+                }
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
+            $.prompt(lg.ERROR_UPLOADING_FILE);
+        },
+        success: function (result) {
+            var data = jQuery.parseJSON($('#uploadresponse').find('textarea').text());
+
+            if (data['Code'] == 0) {
+                var fullpath = data["Path"] + '/' + data["Name"];
+
+                //Reload file info
+                getFileInfo(fullpath);
+
+                // Visual effects for user to see action is successful
+                $('#fileinfo table#contents').find('td[data-path="' + fullpath + '"]').hide().fadeIn('slow');
+                $('#fileinfo').find('img[data-path="' + fullpath + '"]').hide().fadeIn('slow');
+                $('#preview').find('img').hide().fadeIn('slow');
+                $('ul.jqueryFileTree').find('li a[data-path="' + fullpath + '"]').parent().hide().fadeIn('slow');
+
+                if (config.options.showConfirmation) $.prompt(lg.successful_replace);
+
+            } else {
+                $.prompt(data['Error']);
+            }
+            $('#replace').removeAttr('disabled');
+            $('#upload span').removeClass('loading').text(lg.upload);
+        }
+    });
+
+    // we pass data path value - original file
+    $('#newfilepath').val(data["Path"]);
+
+    // we open the input file dialog window
+    $('#fileR').click();
 };
 
 // Move the current item to specified dir and returns the new name.
@@ -1025,7 +1021,7 @@ var getFileInfo = function(file) {
 	if($.inArray('delete', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="delete" name="delete" type="button" value="Delete">' + lg.del + '</button>';
 	if($.inArray('replace', capabilities)  != -1 && config.options.browseOnly != true)  {
 		template += '<button id="replace" name="replace" type="button" value="Replace">' + lg.replace + '</button>';
-		template += '<input id="fileR" name="fileR" type="file" />';
+		template += '<div class="hidden-file-input"><input id="fileR" name="fileR" type="file" /></div>';
 		template += '<input id="mode" name="mode" type="hidden" value="replace" /> ';
 		template += '<input id="newfilepath" name="newfilepath" type="hidden" />';
 	}
