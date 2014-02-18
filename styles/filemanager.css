@@ -295,18 +295,17 @@ button#browse span {
 x:-o-prefocus, #search a.q-reset {top:-14px;}
 
 #contents.grid {
-	padding: 25px;
+	padding: 15px;
 	text-align: left;
 }
 
 #contents.grid li {
-	display: block;
-	float: left;
-	width: 20%;
+	display: inline-block;
+	width: 128px;
 	min-height: 128px;
 	text-align: center;
 	overflow: hidden;
-	margin-bottom: 25px;
+	margin: 10px;
 	border: 1px solid white;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
