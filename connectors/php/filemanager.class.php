@@ -903,12 +903,12 @@ private function isAllowedFileType($file) {
 	
 	if($this->config['security']['uploadPolicy'] == 'DISALLOW_ALL') {
 			
-		if(!in_array($path_parts['extension'], $this->config['security']['uploadRestrictions']))
+		if(!in_array(strtolower($path_parts['extension']), $this->config['security']['uploadRestrictions']))
 			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
 	}
 	if($this->config['security']['uploadPolicy'] == 'ALLOW_ALL') {
 	
-		if(in_array($path_parts['extension'], $this->config['security']['uploadRestrictions']))
+		if(in_array(strtolower($path_parts['extension']), $this->config['security']['uploadRestrictions']))
 			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
 	}
 	
