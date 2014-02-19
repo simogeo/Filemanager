@@ -346,7 +346,7 @@ var display_icons = function(timer) {
 // whenever a new directory is selected.
 var setUploader = function(path) {
 	$('#currentpath').val(path);
-	$('#uploader h1').text(lg.current_folder + displayPath(path)).attr('title', displayPath(path, false));
+	$('#uploader h1').text(lg.current_folder + displayPath(path)).attr('title', displayPath(path, false)).attr('data-path', path);
 
 	$('#newfolder').unbind().click(function(){
 		var foldername =  lg.default_foldername;
@@ -795,7 +795,7 @@ var deleteItem = function(data) {
 					removeNode(result['Path']);
 					var rootpath = result['Path'].substring(0, result['Path'].length-1); // removing the last slash
 					rootpath = rootpath.substr(0, rootpath.lastIndexOf('/') + 1);
-					$('#uploader h1').text(lg.current_folder + displayPath(rootpath)).attr("title", displayPath(rootpath, false));
+					$('#uploader h1').text(lg.current_folder + displayPath(rootpath)).attr("title", displayPath(rootpath, false)).attr('data-path', rootpath);
 					isDeleted = true;
 					
 					if(config.options.showConfirmation) $.prompt(lg.successful_delete);
@@ -876,6 +876,12 @@ var removeNode = function(path) {
         .fadeOut('slow', function(){ 
             $(this).remove();
         });
+    // if the actual view is the deleted folder, we display parent folder
+    if($('#uploader h1').attr('data-path') == path) {
+    	var a =  path.split('/');
+    	var parent = a.slice(0, length - 2).join('/') + '/';
+    	getFolderInfo(parent);
+    }
     // grid case
     if($('#fileinfo').data('view') == 'grid'){
         $('#contents img[data-path="' + path + '"]').parent().parent()
