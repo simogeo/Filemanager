@@ -694,7 +694,7 @@ var replaceItem = function(data) {
             if (data['Code'] == 0) {
                 var fullpath = data["Path"] + '/' + data["Name"];
            
-				// Reload file info
+                // Reloading file info
                 getFileInfo(fullpath);
                 // Visual effects for user to see action is successful
                 $('#preview').find('img').hide().fadeIn('slow'); // on right panel                
