@@ -693,15 +693,12 @@ var replaceItem = function(data) {
 
             if (data['Code'] == 0) {
                 var fullpath = data["Path"] + '/' + data["Name"];
-
-                //Reload file info
+           
+				// Reload file info
                 getFileInfo(fullpath);
-
                 // Visual effects for user to see action is successful
-                $('#fileinfo table#contents').find('td[data-path="' + fullpath + '"]').hide().fadeIn('slow');
-                $('#fileinfo').find('img[data-path="' + fullpath + '"]').hide().fadeIn('slow');
-                $('#preview').find('img').hide().fadeIn('slow');
-                $('ul.jqueryFileTree').find('li a[data-path="' + fullpath + '"]').parent().hide().fadeIn('slow');
+                $('#preview').find('img').hide().fadeIn('slow'); // on right panel                
+                $('ul.jqueryFileTree').find('li a[data-path="' + fullpath + '"]').parent().hide().fadeIn('slow'); // on fileTree
 
                 if (config.options.showConfirmation) $.prompt(lg.successful_replace);
 

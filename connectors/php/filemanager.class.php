@@ -229,8 +229,8 @@ class Filemanager {
 					$this->item['properties'] = $this->properties;
 					$this->get_file_info($this->get['path'] . $file, true);
 
-					if(!isset($this->params['type']) || (isset($this->params['type']) && strtolower($this->params['type'])=='images' && in_array(strtolower($this->item['filetype']),$this->config['images']['imagesExt']))) {
-						if($this->config['upload']['imagesOnly']== false || ($this->config['upload']['imagesOnly']== true && in_array(strtolower($this->item['filetype']),$this->config['images']['imagesExt']))) {
+					if(!isset($this->params['type']) || (isset($this->params['type']) && strtolower($this->params['type'])=='images' && in_array(strtolower($this->item['filetype']),array_map('strtolower', $this->config['images']['imagesExt'])))) {
+						if($this->config['upload']['imagesOnly']== false || ($this->config['upload']['imagesOnly']== true && in_array(strtolower($this->item['filetype']),array_map('strtolower', $this->config['images']['imagesExt'])))) {
 							$array[$this->get['path'] . $file] = array(
 									'Path'=>$this->get['path'] . $file,
 									'Filename'=>$this->item['filename'],
@@ -440,7 +440,7 @@ class Filemanager {
 		}
 		
 		// we check the given file has the same extension as the old one
-		if(pathinfo($_FILES['fileR']['name'], PATHINFO_EXTENSION) != pathinfo($this->post['newfilepath'], PATHINFO_EXTENSION)) {
+		if(strtolower(pathinfo($_FILES['fileR']['name'], PATHINFO_EXTENSION)) != strtolower(pathinfo($this->post['newfilepath'], PATHINFO_EXTENSION))) {
 			$this->error(sprintf($this->lang('ERROR_REPLACING_FILE') . ' '. pathinfo($this->post['newfilepath'], PATHINFO_EXTENSION)),true);
 		}
 		
@@ -660,7 +660,7 @@ class Filemanager {
 				$returned_path = $current_path;
 			}
 			
-			header("Content-type: image/" .$ext = pathinfo($returned_path, PATHINFO_EXTENSION));
+			header("Content-type: image/" . strtolower(pathinfo($returned_path, PATHINFO_EXTENSION)));
 			header("Content-Transfer-Encoding: Binary");
 			header("Content-length: ".filesize($returned_path));
 			header('Content-Disposition: inline; filename="' . basename($returned_path) . '"');
@@ -728,13 +728,13 @@ class Filemanager {
 
 			$this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['directory'];
 
-		} else if(in_array(strtolower($this->item['filetype']),$this->config['images']['imagesExt'])) {
+		} else if(in_array(strtolower($this->item['filetype']),array_map('strtolower', $this->config['images']['imagesExt']))) {
 			
 			// svg should not be previewed as raster formats images
 			if($this->item['filetype'] == 'svg') {
 				$this->item['preview'] = $current_path;
 			} else {
-				$this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path='. rawurlencode($current_path);
+				$this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path='. rawurlencode($current_path).'&'. time();
 				if($thumbnail) $this->item['preview'] .= '&thumbnail=true';
 			}
 			//if(isset($get['getsize']) && $get['getsize']=='true') {
@@ -901,14 +901,16 @@ private function isAllowedFileType($file) {
 	
 	$path_parts = pathinfo($file);
 	
+	$exts = array_map('strtolower', $this->config['security']['uploadRestrictions']);
+	
 	if($this->config['security']['uploadPolicy'] == 'DISALLOW_ALL') {
 			
-		if(!in_array($path_parts['extension'], $this->config['security']['uploadRestrictions']))
+		if(!in_array(strtolower($path_parts['extension']), $exts))
 			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
 	}
 	if($this->config['security']['uploadPolicy'] == 'ALLOW_ALL') {
 	
-		if(in_array($path_parts['extension'], $this->config['security']['uploadRestrictions']))
+		if(in_array(strtolower($path_parts['extension']), $exts))
 			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
 	}
 	
