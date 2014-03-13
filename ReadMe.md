@@ -63,6 +63,12 @@ See http://www.tinymce.com/wiki.php/TinyMCE3x:How-to_implement_a_custom_file_bro
 
 See also the dedicated wiki page, with TinyMCE 4 sample : https://github.com/simogeo/Filemanager/wiki/How-to-use-the-Filemanager-with-tinyMCE--3-or-4-%3F
 
+
+**(5) Last but not least, **worry about security**!
+
+For **PHP connector** : copy/paste the `/connectors/php/default.config.php` to `/connectors/php/user.config.php` to define your own authentication function.
+To do so, you will find an example on the [dedicated wiki page](https://github.com/simogeo/Filemanager/wiki/Security-concern).
+
 **jQuery dependency and compatibility**
 
 We try to keep updating jQuery core library regularly.
@@ -73,7 +79,8 @@ You'll have to use the [jQuery.migrate() plugin](https://github.com/jquery/jquer
 Set-up & security
 -----------------
 
-**Important** : please refer to the [dedicated wiki page](https://github.com/simogeo/Filemanager/wiki/Security-concern).
+**Important** : The Filemanager is designed to work without any special configuration but **using it without any configuration is VERY unsafe**.
+Please set-up your own **authentication function**, based on [default file](https://github.com/simogeo/Filemanager/blob/master/connectors/php/default.config.php) and refering to the [dedicated wiki page](https://github.com/simogeo/Filemanager/wiki/Security-concern).
 
 
 API
