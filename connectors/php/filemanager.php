@@ -17,30 +17,11 @@
 require_once('./inc/filemanager.inc.php');
 require_once('filemanager.class.php');
 
-/**
- *	Check if user is authorized
- *
- *	@return boolean true is access granted, false if no access
- */
-function auth() {
-  // You can insert your own code over here to check if the user is authorized.
-  // If you use a session variable, you've got to start the session first (session_start())
-  return true;
-}
+// if user file is defined we include it, else we include the default file
+(file_exists('user.config.php')) ? include_once('user.config.php') : include_once('default.config.php');
 
-
-// @todo Work on plugins registration
-// if (isset($config['plugin']) && !empty($config['plugin'])) {
-// 	$pluginPath = 'plugins' . DIRECTORY_SEPARATOR . $config['plugin'] . DIRECTORY_SEPARATOR;
-// 	require_once($pluginPath . 'filemanager.' . $config['plugin'] . '.config.php');
-// 	require_once($pluginPath . 'filemanager.' . $config['plugin'] . '.class.php');
-// 	$className = 'Filemanager'.strtoupper($config['plugin']);
-// 	$fm = new $className($config);
-// } else {
-// 	$fm = new Filemanager($config);
-// }
-
-$fm = new Filemanager();
+// auth() function is already defined
+// and Filemanager is instantiated ad $fm
 
 $response = '';
 
