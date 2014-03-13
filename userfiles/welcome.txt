@@ -1,4 +1,0 @@
-Welcome. Thanks for using the filemanager!
-
-(You can remove that file. It is just there because Git does not support empty direcory)
-
