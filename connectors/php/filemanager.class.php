@@ -380,13 +380,20 @@ class Filemanager {
 	public function delete() {
 
 		$current_path = $this->getFullPath();
+		$thumbnail_path = $this->get_thumbnail_path($current_path);
 			
 		if(!$this->isValidPath($current_path)) {
 			$this->error("No way.");
 		}
 			
 		if(is_dir($current_path)) {
+			
 			$this->unlinkRecursive($current_path);
+			
+			// we remove thumbnails if needed
+			$this->__log(__METHOD__ . ' - deleting thumbnails folder '. $thumbnail_path);
+			$this->unlinkRecursive($thumbnail_path);
+			
 			$array = array(
 					'Error'=>"",
 					'Code'=>0,
@@ -397,7 +404,13 @@ class Filemanager {
 			return $array;
 
 		} else if(file_exists($current_path)) {
+			
 			unlink($current_path);
+			
+			// delete thumbail if exists
+			$this->__log(__METHOD__ . ' - deleting thumbnail file '. $thumbnail_path);
+			if(file_exists($thumbnail_path)) unlink($thumbnail_path);
+			
 			$array = array(
 					'Error'=>"",
 					'Code'=>0,
@@ -413,8 +426,6 @@ class Filemanager {
 	}
 	
 	public function replace() {
-		
-		$this->__log(__METHOD__ . ' - APPEL APPEL APPEL APPEL ');
 		
 		$this->setParams();
 
@@ -964,6 +975,30 @@ private function cleanString($string, $allowed = array()) {
 }
 
 /**
+ * Return Thumbnail path from given path
+ * works for both file and dir path
+ * @param string $path
+ */
+private function get_thumbnail_path($path) {
+		
+	$a = explode($this->separator, $path);
+
+	$path_parts = pathinfo($path);
+
+	$thumbnail_path = $a[0].$this->separator.'/'.$this->cachefolder.dirname(end($a)).'/';
+	$thumbnail_name = $path_parts['filename'] . '_' . $this->thumbnail_width . 'x' . $this->thumbnail_height . 'px.' . $path_parts['extension'];
+	
+	if(is_dir($path)) {
+		$thumbnail_fullpath = $thumbnail_path;
+	} else {
+		$thumbnail_fullpath = $thumbnail_path.$thumbnail_name;
+	}
+
+	return $thumbnail_fullpath;
+
+}
+
+/**
  * For debugging just call
  * the direct URL http://localhost/Filemanager/connectors/php/filemanager.php?mode=preview&path=%2FFilemanager%2Fuserfiles%2FMy%20folder3%2Fblanches_neiges.jPg&thumbnail=true
  * and echo vars below
@@ -973,16 +1008,7 @@ private function get_thumbnail($path) {
 	
 	require_once('./inc/vendor/wideimage/lib/WideImage.php');
 	
-
-	// echo $path.'<br>';
-	$a = explode($this->separator, $path);
-	
-	$path_parts = pathinfo($path);
-	
-	// $thumbnail_path = $path_parts['dirname'].'/'.$this->cachefolder;
-	$thumbnail_path = $a[0].$this->separator.'/'.$this->cachefolder.dirname(end($a)).'/';
-	$thumbnail_name = $path_parts['filename'] . '_' . $this->thumbnail_width . 'x' . $this->thumbnail_height . 'px.' . $path_parts['extension'];
-	$thumbnail_fullpath = $thumbnail_path.$thumbnail_name;
+	$thumbnail_fullpath = $this->get_thumbnail_path($path);
 	
 	// echo $thumbnail_fullpath.'<br>';
 	
@@ -990,8 +1016,8 @@ private function get_thumbnail($path) {
 	if(!file_exists($thumbnail_fullpath)) {
 		
 		// create folder if it does not exist
-		if(!file_exists($thumbnail_path)) {
-			mkdir($thumbnail_path, 0755, true);
+		if(!file_exists(dirname($thumbnail_fullpath))) {
+			mkdir(dirname($thumbnail_fullpath), 0755, true);
 		}
 		$image = WideImage::load($path);
 		$resized = $image->resize($this->thumbnail_width, $this->thumbnail_height, 'outside')->crop('center', 'center', $this->thumbnail_width, $this->thumbnail_height);
