@@ -12,7 +12,7 @@
     "FILE_DOES_NOT_EXIST": "%s isimli dosya bulunamadı.", 
     "INVALID_ACTION": "Hatalı işlem.", 
     "INVALID_DIRECTORY_OR_FILE": "Hatalı klasör veya dosya.", 
-    "INVALID_FILE_TYPE": "File upload is not allowed.", 
+    "INVALID_FILE_TYPE": "File type is not allowed.", 
     "INVALID_FILE_UPLOAD": "Hatalı dosya yükleme işlemi.", 
     "INVALID_VAR": "%s geçersiz değişken.", 
     "LANGUAGE_FILE_NOT_FOUND": "Dil dosyası bulunamadı.", 

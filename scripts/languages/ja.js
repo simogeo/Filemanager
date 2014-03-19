@@ -12,7 +12,7 @@
     "FILE_DOES_NOT_EXIST": "ファイル %s は存在しません.", 
     "INVALID_ACTION": "その操作はできません.", 
     "INVALID_DIRECTORY_OR_FILE": "無効のファイル名またはフォルダー名です.", 
-    "INVALID_FILE_TYPE": "File upload is not allowed.", 
+    "INVALID_FILE_TYPE": "File type is not allowed.", 
     "INVALID_FILE_UPLOAD": "ファイルをアップロードできません.", 
     "INVALID_VAR": "var %s は無効です.", 
     "LANGUAGE_FILE_NOT_FOUND": "言語ファイルがありません.", 

@@ -12,7 +12,7 @@
     "FILE_DOES_NOT_EXIST": "Il file %s non esiste.", 
     "INVALID_ACTION": "Azione non valida.", 
     "INVALID_DIRECTORY_OR_FILE": "Cartella o file non valido.", 
-    "INVALID_FILE_TYPE": "L'upload del file non è permesso.", 
+    "INVALID_FILE_TYPE": "Cuesto tipo di file non è permesso.", 
     "INVALID_FILE_UPLOAD": "Impossibile caricare il file.", 
     "INVALID_VAR": "Variabile %s non valida.", 
     "LANGUAGE_FILE_NOT_FOUND": "File della lingua non trovato.", 

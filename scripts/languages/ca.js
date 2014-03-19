@@ -12,7 +12,7 @@
     "FILE_DOES_NOT_EXIST": "L'arxiu %s no existeix.", 
     "INVALID_ACTION": "Acció invàlida.", 
     "INVALID_DIRECTORY_OR_FILE": "Carpeta o arxiu invàlid.", 
-    "INVALID_FILE_TYPE": "File upload is not allowed.", 
+    "INVALID_FILE_TYPE": "File type is not allowed.", 
     "INVALID_FILE_UPLOAD": "Transferencia d'arxiu invàlida.", 
     "INVALID_VAR": "Variable %s invàlida.", 
     "LANGUAGE_FILE_NOT_FOUND": "No s'ha trobat l'arxiu d'idioma.", 

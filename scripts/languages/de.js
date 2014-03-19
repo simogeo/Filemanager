@@ -12,7 +12,7 @@
     "FILE_DOES_NOT_EXIST": "Die Datei %s existiert nicht.", 
     "INVALID_ACTION": "Unbekannter Befehl.", 
     "INVALID_DIRECTORY_OR_FILE": "Ungültiges Verzeichnis oder Datei.", 
-    "INVALID_FILE_TYPE": "File upload is not allowed.", 
+    "INVALID_FILE_TYPE": "File type is not allowed.", 
     "INVALID_FILE_UPLOAD": "Ungültiger Dateiupload.", 
     "INVALID_VAR": "Ungültige Variable %s.", 
     "LANGUAGE_FILE_NOT_FOUND": "Sprachdatei wurde nicht gefunden.", 

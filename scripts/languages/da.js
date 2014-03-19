@@ -12,7 +12,7 @@
     "FILE_DOES_NOT_EXIST": "Filen %s eksisterer ikke.", 
     "INVALID_ACTION": "Invalid handling.", 
     "INVALID_DIRECTORY_OR_FILE": "Invalid mappe eller fil.", 
-    "INVALID_FILE_TYPE": "File upload is not allowed.", 
+    "INVALID_FILE_TYPE": "File type is not allowed.", 
     "INVALID_FILE_UPLOAD": "Invalid fil til upload: Har du valgt en fil?", 
     "INVALID_VAR": "Invalid variabel %s.", 
     "LANGUAGE_FILE_NOT_FOUND": "Sprogfil ikke fundet.", 

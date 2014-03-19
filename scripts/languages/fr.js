@@ -12,7 +12,7 @@
     "FILE_DOES_NOT_EXIST": "Le fichier %s n'existe pas.", 
     "INVALID_ACTION": "Action invalide.", 
     "INVALID_DIRECTORY_OR_FILE": "Répertoire ou fichier invalide.", 
-    "INVALID_FILE_TYPE": "Le transfert de ce fichier n'est pas autorisé.", 
+    "INVALID_FILE_TYPE": "Ce type de fichier n'est pas autorisé.", 
     "INVALID_FILE_UPLOAD": "Transfert de fichier invalide.", 
     "INVALID_VAR": "Variable invalide %s.", 
     "LANGUAGE_FILE_NOT_FOUND": "Fichier de langue introuvable.", 

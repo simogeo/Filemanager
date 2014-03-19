@@ -12,7 +12,7 @@
     "FILE_DOES_NOT_EXIST": "Tiedostoa %s ei löydy.", 
     "INVALID_ACTION": "Virheellinen toiminto.", 
     "INVALID_DIRECTORY_OR_FILE": "Virheellinen hakemisto tai tiedosto.", 
-    "INVALID_FILE_TYPE": "File upload is not allowed.", 
+    "INVALID_FILE_TYPE": "File type is not allowed.", 
     "INVALID_FILE_UPLOAD": "Virheellinen tiedoston lähetys.", 
     "INVALID_VAR": "Virheellinen muuttuja %s.", 
     "LANGUAGE_FILE_NOT_FOUND": "Kielitiedostoa ei löydy.", 

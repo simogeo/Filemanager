@@ -12,7 +12,7 @@
     "FILE_DOES_NOT_EXIST": "檔案 %s 不存在。", 
     "INVALID_ACTION": "無效的動作。", 
     "INVALID_DIRECTORY_OR_FILE": "無效的檔案或目錄。", 
-    "INVALID_FILE_TYPE": "File upload is not allowed.", 
+    "INVALID_FILE_TYPE": "File type is not allowed.", 
     "INVALID_FILE_UPLOAD": "無效的上傳。", 
     "INVALID_VAR": "無效的變數 %s。", 
     "LANGUAGE_FILE_NOT_FOUND": "語系檔不存在。", 

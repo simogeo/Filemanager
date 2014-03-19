@@ -12,7 +12,7 @@
     "FILE_DOES_NOT_EXIST": "O arquivo %s não existe.", 
     "INVALID_ACTION": "Ação inválida.", 
     "INVALID_DIRECTORY_OR_FILE": "Pasta ou arquivo inválido.", 
-    "INVALID_FILE_TYPE": "File upload is not allowed.", 
+    "INVALID_FILE_TYPE": "File type is not allowed.", 
     "INVALID_FILE_UPLOAD": "Upload de arquivo inválido.", 
     "INVALID_VAR": "Invalid var %s.", 
     "LANGUAGE_FILE_NOT_FOUND": "Arquivo de língua não encontrado.", 

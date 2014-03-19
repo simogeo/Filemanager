@@ -12,7 +12,7 @@
     "FILE_DOES_NOT_EXIST": "הקובץ %s אינו קיים", 
     "INVALID_ACTION": "פעולה לא חוקית", 
     "INVALID_DIRECTORY_OR_FILE": "תיקייה או קובץ אינם נכונים", 
-    "INVALID_FILE_TYPE": "File upload is not allowed.", 
+    "INVALID_FILE_TYPE": "File type is not allowed.", 
     "INVALID_FILE_UPLOAD": "קובץ לא חוקי להעלאה לשרת", 
     "INVALID_VAR": "משתנה לא חוקי %s", 
     "LANGUAGE_FILE_NOT_FOUND": "Language file not found", 

@@ -12,7 +12,7 @@
     "FILE_DOES_NOT_EXIST": "Không tìm thấy tập tin %s.", 
     "INVALID_ACTION": "Thao tác không hợp lệ.", 
     "INVALID_DIRECTORY_OR_FILE": "Thư mục hoặc tập tin không hợp lệ.", 
-    "INVALID_FILE_TYPE": "File upload is not allowed.", 
+    "INVALID_FILE_TYPE": "File type is not allowed.", 
     "INVALID_FILE_UPLOAD": "Tập tin tải lên không hợp lệ.", 
     "INVALID_VAR": "var không hợp lệ %s.", 
     "LANGUAGE_FILE_NOT_FOUND": "Không thấy tập tin ngôn ngữ.", 

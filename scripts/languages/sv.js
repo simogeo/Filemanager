@@ -12,7 +12,7 @@
     "FILE_DOES_NOT_EXIST": "Filen %s finns inte.", 
     "INVALID_ACTION": "Felaktig åtgärd.", 
     "INVALID_DIRECTORY_OR_FILE": "Felaktig mapp eller fil.", 
-    "INVALID_FILE_TYPE": "File upload is not allowed.", 
+    "INVALID_FILE_TYPE": "File type is not allowed.", 
     "INVALID_FILE_UPLOAD": "Fel vid uppladdning av fil.", 
     "INVALID_VAR": "Felaktig variabel %s.", 
     "LANGUAGE_FILE_NOT_FOUND": "Språkfil saknas.", 

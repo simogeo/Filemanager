@@ -12,7 +12,7 @@
     "FILE_DOES_NOT_EXIST": "A %s fájl nem található.", 
     "INVALID_ACTION": "Érvénytelen művelet.", 
     "INVALID_DIRECTORY_OR_FILE": "Érvénytelen könyvtár vagy fájlnév.", 
-    "INVALID_FILE_TYPE": "File upload is not allowed.", 
+    "INVALID_FILE_TYPE": "File type is not allowed.", 
     "INVALID_FILE_UPLOAD": "Hibás fájl feltöltés.", 
     "INVALID_VAR": "Érvénytelen var %s.", 
     "LANGUAGE_FILE_NOT_FOUND": "A megadott fordítás nem található.", 
