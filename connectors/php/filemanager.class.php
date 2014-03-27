@@ -145,11 +145,15 @@ class Filemanager {
 			return true;
 		}
 	}
-	public function postvar($var) {
+	public function postvar($var, $sanitize = true) {
 		if(!isset($_POST[$var]) || $_POST[$var]=='') {
 			$this->error(sprintf($this->lang('INVALID_VAR'),$var));
 		} else {
-			$this->post[$var] = $this->sanitize($_POST[$var]);
+			if($sanitize) {
+				$this->post[$var] = $this->sanitize($_POST[$var]);
+			} else {
+				$this->post[$var] = $_POST[$var];
+			}
 			return true;
 		}
 	}

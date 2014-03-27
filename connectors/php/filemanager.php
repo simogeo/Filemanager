@@ -138,7 +138,7 @@ if(!isset($_GET)) {
     
 	    case 'savefile':
 	    	
-	    	if($fm->postvar('content') && $fm->postvar('path')) {
+	    	if($fm->postvar('content', false) && $fm->postvar('path')) {
 	    		$response = $fm->savefile();
 	    	}
 	    	break;
