@@ -90,7 +90,7 @@ class Filemanager {
 	// $extraconfig should be formatted as json config array.
 	public function setup($extraconfig) {
 
-		$this->config = array_merge_recursive($this->config, $extraconfig);
+		$this->config = array_replace_recursive($this->config, $extraconfig);
 			
 	}
 
