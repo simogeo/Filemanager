@@ -25,11 +25,19 @@ $.urlParam = function(name){
 ---------------------------------------------------------*/
 
 // We retrieve config settings from filemanager.config.js
-var config = (function () {
-    var json = null;
+var loadConfigFile = function (type) {
+	var json = null;
+	type = (typeof type === "undefined") ? "user" : type;
+	
+	if(type == 'user') {
+		var url = './scripts/filemanager.config.js';
+	} else {
+		var url = './scripts/filemanager.config.js.default'
+	}
+    
     $.ajax({
         'async': false,
-        'url': './scripts/filemanager.config.js',
+        'url': url,
         'dataType': "json",
         cache: false, 
         'success': function (data) {
@@ -37,7 +45,15 @@ var config = (function () {
         }
     });
     return json;
-})();
+};
+
+// loading default configuration file
+var configd = loadConfigFile('default');
+// loading user configuration file
+var config = loadConfigFile();
+
+// we merge default config and user config file
+var config = $.extend({}, configd, config);
 
 /**
  * function to load a given css file 

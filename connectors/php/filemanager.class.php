@@ -31,11 +31,16 @@ class Filemanager {
 	protected $separator = 'userfiles'; // @todo fix keep it or not?
 
 	public function __construct($extraConfig = '') {
-			
+		
+		// getting default config file
+		$content = file_get_contents("../../scripts/filemanager.config.js.default");
+		$config_default = json_decode($content, true);
+		
+		// getting user config file
 		$content = file_get_contents("../../scripts/filemanager.config.js");
 		$config = json_decode($content, true);
-			
-		$this->config = $config;
+		
+		$this->config = array_replace_recursive ($config_default, $config);
 
 		// override config options if needed
 		if(!empty($extraConfig)) {
