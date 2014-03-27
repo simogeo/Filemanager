@@ -875,7 +875,7 @@ var editItem = function(data) {
 					
 					var d = new Date(); // to prevent IE cache issues
 					var connectString = fileConnector + '?mode=editfile&path=' + encodeURIComponent(data['Path']) + '&time=' + d.getMilliseconds();
-					
+
 					$.ajax({
 						type : 'GET',
 						url : connectString,
@@ -883,11 +883,11 @@ var editItem = function(data) {
 						async : false,
 						success : function(result) {
 							if (result['Code'] == 0) {
-
+								
 								var content  = '<form id="edit-form">';
 								 	content += '<textarea id="edit-content" name="content">' + result['Content'] + '</textarea>';
 								 	content += '<input type="hidden" name="mode" value="savefile" />';
-								 	content += '<input type="hidden" name="path" value="' + encodeURIComponent(data['Path']) + '" />';
+								 	content += '<input type="hidden" name="path" value="' + data['Path'] + '" />';
 									content += '<button id="edit-cancel" class="edition" type="button">' + lg.quit_editor + '</button>';
 									content += '<button id="edit-save" class="edition" type="button">' + lg.save + '</button>';
 									content += '</form>';
