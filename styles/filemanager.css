@@ -5,11 +5,14 @@
 
 * {
     font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
-    color: #333;
     box-sizing: content-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -ms-box-sizing: content-box;
+}
+
+*:not(."CodeMirror") {
+	color: #333;
 }
 
 body {
@@ -84,6 +87,7 @@ button#home {
 
 #fileinfo * {
 	font-size: 12px;
+	color:#333;
 }
 
 #preview {
@@ -95,9 +99,9 @@ button#home {
 	max-width: 80%;
 }
 
-#fileinfo > h1 {
-	font-size: 16px;
-	margin: 100px auto;
+#fileinfo h1 {
+	font-size: 18px;
+	margin: 10px auto;
 }
 
 #preview dl {
@@ -177,6 +181,8 @@ button:focus {
 	outline-style: none;
 	outline-width: 0;
 }
+
+button.edition { color: black;}
 
 /** Input file Replacement */
 
@@ -430,7 +436,7 @@ div.clip {
 /* these apply to the contextual menus as well as the buttons */
 #select span, .contextMenu li.select a { background-image: url(../images/accept.png); }
 #download span, .contextMenu li.download a { background-image: url(../images/download.png); }
-#rename span, .contextMenu li.rename a { background-image: url(../images/pencil.png); }
+#rename span, .contextMenu li.rename a { background-image: url(../images/tag.png); }
 #move span, .contextMenu li.move a { background-image: url(../images/move.png); }
 #replace span, .contextMenu li.replace a { background-image: url(../images/replace.png); }
 #delete span, .contextMenu li.delete a { background-image: url(../images/bin_closed.png); }
@@ -439,6 +445,9 @@ div.clip {
 #parentfolder span { background-image: url(../images/parentfolder.png); }
 #newfolder span { background-image: url(../images/folder_add.png); }
 #home span { background-image: url(../images/house.png); }
+
+a#edit-file span {display:none}
+a#edit-file {display:inline-block;background-image: url(../images/pencil.png);width:16px;height:16px}
 
 /* div.jqi button { background-image: url(../images/circular/yes.png); } */
 
@@ -509,6 +518,14 @@ button.ON {
 	display:inline-table;
 	width:30px;
 	height:30px;
+}
+
+div.CodeMirror {
+	text-align:left;
+	width:70%;
+	border: 1px solid #eee;
+  height: auto;
+	margin:2em auto;
 }
 
 /* IE10-11 styles */

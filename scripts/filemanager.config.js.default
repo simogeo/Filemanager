@@ -43,6 +43,7 @@
             "xlsx",
             "ppt",
             "pptx",
+            "csv",
             "ogv",
             "mp4",
             "webm",
@@ -101,6 +102,16 @@
             "ogg",
             "mp3",
             "wav"
+        ]
+    },
+    "edit": {
+        "enabled": true,
+        "lineNumbers": true,
+        "lineWrapping": true,
+        "theme": "elegant",
+        "editExt": [
+            "txt",
+            "csv"
         ]
     },
     "extras": {

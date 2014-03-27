@@ -250,11 +250,66 @@ class Filemanager {
 
 		return $array;
 	}
+	
+	
+	public function editfile() {
+
+		$current_path = $this->getFullPath();
+		
+		if(!$this->isValidPath($current_path) || !$this->isEditable($current_path)) {
+			$this->error("No way.");
+		}
+
+		$this->__log(__METHOD__ . ' - editing file '. $current_path);
+
+		$content = file_get_contents($current_path);
+
+		if(!$content) {
+			$this->error(sprintf($this->lang('ERROR_OPENING_FILE')));
+		}
+
+		$array = array(
+				'Error'=>"",
+				'Code'=>0,
+				'Path'=>$this->get['path'],
+				'Content'=>$this->formatPath($content)
+		);
+		
+		return $array;
+	}
+
+	public function savefile() {
+	
+		$current_path = $this->getFullPath($this->post['path']);
+	
+		if(!$this->isValidPath($current_path) || !$this->isEditable($current_path)) {
+			$this->error("No way.");
+		}
+	
+		if(!is_writable($current_path)) {
+			$this->error(sprintf($this->lang('ERROR_WRITING_PERM')));
+		}
+		
+		$this->__log(__METHOD__ . ' - saving file '. $current_path);
+		
+		$r = file_put_contents($current_path, $this->post['content'], LOCK_EX);
+
+		if(!is_numeric($r)) {
+			$this->error(sprintf($this->lang('ERROR_SAVING_FILE')));
+		}
+	
+		$array = array(
+					'Error'=>"",
+					'Code'=>0,
+					'Path'=>$this->formatPath($this->post['path'])
+			);
+		
+		return $array;
+	}
 
 	public function rename() {
 
 		$suffix='';
-
 
 		if(substr($this->get['old'],-1,1)=='/') {
 			$this->get['old'] = substr($this->get['old'],0,(strlen($this->get['old'])-1));
@@ -1093,6 +1148,25 @@ private function is_image($path) {
 		return true;
 	}
 	return false;
+}
+
+private function isEditable($file) {
+
+	$path_parts = pathinfo($file);
+	
+	$exts = array_map('strtolower', $this->config['edit']['editExt']);
+	
+	if(in_array($path_parts['extension'], $exts)) {
+		
+		return true;
+		
+	} else {
+		
+		return false;
+		
+	}
+
+	
 }
 
 

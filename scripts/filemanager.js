@@ -39,6 +39,21 @@ var config = (function () {
     return json;
 })();
 
+/**
+ * function to load a given css file 
+ */ 
+var loadCSS = function(href) {
+    var cssLink = $("<link rel='stylesheet' type='text/css' href='"+href+"'>");
+    $("head").append(cssLink); 
+};
+
+/**
+* function to load a given js file 
+*/ 
+var loadJS = function(src) {
+    var jsLink = $("<script type='text/javascript' src='"+src+"'>");
+    $("head").append(jsLink); 
+};
 
 // Sets paths to connectors based on language selection.
 var fileConnector = config.options.fileConnector || 'connectors/' + config.options.lang + '/filemanager.' + config.options.lang;
@@ -275,7 +290,16 @@ var getFilename = function(filename) {
 	}
 };
 
-// Test if is iamge file
+//Test if is editable file
+var isEditableFile = function(filename) {
+	if($.inArray(getExtension(filename), config.edit.editExt) != -1) {
+		return true;
+	} else {
+		return false;
+	}
+};
+
+// Test if is image file
 var isImageFile = function(filename) {
 	if($.inArray(getExtension(filename), config.images.imagesExt) != -1) {
 		return true;
@@ -820,6 +844,100 @@ var deleteItem = function(data) {
 	return isDeleted;
 };
 
+// Display an 'edit' link for editable files
+// Then let user change the content of the file
+// Save action is handled by the method using ajax
+var editItem = function(data) {
+
+	isEdited = false;
+	
+		$('#fileinfo').find('h1').append(' <a id="edit-file" href="#" title="' + lg.edit + '"><span>' + lg.edit + '</span></a>');
+
+		$('#edit-file').click(function() {
+					
+					$(this).hide(); // hiding Edit link
+					
+					var d = new Date(); // to prevent IE cache issues
+					var connectString = fileConnector + '?mode=editfile&path=' + encodeURIComponent(data['Path']) + '&time=' + d.getMilliseconds();
+					
+					$.ajax({
+						type : 'GET',
+						url : connectString,
+						dataType : 'json',
+						async : false,
+						success : function(result) {
+							if (result['Code'] == 0) {
+
+								var content  = '<form id="edit-form">';
+								 	content += '<textarea id="edit-content" name="content">' + result['Content'] + '</textarea>';
+								 	content += '<input type="hidden" name="mode" value="savefile" />';
+								 	content += '<input type="hidden" name="path" value="' + encodeURIComponent(data['Path']) + '" />';
+									content += '<button id="edit-cancel" class="edition" type="button">' + lg.quit_editor + '</button>';
+									content += '<button id="edit-save" class="edition" type="button">' + lg.save + '</button>';
+									content += '</form>';
+									
+								$('#preview').find('img').hide();
+								$('#preview').prepend(content).hide().fadeIn();
+								
+								// Cancel Button Behavior
+								$('#edit-cancel').click(function() {
+									$('#preview').find('form#edit-form').hide();
+									$('#preview').find('img').fadeIn();
+									$('#edit-file').show();
+								});
+								
+								// Save Button Behavior
+								$('#edit-save').click(function() {
+									
+									// we get new textarea content
+									var newcontent = editor.getValue();
+									$("textarea#edit-content").val(newcontent);
+									
+									var postData = $('#edit-form').serializeArray();
+									
+									$.ajax({
+										type: 'POST',
+										url: fileConnector,
+										dataType: 'json',
+										data : postData,
+										async: false,
+										success: function(result){
+											if(result['Code'] == 0){
+												isEdited = true;
+												// if (config.options.showConfirmation) $.prompt(lg.successful_edit);
+												$.prompt(lg.successful_edit);
+											} else {
+												isEdited = false;
+												$.prompt(result['Error']);
+											}			
+										}
+									});	
+									
+								});
+								
+								// enabling editor 
+								var editor = CodeMirror.fromTextArea(document.getElementById("edit-content"), {
+									styleActiveLine: true,
+									viewportMargin: Infinity,
+									lineNumbers: config.edit.lineNumbers,
+									lineWrapping: config.edit.lineWrapping,
+									theme: config.edit.theme
+								});
+
+							} else {
+								isEdited = false;
+								$.prompt(result['Error']);
+								$(this).show(); // hiding Edit link
+							}
+						}
+					});
+
+				});
+
+		return isEdited;
+};
+
+
 
 /*---------------------------------------------------------
   Functions to Update the File Tree
@@ -1046,6 +1164,10 @@ var getFileInfo = function(file) {
 				getAudioPlayer(data);
 			}
 			
+			if(isEditableFile(data['Filename']) && config.edit.enabled == true) {
+				editItem(data);
+			}
+			
 			var properties = '';
 			
 			if(data['Properties']['Width'] && data['Properties']['Width'] != '') properties += '<dt>' + lg.dimensions + '</dt><dd>' + data['Properties']['Width'] + 'x' + data['Properties']['Height'] + '</dd>';
@@ -1268,6 +1390,14 @@ $(function(){
 				async: config.extras.extra_js_async
 			});
 		}
+	}
+	
+	// Loading CodeMirror if enabled for online edition
+	if(config.edit.enabled) {
+		loadCSS('./scripts/CodeMirror/lib/codemirror.css');
+		loadCSS('./scripts/CodeMirror/theme/' + config.edit.theme + '.css');
+		loadJS('./scripts/CodeMirror/lib/codemirror.js');
+		loadJS('./scripts/CodeMirror/addon/selection/active-line.js');
 	}
 
 	if(!config.options.fileRoot) {

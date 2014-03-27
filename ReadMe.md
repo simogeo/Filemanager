@@ -341,6 +341,35 @@ Example Response:
         "Code": 0
     }
 
+editfile
+--------
+The `editfile` method returns the content of a given file (passed as parameter). It gives the user the ability to edit a file online (extensions are specified in configuration file). Handled as GET request.
+
+Example request:
+
+	[path to connector]?mode=editfile&path=/UserFiles/MyFolder/myfile.txt
+	
+Example Response:
+
+    {
+        "Error": "No error",
+        "Code": 0,
+        "Path": "/UserFiles/MyFolder/myfile.txt",
+        "Content": "Content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\r\n\Phasellus eu erat lorem.\r\n\r\n\Bye!"
+    }
+
+savefile
+--------
+The `save` method will overwrite the content of the current file. The edit form in the File Manager passes the mode (as `savefile`), path of the current file and the content as POST parameters.
+	
+Example Response:
+
+    {
+        "Error": "No error",
+        "Code": 0,
+        "Path": "/UserFiles/MyFolder/myfile.txt"
+    }
+
 preview
 --------
 The `preview` method serves the requested image for displaying. The image path is passed through the `path` parameter. If `thumbnail=true` parameter is passed, the method will return an image thumbnail. An extra parameter such as UNIX time can be added to the URL to prevent cache issue.
