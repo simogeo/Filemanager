@@ -272,6 +272,7 @@ class Filemanager {
 		$this->__log(__METHOD__ . ' - editing file '. $current_path);
 
 		$content = file_get_contents($current_path);
+		$content = htmlspecialchars($content);
 
 		if(!$content) {
 			$this->error(sprintf($this->lang('ERROR_OPENING_FILE')));
@@ -301,7 +302,8 @@ class Filemanager {
 		
 		$this->__log(__METHOD__ . ' - saving file '. $current_path);
 		
-		$r = file_put_contents($current_path, $this->post['content'], LOCK_EX);
+		$content =  htmlspecialchars_decode($this->post['content']);
+		$r = file_put_contents($current_path, $content, LOCK_EX);
 
 		if(!is_numeric($r)) {
 			$this->error(sprintf($this->lang('ERROR_SAVING_FILE')));
