@@ -108,6 +108,7 @@
         "enabled": true,
         "lineNumbers": true,
         "lineWrapping": true,
+        "codeHighlight": false,
         "theme": "elegant",
         "editExt": [
             "txt",

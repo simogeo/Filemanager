@@ -55,21 +55,37 @@ var config = loadConfigFile();
 // we merge default config and user config file
 var config = $.extend({}, configd, config);
 
+
+// <head> included files collector
+HEAD_included_files = new Array();
+
+
 /**
- * function to load a given css file 
+ * function to load a given css file into header
+ * if not already included
  */ 
-var loadCSS = function(href) {
-    var cssLink = $("<link rel='stylesheet' type='text/css' href='"+href+"'>");
-    $("head").append(cssLink); 
+loadCSS = function(href) {
+	// we check if already included
+	if($.inArray(href, HEAD_included_files) == -1) {
+		var cssLink = $("<link rel='stylesheet' type='text/css' href='" + href + "'>");
+		$("head").append(cssLink);
+	    HEAD_included_files.push(href);
+	}
 };
 
 /**
-* function to load a given js file 
+* function to load a given js file into header
+* if not already included
 */ 
-var loadJS = function(src) {
-    var jsLink = $("<script type='text/javascript' src='"+src+"'>");
-    $("head").append(jsLink); 
+loadJS = function(src) {
+	// we check if already included
+	if($.inArray(src, HEAD_included_files) == -1) {
+		var jsLink = $("<script type='text/javascript' src='" + src + "'>");
+	    $("head").append(jsLink);
+	    HEAD_included_files.push(src);
+	}
 };
+
 
 // Sets paths to connectors based on language selection.
 var fileConnector = config.options.fileConnector || 'connectors/' + config.options.lang + '/filemanager.' + config.options.lang;
@@ -906,7 +922,7 @@ var editItem = function(data) {
 								$('#edit-save').click(function() {
 									
 									// we get new textarea content
-									var newcontent = editor.getValue();
+									var newcontent = codeMirrorEditor.getValue();
 									$("textarea#edit-content").val(newcontent);
 									
 									var postData = $('#edit-form').serializeArray();
@@ -931,14 +947,9 @@ var editItem = function(data) {
 									
 								});
 								
-								// enabling editor 
-								var editor = CodeMirror.fromTextArea(document.getElementById("edit-content"), {
-									styleActiveLine: true,
-									viewportMargin: Infinity,
-									lineNumbers: config.edit.lineNumbers,
-									lineWrapping: config.edit.lineWrapping,
-									theme: config.edit.theme
-								});
+								// we instantiate codeMirror according to config options
+								codeMirrorEditor = instantiateCodeMirror(getExtension(data['Path']), config);
+
 
 							} else {
 								isEdited = false;
@@ -1414,6 +1425,7 @@ $(function(){
 		loadCSS('./scripts/CodeMirror/theme/' + config.edit.theme + '.css');
 		loadJS('./scripts/CodeMirror/lib/codemirror.js');
 		loadJS('./scripts/CodeMirror/addon/selection/active-line.js');
+		loadJS('./scripts/CodeMirror/dynamic-mode.js');
 	}
 
 	if(!config.options.fileRoot) {
