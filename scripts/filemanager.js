@@ -613,18 +613,22 @@ var selectItem = function(data) {
 // list views.
 var renameItem = function(data) {
 	var finalName = '';
-	var msg = lg.new_filename + ' : <input id="rname" name="rname" type="text" value="' + getFilename(data['Filename']) + '" />';
+	var fileName = config.security.allowChangeExtensions ? data['Filename'] : getFilename(data['Filename']);
+	var msg = lg.new_filename + ' : <input id="rname" name="rname" type="text" value="' + fileName + '" />';
 
 	var getNewName = function(v, m){
 		if(v != 1) return false;
 		rname = m.children('#rname').val();
 		
 		if(rname != ''){
-			var givenName = nameFormat(rname);
-			var suffix = getExtension(data['Filename']);	
-			if(suffix.length > 0) {
-				givenName = givenName + '.' + suffix;
-			}
+			var givenName = rname;
+ 			if (! config.security.allowChangeExtensions) {
+				givenName = nameFormat(rname);
+				var suffix = getExtension(data['Filename']);	
+				if(suffix.length > 0) {
+					givenName = givenName + '.' + suffix;
+				}
+ 			}			
 			var oldPath = data['Path'];	
 			var connectString = fileConnector + '?mode=rename&old=' + data['Path'] + '&new=' + givenName;
 		
