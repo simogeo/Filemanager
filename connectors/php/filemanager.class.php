@@ -336,6 +336,11 @@ class Filemanager {
 		if(!$this->isValidPath($old_file)) {
 			$this->error("No way.");
 		}
+		
+		// we check if the new given extension is allowed regarding the security Policy settings
+		if($this->config['security']['allowChangeExtensions'] && !$this->isAllowedFileType($new_file)) {
+			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')));
+		}
 
 		$this->__log(__METHOD__ . ' - renaming '. $old_file. ' to ' . $new_file);
 
@@ -983,12 +988,12 @@ private function isAllowedFileType($file) {
 	if($this->config['security']['uploadPolicy'] == 'DISALLOW_ALL') {
 			
 		if(!in_array(strtolower($path_parts['extension']), $exts))
-			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
+			return false;
 	}
 	if($this->config['security']['uploadPolicy'] == 'ALLOW_ALL') {
 	
 		if(in_array(strtolower($path_parts['extension']), $exts))
-			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
+			return false;
 	}
 	
 	return true;

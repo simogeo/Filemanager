@@ -621,14 +621,31 @@ var renameItem = function(data) {
 		rname = m.children('#rname').val();
 		
 		if(rname != ''){
+			
 			var givenName = rname;
+
  			if (! config.security.allowChangeExtensions) {
 				givenName = nameFormat(rname);
 				var suffix = getExtension(data['Filename']);	
 				if(suffix.length > 0) {
 					givenName = givenName + '.' + suffix;
 				}
- 			}			
+ 			}
+ 			
+ 			// Check if file extension is allowed
+			if (!isAuthorizedFile(givenName)) { 
+				var str = '<p>' + lg.INVALID_FILE_TYPE + '</p>';
+				if(config.security.uploadPolicy == 'DISALLOW_ALL') {
+					str += '<p>' + lg.ALLOWED_FILE_TYPE +  config.security.uploadRestrictions.join(', ') + '.</p>';
+				}
+				if(config.security.uploadPolicy == 'ALLOW_ALL') {
+					str += '<p>' + lg.DISALLOWED_FILE_TYPE +  config.security.uploadRestrictions.join(', ') + '.</p>';
+				}
+				$("#filepath").val('');
+				$.prompt(str); 
+				return false;
+			}
+
 			var oldPath = data['Path'];	
 			var connectString = fileConnector + '?mode=rename&old=' + data['Path'] + '&new=' + givenName;
 		
