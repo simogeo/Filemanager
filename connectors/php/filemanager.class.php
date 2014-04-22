@@ -20,6 +20,7 @@ class Filemanager {
 	protected $properties = array();
 	protected $item = array();
 	protected $languages = array();
+	protected $allowed_actions = array();
 	protected $root = '';
 	protected $doc_root = '';
 	protected $dynamic_fileroot = '';
@@ -83,6 +84,7 @@ class Filemanager {
 		$this->__log(__METHOD__ . ' $this->separator value ' . $this->separator);
 
 		$this->setParams();
+		$this->setPermissions();
 		$this->availableLanguages();
 		$this->loadLanguageFile();
 	}
@@ -265,7 +267,7 @@ class Filemanager {
 
 		$current_path = $this->getFullPath();
 		
-		if(!$this->isValidPath($current_path) || !$this->isEditable($current_path)) {
+		if(!$this->has_permission('edit') || !$this->isValidPath($current_path) || !$this->isEditable($current_path)) {
 			$this->error("No way.");
 		}
 
@@ -292,7 +294,7 @@ class Filemanager {
 	
 		$current_path = $this->getFullPath($this->post['path']);
 	
-		if(!$this->isValidPath($current_path) || !$this->isEditable($current_path)) {
+		if(!$this->has_permission('edit') || !$this->isValidPath($current_path) || !$this->isEditable($current_path)) {
 			$this->error("No way.");
 		}
 	
@@ -333,7 +335,7 @@ class Filemanager {
 		$new_file = $this->getFullPath($path . '/' . $this->get['new']). $suffix;
 		$old_file = $this->getFullPath($this->get['old']) . $suffix;
 
-		if(!$this->isValidPath($old_file)) {
+		if(!$this->has_permission('rename') || !$this->isValidPath($old_file)) {
 			$this->error("No way.");
 		}
 		
@@ -403,7 +405,7 @@ class Filemanager {
 			$this->error(sprintf($this->lang('INVALID_DIRECTORY_OR_FILE'),$this->get['new']));
 		}
 
-		if(!$this->isValidPath($oldPath)) {
+		if(!$this->has_permission('move') || !$this->isValidPath($oldPath)) {
 			$this->error("No way.");
 		}
 
@@ -453,7 +455,7 @@ class Filemanager {
 		$current_path = $this->getFullPath();
 		$thumbnail_path = $this->get_thumbnail_path($current_path);
 			
-		if(!$this->isValidPath($current_path)) {
+		if(!$this->has_permission('delete') || !$this->isValidPath($current_path)) {
 			$this->error("No way.");
 		}
 			
@@ -547,7 +549,7 @@ class Filemanager {
 
 		$current_path = $this->getFullPath($this->post['newfilepath']);
 
-		if(!$this->isValidPath($current_path)) {
+		if(!$this->has_permission('replace') || !$this->isValidPath($current_path)) {
 			$this->error("No way.");
 		}
 
@@ -702,7 +704,7 @@ class Filemanager {
 			
 		$current_path = $this->getFullPath();
 			
-		if(!$this->isValidPath($current_path)) {
+		if(!$this->has_permission('download') || !$this->isValidPath($current_path)) {
 			$this->error("No way.");
 		}
 		
@@ -784,6 +786,14 @@ class Filemanager {
 			}
 		}
 		$this->params = $params;
+	}
+	
+	private function setPermissions() {
+		
+		$this->allowed_actions = $this->config['options']['capabilities'];
+		
+		if($this->config['edit']['enabled']) array_push($this->allowed_actions, 'edit');
+		
 	}
 
 
@@ -1043,6 +1053,20 @@ private function cleanString($string, $allowed = array()) {
 		
 	}
 	return $cleaned;
+}
+
+/**
+ * Checking if permission is set or not for a given action
+ * @param string $action
+ * @return boolean
+ */
+private function has_permission($action) {
+
+	if(in_array($action, $this->allowed_actions))
+			return true;
+	
+	return false;
+
 }
 
 /**
