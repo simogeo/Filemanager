@@ -28,6 +28,7 @@
     "browse": "Browse...", 
     "bytes": " bytes", 
     "cancel": "Avbryt", 
+    "close": "Close", 
     "confirmation_delete": "Är du säker på att du vill radera filen?", 
     "could_not_retrieve_folder": "Kan ej läsa mappens innehåll.", 
     "create_folder": "Skapa mapp", 

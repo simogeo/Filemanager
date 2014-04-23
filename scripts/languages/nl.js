@@ -28,6 +28,7 @@
     "browse": "Bladeren...", 
     "bytes": " bytes", 
     "cancel": "Annuleren", 
+    "close": "Close", 
     "confirmation_delete": "Weet je zeker dat je dit bestand wilt verwijderen?", 
     "could_not_retrieve_folder": "Kon map-inhoud niet ophalen.", 
     "create_folder": "Nieuwe Map", 

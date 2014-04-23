@@ -28,6 +28,7 @@
     "browse": "Browse...", 
     "bytes": " bytes", 
     "cancel": "ביטול", 
+    "close": "Close", 
     "confirmation_delete": "?האם אתה בטוח שברצונך למחוק קובץ זה", 
     "could_not_retrieve_folder": "לא ניתן לקרוא את תוכן התיקייה", 
     "create_folder": "צור תיקייה", 

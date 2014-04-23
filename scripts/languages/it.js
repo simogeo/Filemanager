@@ -28,6 +28,7 @@
     "browse": "Sfoglia...", 
     "bytes": " bytes", 
     "cancel": "Annulla", 
+    "close": "Close", 
     "confirmation_delete": "Sei sicuro di voler eliminare il file?", 
     "could_not_retrieve_folder": "Impossibile visualizzare il contenuto della cartella.", 
     "create_folder": "Crea cartella", 

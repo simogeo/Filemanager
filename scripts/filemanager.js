@@ -122,6 +122,8 @@ var setDimensions = function(){
 	var bheight = 20;
 
 	if(config.options.searchBox === true) bheight +=33;
+	
+	if($.urlParam('CKEditorCleanUpFuncNum')) bheight +=60;
 
 	var newH = $(window).height() - $('#uploader').height() - bheight;	
 	$('#splitter, #filetree, #fileinfo, .vsplitbar').height(newH);
@@ -557,7 +559,7 @@ var selectItem = function(data) {
 		var url = relPath + data['Path'];
 	}
     
-	if(window.opener || window.tinyMCEPopup || $.urlParam('field_name')){
+	if(window.opener || window.tinyMCEPopup || $.urlParam('CKEditorCleanUpFuncNum') || $.urlParam('CKEditor')) {
 	 	if(window.tinyMCEPopup){
         	// use TinyMCE > 3.0 integration method
             var win = tinyMCEPopup.getWindowArg("window");
@@ -587,8 +589,15 @@ var selectItem = function(data) {
 	 	}
 	 	
 		else if($.urlParam('CKEditor')){
-			// use CKEditor 3.0 integration method
-			window.opener.CKEDITOR.tools.callFunction($.urlParam('CKEditorFuncNum'), url);
+			// use CKEditor 3.0 + integration method
+			if (window.opener) {
+				// Popup
+				window.opener.CKEDITOR.tools.callFunction($.urlParam('CKEditorFuncNum'), url);
+			} else {
+				// Modal (in iframe)
+				parent.CKEDITOR.tools.callFunction($.urlParam('CKEditorFuncNum'), url);
+				parent.CKEDITOR.tools.callFunction($.urlParam('CKEditorCleanUpFuncNum'));
+			}
 		} else {
 			// use FCKEditor 2.0 integration method
 			if(data['Properties']['Width'] != ''){
@@ -601,7 +610,9 @@ var selectItem = function(data) {
 			}		
 		}
 
-		window.close();
+		if (window.opener) {
+			window.close();
+		}
 	} else {
 		$.prompt(lg.fck_select_integration);
 	}
@@ -1183,7 +1194,7 @@ var getFileInfo = function(file) {
 	var template = '<div id="preview"><img /><h1></h1><dl></dl></div>';
 	template += '<form id="toolbar">';
 	template += '<button id="parentfolder">' + lg.parentfolder + '</button>';
-	if($.inArray('select', capabilities)  != -1 && (window.opener || window.tinyMCEPopup || $.urlParam('field_name'))) template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
+	if($.inArray('select', capabilities)  != -1 && ($.urlParam('CKEditor') || window.opener || window.tinyMCEPopup || $.urlParam('field_name'))) template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
 	if($.inArray('download', capabilities)  != -1) template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
 	if($.inArray('rename', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
 	if($.inArray('move', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="move" name="move" type="button" value="Move">' + lg.move + '</button>';
@@ -1495,6 +1506,15 @@ $(function(){
 		$('#itemOptions a[href$="#move"]').append(lg.move);
 		$('#itemOptions a[href$="#replace"]').append(lg.replace);
 		$('#itemOptions a[href$="#delete"]').append(lg.del);
+	}
+	
+	/** Adding a close button triggering callback function if CKEditorCleanUpFuncNum passed */
+	if($.urlParam('CKEditorCleanUpFuncNum')) {
+		$("body").append('<button id="close-btn" type="button">' + lg.close + '</button>');
+		
+		$('#close-btn').click(function () {
+			parent.CKEDITOR.tools.callFunction($.urlParam('CKEditorCleanUpFuncNum'));
+		});
 	}
 	
 	/** Input file Replacement */

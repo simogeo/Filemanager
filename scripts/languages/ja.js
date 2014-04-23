@@ -28,6 +28,7 @@
     "browse": "Browse...", 
     "bytes": "バイト", 
     "cancel": "キャンセル", 
+    "close": "Close", 
     "confirmation_delete": "本当にこのファイルを削除してもいいですか?", 
     "could_not_retrieve_folder": "フォルダーの内容を検索できませんできた.", 
     "create_folder": "フォルダーを作成", 

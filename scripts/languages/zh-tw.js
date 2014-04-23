@@ -28,6 +28,7 @@
     "browse": "Browse...", 
     "bytes": " bytes", 
     "cancel": "取消", 
+    "close": "Close", 
     "confirmation_delete": "確定刪除檔案？", 
     "could_not_retrieve_folder": "無法取得目錄內容", 
     "create_folder": "建立目錄", 

@@ -28,6 +28,7 @@
     "browse": "Browse...", 
     "bytes": " bytes", 
     "cancel": "Anuluj", 
+    "close": "Close", 
     "confirmation_delete": "Czy na pewno chcesz usunąć wybrany plik?", 
     "could_not_retrieve_folder": "Nie udało się otworzyć folderu.", 
     "create_folder": "Utwórz folder", 

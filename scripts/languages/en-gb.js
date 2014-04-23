@@ -28,6 +28,7 @@
     "browse": "Browse...", 
     "bytes": " bytes", 
     "cancel": "Cancel", 
+    "close": "Close", 
     "confirmation_delete": "Are you sure you wish to delete this file?", 
     "could_not_retrieve_folder": "Could not retrieve folder contents.", 
     "create_folder": "Create Folder", 

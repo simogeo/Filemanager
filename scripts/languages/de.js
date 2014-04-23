@@ -28,6 +28,7 @@
     "browse": "Browse...", 
     "bytes": " bytes", 
     "cancel": "Abbruch", 
+    "close": "Close", 
     "confirmation_delete": "Möchtest Du wirklich diese Datei löschen?", 
     "could_not_retrieve_folder": "Konnte Ordnerinhalt nicht lesen.", 
     "create_folder": "Ordner erstellen", 

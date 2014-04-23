@@ -28,6 +28,7 @@
     "browse": "Browse...", 
     "bytes": " bayt", 
     "cancel": "İptal", 
+    "close": "Close", 
     "confirmation_delete": "Dosyayı silmek istediğnizden emin misiniz?", 
     "could_not_retrieve_folder": "Klasör içerikleri getirilemiyor.", 
     "create_folder": "Klasör Oluştur", 

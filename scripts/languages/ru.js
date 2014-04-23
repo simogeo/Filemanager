@@ -28,6 +28,7 @@
     "browse": "...", 
     "bytes": " байт", 
     "cancel": "Отмена", 
+    "close": "Close", 
     "confirmation_delete": "Вы уверены, что хотите удалить этот файл?", 
     "could_not_retrieve_folder": "Не могу получить содержимое папки.", 
     "create_folder": "Создать папку", 

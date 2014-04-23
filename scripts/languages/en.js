@@ -35,6 +35,7 @@
     "current_folder": "Current folder: ", 
     "default_foldername": "My folder", 
     "del": "Delete", 
+    "close": "Close",
     "dimensions": "Dimensions", 
     "download": "Download", 
     "fck_select_integration": "The 'Select' function is only used for integration with FCKEditor.", 

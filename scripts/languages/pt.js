@@ -28,6 +28,7 @@
     "browse": "Browse...", 
     "bytes": " bytes", 
     "cancel": "Cancelar", 
+    "close": "Close", 
     "confirmation_delete": "Tem certeza que deseja excluir este arquivo?", 
     "could_not_retrieve_folder": "Não foi possivel ler o conteúdo da pasta.", 
     "create_folder": "Criar Pasta", 

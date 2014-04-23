@@ -28,6 +28,7 @@
     "browse": "Browse...", 
     "bytes": " bytes", 
     "cancel": "Hủy bỏ", 
+    "close": "Close", 
     "confirmation_delete": "Bạn chắc chắn muốn xóa tập tin này?", 
     "could_not_retrieve_folder": "Không lấy được nội dung thư mục.", 
     "create_folder": "Tạo thư mục", 

@@ -28,6 +28,7 @@
     "browse": "Browse...", 
     "bytes": " byte", 
     "cancel": "Mégse", 
+    "close": "Close", 
     "confirmation_delete": "Biztosan törölni szeretné a kijelölt fájlt?", 
     "could_not_retrieve_folder": "A mappa tartalmát nem lehet megjeleníteni.", 
     "create_folder": "Új mappa", 

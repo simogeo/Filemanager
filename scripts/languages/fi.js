@@ -28,6 +28,7 @@
     "browse": "Browse...", 
     "bytes": " tavua", 
     "cancel": "Peruuta", 
+    "close": "Close", 
     "confirmation_delete": "Oletko varma, että haluat poistaa kyseisen tiedoston?", 
     "could_not_retrieve_folder": "Ei voitu lukea hakemiston sisältöä.", 
     "create_folder": "Luo hakemisto", 

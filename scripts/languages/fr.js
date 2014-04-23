@@ -28,6 +28,7 @@
     "browse": "Parcourir...", 
     "bytes": " octets", 
     "cancel": "Annuler", 
+    "close": "Fermer", 
     "confirmation_delete": "Etes-vous sûr de vouloir supprimer ce fichier?", 
     "could_not_retrieve_folder": "Le contenu du dossier est inaccessible.", 
     "create_folder": "Créer un dossier", 

@@ -28,6 +28,7 @@
     "browse": "Browse...", 
     "bytes": " bytes", 
     "cancel": "Annullér", 
+    "close": "Close", 
     "confirmation_delete": "Er du sikker på du ønsker at slette filen?", 
     "could_not_retrieve_folder": "Var ude af stand til at modtage mappens indhold.", 
     "create_folder": "Opret mappe", 

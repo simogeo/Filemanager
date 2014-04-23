@@ -28,6 +28,7 @@
     "browse": "Procházet...", 
     "bytes": " bajtů", 
     "cancel": "Zrušit", 
+    "close": "Close", 
     "confirmation_delete": "Jste si opravdu jistí, že chcete smazat tuto položku?", 
     "could_not_retrieve_folder": "Došlo k chybě při načítání obsahu adresáře.", 
     "create_folder": "Vytvořit adresář", 
