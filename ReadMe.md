@@ -55,6 +55,8 @@ CKEDITOR.replace('instancename', {
 });
 ```
 
+If you want to use the **modal dialog mode** (instead of pop-up), please refer to [the dedicated wiki page](https://github.com/simogeo/Filemanager/wiki/How-to-open-the-Filemanager-from-CKEditor-in-a-modal-window-%3F).
+
 **(4c)** If you are integrating the FileManager with TinyMCE (>= 3.0), you should:
 
 Create a Javascript callback function that will open the FileManager index.html base page (see URL below for examples)
