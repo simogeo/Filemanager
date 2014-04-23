@@ -520,6 +520,14 @@ button.ON {
 	height:30px;
 }
 
+#close-btn {
+	margin-top:5px;
+	display:block;
+	width:100%;
+	font-variant: small-caps;
+	padding:0.5em;
+}
+
 div.CodeMirror {
 	text-align:left;
 	width:70%;
