@@ -13,6 +13,7 @@ Installation and Setup
 ----------------------
 
 **Preamble**
+
 Since many changes have been done recently, only PHP and MVC connectors are now available. You can try the latest version for others connectors, but with no warranty they implement all features and work correctly.
 
 To use other connectors, please download v0.8 version from https://github.com/simogeo/Filemanager/archive/v0.8.zip
