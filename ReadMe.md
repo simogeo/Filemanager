@@ -21,6 +21,7 @@ To use other connectors, please download v0.8 version from https://github.com/si
 
 A JSP/Java connector implementation is available at : https://github.com/th-schwarz/C5Connector.Java 
 
+---
 
 **(1)** Check out a copy of the FileManager from the repository using Git :
 
