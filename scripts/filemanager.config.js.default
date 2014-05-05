@@ -69,8 +69,8 @@
             ".CDN_ACCESS_LOGS",
             "cloudservers"
         ],
-        "unallowed_files_REGEXP": "/^\\.",
-        "unallowed_dirs_REGEXP": "/^\\."
+        "unallowed_files_REGEXP": "/^\\./",
+        "unallowed_dirs_REGEXP": "/^\\./"
     },
     "images": {
         "imagesExt": [
