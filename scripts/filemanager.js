@@ -559,7 +559,7 @@ var selectItem = function(data) {
 		var url = relPath + data['Path'];
 	}
     
-	if(window.opener || window.tinyMCEPopup || $.urlParam('CKEditorCleanUpFuncNum') || $.urlParam('CKEditor')) {
+	if(window.opener || window.tinyMCEPopup || $.urlParam('field_name') || $.urlParam('CKEditorCleanUpFuncNum') || $.urlParam('CKEditor')) {
 	 	if(window.tinyMCEPopup){
         	// use TinyMCE > 3.0 integration method
             var win = tinyMCEPopup.getWindowArg("window");
