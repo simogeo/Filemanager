@@ -1587,15 +1587,18 @@ $(function(){
 			$('#upload span').addClass('loading').text(lg.loading_data);
 			if ($.urlParam('type').toString().toLowerCase() == 'images') {
 				// Test if uploaded file extension is in valid image extensions
-				var newfileSplitted = $('#newfile', form).val().toLowerCase().split('.');
+			    var newfileSplitted = $('#newfile', form).val().toLowerCase().split('.');
+			    var found = false;
 				for (key in config.images.imagesExt) {
 					if (config.images.imagesExt[key] == newfileSplitted[newfileSplitted.length - 1]) {
-						return true;
+					    found = true;
 					}
 				}
-				$.prompt(lg.UPLOAD_IMAGES_ONLY);
-				$('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
-				return false;
+			    if (found === false) {
+			        $.prompt(lg.UPLOAD_IMAGES_ONLY);
+			        $('#upload').removeAttr('disabled').find("span").removeClass('loading').text(lg.upload);
+			        return false;
+			    }
 			}
 			// if config.upload.fileSizeLimit == auto we delegate size test to connector
 			if (typeof FileReader !== "undefined" && typeof config.upload.fileSizeLimit != "auto") {
