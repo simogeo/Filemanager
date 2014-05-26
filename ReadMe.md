@@ -268,6 +268,7 @@ Example Response:
 move
 ------
 The `move` method move "old" file or directory to specified "new" directory. It is possible to specify absolute path from fileRoot dir or relative path from "old" item. "root" value is mandatory to secure that relative paths don't get above fileRoot.
+**The `move` method is not 100 % safe. We give you the advice to wait for a security update to use it.**
 
 Example Request: Move file
 	
