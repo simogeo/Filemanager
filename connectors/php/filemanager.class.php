@@ -33,15 +33,9 @@ class Filemanager {
 
 	public function __construct($extraConfig = '') {
 		
-		// getting default config file
-		$content = file_get_contents("../../scripts/filemanager.config.js.default");
-		$config_default = json_decode($content, true);
-		
 		// getting user config file
-		$content = file_get_contents("../../scripts/filemanager.config.js");
-		$config = json_decode($content, true);
-		
-		$this->config = array_replace_recursive ($config_default, $config);
+		$content = file_get_contents(__DIR__ . '/../../config/filemanager.config.json');
+		$this->config = json_decode($content, true);
 
 		// override config options if needed
 		if(!empty($extraConfig)) {

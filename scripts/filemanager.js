@@ -27,19 +27,11 @@ $.urlParam = function(name){
 // We retrieve config settings from filemanager.config.js
 var loadConfigFile = function (type) {
 	var json = null;
-	type = (typeof type === "undefined") ? "user" : type;
-	
-	if(type == 'user') {
-		var url = './scripts/filemanager.config.js';
-	} else {
-		var url = './scripts/filemanager.config.js.default'
-	}
-    
+	var url = './config/filemanager.config.json';
     $.ajax({
         'async': false,
         'url': url,
         'dataType': "json",
-        cache: false, 
         'success': function (data) {
             json = data;
         }
@@ -47,14 +39,8 @@ var loadConfigFile = function (type) {
     return json;
 };
 
-// loading default configuration file
-var configd = loadConfigFile('default');
 // loading user configuration file
 var config = loadConfigFile();
-
-// we merge default config and user config file
-var config = $.extend({}, configd, config);
-
 
 // <head> included files collector
 HEAD_included_files = new Array();
