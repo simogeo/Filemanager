@@ -1526,7 +1526,7 @@ $(function(){
 	
 	/** load searchbox */
 	if(config.options.searchBox === true)  {
-		$.getScript("./scripts/filemanager.liveSearch.min.js");
+		loadJS("./scripts/filemanager.liveSearch.min.js");
 	} else {
 		$('#search').remove();
 	}
