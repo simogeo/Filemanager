@@ -333,8 +333,8 @@ class Filemanager {
 			$this->error("No way.");
 		}
 		
-		// we check if the new given extension is allowed regarding the security Policy settings
-		if($this->config['security']['allowChangeExtensions'] && !$this->isAllowedFileType($new_file)) {
+		// For file only - we check if the new given extension is allowed regarding the security Policy settings
+		if(is_file($old_file) && $this->config['security']['allowChangeExtensions'] && !$this->isAllowedFileType($new_file)) {
 			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')));
 		}
 

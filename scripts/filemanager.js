@@ -628,9 +628,9 @@ var renameItem = function(data) {
 					givenName = givenName + '.' + suffix;
 				}
  			}
- 			
- 			// Check if file extension is allowed
-			if (!isAuthorizedFile(givenName)) { 
+
+ 			// Folder only - Check if file extension is allowed
+			if (data['Path'].charAt(data['Path'].length-1) != '/'  && !isAuthorizedFile(givenName)) { 
 				var str = '<p>' + lg.INVALID_FILE_TYPE + '</p>';
 				if(config.security.uploadPolicy == 'DISALLOW_ALL') {
 					str += '<p>' + lg.ALLOWED_FILE_TYPE +  config.security.uploadRestrictions.join(', ') + '.</p>';
@@ -1512,7 +1512,7 @@ $(function(){
 	
 	/** load searchbox */
 	if(config.options.searchBox === true)  {
-		$.getScript("./scripts/filemanager.liveSearch.min.js");
+		loadJS("./scripts/filemanager.liveSearch.min.js");
 	} else {
 		$('#search').remove();
 	}
