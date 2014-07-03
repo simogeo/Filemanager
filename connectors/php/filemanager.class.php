@@ -1215,7 +1215,7 @@ private function __log($msg) {
 	if($this->logger == true) {
 
 		$fp = fopen($this->logfile, "a");
-		$str = "[" . date("d/m/Y h:i:s", mktime()) . "]#".  getUserIP() . "#" . $msg;
+		$str = "[" . date("d/m/Y h:i:s", time()) . "]#".  getUserIP() . "#" . $msg;
 		fwrite($fp, $str . PHP_EOL);
 		fclose($fp);
 	}
