@@ -33,8 +33,10 @@ class Filemanager {
 
 	public function __construct($extraConfig = '') {
 		
+		$this->root = dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR;
+
 		// getting user config file
-		$content = file_get_contents(__DIR__ . '/../../config/filemanager.config.json');
+		$content = file_get_contents($this->root . 'config/filemanager.config.json');
 		$this->config = json_decode($content, true);
 
 		// override config options if needed
@@ -42,7 +44,6 @@ class Filemanager {
 			$this->setup($extraConfig);
 		}
 
-		$this->root = dirname(dirname(dirname(__FILE__))).DIRECTORY_SEPARATOR;
 		$this->properties = array(
 				'Date Created'=>null,
 				'Date Modified'=>null,
