@@ -27,7 +27,7 @@ $.urlParam = function(name){
 // We retrieve config settings from filemanager.config.js
 var loadConfigFile = function (type) {
 	var json = null;
-	var url = './config/filemanager.config.json';
+	var url = 'config/filemanager.config.json';
     $.ajax({
         'async': false,
         'url': url,
@@ -1446,13 +1446,13 @@ $(function(){
 		loadJS('./scripts/CodeMirror/dynamic-mode.js');
 	}
 
-	if(!config.options.fileRoot) {
+	if(!config.path.fileRoot) {
 		fileRoot = '/' + document.location.pathname.substring(1, document.location.pathname.lastIndexOf('/') + 1) + 'userfiles/';
 	} else {
-		if(!config.options.serverRoot) {
-			fileRoot = config.options.fileRoot;
+		if(!config.path.serverRoot) {
+			fileRoot = config.path.fileRoot;
 		} else {
-			fileRoot = '/' + config.options.fileRoot;
+			fileRoot = '/' + config.path.fileRoot;
 		}
 		// we remove double slashes - can happen when using PHP SetFileRoot() function with fileRoot = '/' value
 		fileRoot = fileRoot.replace(/\/\//g, '\/');

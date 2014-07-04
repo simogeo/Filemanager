@@ -62,14 +62,14 @@ class Filemanager {
 
 		// if fileRoot is set manually, $this->doc_root takes fileRoot value
 		// for security check in isValidPath() method
-		// else it takes $_SERVER['DOCUMENT_ROOT'] default value
-		if ($this->config['options']['fileRoot'] !== false ) {
-			if($this->config['options']['serverRoot'] === true) {
+		// else it takes $_SERVER['DOCUMENT_ROOT'] and config's projectRoot default value
+		if ($this->config['path']['fileRoot'] !== false ) {
+			if($this->config['path']['useServerRoot'] === true) {
 				$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
-				$this->separator = basename($this->config['options']['fileRoot']);
+				$this->separator = basename($this->config['path']['fileRoot']);
 			} else {
-				$this->doc_root = $this->config['options']['fileRoot'];
-				$this->separator = basename($this->config['options']['fileRoot']);
+				$this->doc_root = $this->config['path']['fileRoot'];
+				$this->separator = basename($this->config['path']['fileRoot']);
 			}
 		} else {
 			$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
@@ -94,7 +94,7 @@ class Filemanager {
 	// allow Filemanager to be used with dynamic folders
 	public function setFileRoot($path) {
 
-		if($this->config['options']['serverRoot'] === true) {
+		if($this->config['path']['useServerRoot'] === true) {
 			$this->doc_root = $_SERVER['DOCUMENT_ROOT']. '/'.  $path;
 		} else {
 			$this->doc_root =  $path;
@@ -856,7 +856,7 @@ private function getFullPath($path = '') {
 		if(isset($this->get['path'])) $path = $this->get['path'];
 	}
 	
-	if($this->config['options']['fileRoot'] !== false) {
+	if($this->config['path']['fileRoot'] !== false) {
 		$full_path = $this->doc_root . rawurldecode(str_replace ( $this->doc_root , '' , $path));
 		if($this->dynamic_fileroot != '') {
 			$full_path = $this->doc_root . rawurldecode(str_replace ( $this->dynamic_fileroot , '' , $path));
