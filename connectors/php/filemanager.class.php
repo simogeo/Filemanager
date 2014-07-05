@@ -101,7 +101,7 @@ class Filemanager {
 		}
 		
 		// necessary for retrieving path when set dynamically with $fm->setFileRoot() method
-		$this->dynamic_fileroot = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->doc_root) . DOCUMENT_SEPARATOR;
+		$this->dynamic_fileroot = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->doc_root) . DIRECTORY_SEPARATOR;
 		$this->separator = basename($this->doc_root);
 		
 		$this->__log(__METHOD__ . ' $this->doc_root value overwritten : ' . $this->doc_root);
