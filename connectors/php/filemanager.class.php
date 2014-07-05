@@ -65,14 +65,14 @@ class Filemanager {
 		// else it takes $_SERVER['DOCUMENT_ROOT'] and config's projectRoot default value
 		if ($this->config['path']['fileRoot'] !== false ) {
 			if($this->config['path']['useServerRoot'] === true) {
-				$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
+				$this->doc_root = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR;
 				$this->separator = basename($this->config['path']['fileRoot']);
 			} else {
 				$this->doc_root = $this->config['path']['fileRoot'];
 				$this->separator = basename($this->config['path']['fileRoot']);
 			}
 		} else {
-			$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
+			$this->doc_root = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR;
 		}
 
 		$this->__log(__METHOD__ . ' $this->doc_root value ' . $this->doc_root);
@@ -95,13 +95,13 @@ class Filemanager {
 	public function setFileRoot($path) {
 
 		if($this->config['path']['useServerRoot'] === true) {
-			$this->doc_root = $_SERVER['DOCUMENT_ROOT']. '/'.  $path;
+			$this->doc_root = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .  $path;
 		} else {
 			$this->doc_root =  $path;
 		}
 		
 		// necessary for retrieving path when set dynamically with $fm->setFileRoot() method
-		$this->dynamic_fileroot = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->doc_root);
+		$this->dynamic_fileroot = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->doc_root) . DOCUMENT_SEPARATOR;
 		$this->separator = basename($this->doc_root);
 		
 		$this->__log(__METHOD__ . ' $this->doc_root value overwritten : ' . $this->doc_root);
