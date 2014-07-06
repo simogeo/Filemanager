@@ -210,33 +210,39 @@ class Filemanager {
 			natcasesort($filesDir);
 
 			foreach($filesDir as $file) {
+				$filePath = $this->get['path'] . $file;
 
 				if(is_dir($current_path . $file)) {
 					if(!in_array($file, $this->config['exclude']['unallowed_dirs']) && !preg_match( $this->config['exclude']['unallowed_dirs_REGEXP'], $file)) {
-						$array[$this->get['path'] . $file .'/'] = array(
-								'Path'=> $this->get['path'] . $file .'/',
+						$dirPath = $filePath . DIRECTORY_SEPARATOR;
+						$dirFullPath = $this->getFullPath($dirPath);
+						$properties = array(
+							'Date Created'=> date($this->config['options']['dateFormat'], filectime($dirFullPath)),
+							'Date Modified'=> date($this->config['options']['dateFormat'], filemtime($dirFullPath)),
+							'filemtime'=> filemtime($dirFullPath),
+							'Height'=>null,
+							'Width'=>null,
+							'Size'=>null
+						);
+						$array[$filePath] = array(
+								'Path'=> $dirPath,
 								'Filename'=>$file,
 								'File Type'=>'dir',
 								'Preview'=> $this->config['icons']['path'] . $this->config['icons']['directory'],
-								'Properties'=>array(
-										'Date Created'=> date($this->config['options']['dateFormat'], filectime($this->getFullPath($this->get['path'] . $file .'/'))),
-										'Date Modified'=> date($this->config['options']['dateFormat'], filemtime($this->getFullPath($this->get['path'] . $file .'/'))),
-										'filemtime'=> filemtime($this->getFullPath($this->get['path'] . $file .'/')),
-										'Height'=>null,
-										'Width'=>null,
-										'Size'=>null
-								),
+								'Properties'=> $properties,
 								'Error'=>"",
 								'Code'=>0
 						);
 					}
-				} else if (!in_array($file, $this->config['exclude']['unallowed_files'])  && !preg_match( $this->config['exclude']['unallowed_files_REGEXP'], $file)) {
+				} else if (!in_array($file, $this->config['exclude']['unallowed_files']) && !preg_match( $this->config['exclude']['unallowed_files_REGEXP'], $file)) {
 					$this->item = array();
 					$this->item['properties'] = $this->properties;
 					$this->get_file_info($this->get['path'] . $file, true);
 
-					if(!isset($this->params['type']) || (isset($this->params['type']) && strtolower($this->params['type'])=='images' && in_array(strtolower($this->item['filetype']),array_map('strtolower', $this->config['images']['imagesExt'])))) {
-						if($this->config['upload']['imagesOnly']== false || ($this->config['upload']['imagesOnly']== true && in_array(strtolower($this->item['filetype']),array_map('strtolower', $this->config['images']['imagesExt'])))) {
+					$isImageFile = isset($this->params['type']) && strtolower($this->params['type']) == 'images';
+					$isAcceptedImageExt = in_array(strtolower($this->item['filetype']), array_map('strtolower', $this->config['images']['imagesExt']));
+					if(!isset($this->params['type']) || ($isImageFile && $isAcceptedImageExt)) {
+						if($this->config['upload']['imagesOnly'] == false || ($this->config['upload']['imagesOnly'] == true && $isAcceptedImageExt)) {
 							$array[$this->get['path'] . $file] = array(
 									'Path'=>$this->get['path'] . $file,
 									'Filename'=>$this->item['filename'],
@@ -824,7 +830,7 @@ class Filemanager {
 				$this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path='. rawurlencode($current_path).'&'. time();
 				if($thumbnail) $this->item['preview'] .= '&thumbnail=true';
 			}
-			//if(isset($get['getsize']) && $get['getsize']=='true') {
+
 			$this->item['properties']['Size'] = filesize($this->getFullPath($current_path));
 			if ($this->item['properties']['Size']) {
 				list($width, $height, $type, $attr) = getimagesize($this->getFullPath($current_path));
@@ -847,7 +853,6 @@ class Filemanager {
 
 	$this->item['properties']['Date Modified'] = date($this->config['options']['dateFormat'], $this->item['filemtime']);
 	$this->item['properties']['filemtime'] = filemtime($this->getFullPath($current_path));
-	//$return['properties']['Date Created'] = $this->config['options']['dateFormat'], $return['filectime']); // PHP cannot get create timestamp
 }
 
 private function getFullPath($path = '') {
