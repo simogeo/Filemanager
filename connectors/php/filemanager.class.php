@@ -825,7 +825,7 @@ class Filemanager {
 			if($this->item['filetype'] == 'svg') {
 				$this->item['preview'] = $current_path;
 			} else {
-				$this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path='. rawurlencode($current_path).'&'. time();
+				$this->item['preview'] = $this->config['path']['filemanagerRoot'] . 'connectors/php/filemanager.php?mode=preview&path='. rawurlencode($current_path).'&'. time();
 				if($thumbnail) $this->item['preview'] .= '&thumbnail=true';
 			}
 

@@ -2,6 +2,7 @@
 	"_comment": "IMPORTANT : go to the wiki page to know about options configuration https://github.com/simogeo/Filemanager/wiki/Filemanager-configuration-file",
 	"path" : {
 		"useServerRoot": true,
+		"filemanagerRoot": "",
 		"fileRoot": "Filemanager/images/"
 	},
     "options": {
