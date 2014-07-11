@@ -51,6 +51,7 @@ HEAD_included_files = new Array();
  * if not already included
  */ 
 loadCSS = function(href) {
+	href = config.path.filemanagerRoot + href;
 	// we check if already included
 	if($.inArray(href, HEAD_included_files) == -1) {
 		var cssLink = $("<link rel='stylesheet' type='text/css' href='" + href + "'>");
@@ -64,6 +65,7 @@ loadCSS = function(href) {
 * if not already included
 */ 
 loadJS = function(src) {
+	src = config.path.filemanagerRoot + src;
 	// we check if already included
 	if($.inArray(src, HEAD_included_files) == -1) {
 		var jsLink = $("<script type='text/javascript' src='" + src + "'>");
@@ -74,7 +76,7 @@ loadJS = function(src) {
 
 
 // Sets paths to connectors based on language selection.
-var fileConnector = config.options.fileConnector || 'connectors/' + config.options.lang + '/filemanager.' + config.options.lang;
+var fileConnector = config.path.fileConnector || config.path.filemanagerRoot + 'connectors/' + config.options.lang + '/filemanager.' + config.options.lang;
 
 // Read capabilities from config files if exists
 // else apply default settings
@@ -82,11 +84,11 @@ var capabilities = config.options.capabilities || new Array('select', 'download'
 
 // Get localized messages from file 
 // through culture var or from URL
-if($.urlParam('langCode') != 0 && file_exists ('scripts/languages/'  + $.urlParam('langCode') + '.js')) config.options.culture = $.urlParam('langCode');
+if($.urlParam('langCode') != 0 && file_exists (config.path.filemanagerRoot + 'scripts/languages/'  + $.urlParam('langCode') + '.js')) config.options.culture = $.urlParam('langCode');
 
 var lg = [];
 $.ajax({
-  url: 'scripts/languages/'  + config.options.culture + '.js',
+  url: config.path.filemanagerRoot + 'scripts/languages/'  + config.options.culture + '.js',
   async: false,
   dataType: 'json',
   success: function (json) {
@@ -1449,7 +1451,7 @@ $(function(){
 	if(!config.path.fileRoot) {
 		fileRoot = '/' + document.location.pathname.substring(1, document.location.pathname.lastIndexOf('/') + 1) + 'userfiles/';
 	} else {
-		if(!config.path.serverRoot) {
+		if(!config.path.useServerRoot) {
 			fileRoot = config.path.fileRoot;
 		} else {
 			fileRoot = '/' + config.path.fileRoot;
