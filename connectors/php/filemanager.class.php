@@ -991,6 +991,13 @@ private function isAllowedFileType($file) {
 	
 	$path_parts = pathinfo($file);
 	
+	// if there is no extension AND no extension file are not allowed
+	if(!isset($path_parts['extension']) && $this->config['security']['allowNoExtension'] == false) {
+		return false;
+	} else {
+		return true;
+	}
+	
 	$exts = array_map('strtolower', $this->config['security']['uploadRestrictions']);
 	
 	if($this->config['security']['uploadPolicy'] == 'DISALLOW_ALL') {

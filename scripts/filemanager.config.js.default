@@ -25,6 +25,7 @@
     },
     "security": {
         "allowChangeExtensions": false,
+        "allowNoExtension": false,
         "uploadPolicy": "DISALLOW_ALL",
         "uploadRestrictions": [
             "jpg",

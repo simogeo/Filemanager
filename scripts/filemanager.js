@@ -286,11 +286,17 @@ function has_capability(data, cap) {
 
 // Test if file is authorized
 var isAuthorizedFile = function(filename) {
+	
+	var ext = getExtension(filename);
+	
+	// no extension is allowed
+	if(ext == '' && config.security.allowNoExtension == true) return true;
+	
 	if(config.security.uploadPolicy == 'DISALLOW_ALL') {
-		if($.inArray(getExtension(filename), config.security.uploadRestrictions) != -1) return true;
+		if($.inArray(ext, config.security.uploadRestrictions) != -1) return true;
 	}
 	if(config.security.uploadPolicy == 'ALLOW_ALL') {
-		if($.inArray(getExtension(filename), config.security.uploadRestrictions) == -1) return true;
+		if($.inArray(ext, config.security.uploadRestrictions) == -1) return true;
 	}
     
     return false;
@@ -643,7 +649,7 @@ var renameItem = function(data) {
 				}
  			}
 
- 			// Folder only - Check if file extension is allowed
+ 			// File only - Check if file extension is allowed
 			if (data['Path'].charAt(data['Path'].length-1) != '/'  && !isAuthorizedFile(givenName)) { 
 				var str = '<p>' + lg.INVALID_FILE_TYPE + '</p>';
 				if(config.security.uploadPolicy == 'DISALLOW_ALL') {
