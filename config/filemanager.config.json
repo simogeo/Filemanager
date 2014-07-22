@@ -26,7 +26,8 @@
         "relPath": false,
         "logger": false,
         "capabilities": ["select", "download", "rename", "delete", "replace"],
-        "plugins": []
+        "plugins": [],
+        "userConfigOnly": true
     },
     "security": {
         "allowChangeExtensions": false,

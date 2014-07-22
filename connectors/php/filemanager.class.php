@@ -39,6 +39,12 @@ class Filemanager {
 		$content = file_get_contents($this->root . 'config/filemanager.config.json');
 		$this->config = json_decode($content, true);
 
+		if( !$this->config['options']['userConfigOnly'] ) {
+			$content = file_get_contents($this->root . 'scripts/filemanager.config.js.default');
+			$defaults = json_decode($content, true);
+			$this->config = array_replace_recursive($defaults, $this->config);
+		}
+
 		// override config options if needed
 		if(!empty($extraConfig)) {
 			$this->setup($extraConfig);

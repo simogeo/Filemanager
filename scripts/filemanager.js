@@ -26,17 +26,30 @@ $.urlParam = function(name){
 
 // We retrieve config settings from filemanager.config.js
 var loadConfigFile = function (type) {
-	var json = null;
-	var url = 'config/filemanager.config.json';
+	var config = null;
+
     $.ajax({
         'async': false,
-        'url': url,
+        'url': 'config/filemanager.config.json',
         'dataType': "json",
         'success': function (data) {
-            json = data;
+            config = data;
         }
     });
-    return json;
+
+    if(!config.options.userConfigOnly) { 
+    	$.ajax({
+	        'async': false,
+	        'url': 'scripts/filemanager.config.js.default',
+	        'dataType': "json",
+	        'success': function (data) {
+	            defaults = data;
+	        }
+	    });
+	    config = $.extend({}, defaults, config);
+    }
+
+    return config;
 };
 
 // loading user configuration file
