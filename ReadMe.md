@@ -9,6 +9,36 @@ Filemanager is under free license. If you want to support the filemanager develo
 [![Donate](https://www.paypal.com/en_US/i/btn/x-click-but21.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2M5GWH9NLNEZL) 
 
 
+
+Main features
+-------------
+
+* A Filemanager relying on jquery.
+* Available in more than 20 languages.
+* Can work as standalone application
+* Easy integration with RTE like CKEditor, TinyMCE and so on.
+* Easy integration with [colorbox jquery plugin](https://github.com/simogeo/Filemanager/wiki/How-to-use-the-filemanager-with-colorbox-%3F) or [HTML simple textfield](https://github.com/simogeo/Filemanager/wiki/How-to-use-the-filemanager-from-a-simple-textfield-%3F)
+* Several computer language connectors available. PHP and MVC are up-to-date
+* Ability to upload, delete, modify, download and move files
+* Ability to create folders
+* Online text / code edition - based on [codeMirror](http://codemirror.net/)
+* [Opening a given folder](https://github.com/simogeo/Filemanager/wiki/How-to-open-a-given-folder-different-from-root-folder-when-opening-the-filemanager%3F)
+* [Opening exclusively a given folder](https://github.com/simogeo/Filemanager/wiki/How-to-open-%28exclusively%29-a-given-subfolder-%3F)
+* [Passing parameters to the FM](https://github.com/simogeo/Filemanager/wiki/Passing-parameters-to-the-FM)
+* [File types restriction](https://github.com/simogeo/Filemanager/wiki/Set-up-upload-restriction-on-file-type)
+* Video and audio player relying on web browser capabilities
+* Textbox Search filter
+* Thumbnails generation
+* Image auto-resize
+* File size limit
+* File exclusion based on name and patterns
+* Images files only
+* Prevent files overwriting (or not)
+* Switch from list to grid view and vice-versa
+
+* and more ...
+
+
 Installation and Setup
 ----------------------
 
