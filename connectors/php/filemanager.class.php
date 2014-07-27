@@ -148,7 +148,7 @@ class Filemanager {
 		}
 	}
 	public function postvar($var, $sanitize = true) {
-		if(!isset($_POST[$var]) || $_POST[$var]=='') {
+		if(!isset($_POST[$var]) || ($var != 'content' && $_POST[$var]=='')) {
 			$this->error(sprintf($this->lang('INVALID_VAR'),$var));
 		} else {
 			if($sanitize) {
@@ -276,7 +276,7 @@ class Filemanager {
 		$content = file_get_contents($current_path);
 		$content = htmlspecialchars($content);
 
-		if(!$content) {
+		if($content === false) {
 			$this->error(sprintf($this->lang('ERROR_OPENING_FILE')));
 		}
 
