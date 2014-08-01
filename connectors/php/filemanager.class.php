@@ -1215,12 +1215,35 @@ private function isEditable($file) {
 }
 
 
+private function get_user_ip()
+{
+	$client  = @$_SERVER['HTTP_CLIENT_IP'];
+	$forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+	$remote  = $_SERVER['REMOTE_ADDR'];
+
+	if(filter_var($client, FILTER_VALIDATE_IP))
+	{
+		$ip = $client;
+	}
+	elseif(filter_var($forward, FILTER_VALIDATE_IP))
+	{
+		$ip = $forward;
+	}
+	else
+	{
+		$ip = $remote;
+	}
+
+	return $ip;
+}
+
+
 private function __log($msg) {
 		
 	if($this->logger == true) {
 
 		$fp = fopen($this->logfile, "a");
-		$str = "[" . date("d/m/Y h:i:s", time()) . "]#".  getUserIP() . "#" . $msg;
+		$str = "[" . date("d/m/Y h:i:s", time()) . "]#".  $this->get_user_ip() . "#" . $msg;
 		fwrite($fp, $str . PHP_EOL);
 		fclose($fp);
 	}
