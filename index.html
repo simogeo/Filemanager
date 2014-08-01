@@ -1,83 +1,507 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Filemanager by simogeo</title>
+  </head>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <body>
+    <div id="container">
+      <div class="inner">
 
-	<title>simogeo/Filemanager @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #474866;
-		  font-family: "Helvetica,Arial,FreeSans";
-  		color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-		h1 { font-size: 3.8em; color: #b8b799; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #b8b799; }
-    h3 { text-align: center; color: #b8b799; }
-    a { color: #b8b799; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	
-</head>
+        <header>
+          <h1>Filemanager</h1>
+          <h2>An open-source file manager released under MIT license. Up-to-date for PHP and MVC connector. For an online demo, see URL below</h2>
+        </header>
 
-<body>
-  <a href="http://github.com/simogeo/Filemanager"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/simogeo/Filemanager/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/simogeo/Filemanager/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/simogeo/Filemanager" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
 
-  <div id="container">
+        <hr>
 
-    <div class="download">
-      <a href="http://github.com/simogeo/Filemanager/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/simogeo/Filemanager/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+        <section id="main_content">
+          <h2>
+<a name="main-features" class="anchor" href="#main-features"><span class="octicon octicon-link"></span></a>Main features</h2>
+
+<ul>
+<li>A Filemanager relying on jquery.</li>
+<li>Available in more than 20 languages.</li>
+<li>Can work as standalone application</li>
+<li>Easy integration with RTE like CKEditor, TinyMCE and so on.</li>
+<li>Easy integration with <a href="https://github.com/simogeo/Filemanager/wiki/How-to-use-the-filemanager-with-colorbox-%3F">colorbox jquery plugin</a> or <a href="https://github.com/simogeo/Filemanager/wiki/How-to-use-the-filemanager-from-a-simple-textfield-%3F">HTML simple textfield</a>
+</li>
+<li>Several computer language connectors available. PHP and MVC are up-to-date</li>
+<li>Ability to upload, delete, modify, download and move files</li>
+<li>Ability to create folders</li>
+<li>Online text / code edition - based on <a href="http://codemirror.net/">codeMirror</a>
+</li>
+<li><a href="https://github.com/simogeo/Filemanager/wiki/How-to-open-a-given-folder-different-from-root-folder-when-opening-the-filemanager%3F">Opening a given folder</a></li>
+<li><a href="https://github.com/simogeo/Filemanager/wiki/How-to-open-%28exclusively%29-a-given-subfolder-%3F">Opening exclusively a given folder</a></li>
+<li><a href="https://github.com/simogeo/Filemanager/wiki/Passing-parameters-to-the-FM">Passing parameters to the FM</a></li>
+<li><a href="https://github.com/simogeo/Filemanager/wiki/Set-up-upload-restriction-on-file-type">File types restriction</a></li>
+<li>Video and audio player relying on web browser capabilities</li>
+<li>Textbox Search filter</li>
+<li>Thumbnails generation</li>
+<li>Image auto-resize</li>
+<li>File size limit</li>
+<li>File exclusion based on name and patterns</li>
+<li>Images files only</li>
+<li>Prevent files overwriting (or not)</li>
+<li>Switch from list to grid view and vice-versa</li>
+<li>and more ...</li>
+</ul><h2>
+<a name="installation-and-setup" class="anchor" href="#installation-and-setup"><span class="octicon octicon-link"></span></a>Installation and Setup</h2>
+
+<p><strong>Preamble</strong></p>
+
+<p>Since many changes have been done recently, only PHP and MVC connectors are now available. You can try the latest version for others connectors, but with no warranty they implement all features and work correctly.</p>
+
+<p>To use other connectors, please download v0.8 version from <a href="https://github.com/simogeo/Filemanager/archive/v0.8.zip">https://github.com/simogeo/Filemanager/archive/v0.8.zip</a>
+(PHP, ASHX, ASP, CFM, lasso, PL and JSP connectors are available)</p>
+
+<p>A JSP/Java connector implementation is available at : <a href="https://github.com/th-schwarz/C5Connector.Java">https://github.com/th-schwarz/C5Connector.Java</a> </p>
+
+<hr><p><strong>(1)</strong> Check out a copy of the FileManager from the repository using Git :</p>
+
+<p>git clone <a href="http://github.com/simogeo/Filemanager.git">http://github.com/simogeo/Filemanager.git</a></p>
+
+<p>or download the archive from Github : <a href="https://github.com/simogeo/Filemanager/archive/master.zip">https://github.com/simogeo/Filemanager/archive/master.zip</a></p>
+
+<p>You can place the FileManager anywhere within your web serving root directory.</p>
+
+<p><strong>(2)</strong> Make a copy of the default configuration file ("filemanager.config.js.default" located in the scripts directory), removing the '.default' from the end of the filename, and edit the options according to the following wiki page : <a href="https://github.com/simogeo/Filemanager/wiki/Filemanager-configuration-file">https://github.com/simogeo/Filemanager/wiki/Filemanager-configuration-file</a>
+   Having a look on configuration cases study may also be helpful to you : <a href="https://github.com/simogeo/Filemanager/wiki/Specify-user-folder%2C-configuration-cases">https://github.com/simogeo/Filemanager/wiki/Specify-user-folder%2C-configuration-cases</a></p>
+
+<p><strong>(3a)</strong> If you are integrating the FileManager with FCKEditor, open your fckconfig.js file and find the lines which specify what file browser to use for images, links, etc. Look toward the bottom of the file. You will need to change lines such as this:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">FCKConfig</span><span class="p">.</span><span class="nx">ImageBrowser</span> <span class="o">=</span> <span class="kc">false</span> <span class="p">;</span>
+<span class="nx">FCKConfig</span><span class="p">.</span><span class="nx">ImageBrowserURL</span> <span class="o">=</span> <span class="nx">FCKConfig</span><span class="p">.</span><span class="nx">BasePath</span> <span class="o">+</span> <span class="s1">'filemanager/browser/default/browser.html?Type=Image&amp;Connector=../../connectors/'</span> <span class="o">+</span> <span class="nx">_FileBrowserLanguage</span> <span class="o">+</span> <span class="s1">'/connector.'</span> <span class="o">+</span> <span class="nx">_FileBrowserExtension</span> <span class="p">;</span>
+</pre></div>
+
+<p>...to this:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">FCKConfig</span><span class="p">.</span><span class="nx">ImageBrowser</span> <span class="o">=</span> <span class="kc">true</span> <span class="p">;</span>
+<span class="nx">FCKConfig</span><span class="p">.</span><span class="nx">ImageBrowserURL</span> <span class="o">=</span> <span class="s1">'[Path to Filemanager]/index.html'</span> <span class="p">;</span>
+</pre></div>
+
+<p><strong>(3b)</strong> If you are integrating the FileManager with CKEditor 3.x or higher, simply set the URL when you configure your instance, like so:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">CKEDITOR</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">'instancename'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">filebrowserBrowseUrl</span><span class="o">:</span> <span class="s1">'[Path to Filemanager]/index.html'</span><span class="p">,</span>
+    <span class="p">...</span><span class="nx">other</span> <span class="nx">configuration</span> <span class="nx">options</span><span class="p">...</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>If you want to use the <strong>modal dialog mode</strong> (instead of pop-up), please refer to <a href="https://github.com/simogeo/Filemanager/wiki/How-to-open-the-Filemanager-from-CKEditor-in-a-modal-window-%3F">the dedicated wiki page</a>.</p>
+
+<p><strong>(3c)</strong> If you are integrating the FileManager with TinyMCE (&gt;= 3.0), you should:</p>
+
+<p>Create a Javascript callback function that will open the FileManager index.html base page (see URL below for examples)
+Add a line like: "file_browser_callback : 'name_of_callback_function'" in the tinyMCE.init command
+See <a href="http://www.tinymce.com/wiki.php/TinyMCE3x:How-to_implement_a_custom_file_browser">http://www.tinymce.com/wiki.php/TinyMCE3x:How-to_implement_a_custom_file_browser</a> for more details.</p>
+
+<p>See also the dedicated wiki page, with TinyMCE 4 sample : <a href="https://github.com/simogeo/Filemanager/wiki/How-to-use-the-Filemanager-with-tinyMCE--3-or-4-%3F">https://github.com/simogeo/Filemanager/wiki/How-to-use-the-Filemanager-with-tinyMCE--3-or-4-%3F</a></p>
+
+<p><strong>(4)</strong> Last but not least, <strong>worry about security</strong>!</p>
+
+<p>For <strong>PHP connector</strong> : copy/paste the <code>/connectors/php/default.config.php</code> to <code>/connectors/php/user.config.php</code> to define your own authentication function.
+To do so, you will find an example on the <a href="https://github.com/simogeo/Filemanager/wiki/Security-concern">dedicated wiki page</a>.</p>
+
+<p><strong>jQuery dependency and compatibility</strong></p>
+
+<p>We try to keep updating jQuery core library regularly.
+If, for any reason, you can't use the embedded jQuery version just now that the Filemanager will probably work with a jQuery version &gt;= 1.6.
+You'll have to use the <a href="https://github.com/jquery/jquery-migrate">jQuery.migrate() plugin</a> to use it with jQuery version 1.9+.</p>
+
+<h2>
+<a name="set-up--security" class="anchor" href="#set-up--security"><span class="octicon octicon-link"></span></a>Set-up &amp; security</h2>
+
+<p><strong>Important</strong> : The Filemanager is designed to work without any special configuration but <strong>using it without any configuration is VERY unsafe</strong>.
+Please set-up your own <strong>authentication function</strong>, based on <a href="https://github.com/simogeo/Filemanager/blob/master/connectors/php/default.config.php">default file</a> and refering to the <a href="https://github.com/simogeo/Filemanager/wiki/Security-concern">dedicated wiki page</a>.</p>
+
+<h2>
+<a name="api" class="anchor" href="#api"><span class="octicon octicon-link"></span></a>API</h2>
+
+<h2>
+<a name="connector-location" class="anchor" href="#connector-location"><span class="octicon octicon-link"></span></a>Connector Location</h2>
+
+<p>You can create a connector for your server side language of choice by following this simple API. You must have a script at the following location which can respond to HTTP GET requests by returning an appropriate JSON object:</p>
+
+<pre><code>[path to FileManager]/connectors/[language extension]/filemanager.[language extension]
+</code></pre>
+
+<p>FileManager currently includes connectors for PHP, MVC, JSP, lasso, ASP, ASHX, PL and CFM in the following locations:</p>
+
+<pre><code>PHP: .../connectors/php/filemanager.php
+ASP.NET MVC Framework .../connectors/mvc/FilemanagerController.cs
+JSP: .../connectors/jsp/filemanager.jsp
+lasso: .../connectors/lasso/filemanager.lasso
+ASP: .../connectors/asp/filemanager.asp
+ASHX: .../connectors/ashx/filemanager.asp
+PL: .../connectors/pl/filemanager.pl
+CFM: .../connectors/cfm/filemanager.cfm
+</code></pre>
+
+<p>As long as a script exists at this location to respond to requests, you may split up the code (external libraries, configuration files, etc.) however you see fit.</p>
+
+<h2>
+<a name="error-handling" class="anchor" href="#error-handling"><span class="octicon octicon-link"></span></a>Error Handling</h2>
+
+<p>Every response should include two keys specific to error handling: Error, and Code. If an error occurs in your script, you may populate these keys with whatever values you feel are most appropriate. If there is no error, Error should remain empty or null, and Code should be empty, null, or zero (0). Do not use zero for any actual errors. The following example would be an appropriate response if the connector uses an external file for configuration (recommended), but that file cannot be found:</p>
+
+<pre><code>{
+    "Error": "Configuration file missing.",
+    "Code":  -1
+}
+</code></pre>
+
+<h2>
+<a name="methods" class="anchor" href="#methods"><span class="octicon octicon-link"></span></a>Methods</h2>
+
+<p>Your script should include support for the following methods/functions. GET requests from FileManager include a parameter "mode" which will indicate which type of response to return. Additional parameters will provide other information required to fulfill the request, such as the current directory.</p>
+
+<h2>
+<a name="getinfo" class="anchor" href="#getinfo"><span class="octicon octicon-link"></span></a>getinfo</h2>
+
+<p>The <code>getinfo</code> method returns information about a single file. Requests with mode "getinfo" will include an additional parameter, "path", indicating which file to inspect. A boolean parameter "getsize" indicates whether the dimensions of the file (if an image) should be returned. </p>
+
+<p>Example Request:</p>
+
+<pre><code>[path to connector]?mode=getinfo&amp;path=/UserFiles/Image/logo.png&amp;getsize=true
+</code></pre>
+
+<p>Example Response:</p>
+
+<pre><code>{
+    "Path": "/UserFiles/Image/logo.png",
+    "Filename": "logo.png",
+    "File Type": "png",
+    "Preview": "/UserFiles/Image/logo.png",
+    "Properties": {
+        "Date Created": null, 
+        "Date Modified": "02/09/2007 14:01:06",
+        "filemtime": 1360237058,
+        "Height": 14,
+        "Width": 14,
+        "Size": 384 
+    },
+    "Error": "",
+    "Code": 0
+}
+</code></pre>
+
+<p>The keys are as follows:</p>
+
+<pre><code>Path: The path to the file. Should match what was passed in the request.
+
+Filename: The name of the file, i.e., the last part of the path.
+
+File Type: The file extension, "dir" if a directory, or "txt" if missing/unknown.
+
+Preview: Path to a preview image. If the file is an image that can be displayed in a web browser (i.e., gif, jpg, or png), you should return the path to the image. Otherwise, check to see if there is a matching file icon based on the file extension, constructing the path like so:
+
+    Directories: images/fileicons/_Open.png     
+    Files: images/fileicons/[extension].png     
+    Unknown: images/fileicons/default.png
+
+Properties: A nested JSON object containing specific properties of the file.
+
+    Date Created: The file's creation date, if available.
+    Date Modified: The file's modification date, if available.
+    Height: If an image, the height in pixels.
+    Width: If an image, the width in pixels.
+    Size: The file size in bytes.
+
+Capabilities (optional): You can limit the operation buttons shown for a specific file. It is an array containing ['select','delete','rename','download'] (for all capabilities), or [] (for no capabilities). If not present, all capabilities are enabled.
+
+Error: An error message, or empty/null if there was no error.
+
+Code: An error code, or 0 if there was no error.
+</code></pre>
+
+<h2>
+<a name="getfolder" class="anchor" href="#getfolder"><span class="octicon octicon-link"></span></a>getfolder</h2>
+
+<p>The <code>getfolder</code> method returns an array of file and folder objects representing the contents of the given directory (indicated by a "path" parameter). It should call the getinfo method to retrieve the properties of each file. A boolean parameter "getsizes" indicates whether image dimensions should be returned for each item. Folders should always be returned before files.
+Optionally a "type" parameter can be specified to restrict returned files (depending on the connector). If a "type" parameter is given for the main index.html URL, the same parameter value is reused and passed to getfolder. This can be used for example to only show image files in a file system tree.</p>
+
+<p>Example Request:</p>
+
+<pre><code>[path to connector]?mode=getfolder&amp;path=/UserFiles/Image/&amp;getsizes=true&amp;type=images
+</code></pre>
+
+<p>Example Response:</p>
+
+<pre><code>{
+    "/UserFiles/Image/logo.png": {
+        "Path": "/UserFiles/Image/logo.png",
+        "Filename": "logo.png",
+        "File Type": "png",
+        "Preview": "/UserFiles/Image/logo.png",
+        "Properties": {
+            "Date Created": null, 
+            "Date Modified": "02/09/2007 14:01:06",
+            "filemtime": 1360237058,
+            "Height": 14,
+            "Width": 14,
+            "Size": 384 
+        },
+        "Error": "",
+        "Code": 0   
+    },
+    "/UserFiles/Image/icon.png": {
+        "Path": "/UserFiles/Image/icon.png",
+        "Filename": "icon.png",
+        "File Type": "png",
+        "Preview": "/UserFiles/Image/icon.png",
+        "Properties": {
+            "Date Created": null, 
+            "Date Modified": "02/09/2007 14:01:06",
+            "filemtime": 1360237058,
+            "Height": 14,
+            "Width": 14,
+            "Size": 384 
+        },
+        "Error": "",
+        "Code": 0   
+    },
+    "/UserFiles/folder/":{
+        "Path":"/UserFiles/folder/",
+        "Filename":"folder",
+        "File Type":"dir",
+        "Preview":"images\/fileicons\/_Open.png",
+        "Properties": {
+            "Date Created":null,
+            "Date Modified": "02/09/2007 14:01:06",
+            "filemtime": 1360237058,
+            "Height":null,
+            "Width":null,
+            "Size":null
+        },
+        "Error":"",
+        "Code":0
+    }       
+}
+</code></pre>
+
+<p>Each key in the array is the path to an individual item, and the value is the file object for that item.</p>
+
+<h2>
+<a name="rename" class="anchor" href="#rename"><span class="octicon octicon-link"></span></a>rename</h2>
+
+<p>The <code>rename</code> method renames the item at the path given in the "old" parameter with the name given in the "new" parameter and returns an object indicating the results of that action.</p>
+
+<p>Example Request:</p>
+
+<pre><code>[path to connector]?mode=rename&amp;old=/UserFiles/Image/logo.png&amp;new=id.png
+</code></pre>
+
+<p>Example Response:</p>
+
+<pre><code>{
+    "Error": "No error",
+    "Code": 0,
+    "Old Path": "/a_folder_renamed/thisisareallylongincrediblylongfilenamefortesting.txt",
+    "Old Name": "thisisareallylongincrediblylongfilenamefortesting.txt",
+    "New Path": "/a_folder_renamed/a_renamed_file",
+    "New Name": "a_renamed_file"
+}
+</code></pre>
+
+<h2>
+<a name="move" class="anchor" href="#move"><span class="octicon octicon-link"></span></a>move</h2>
+
+<p>The <code>move</code> method move "old" file or directory to specified "new" directory. It is possible to specify absolute path from fileRoot dir or relative path from "old" item. "root" value is mandatory to secure that relative paths don't get above fileRoot.
+<strong>The <code>move</code> method is not 100 % safe. We give you the advice to wait for a security update to use it.</strong></p>
+
+<p>Example Request: Move file</p>
+
+<pre><code>[path to connector]?mode=move&amp;old=/uploads/images/original/Image/logo.png&amp;new=/moved/&amp;root=/uploads/images/
+</code></pre>
+
+<p>Example Response:</p>
+
+<pre><code>{
+    "Error": "No error",
+    "Code": 0,
+    "Old Path": "/uploads/images/original/Image/",
+    "Old Name": "logo.png",
+    "New Path": "/uploads/images/moved/",
+    "New Name": "logo.png"
+}
+</code></pre>
+
+<p>Example Request: Move directory to not existing directory (will be created)</p>
+
+<pre><code>[path to connector]?mode=move&amp;old=/uploads/images/original/Image&amp;new=../new_dir/&amp;root=/uploads/images/
+</code></pre>
+
+<p>Example Response:</p>
+
+<pre><code>{
+    "Error": "No error",
+    "Code": 0,
+    "Old Path": "/uploads/images/original/",
+    "Old Name": "Image",
+    "New Path": "/uploads/new_dir/",
+    "New Name": "Image"
+}
+</code></pre>
+
+<h2>
+<a name="delete" class="anchor" href="#delete"><span class="octicon octicon-link"></span></a>delete</h2>
+
+<p>The <code>delete</code> method deletes the item at the given path.</p>
+
+<p>Example Request:</p>
+
+<pre><code>[path to connector]?mode=delete&amp;path=/UserFiles/Image/logo.png
+</code></pre>
+
+<p>Example Response:</p>
+
+<pre><code>{
+    "Error": "No error",
+    "Code": 0,
+    "Path": "/UserFiles/Image/logo.png"
+}
+</code></pre>
+
+<h2>
+<a name="add" class="anchor" href="#add"><span class="octicon octicon-link"></span></a>add</h2>
+
+<p>The <code>add</code> method adds the uploaded file to the specified path. Unlike the other methods, this method must return its JSON response wrapped in an HTML , so the MIME type of the response is text/html instead of text/plain. The upload form in the File Manager passes the current path as a POST param along with the uploaded file. The response includes the path as well as the name used to store the file. The uploaded file's name should be safe to use as a path component in a URL, so URL-encoded at a minimum.</p>
+
+<p>Example Response:</p>
+
+<pre><code>{
+    "Path": "/UserFiles/Image/",
+    "Name": "new_logo.png",
+    "Error": "No error",
+    "Code": 0
+}
+</code></pre>
+
+<h2>
+<a name="replace" class="anchor" href="#replace"><span class="octicon octicon-link"></span></a>replace</h2>
+
+<p>The <code>replace</code> method allow the user to replace a specific file whatever the new filename - at least, the new file should have the same extension the original has. The old file is automatically overwritten. Unlike the other methods, this method must return its JSON response wrapped in an HTML , so the MIME type of the response is text/html instead of text/plain. The <em>dynamic</em> upload form in the File Manager passes the current file path as a POST param along with the uploaded file. The response includes the path as well as the name used to store the file.</p>
+
+<p>Example Response:</p>
+
+<pre><code>{
+    "Path": "/UserFiles/Image/",
+    "Name": "new_logo.png",
+    "Error": "No error",
+    "Code": 0
+}
+</code></pre>
+
+<h2>
+<a name="editfile" class="anchor" href="#editfile"><span class="octicon octicon-link"></span></a>editfile</h2>
+
+<p>The <code>editfile</code> method returns the content of a given file (passed as parameter). It gives the user the ability to edit a file online (extensions are specified in configuration file). Handled as GET request.</p>
+
+<p>Example request:</p>
+
+<pre><code>[path to connector]?mode=editfile&amp;path=/UserFiles/MyFolder/myfile.txt
+</code></pre>
+
+<p>Example Response:</p>
+
+<pre><code>{
+    "Error": "No error",
+    "Code": 0,
+    "Path": "/UserFiles/MyFolder/myfile.txt",
+    "Content": "Content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\r\n\Phasellus eu erat lorem.\r\n\r\n\Bye!"
+}
+</code></pre>
+
+<h2>
+<a name="savefile" class="anchor" href="#savefile"><span class="octicon octicon-link"></span></a>savefile</h2>
+
+<p>The <code>save</code> method will overwrite the content of the current file. The edit form in the File Manager passes the mode (as <code>savefile</code>), path of the current file and the content as POST parameters.</p>
+
+<p>Example Response:</p>
+
+<pre><code>{
+    "Error": "No error",
+    "Code": 0,
+    "Path": "/UserFiles/MyFolder/myfile.txt"
+}
+</code></pre>
+
+<h2>
+<a name="preview" class="anchor" href="#preview"><span class="octicon octicon-link"></span></a>preview</h2>
+
+<p>The <code>preview</code> method serves the requested image for displaying. The image path is passed through the <code>path</code> parameter. If <code>thumbnail=true</code> parameter is passed, the method will return an image thumbnail. An extra parameter such as UNIX time can be added to the URL to prevent cache issue.</p>
+
+<p>Example Request:</p>
+
+<pre><code>[path to connector]?mode=preview&amp;path=/UserFiles/new%20logo.png&amp;thumbnail=true
+</code></pre>
+
+<h2>
+<a name="addfolder" class="anchor" href="#addfolder"><span class="octicon octicon-link"></span></a>addfolder</h2>
+
+<p>The <code>addfolder</code> method creates a new directory on the server within the given path.</p>
+
+<p>Example Request:</p>
+
+<pre><code>[path to connector]?mode=addfolder&amp;path=/UserFiles/&amp;name=new%20logo.png
+</code></pre>
+
+<p>Example Response:</p>
+
+<pre><code>{
+    "Parent": "/UserFiles/",
+    "Name": "new_logo.png",
+    "Error": "No error",
+    "Code": 0
+}
+</code></pre>
+
+<h2>
+<a name="download" class="anchor" href="#download"><span class="octicon octicon-link"></span></a>download</h2>
+
+<p>The <code>download</code> method serves the requested file to the user. We currently use a MIME type of "application/x-download" to force the file to be downloaded rather than displayed in a browser. In the future we may make exceptions for specific file types that often have in-browser viewers such as PDF's and various movie formats (Flash, Quicktime, etc.).</p>
+
+<p>Example Request:</p>
+
+<pre><code>[path to connector]?mode=download&amp;path=/UserFiles/new%20logo.png
+</code></pre>
+
+<h2>
+<a name="mit-license" class="anchor" href="#mit-license"><span class="octicon octicon-link"></span></a>MIT LICENSE</h2>
+
+<p>Copyright (c) 2011-2013 Jason Huck, Simon Georget
+<a href="http://opensource.org/licenses/MIT">http://opensource.org/licenses/MIT</a></p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+        </section>
+
+        <footer>
+          Filemanager is maintained by <a href="https://github.com/simogeo">simogeo</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
     </div>
-
-    <h1><a href="http://github.com/simogeo/Filemanager">Filemanager</a>
-      <span class="small">by <a href="http://github.com/simogeo">simogeo</a></span></h1>
-
-    <div class="description">
-      An open-source file manager - started by  Core Five Labs and few others contributors. This version is localized and includes many bug fixes and improvements.
-    </div>
-
-    <p>FileManager is an open-source alternative to ckFinder.
-It does work correctly and can connect easily with ckEditor. It alson can be use as standalone version.</p><h2>License</h2>
-<p>MIT License</p>
-<h2>Authors</h2>
-<p>Simon GEORGET (simon@linea21.com)<br/><br/>      </p>
-<h2>Contact</h2>
-<p>simon GEORGET (simon@linea21.com)<br/>      </p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/simogeo/Filemanager/zipball/master">zip</a> or
-      <a href="http://github.com/simogeo/Filemanager/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/simogeo/Filemanager</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/simogeo/Filemanager">simogeo/Filemanager</a>
-    </div>
-
-  </div>
-
-  
-</body>
+  </body>
 </html>
