@@ -33,22 +33,23 @@ class Filemanager {
 
 	public function __construct($extraConfig = '') {
 		
-		// getting default config file
-		$content = file_get_contents("../../scripts/filemanager.config.js.default");
-		$config_default = json_decode($content, true);
-		
+		$this->root = dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR;
+
 		// getting user config file
-		$content = file_get_contents("../../scripts/filemanager.config.js");
-		$config = json_decode($content, true);
-		
-		$this->config = array_replace_recursive ($config_default, $config);
+		$content = file_get_contents($this->root . 'config/filemanager.config.json');
+		$this->config = json_decode($content, true);
+
+		if( !$this->config['options']['userConfigOnly'] ) {
+			$content = file_get_contents($this->root . 'scripts/filemanager.config.js.default');
+			$defaults = json_decode($content, true);
+			$this->config = array_replace_recursive($defaults, $this->config);
+		}
 
 		// override config options if needed
 		if(!empty($extraConfig)) {
 			$this->setup($extraConfig);
 		}
 
-		$this->root = dirname(dirname(dirname(__FILE__))).DIRECTORY_SEPARATOR;
 		$this->properties = array(
 				'Date Created'=>null,
 				'Date Modified'=>null,
@@ -67,17 +68,17 @@ class Filemanager {
 
 		// if fileRoot is set manually, $this->doc_root takes fileRoot value
 		// for security check in isValidPath() method
-		// else it takes $_SERVER['DOCUMENT_ROOT'] default value
-		if ($this->config['options']['fileRoot'] !== false ) {
-			if($this->config['options']['serverRoot'] === true) {
-				$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
-				$this->separator = basename($this->config['options']['fileRoot']);
+		// else it takes $_SERVER['DOCUMENT_ROOT'] and config's projectRoot default value
+		if ($this->config['path']['fileRoot'] !== false ) {
+			if($this->config['path']['useServerRoot'] === true) {
+				$this->doc_root = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR;
+				$this->separator = basename($this->config['path']['fileRoot']);
 			} else {
-				$this->doc_root = $this->config['options']['fileRoot'];
-				$this->separator = basename($this->config['options']['fileRoot']);
+				$this->doc_root = $this->config['path']['fileRoot'];
+				$this->separator = basename($this->config['path']['fileRoot']);
 			}
 		} else {
-			$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
+			$this->doc_root = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR;
 		}
 
 		$this->__log(__METHOD__ . ' $this->doc_root value ' . $this->doc_root);
@@ -99,14 +100,14 @@ class Filemanager {
 	// allow Filemanager to be used with dynamic folders
 	public function setFileRoot($path) {
 
-		if($this->config['options']['serverRoot'] === true) {
-			$this->doc_root = $_SERVER['DOCUMENT_ROOT']. '/'.  $path;
+		if($this->config['path']['useServerRoot'] === true) {
+			$this->doc_root = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .  $path;
 		} else {
 			$this->doc_root =  $path;
 		}
 		
 		// necessary for retrieving path when set dynamically with $fm->setFileRoot() method
-		$this->dynamic_fileroot = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->doc_root);
+		$this->dynamic_fileroot = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->doc_root) . DIRECTORY_SEPARATOR;
 		$this->separator = basename($this->doc_root);
 		
 		$this->__log(__METHOD__ . ' $this->doc_root value overwritten : ' . $this->doc_root);
@@ -215,33 +216,39 @@ class Filemanager {
 			natcasesort($filesDir);
 
 			foreach($filesDir as $file) {
+				$filePath = $this->get['path'] . $file;
 
 				if(is_dir($current_path . $file)) {
 					if(!in_array($file, $this->config['exclude']['unallowed_dirs']) && !preg_match( $this->config['exclude']['unallowed_dirs_REGEXP'], $file)) {
-						$array[$this->get['path'] . $file .'/'] = array(
-								'Path'=> $this->get['path'] . $file .'/',
+						$dirPath = $filePath . DIRECTORY_SEPARATOR;
+						$dirFullPath = $this->getFullPath($dirPath);
+						$properties = array(
+							'Date Created'=> date($this->config['options']['dateFormat'], filectime($dirFullPath)),
+							'Date Modified'=> date($this->config['options']['dateFormat'], filemtime($dirFullPath)),
+							'filemtime'=> filemtime($dirFullPath),
+							'Height'=>null,
+							'Width'=>null,
+							'Size'=>null
+						);
+						$array[$filePath] = array(
+								'Path'=> $dirPath,
 								'Filename'=>$file,
 								'File Type'=>'dir',
 								'Preview'=> $this->config['icons']['path'] . $this->config['icons']['directory'],
-								'Properties'=>array(
-										'Date Created'=> date($this->config['options']['dateFormat'], filectime($this->getFullPath($this->get['path'] . $file .'/'))),
-										'Date Modified'=> date($this->config['options']['dateFormat'], filemtime($this->getFullPath($this->get['path'] . $file .'/'))),
-										'filemtime'=> filemtime($this->getFullPath($this->get['path'] . $file .'/')),
-										'Height'=>null,
-										'Width'=>null,
-										'Size'=>null
-								),
+								'Properties'=> $properties,
 								'Error'=>"",
 								'Code'=>0
 						);
 					}
-				} else if (!in_array($file, $this->config['exclude']['unallowed_files'])  && !preg_match( $this->config['exclude']['unallowed_files_REGEXP'], $file)) {
+				} else if (!in_array($file, $this->config['exclude']['unallowed_files']) && !preg_match( $this->config['exclude']['unallowed_files_REGEXP'], $file)) {
 					$this->item = array();
 					$this->item['properties'] = $this->properties;
 					$this->get_file_info($this->get['path'] . $file, true);
 
-					if(!isset($this->params['type']) || (isset($this->params['type']) && strtolower($this->params['type'])=='images' && in_array(strtolower($this->item['filetype']),array_map('strtolower', $this->config['images']['imagesExt'])))) {
-						if($this->config['upload']['imagesOnly']== false || ($this->config['upload']['imagesOnly']== true && in_array(strtolower($this->item['filetype']),array_map('strtolower', $this->config['images']['imagesExt'])))) {
+					$isImageFile = isset($this->params['type']) && strtolower($this->params['type']) == 'images';
+					$isAcceptedImageExt = in_array(strtolower($this->item['filetype']), array_map('strtolower', $this->config['images']['imagesExt']));
+					if(!isset($this->params['type']) || ($isImageFile && $isAcceptedImageExt)) {
+						if($this->config['upload']['imagesOnly'] == false || ($this->config['upload']['imagesOnly'] == true && $isAcceptedImageExt)) {
 							$array[$this->get['path'] . $file] = array(
 									'Path'=>$this->get['path'] . $file,
 									'Filename'=>$this->item['filename'],
@@ -824,10 +831,10 @@ class Filemanager {
 			if($this->item['filetype'] == 'svg') {
 				$this->item['preview'] = $current_path;
 			} else {
-				$this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path='. rawurlencode($current_path).'&'. time();
+				$this->item['preview'] = $this->config['path']['filemanagerRoot'] . 'connectors/php/filemanager.php?mode=preview&path='. rawurlencode($current_path).'&'. time();
 				if($thumbnail) $this->item['preview'] .= '&thumbnail=true';
 			}
-			//if(isset($get['getsize']) && $get['getsize']=='true') {
+
 			$this->item['properties']['Size'] = filesize($this->getFullPath($current_path));
 			if ($this->item['properties']['Size']) {
 				list($width, $height, $type, $attr) = getimagesize($this->getFullPath($current_path));
@@ -850,7 +857,6 @@ class Filemanager {
 
 	$this->item['properties']['Date Modified'] = date($this->config['options']['dateFormat'], $this->item['filemtime']);
 	$this->item['properties']['filemtime'] = filemtime($this->getFullPath($current_path));
-	//$return['properties']['Date Created'] = $this->config['options']['dateFormat'], $return['filectime']); // PHP cannot get create timestamp
 }
 
 private function getFullPath($path = '') {
@@ -859,7 +865,7 @@ private function getFullPath($path = '') {
 		if(isset($this->get['path'])) $path = $this->get['path'];
 	}
 	
-	if($this->config['options']['fileRoot'] !== false) {
+	if($this->config['path']['fileRoot'] !== false) {
 		$full_path = $this->doc_root . rawurldecode(str_replace ( $this->doc_root , '' , $path));
 		if($this->dynamic_fileroot != '') {
 			$full_path = $this->doc_root . rawurldecode(str_replace ( $this->dynamic_fileroot , '' , $path));

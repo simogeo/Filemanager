@@ -26,35 +26,34 @@ $.urlParam = function(name){
 
 // We retrieve config settings from filemanager.config.js
 var loadConfigFile = function (type) {
-	var json = null;
-	type = (typeof type === "undefined") ? "user" : type;
-	
-	if(type == 'user') {
-		var url = './scripts/filemanager.config.js';
-	} else {
-		var url = './scripts/filemanager.config.js.default'
-	}
-    
+	var config = null;
+
     $.ajax({
         'async': false,
-        'url': url,
+        'url': 'config/filemanager.config.json',
         'dataType': "json",
-        cache: false, 
         'success': function (data) {
-            json = data;
+            config = data;
         }
     });
-    return json;
+
+    if(!config.options.userConfigOnly) { 
+    	$.ajax({
+	        'async': false,
+	        'url': 'scripts/filemanager.config.js.default',
+	        'dataType': "json",
+	        'success': function (data) {
+	            defaults = data;
+	        }
+	    });
+	    config = $.extend({}, defaults, config);
+    }
+
+    return config;
 };
 
-// loading default configuration file
-var configd = loadConfigFile('default');
 // loading user configuration file
 var config = loadConfigFile();
-
-// we merge default config and user config file
-var config = $.extend({}, configd, config);
-
 
 // <head> included files collector
 HEAD_included_files = new Array();
@@ -65,6 +64,7 @@ HEAD_included_files = new Array();
  * if not already included
  */ 
 loadCSS = function(href) {
+	href = config.path.filemanagerRoot + href;
 	// we check if already included
 	if($.inArray(href, HEAD_included_files) == -1) {
 		var cssLink = $("<link rel='stylesheet' type='text/css' href='" + href + "'>");
@@ -78,6 +78,7 @@ loadCSS = function(href) {
 * if not already included
 */ 
 loadJS = function(src) {
+	src = config.path.filemanagerRoot + src;
 	// we check if already included
 	if($.inArray(src, HEAD_included_files) == -1) {
 		var jsLink = $("<script type='text/javascript' src='" + src + "'>");
@@ -88,7 +89,7 @@ loadJS = function(src) {
 
 
 // Sets paths to connectors based on language selection.
-var fileConnector = config.options.fileConnector || 'connectors/' + config.options.lang + '/filemanager.' + config.options.lang;
+var fileConnector = config.path.fileConnector || config.path.filemanagerRoot + 'connectors/' + config.options.lang + '/filemanager.' + config.options.lang;
 
 // Read capabilities from config files if exists
 // else apply default settings
@@ -96,11 +97,11 @@ var capabilities = config.options.capabilities || new Array('select', 'download'
 
 // Get localized messages from file 
 // through culture var or from URL
-if($.urlParam('langCode') != 0 && file_exists ('scripts/languages/'  + $.urlParam('langCode') + '.js')) config.options.culture = $.urlParam('langCode');
+if($.urlParam('langCode') != 0 && file_exists (config.path.filemanagerRoot + 'scripts/languages/'  + $.urlParam('langCode') + '.js')) config.options.culture = $.urlParam('langCode');
 
 var lg = [];
 $.ajax({
-  url: 'scripts/languages/'  + config.options.culture + '.js',
+  url: config.path.filemanagerRoot + 'scripts/languages/'  + config.options.culture + '.js',
   async: false,
   dataType: 'json',
   success: function (json) {
@@ -1466,13 +1467,13 @@ $(function(){
 		loadJS('./scripts/CodeMirror/dynamic-mode.js');
 	}
 
-	if(!config.options.fileRoot) {
+	if(!config.path.fileRoot) {
 		fileRoot = '/' + document.location.pathname.substring(1, document.location.pathname.lastIndexOf('/') + 1) + 'userfiles/';
 	} else {
-		if(!config.options.serverRoot) {
-			fileRoot = config.options.fileRoot;
+		if(!config.path.useServerRoot) {
+			fileRoot = config.path.fileRoot;
 		} else {
-			fileRoot = '/' + config.options.fileRoot;
+			fileRoot = '/' + config.path.fileRoot;
 		}
 		// we remove double slashes - can happen when using PHP SetFileRoot() function with fileRoot = '/' value
 		fileRoot = fileRoot.replace(/\/\//g, '\/');
