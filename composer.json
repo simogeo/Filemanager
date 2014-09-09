@@ -6,14 +6,13 @@
       "filemanager",
       "php"
    ],
-   "license":[
-      "MIT"
-   ],
+   "license": "MIT",
    "authors":[
       {
          "name":"Simon Georget",
          "email":"simon@linea21.com",
          "homepage":"http://www.empreinte-urbaine.eu",
+         "role": "Developer"
       }
    ],
    "require":{
