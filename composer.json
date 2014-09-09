@@ -4,7 +4,8 @@
    "type":"project",
    "keywords":[
       "filemanager",
-      "php"
+      "files",
+      "images"
    ],
    "license": "MIT",
    "authors":[
