@@ -1,6 +1,6 @@
 {
    "name":"simogeo/Filemanager",
-   "description":"An open-source file manager released under MIT license",
+   "description":"An open-source file manager",
    "type":"project",
    "keywords":[
       "filemanager",
