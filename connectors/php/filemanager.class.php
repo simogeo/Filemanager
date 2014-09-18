@@ -1049,12 +1049,12 @@ private function cleanString($string, $allowed = array()) {
 			$cleaned[$key] = preg_replace('/[_]+/', '_', $clean); // remove double underscore
 		}
 	} else {
-		$string = strtr($string, $mapping);
+		$clean = strtr($string, $mapping);
 		if($this->config['options']['chars_only_latin'] == true) {
-			$clean = preg_replace("/[^{$allow}_a-zA-Z0-9]/u", '', $string);
+			$clean = preg_replace("/[^{$allow}_a-zA-Z0-9]/u", '', $clean);
 			// $clean = preg_replace("/[^{$allow}_a-zA-Z0-9\x{0430}-\x{044F}\x{0410}-\x{042F}]/u", '', $string); // allow only latin alphabet with cyrillic
 		}
-		$cleaned = preg_replace('/[_]+/', '_', $string); // remove double underscore
+		$cleaned = preg_replace('/[_]+/', '_', $clean); // remove double underscore
 		
 	}
 	return $cleaned;
