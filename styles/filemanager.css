@@ -100,8 +100,9 @@ button#home {
 }
 
 #fileinfo h1 {
-	font-size: 18px;
+	font-size: 20px;
 	margin: 10px auto;
+	color:#8fabc6;
 }
 
 #preview dl {
@@ -446,9 +447,11 @@ div.clip {
 #newfolder span { background-image: url(../images/folder_add.png); }
 #home span { background-image: url(../images/house.png); }
 
-a#edit-file span {display:none}
-a#edit-file {display:inline-block;background-image: url(../images/pencil.png);width:16px;height:16px}
-
+a#edit-file span, a#copy-button span {display:none}
+a#edit-file {display:inline-block;background: url(../images/edit.png) no-repeat center center;width:20px;height:18px;margin:0 0.2em;}
+a#copy-button {display:inline-block;background: url(../images/copy.png) no-repeat center center;width:20px;height:18px;margin:0 0.2em;}
+span#copied {color:#8C8C8C;font-size:11px;font-weight: normal;vertical-align:middle;}
+/*a#edit-file , a#copy-button {border: 1px solid #ccc;}*/
 /* div.jqi button { background-image: url(../images/circular/yes.png); } */
 
 div.jqi {
