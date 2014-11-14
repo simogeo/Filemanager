@@ -1200,6 +1200,8 @@ var getFileInfo = function(file) {
 	var template = '<div id="preview"><img /><h1></h1><dl></dl></div>';
 	template += '<form id="toolbar">';
 	template += '<button id="parentfolder">' + lg.parentfolder + '</button>';
+	// see http://web-apprentice-demo.craic.com/tutorials?tutorial=52&demo=1
+	// template += '<a href="#" id="copy-button">Copy to Clipboard</a>';
 	if($.inArray('select', capabilities)  != -1 && ($.urlParam('CKEditor') || window.opener || window.tinyMCEPopup || $.urlParam('field_name'))) template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
 	if($.inArray('download', capabilities)  != -1) template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
 	if($.inArray('rename', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
@@ -1214,6 +1216,7 @@ var getFileInfo = function(file) {
 	template += '</form>';
 	
 	$('#fileinfo').html(template);
+
 	$('#parentfolder').click(function() {getFolderInfo(currentpath);});
 	
 	// Retrieve the data & populate the template.
@@ -1221,6 +1224,7 @@ var getFileInfo = function(file) {
 	$.getJSON(fileConnector + '?mode=getinfo&path=' + encodeURIComponent(file) + '&time=' + d.getMilliseconds(), function(data){
 		if(data['Code'] == 0){
 			$('#fileinfo').find('h1').text(data['Filename']).attr('title', file);
+			
 			$('#fileinfo').find('img').attr('src',data['Preview']);
 			if(isVideoFile(data['Filename']) && config.videos.showVideoPlayer == true) {
 				getVideoPlayer(data);
@@ -1233,6 +1237,22 @@ var getFileInfo = function(file) {
 				editItem(data);
 			}
 			
+			// copy URL instructions - zeroclipboard
+			var d = new Date(); // to prevent IE cache issues
+			
+			if(config.options.relPath !== false ) {
+				var url = relPath + data['Path'].replace(fileRoot,""); 
+			} else {
+				var url = window.location.protocol + '//' + window.location.host + data['Path'];
+			}
+			$('#fileinfo').find('h1').append(' <a id="copy-button" data-clipboard-text="'+ url + '" title="' + lg.copy_to_clipboard + '" href="#"><span>' + lg.copy_to_clipboard + '</span></a>');
+			loadJS('./scripts/zeroclipboard/dist/ZeroClipboard.js');
+			loadJS('./scripts/zeroclipboard/copy.js?d' + d.getMilliseconds());
+			$('#copy-button').click(function () {
+				$('#fileinfo').find('h1').append('<span id="copied">' + lg.copied + '</span>');
+				$('#copied').delay(500).fadeOut(1000, function() { $(this).remove(); });
+			});
+			
 			var properties = '';
 			
 			if(data['Properties']['Width'] && data['Properties']['Width'] != '') properties += '<dt>' + lg.dimensions + '</dt><dd>' + data['Properties']['Width'] + 'x' + data['Properties']['Height'] + '</dd>';
@@ -1243,6 +1263,7 @@ var getFileInfo = function(file) {
 			
 			// Bind toolbar functions.
 			bindToolbar(data);
+			
 		} else {
 			$.prompt(data['Error']);
 		}
