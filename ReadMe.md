@@ -35,6 +35,7 @@ Main features
 * Images files only
 * Prevent files overwriting (or not)
 * Switch from list to grid view and vice-versa
+* Copy direct file URL
 * and more ...
 
 
