@@ -1200,8 +1200,6 @@ var getFileInfo = function(file) {
 	var template = '<div id="preview"><img /><h1></h1><dl></dl></div>';
 	template += '<form id="toolbar">';
 	template += '<button id="parentfolder">' + lg.parentfolder + '</button>';
-	// see http://web-apprentice-demo.craic.com/tutorials?tutorial=52&demo=1
-	// template += '<a href="#" id="copy-button">Copy to Clipboard</a>';
 	if($.inArray('select', capabilities)  != -1 && ($.urlParam('CKEditor') || window.opener || window.tinyMCEPopup || $.urlParam('field_name'))) template += '<button id="select" name="select" type="button" value="Select">' + lg.select + '</button>';
 	if($.inArray('download', capabilities)  != -1) template += '<button id="download" name="download" type="button" value="Download">' + lg.download + '</button>';
 	if($.inArray('rename', capabilities)  != -1 && config.options.browseOnly != true) template += '<button id="rename" name="rename" type="button" value="Rename">' + lg.rename + '</button>';
