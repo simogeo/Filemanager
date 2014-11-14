@@ -30,6 +30,8 @@
     "cancel": "Annulla", 
     "close": "Close", 
     "confirmation_delete": "Sei sicuro di voler eliminare il file?", 
+    "copied": "Copied !", 
+    "copy_to_clipboard": "Copy to Clipboard", 
     "could_not_retrieve_folder": "Impossibile visualizzare il contenuto della cartella.", 
     "create_folder": "Crea cartella", 
     "created": "Creato il", 

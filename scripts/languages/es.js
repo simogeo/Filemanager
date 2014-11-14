@@ -30,6 +30,8 @@
     "cancel": "Cancelar", 
     "close": "Close", 
     "confirmation_delete": "¿Estás seguro de eliminar este archivo?", 
+    "copied": "Copied !", 
+    "copy_to_clipboard": "Copy to Clipboard", 
     "could_not_retrieve_folder": "No se ha podido recuperar el contenido de la carpeta.", 
     "create_folder": "Crear carpeta", 
     "created": "Creado", 

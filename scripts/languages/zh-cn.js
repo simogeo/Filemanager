@@ -30,6 +30,8 @@
     "cancel": "取消", 
     "close": "Close", 
     "confirmation_delete": "你确定要删除这个文件吗？", 
+    "copied": "Copied !", 
+    "copy_to_clipboard": "Copy to Clipboard", 
     "could_not_retrieve_folder": "无法取得文件夹的内容。", 
     "create_folder": "创建文件夹", 
     "created": "创建", 

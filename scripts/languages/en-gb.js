@@ -30,6 +30,8 @@
     "cancel": "Cancel", 
     "close": "Close", 
     "confirmation_delete": "Are you sure you wish to delete this file?", 
+    "copied": "Copied !", 
+    "copy_to_clipboard": "Copy URL to Clipboard", 
     "could_not_retrieve_folder": "Could not retrieve folder contents.", 
     "create_folder": "Create Folder", 
     "created": "Created", 

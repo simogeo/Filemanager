@@ -30,6 +30,8 @@
     "cancel": "取消", 
     "close": "Close", 
     "confirmation_delete": "確定刪除檔案？", 
+    "copied": "Copied !", 
+    "copy_to_clipboard": "Copy to Clipboard", 
     "could_not_retrieve_folder": "無法取得目錄內容", 
     "create_folder": "建立目錄", 
     "created": "建立", 

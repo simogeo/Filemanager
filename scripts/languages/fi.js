@@ -30,6 +30,8 @@
     "cancel": "Peruuta", 
     "close": "Close", 
     "confirmation_delete": "Oletko varma, että haluat poistaa kyseisen tiedoston?", 
+    "copied": "Copied !", 
+    "copy_to_clipboard": "Copy to Clipboard", 
     "could_not_retrieve_folder": "Ei voitu lukea hakemiston sisältöä.", 
     "create_folder": "Luo hakemisto", 
     "created": "Luotu", 

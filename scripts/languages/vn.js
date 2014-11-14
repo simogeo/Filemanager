@@ -30,6 +30,8 @@
     "cancel": "Hủy bỏ", 
     "close": "Close", 
     "confirmation_delete": "Bạn chắc chắn muốn xóa tập tin này?", 
+    "copied": "Copied !", 
+    "copy_to_clipboard": "Copy to Clipboard", 
     "could_not_retrieve_folder": "Không lấy được nội dung thư mục.", 
     "create_folder": "Tạo thư mục", 
     "created": "Đã tạo", 

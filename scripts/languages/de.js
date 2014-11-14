@@ -30,6 +30,8 @@
     "cancel": "Abbruch", 
     "close": "Close", 
     "confirmation_delete": "Möchtest Du wirklich diese Datei löschen?", 
+    "copied": "Copied !", 
+    "copy_to_clipboard": "Copy to Clipboard", 
     "could_not_retrieve_folder": "Konnte Ordnerinhalt nicht lesen.", 
     "create_folder": "Ordner erstellen", 
     "created": "Erstellt", 

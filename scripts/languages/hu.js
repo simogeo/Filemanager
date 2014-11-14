@@ -30,6 +30,8 @@
     "cancel": "Mégse", 
     "close": "Close", 
     "confirmation_delete": "Biztosan törölni szeretné a kijelölt fájlt?", 
+    "copied": "Copied !", 
+    "copy_to_clipboard": "Copy to Clipboard", 
     "could_not_retrieve_folder": "A mappa tartalmát nem lehet megjeleníteni.", 
     "create_folder": "Új mappa", 
     "created": "Létrehozva", 

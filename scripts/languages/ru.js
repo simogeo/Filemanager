@@ -30,6 +30,8 @@
     "cancel": "Отмена", 
     "close": "Close", 
     "confirmation_delete": "Вы уверены, что хотите удалить этот файл?", 
+    "copied": "Copied !", 
+    "copy_to_clipboard": "Copy to Clipboard", 
     "could_not_retrieve_folder": "Не могу получить содержимое папки.", 
     "create_folder": "Создать папку", 
     "created": "Создан", 

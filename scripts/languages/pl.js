@@ -30,6 +30,8 @@
     "cancel": "Anuluj", 
     "close": "Close", 
     "confirmation_delete": "Czy na pewno chcesz usunąć wybrany plik?", 
+    "copied": "Copied !", 
+    "copy_to_clipboard": "Copy to Clipboard", 
     "could_not_retrieve_folder": "Nie udało się otworzyć folderu.", 
     "create_folder": "Utwórz folder", 
     "created": "Utworzono", 
