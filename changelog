@@ -1,3 +1,7 @@
+From version 1.5.0 to 1.6.0
+---------------------------
+- Add ability to define your own CSS theme | #277
+
 From version 1.4.0 to 1.5.0
 ---------------------------
 - Add ability to copy direct file URL | #276
