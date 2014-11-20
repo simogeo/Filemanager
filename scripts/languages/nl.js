@@ -30,7 +30,7 @@
     "cancel": "Annuleren", 
     "close": "Close", 
     "confirmation_delete": "Weet je zeker dat je dit bestand wilt verwijderen?", 
-    "copied": "Copied !", 
+    "copied": "URL copied !", 
     "copy_to_clipboard": "Copy to Clipboard", 
     "could_not_retrieve_folder": "Kon map-inhoud niet ophalen.", 
     "create_folder": "Nieuwe Map", 

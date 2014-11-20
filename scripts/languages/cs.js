@@ -30,7 +30,7 @@
     "cancel": "Zrušit", 
     "close": "Close", 
     "confirmation_delete": "Jste si opravdu jistí, že chcete smazat tuto položku?", 
-    "copied": "Copied !", 
+    "copied": "URL copied !", 
     "copy_to_clipboard": "Copy to Clipboard", 
     "could_not_retrieve_folder": "Došlo k chybě při načítání obsahu adresáře.", 
     "create_folder": "Vytvořit adresář", 

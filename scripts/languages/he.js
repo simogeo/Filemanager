@@ -30,7 +30,7 @@
     "cancel": "ביטול", 
     "close": "Close", 
     "confirmation_delete": "?האם אתה בטוח שברצונך למחוק קובץ זה", 
-    "copied": "Copied !", 
+    "copied": "URL copied !", 
     "copy_to_clipboard": "Copy to Clipboard", 
     "could_not_retrieve_folder": "לא ניתן לקרוא את תוכן התיקייה", 
     "create_folder": "צור תיקייה", 

@@ -30,7 +30,7 @@
     "cancel": "Annuler", 
     "close": "Fermer", 
     "confirmation_delete": "Etes-vous sûr de vouloir supprimer ce fichier?", 
-    "copied": "Copié !", 
+    "copied": "URL copiée !", 
     "copy_to_clipboard": "Copier l'URL", 
     "could_not_retrieve_folder": "Le contenu du dossier est inaccessible.", 
     "create_folder": "Créer un dossier", 

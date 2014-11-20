@@ -32,7 +32,7 @@
     "could_not_retrieve_folder": "Could not retrieve folder contents.", 
     "create_folder": "Create Folder", 
     "created": "Created", 
-    "copied": "Copied !", 
+    "copied": "URL copied !", 
     "copy_to_clipboard": "Copy URL to Clipboard",
     "current_folder": "Current folder: ", 
     "default_foldername": "My folder", 

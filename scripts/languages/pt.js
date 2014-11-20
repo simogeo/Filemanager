@@ -30,7 +30,7 @@
     "cancel": "Cancelar", 
     "close": "Close", 
     "confirmation_delete": "Tem certeza que deseja excluir este arquivo?", 
-    "copied": "Copied !", 
+    "copied": "URL copied !", 
     "copy_to_clipboard": "Copy to Clipboard", 
     "could_not_retrieve_folder": "Não foi possivel ler o conteúdo da pasta.", 
     "create_folder": "Criar Pasta", 
