@@ -36,6 +36,7 @@ Main features
 * Prevent files overwriting (or not)
 * Switch from list to grid view and vice-versa
 * Copy direct file URL
+* [CSS Themes](https://github.com/simogeo/Filemanager/wiki/Create-your-own-theme) - **Please, share your themes with others !**
 * and more ...
 
 

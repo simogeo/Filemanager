@@ -73,7 +73,7 @@ button#home {
 
 #splitter .vsplitbar {
 	width: 6px;
-	background: #F4F1ED url(../scripts/jquery.splitter/vgrabber.gif) no-repeat center;
+	background: #F4F1ED url(../../../scripts/jquery.splitter/vgrabber.gif) no-repeat center;
 }
 
 #fileinfo {
