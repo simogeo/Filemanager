@@ -1086,7 +1086,7 @@ private function get_thumbnail_path($path) {
 	$path_parts = pathinfo($path);
 
 	$thumbnail_path = $a[0].$this->separator.'/'.$this->cachefolder.dirname(end($a)).'/';
-	$thumbnail_name = $path_parts['filename'] . '_' . $this->thumbnail_width . 'x' . $this->thumbnail_height . 'px.' . $path_parts['extension'];
+	if(!is_dir($path)) $thumbnail_name = $path_parts['filename'] . '_' . $this->thumbnail_width . 'x' . $this->thumbnail_height . 'px.' . $path_parts['extension'];
 	
 	if(is_dir($path)) {
 		$thumbnail_fullpath = $thumbnail_path;
