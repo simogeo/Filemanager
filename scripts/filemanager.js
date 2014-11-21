@@ -55,6 +55,7 @@ var config = loadConfigFile();
 // we merge default config and user config file
 var config = $.extend({}, configd, config);
 
+if(config.options.logger) var start = new Date().getTime();
 
 // <head> included files collector
 HEAD_included_files = new Array();
@@ -127,8 +128,7 @@ var setDimensions = function(){
 
 	var newH = $(window).height() - $('#uploader').height() - bheight;	
 	$('#splitter, #filetree, #fileinfo, .vsplitbar').height(newH);
-	
-	var newW = $('#splitter').width() - 6 - $('#filetree').width();
+	var newW = $('#splitter').width() - $('div.vsplitbar').width() - $('#filetree').width();
     $('#fileinfo').width(newW);
 };
 
@@ -1020,7 +1020,7 @@ var addNode = function(path, name) {
 	// TODO optimize
 	if(!parentNode.find('ul').size()) {
 		parentNode = $('#filetree').find('ul.jqueryFileTree');
-
+		
 		parentNode.prepend(newNode);
 		createFileTree();
 		
@@ -1096,7 +1096,7 @@ var addFolder = function(parent, name) {
 	if(parent != fileRoot){
 		parentNode.next('ul').prepend(newNode).prev('a').click().click();
 	} else {
-		$('#filetree > ul').prepend(newNode);
+		$('#filetree ul.jqueryFileTree').prepend(newNode);
 		$('#filetree').find('li a[data-path="' + parent + name + '/"]').attr('class', 'cap_rename cap_delete').click(function(){
 				getFolderInfo(parent + name + '/');
 			}).each(function() {
@@ -1212,8 +1212,13 @@ var getFileInfo = function(file) {
 		template += '<input id="newfilepath" name="newfilepath" type="hidden" />';
 	}
 	template += '</form>';
-	
-	$('#fileinfo').html(template);
+
+	// test if scrollbar plugin is enabled
+	if ($('#fileinfo .mCSB_container').length > 0) {
+		$('#fileinfo .mCSB_container').html(template);
+	} else {
+		$('#fileinfo').html(template);
+	}
 
 	$('#parentfolder').click(function() {getFolderInfo(currentpath);});
 	
@@ -1277,8 +1282,15 @@ var getFolderInfo = function(path) {
 	setUploader(path);
 
 	// Display an activity indicator.
-	$('#fileinfo').html('<img id="activity" src="themes/' + config.options.theme + '/images/wait30trans.gif" width="30" height="30" />');
-
+	var loading = '<img id="activity" src="themes/' + config.options.theme + '/images/wait30trans.gif" width="30" height="30" />';
+	
+	// test if scrollbar plugin is enabled
+	if ($('#fileinfo .mCSB_container').length > 0) {
+		$('#fileinfo .mCSB_container').html(loading);
+	} else {
+		$('#fileinfo').html(loading);
+	}
+	
 	// Retrieve the data and generate the markup.
 	var d = new Date(); // to prevent IE cache issues
 	var url = fileConnector + '?path=' + encodeURIComponent(path) + '&mode=getfolder&showThumbs=' + config.options.showThumbs + '&time=' + d.getMilliseconds();
@@ -1368,7 +1380,12 @@ var getFolderInfo = function(path) {
 		}
 		
 		// Add the new markup to the DOM.
-		$('#fileinfo').html(result);
+		// test if scrollbar plugin is enabled
+		if ($('#fileinfo .mCSB_container').length > 0) {
+			$('#fileinfo .mCSB_container').html(result);
+		} else {
+			$('#fileinfo').html(result);
+		}
 		
 		// Bind click events to create detail views and add
 		// contextual menu options.
@@ -1486,6 +1503,32 @@ $(function(){
 	        $('head').append(data);
 	    }
 	});
+	
+	// Loading CodeMirror if enabled for online edition
+	if(config.customScrollbar.enabled) {
+		loadCSS('./scripts/custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css');
+		loadJS('./scripts/custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js');
+		
+		var csTheme = config.customScrollbar.theme != undefined ? config.customScrollbar.theme : 'inset-2-dark';
+		var csButton = config.customScrollbar.button != undefined ? config.customScrollbar.button : true;
+		
+		$(window).load(function(){
+			$("#filetree").mCustomScrollbar({
+				theme:csTheme,
+				scrollButtons:{enable:csButton},
+				advanced:{ autoExpandHorizontalScroll:true, updateOnContentResize: true },
+				axis: "yx"
+			});
+			$("#fileinfo").mCustomScrollbar({
+				theme:csTheme,
+				scrollButtons:{enable:csButton},
+				advanced:{ autoExpandHorizontalScroll:false, updateOnContentResize: true },
+				axis: "y"
+			});
+			
+			
+		});
+	}
 	
 	// Loading CodeMirror if enabled for online edition
 	if(config.edit.enabled) {
@@ -1703,5 +1746,11 @@ $(function(){
 // add useragent string to html element for IE 10/11 detection
 var doc = document.documentElement;
 doc.setAttribute('data-useragent', navigator.userAgent);
+
+if(config.options.logger) {
+	var end = new Date().getTime();
+	var time = end - start;
+	console.log('Total execution time : ' + time + ' ms');
+}
 
 })(jQuery);
