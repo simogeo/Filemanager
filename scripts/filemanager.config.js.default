@@ -3,7 +3,7 @@
     "options": {
         "culture": "en",
         "lang": "php",
-        "theme": "flat-turquoise",
+        "theme": "flat-dark",
         "defaultViewMode": "grid",
         "autoload": true,
         "showFullPath": false,
