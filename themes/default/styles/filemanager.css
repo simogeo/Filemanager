@@ -435,6 +435,9 @@ div.clip {
 }
 
 /* these apply to the contextual menus as well as the buttons */
+
+#copyFileLink span { background-image: url(../images/copy.png);}
+
 #select span, .contextMenu li.select a { background-image: url(../images/accept.png); }
 #download span, .contextMenu li.download a { background-image: url(../images/download.png); }
 #rename span, .contextMenu li.rename a { background-image: url(../images/tag.png); }
