@@ -21,9 +21,10 @@ class Filemanager {
 	protected $item = array();
 	protected $languages = array();
 	protected $allowed_actions = array();
-	protected $root = '';
-	protected $doc_root = '';
-	protected $dynamic_fileroot = '';
+	protected $root = '';				// Filemanager root folder
+	protected $doc_root = '';		// root folder known by JS : $this->config['options']['fileRoot'] (filepath or '/') or $_SERVER['DOCUMENT_ROOT']
+	protected $dynamic_fileroot = ''; // @todo check if we can remove this var
+	protected $path_to_files = ''; // path to FM userfiles folder - automatically computed by the PHP class, something like '/var/www/Filemanager/userfiles'
 	protected $logger = false;
 	protected $logfile = '/tmp/filemanager.log';
 	protected $cachefolder = '_thumbs/';
@@ -66,20 +67,25 @@ class Filemanager {
 		}
 
 		// if fileRoot is set manually, $this->doc_root takes fileRoot value
-		// for security check in isValidPath() method
+		// for security check in is_valid_path() method
 		// else it takes $_SERVER['DOCUMENT_ROOT'] default value
 		if ($this->config['options']['fileRoot'] !== false ) {
 			if($this->config['options']['serverRoot'] === true) {
 				$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
 				$this->separator = basename($this->config['options']['fileRoot']);
+				$this->path_to_files = $_SERVER['DOCUMENT_ROOT'] .'/' . $this->config['options']['fileRoot'];
 			} else {
 				$this->doc_root = $this->config['options']['fileRoot'];
 				$this->separator = basename($this->config['options']['fileRoot']);
+				$this->path_to_files = $this->config['options']['fileRoot'];
 			}
 		} else {
 			$this->doc_root = $_SERVER['DOCUMENT_ROOT'];
+			$this->path_to_files = $this->root . $this->separator .'/' ;
 		}
 
+		$this->__log(__METHOD__ . ' $this->root value ' . $this->root);
+		$this->__log(__METHOD__ . ' $this->path_to_files ' . $this->path_to_files);
 		$this->__log(__METHOD__ . ' $this->doc_root value ' . $this->doc_root);
 		$this->__log(__METHOD__ . ' $this->separator value ' . $this->separator);
 
@@ -107,10 +113,12 @@ class Filemanager {
 		
 		// necessary for retrieving path when set dynamically with $fm->setFileRoot() method
 		$this->dynamic_fileroot = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->doc_root);
+		$this->path_to_files = $this->doc_root;
 		$this->separator = basename($this->doc_root);
 		
 		$this->__log(__METHOD__ . ' $this->doc_root value overwritten : ' . $this->doc_root);
 		$this->__log(__METHOD__ . ' $this->dynamic_fileroot value ' . $this->dynamic_fileroot);
+		$this->__log(__METHOD__ . ' $this->path_to_files ' . $this->path_to_files);
 		$this->__log(__METHOD__ . ' $this->separator value ' . $this->separator);
 	}
 
@@ -193,10 +201,10 @@ class Filemanager {
 		$current_path = $this->getFullPath();
 
 
-		if(!$this->isValidPath($current_path)) {
+		if(!$this->is_valid_path($current_path)) {
 			$this->error("No way.");
 		}
-
+		
 		if(!is_dir($current_path)) {
 			$this->error(sprintf($this->lang('DIRECTORY_NOT_EXIST'),$this->get['path']));
 		}
@@ -267,7 +275,7 @@ class Filemanager {
 
 		$current_path = $this->getFullPath();
 		
-		if(!$this->has_permission('edit') || !$this->isValidPath($current_path) || !$this->isEditable($current_path)) {
+		if(!$this->has_permission('edit') || !$this->is_valid_path($current_path) || !$this->is_editable($current_path)) {
 			$this->error("No way.");
 		}
 
@@ -294,7 +302,7 @@ class Filemanager {
 	
 		$current_path = $this->getFullPath($this->post['path']);
 	
-		if(!$this->has_permission('edit') || !$this->isValidPath($current_path) || !$this->isEditable($current_path)) {
+		if(!$this->has_permission('edit') || !$this->is_valid_path($current_path) || !$this->is_editable($current_path)) {
 			$this->error("No way.");
 		}
 	
@@ -335,12 +343,17 @@ class Filemanager {
 		$new_file = $this->getFullPath($path . '/' . $this->get['new']). $suffix;
 		$old_file = $this->getFullPath($this->get['old']) . $suffix;
 
-		if(!$this->has_permission('rename') || !$this->isValidPath($old_file)) {
+		if(!$this->has_permission('rename') || !$this->is_valid_path($old_file)) {
 			$this->error("No way.");
 		}
 		
+		// check if not requesting main FM userfiles folder
+		if($this->is_root_folder($old_file)) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED')),true);
+		}
+		
 		// For file only - we check if the new given extension is allowed regarding the security Policy settings
-		if(is_file($old_file) && $this->config['security']['allowChangeExtensions'] && !$this->isAllowedFileType($new_file)) {
+		if(is_file($old_file) && $this->config['security']['allowChangeExtensions'] && !$this->is_allowed_file_type($new_file)) {
 			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')));
 		}
 
@@ -383,6 +396,11 @@ class Filemanager {
 		}
 		$rootDir = str_replace('//', '/', $rootDir);
 		$oldPath = $this->getFullPath($this->get['old']);
+		
+		// check if not requesting main FM userfiles folder
+		if($this->is_root_folder($oldPath)) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED')),true);
+		}
 
 		// old path
 		$tmp = explode('/',trim($this->get['old'], '/'));
@@ -405,7 +423,7 @@ class Filemanager {
 			$this->error(sprintf($this->lang('INVALID_DIRECTORY_OR_FILE'),$this->get['new']));
 		}
 
-		if(!$this->has_permission('move') || !$this->isValidPath($oldPath)) {
+		if(!$this->has_permission('move') || !$this->is_valid_path($oldPath)) {
 			$this->error("No way.");
 		}
 
@@ -455,8 +473,13 @@ class Filemanager {
 		$current_path = $this->getFullPath();
 		$thumbnail_path = $this->get_thumbnail_path($current_path);
 			
-		if(!$this->has_permission('delete') || !$this->isValidPath($current_path)) {
+		if(!$this->has_permission('delete') || !$this->is_valid_path($current_path)) {
 			$this->error("No way.");
+		}
+		
+		// check if not requesting main FM userfiles folder
+		if($this->is_root_folder($current_path)) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED')),true);
 		}
 			
 		if(is_dir($current_path)) {
@@ -528,12 +551,12 @@ class Filemanager {
 			$this->error(sprintf($this->lang('ERROR_REPLACING_FILE') . ' '. pathinfo($this->post['newfilepath'], PATHINFO_EXTENSION)),true);
 		}
 		
-		if(!$this->isAllowedFileType($_FILES['fileR']['name'])) {
+		if(!$this->is_allowed_file_type($_FILES['fileR']['name'])) {
 			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
 		}
 		
 		// we check if extension is allowed regarding the security Policy settings
-		if(!$this->isAllowedFileType($_FILES['fileR']['name'])) {
+		if(!$this->is_allowed_file_type($_FILES['fileR']['name'])) {
 			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
 		}
 		
@@ -549,7 +572,7 @@ class Filemanager {
 
 		$current_path = $this->getFullPath($this->post['newfilepath']);
 
-		if(!$this->has_permission('replace') || !$this->isValidPath($current_path)) {
+		if(!$this->has_permission('replace') || !$this->is_valid_path($current_path)) {
 			$this->error("No way.");
 		}
 
@@ -617,7 +640,7 @@ class Filemanager {
 		}
 		
 		// we check if extension is allowed regarding the security Policy settings
-		if(!$this->isAllowedFileType($_FILES['newfile']['name'])) {
+		if(!$this->is_allowed_file_type($_FILES['newfile']['name'])) {
 			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
 		}
 		
@@ -634,7 +657,7 @@ class Filemanager {
 
 		$current_path = $this->getFullPath($this->post['currentpath']);
 
-		if(!$this->isValidPath($current_path)) {
+		if(!$this->is_valid_path($current_path)) {
 			$this->error("No way.");
 		}
 
@@ -678,7 +701,7 @@ class Filemanager {
 			
 		$current_path = $this->getFullPath();
 			
-		if(!$this->isValidPath($current_path)) {
+		if(!$this->is_valid_path($current_path)) {
 			$this->error("No way.");
 		}
 		if(is_dir($current_path . $this->get['name'])) {
@@ -699,18 +722,99 @@ class Filemanager {
 
 		return $array;
 	}
+	
+	/**
+	 * function zipFile.  Creates a zip file from source to destination
+	 *
+	 * @param  string $source Source path for zip
+	 * @param  string $destination Destination path for zip
+	 * @param  string|boolean $flag OPTIONAL If true includes the folder also
+	 * @return boolean
+	 * @link 	 http://stackoverflow.com/questions/17584869/zip-main-folder-with-sub-folder-inside
+	 */
+	public function zipFile($source, $destination, $flag = '')
+	{
+		if (!extension_loaded('zip') || !file_exists($source)) {
+			return false;
+		}
+	
+		$zip = new ZipArchive();
+		if (!$zip->open($destination, ZIPARCHIVE::CREATE)) {
+			return false;
+		}
+	
+		$source = str_replace('\\', '/', realpath($source));
+		if($flag)
+		{
+			$flag = basename($source) . '/';
+			//$zip->addEmptyDir(basename($source) . '/');
+		}
+	
+		if (is_dir($source) === true)
+		{
+			$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+			foreach ($files as $file)
+			{
+				$file = str_replace('\\', '/', realpath($file));
+	
+				if (is_dir($file) === true)
+				{
+					$zip->addEmptyDir(str_replace($source . '/', '', $flag.$file . '/'));
+				}
+				else if (is_file($file) === true)
+				{
+					$zip->addFromString(str_replace($source . '/', '', $flag.$file), file_get_contents($file));
+				}
+			}
+		}
+		else if (is_file($source) === true)
+		{
+			$zip->addFromString($flag.basename($source), file_get_contents($source));
+		}
+	
+		return $zip->close();
+	}
 
 	public function download() {
 			
 		$current_path = $this->getFullPath();
 			
-		if(!$this->has_permission('download') || !$this->isValidPath($current_path)) {
+		if(!$this->has_permission('download') || !$this->is_valid_path($current_path)) {
 			$this->error("No way.");
 		}
 		
 		// we check if extension is allowed regarding the security Policy settings
-		if(!$this->isAllowedFileType(basename($current_path))) {
-			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
+		if(is_file($current_path)) {
+			if(!$this->is_allowed_file_type(basename($current_path))) {
+				$this->error(sprintf($this->lang('INVALID_FILE_TYPE')),true);
+			}
+			
+		} else {
+			
+			// check if permission is granted
+			if(is_dir($current_path) && $this->config['security']['allowFolderDownload'] == false ) {
+				$this->error(sprintf($this->lang('NOT_ALLOWED')),true);
+			}
+			
+			// check if not requesting main FM userfiles folder
+			if($this->is_root_folder($current_path)) {
+				$this->error(sprintf($this->lang('NOT_ALLOWED')),true);
+			}
+			
+			// $this->error($current_path); // @todo remove
+			// s'assurer qu'un utilisateur ne peut pas télécharger tout le dossier
+			// http://localhost/Filemanager/connectors/php/filemanager.php?mode=getfolder&path=/../../
+			// this is a folder, we zip it and send the archive to the client
+			
+			$destination_path = sys_get_temp_dir().'/'.uniqid().'.zip';
+			
+			// if Zip archive is created
+			if($this->zipFile($current_path, $destination_path, true)) {
+				$current_path = $destination_path;
+			} else {
+				$this->error($this->lang('ERROR_CREATING_ZIP'));
+			}
+			
 		}
 
 		if(isset($this->get['path']) && file_exists($current_path)) {
@@ -862,7 +966,8 @@ private function getFullPath($path = '') {
 	if($this->config['options']['fileRoot'] !== false) {
 		$full_path = $this->doc_root . rawurldecode(str_replace ( $this->doc_root , '' , $path));
 		if($this->dynamic_fileroot != '') {
-			$full_path = $this->doc_root . rawurldecode(str_replace ( $this->dynamic_fileroot , '' , $path));
+			// $full_path = $this->doc_root . rawurldecode(str_replace ( $this->dynamic_fileroot , '' , $path));
+			$full_path = $this->path_to_files . $path;
 		}
 	} else {
 		$full_path = $this->doc_root . rawurldecode($path);
@@ -949,13 +1054,25 @@ private function sortFiles($array) {
 
 }
 
-private function isValidPath($path) {
+private function startsWith($haystack, $needle) {
+    // search backwards starting from haystack length characters from the end
+    return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== FALSE;
+}
+
+private function is_valid_path($path) {
 		
 	// @todo remove debug message
-	// $this->__log('compare : ' .$this->getFullPath(). '($this->getFullPath())  and ' . $path . '(path)');
-	// $this->__log('strncmp() retruned value : ' .strncmp($path, $this->getFullPath(), strlen($this->getFullPath())));
-		
-	return !strncmp($path, $this->getFullPath(), strlen($this->getFullPath()));
+	$this->__log('[startsWith] path : ' .$path. ' - this->path_to_files : ' . $this->path_to_files . '');
+	if($this->startsWith($path, $this->path_to_files)) $var = 'success'; else $var ='failed';
+	$this->__log('[startsWith] returned value  : ' . $var );
+	
+	//$this->__log('compare : ' .$this->getFullPath(). '($this->getFullPath())  and ' . $path . '(path)');
+	// $this->__log('strncmp() returned value : ' .strncmp($path, $this->getFullPath(), strlen($this->getFullPath())));
+	
+	if(!$this->startsWith($path, $this->path_to_files)) return false;
+	return true;
+	
+	// return !strncmp($path, $this->getFullPath(), strlen($this->getFullPath()));
 
 }
 
@@ -987,7 +1104,7 @@ private function unlinkRecursive($dir,$deleteRootToo=true) {
  * check if extension is allowed regarding the security Policy / Restrictions settings
  * @param string $file
  */
-private function isAllowedFileType($file) {
+private function is_allowed_file_type($file) {
 	
 	$path_parts = pathinfo($file);
 	
@@ -1195,7 +1312,21 @@ private function is_image($path) {
 	return false;
 }
 
-private function isEditable($file) {
+private function is_root_folder($path) {
+
+	// @todo http://localhost/Filemanager/connectors/php/filemanager.php?mode=getfolder&path=/Filemanager/
+	// @todo ameliorer sécurité
+	// $this->error(rtrim($this->doc_root,"/") .  ' ## ' .  rtrim($path,"/"));
+	if( rtrim($this->path_to_files,"/") ==  rtrim($path,"/") ) {
+	//if(rtrim($this->doc_root,"/") == rtrim($_SERVER['DOCUMENT_ROOT'],"/") && rtrim($path,"/") == rtrim($_SERVER['DOCUMENT_ROOT'],"/")) {
+		return true;
+	}
+	
+	return false;
+	
+}
+
+private function is_editable($file) {
 
 	$path_parts = pathinfo($file);
 	
