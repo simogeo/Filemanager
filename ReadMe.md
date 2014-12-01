@@ -40,6 +40,18 @@ Main features
 * and more ...
 
 
+Screenshot
+-------------
+
+![Filemanager Screenshot](http://i57.tinypic.com/35cqw74.png)
+
+
+Documentation
+-------------
+
+Filemanager is highly documented on the [wiki pages](https://github.com/simogeo/Filemanager/wiki). API, see below.
+
+
 Installation and Setup
 ----------------------
 
