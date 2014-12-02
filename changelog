@@ -1,3 +1,11 @@
+From version 1.7.0 to 1.8.0
+---------------------------
+- Adding Bosnian transalation | #281
+- Security enhanced | #282 and much more
+- Removing ability to move file to parent path using '../' syntax
+- Ability to zip and download folder | #100
+
+
 From version 1.6.0 to 1.7.0
 ---------------------------
 - Add timer when logger is enabled #278 
