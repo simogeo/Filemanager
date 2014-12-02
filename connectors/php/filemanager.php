@@ -64,7 +64,7 @@ if(!isset($_GET)) {
 
       case 'move':
         // allow "../"
-        if($fm->getvar('old') && $fm->getvar('new', 'parent_dir') && $fm->getvar('root')) {
+        if($fm->getvar('old') && $fm->getvar('new') && $fm->getvar('root')) {
           $response = $fm->move();
         }
         break;

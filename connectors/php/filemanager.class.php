@@ -22,8 +22,8 @@ class Filemanager {
 	protected $languages = array();
 	protected $allowed_actions = array();
 	protected $root = '';				// Filemanager root folder
-	protected $doc_root = '';		// root folder known by JS : $this->config['options']['fileRoot'] (filepath or '/') or $_SERVER['DOCUMENT_ROOT']
-	protected $dynamic_fileroot = ''; // @todo check if we can remove this var
+	protected $doc_root = '';		// root folder known by JS : $this->config['options']['fileRoot'] (filepath or '/') or $_SERVER['DOCUMENT_ROOT'] - overwritten by setFileRoot() method
+	protected $dynamic_fileroot = ''; // Only set if setFileRoot() is called. Second part of the path : '/Filemanager/assets/' ( doc_root - $_SERVER['DOCUMENT_ROOT'])
 	protected $path_to_files = ''; // path to FM userfiles folder - automatically computed by the PHP class, something like '/var/www/Filemanager/userfiles'
 	protected $logger = false;
 	protected $logfile = '/tmp/filemanager.log';
@@ -105,10 +105,16 @@ class Filemanager {
 	// allow Filemanager to be used with dynamic folders
 	public function setFileRoot($path) {
 
+		// Paths are bit complex to handle - kind of nightmare actually ....
+		// 3 parts are availables
+		// [1] $this->doc_root. The first part of the path : '/var/www'
+		// [2] $this->dynamic_fileroot. The second part of the path : '/Filemanager/assets/' ( doc_root - $_SERVER['DOCUMENT_ROOT'])
+		// [3] $this->path_to_files or $this->doc_root. The full path : '/var/www/Filemanager/assets/'
+		
 		if($this->config['options']['serverRoot'] === true) {
-			$this->doc_root = $_SERVER['DOCUMENT_ROOT']. '/'.  $path;
+			$this->doc_root = $_SERVER['DOCUMENT_ROOT']. '/'.  $path; // i.e  '/var/www'
 		} else {
-			$this->doc_root =  $path;
+			$this->doc_root =  $path; // i.e  '/var/www'
 		}
 		
 		// necessary for retrieving path when set dynamically with $fm->setFileRoot() method
@@ -147,11 +153,15 @@ class Filemanager {
 		}
 	}
 
-	public function getvar($var, $preserve = null) {
+	public function getvar($var, $sanitize = true) {
 		if(!isset($_GET[$var]) || $_GET[$var]=='') {
 			$this->error(sprintf($this->lang('INVALID_VAR'),$var));
 		} else {
-			$this->get[$var] = $this->sanitize($_GET[$var], $preserve);
+			if($sanitize) {
+				$this->get[$var] = $this->sanitize($_GET[$var]);
+			} else {
+				$this->get[$var] = $_GET[$var];
+			}
 			return true;
 		}
 	}
@@ -176,6 +186,7 @@ class Filemanager {
 		// handle path when set dynamically with $fm->setFileRoot() method
 		if($this->dynamic_fileroot != '') {
 			$path = $this->dynamic_fileroot. $this->get['path'];
+			// $path = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->path_to_files) . $this->get['path']; // instruction could replace the line above
 			$path = preg_replace('~/+~', '/', $path); // remove multiple slashes
 		} else {
 			$path = $this->get['path'];
@@ -389,11 +400,13 @@ class Filemanager {
 	public function move() {
 		
 		// dynamic fileroot dir must be used when enabled
-		$rootDir = $this->dynamic_fileroot;
-		
-		if (empty($rootDir)) {
+		if($this->dynamic_fileroot != '') {
+			$rootDir = $this->dynamic_fileroot;
+			//$rootDir = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->path_to_files); // instruction could replace the line above
+		} else {
 			$rootDir = $this->get['root'];
 		}
+
 		$rootDir = str_replace('//', '/', $rootDir);
 		$oldPath = $this->getFullPath($this->get['old']);
 		
@@ -416,19 +429,14 @@ class Filemanager {
 		}
 
 		$newPath = preg_replace('#/+#', '/', $newPath);
-		$newPath = $this->expandPath($newPath, true);
+		$newPath = $this->expandPath($newPath, true);		
 
-		//!important! check that we are still under ROOT dir
-		if (strncasecmp($newPath, $rootDir, strlen($rootDir))) {
-			$this->error(sprintf($this->lang('INVALID_DIRECTORY_OR_FILE'),$this->get['new']));
-		}
-
-		if(!$this->has_permission('move') || !$this->is_valid_path($oldPath)) {
+		$newRelativePath = str_replace('./', '',$newPath);
+		$newPath = $this->getFullPath($newPath);
+		
+		if(!$this->has_permission('move') || !$this->is_valid_path($oldPath) || !$this->is_valid_path($newPath)) {
 			$this->error("No way.");
 		}
-
-		$newRelativePath = $newPath;
-		$newPath = $this->getFullPath($newPath);
 
 		// check if file already exists
 		if (file_exists($newPath.$fileName)) {
@@ -801,11 +809,6 @@ class Filemanager {
 				$this->error(sprintf($this->lang('NOT_ALLOWED')),true);
 			}
 			
-			// $this->error($current_path); // @todo remove
-			// s'assurer qu'un utilisateur ne peut pas télécharger tout le dossier
-			// http://localhost/Filemanager/connectors/php/filemanager.php?mode=getfolder&path=/../../
-			// this is a folder, we zip it and send the archive to the client
-			
 			$destination_path = sys_get_temp_dir().'/'.uniqid().'.zip';
 			
 			// if Zip archive is created
@@ -966,8 +969,9 @@ private function getFullPath($path = '') {
 	if($this->config['options']['fileRoot'] !== false) {
 		$full_path = $this->doc_root . rawurldecode(str_replace ( $this->doc_root , '' , $path));
 		if($this->dynamic_fileroot != '') {
-			// $full_path = $this->doc_root . rawurldecode(str_replace ( $this->dynamic_fileroot , '' , $path));
-			$full_path = $this->path_to_files . $path;
+			$full_path = $this->doc_root . rawurldecode(str_replace ( $this->dynamic_fileroot , '' , $path));
+			// $dynPart = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->path_to_files); // instruction could replace the line above
+			// $full_path = $this->path_to_files . rawurldecode(str_replace ( $dynPart , '' , $path)); // instruction could replace the line above
 		}
 	} else {
 		$full_path = $this->doc_root . rawurldecode($path);
@@ -975,7 +979,7 @@ private function getFullPath($path = '') {
 		
 	$full_path = str_replace("//", "/", $full_path);
 		
-	// $this->__log(__METHOD_. " returned path : " . $full_path);
+	// $this->__log("getFullPath() returned path : " . $full_path);
 		
 	return $full_path;
 		
@@ -1061,18 +1065,18 @@ private function startsWith($haystack, $needle) {
 
 private function is_valid_path($path) {
 		
-	// @todo remove debug message
-	$this->__log('[startsWith] path : ' .$path. ' - this->path_to_files : ' . $this->path_to_files . '');
-	if($this->startsWith($path, $this->path_to_files)) $var = 'success'; else $var ='failed';
-	$this->__log('[startsWith] returned value  : ' . $var );
+
+// 	$this->__log('[startsWith] path : ' .$path. ' - this->path_to_files : ' . $this->path_to_files . '');
+// 	if($this->startsWith($path, $this->path_to_files)) $var = 'success'; else $var ='failed';
+// 	$this->__log('[startsWith] returned value  : ' . $var );
 	
 	//$this->__log('compare : ' .$this->getFullPath(). '($this->getFullPath())  and ' . $path . '(path)');
 	// $this->__log('strncmp() returned value : ' .strncmp($path, $this->getFullPath(), strlen($this->getFullPath())));
 	
+	// return !strncmp($path, $this->getFullPath(), strlen($this->getFullPath()));
+	
 	if(!$this->startsWith($path, $this->path_to_files)) return false;
 	return true;
-	
-	// return !strncmp($path, $this->getFullPath(), strlen($this->getFullPath()));
 
 }
 
@@ -1247,13 +1251,13 @@ private function get_thumbnail($path) {
 	return $thumbnail_fullpath;
 }
 
-private function sanitize($var, $preserve = null) {
+private function sanitize($var) {
+	
 	$sanitized = strip_tags($var);
 	$sanitized = str_replace('http://', '', $sanitized);
 	$sanitized = str_replace('https://', '', $sanitized);
-	if ($preserve != 'parent_dir') {
-		$sanitized = str_replace('../', '', $sanitized);
-	}
+	$sanitized = str_replace('../', '', $sanitized);
+
 	return $sanitized;
 }
 
@@ -1314,11 +1318,7 @@ private function is_image($path) {
 
 private function is_root_folder($path) {
 
-	// @todo http://localhost/Filemanager/connectors/php/filemanager.php?mode=getfolder&path=/Filemanager/
-	// @todo ameliorer sécurité
-	// $this->error(rtrim($this->doc_root,"/") .  ' ## ' .  rtrim($path,"/"));
 	if( rtrim($this->path_to_files,"/") ==  rtrim($path,"/") ) {
-	//if(rtrim($this->doc_root,"/") == rtrim($_SERVER['DOCUMENT_ROOT'],"/") && rtrim($path,"/") == rtrim($_SERVER['DOCUMENT_ROOT'],"/")) {
 		return true;
 	}
 	
