@@ -25,6 +25,7 @@
         "plugins": []
     },
     "security": {
+    		"allowFolderDownload": false,
         "allowChangeExtensions": false,
         "allowNoExtension": false,
         "uploadPolicy": "DISALLOW_ALL",
