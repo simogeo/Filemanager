@@ -742,8 +742,10 @@ var renameItem = function(data) {
 // list views.
 var replaceItem = function(data) {
 	
+	// @todo remove all this
 	// remove dynamic form if already exists
 	//$('#file-replacement').remove();
+	
 	
 	// we create a dynamic form with input File
 //	$form = $('<form id="file-replacement" method="post">');
@@ -1520,7 +1522,7 @@ $(function(){
 	});
 	
 	// loading zeroClipboard
-	loadJS('./scripts/zeroclipboard/dist/ZeroClipboard.js'); // @todo load one time only
+	loadJS('./scripts/zeroclipboard/dist/ZeroClipboard.js');
 	
 	// Loading CodeMirror if enabled for online edition
 	if(config.customScrollbar.enabled) {
@@ -1543,7 +1545,6 @@ $(function(){
 				advanced:{ autoExpandHorizontalScroll:false, updateOnContentResize: true },
 				axis: "y"
 			});
-			
 			
 		});
 	}

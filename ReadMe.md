@@ -15,12 +15,14 @@ Main features
 
 * A Filemanager relying on jquery.
 * Available in more than 20 languages.
+* [Highly customizable](https://github.com/simogeo/Filemanager/wiki/Filemanager-configuration-file)
 * Can work as standalone application
 * Easy integration with RTE like CKEditor, TinyMCE and so on.
 * Easy integration with [colorbox jquery plugin](https://github.com/simogeo/Filemanager/wiki/How-to-use-the-filemanager-with-colorbox-%3F) or [HTML simple textfield](https://github.com/simogeo/Filemanager/wiki/How-to-use-the-filemanager-from-a-simple-textfield-%3F)
-* Several computer language connectors available. PHP and MVC are up-to-date
+* Several computer language connectors available. **PHP and MVC are up-to-date**
 * Ability to upload, delete, modify, download and move files
 * Ability to create folders
+* Multi upload support - based on [dropzonejs](http://www.dropzonejs.com)
 * Online text / code edition - based on [codeMirror](http://codemirror.net/)
 * [Opening a given folder](https://github.com/simogeo/Filemanager/wiki/How-to-open-a-given-folder-different-from-root-folder-when-opening-the-filemanager%3F)
 * [Opening exclusively a given folder](https://github.com/simogeo/Filemanager/wiki/How-to-open-%28exclusively%29-a-given-subfolder-%3F)
@@ -311,7 +313,6 @@ Example Response:
 move
 ------
 The `move` method move "old" file or directory to specified "new" directory. It is possible to specify absolute path from fileRoot dir or relative path from "old" item. "root" value is mandatory to secure that relative paths don't get above fileRoot.
-**The `move` method is not 100 % safe. We give you the advice to wait for a security update to use it.**
 
 Example Request: Move file
 	
