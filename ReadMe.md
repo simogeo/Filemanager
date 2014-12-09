@@ -19,10 +19,10 @@ Main features
 * Can work as standalone application
 * Easy integration with RTE like CKEditor, TinyMCE and so on.
 * Easy integration with [colorbox jquery plugin](https://github.com/simogeo/Filemanager/wiki/How-to-use-the-filemanager-with-colorbox-%3F) or [HTML simple textfield](https://github.com/simogeo/Filemanager/wiki/How-to-use-the-filemanager-from-a-simple-textfield-%3F)
-* Several computer language connectors available. **PHP and MVC are up-to-date**
+* Several computer language connectors available. **PHP is up-to-date**
 * Ability to upload, delete, modify, download and move files
 * Ability to create folders
-* Multi upload support - based on [dropzonejs](http://www.dropzonejs.com)
+* Multiple uploads support - based on [dropzonejs](http://www.dropzonejs.com)
 * Online text / code edition - based on [codeMirror](http://codemirror.net/)
 * [Opening a given folder](https://github.com/simogeo/Filemanager/wiki/How-to-open-a-given-folder-different-from-root-folder-when-opening-the-filemanager%3F)
 * [Opening exclusively a given folder](https://github.com/simogeo/Filemanager/wiki/How-to-open-%28exclusively%29-a-given-subfolder-%3F)
