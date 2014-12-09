@@ -555,6 +555,15 @@ button.ON {
 	padding:0.5em;
 }
 
+#link-to-project {
+	background: transparent url(../../../images/fmlogo_wbg.png) no-repeat 0 0;
+	display:block;
+	height:12px;
+	width:45px;
+	float:right;
+	margin:1em;
+}
+
 div.CodeMirror {
 	text-align:left;
 	width:70%;
