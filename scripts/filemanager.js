@@ -1525,31 +1525,6 @@ $(function(){
 	loadJS('./scripts/zeroclipboard/dist/ZeroClipboard.js');
 	
 	// Loading CodeMirror if enabled for online edition
-	if(config.customScrollbar.enabled) {
-		loadCSS('./scripts/custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css');
-		loadJS('./scripts/custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js');
-		
-		var csTheme = config.customScrollbar.theme != undefined ? config.customScrollbar.theme : 'inset-2-dark';
-		var csButton = config.customScrollbar.button != undefined ? config.customScrollbar.button : true;
-		
-		$(window).load(function(){
-			$("#filetree").mCustomScrollbar({
-				theme:csTheme,
-				scrollButtons:{enable:csButton},
-				advanced:{ autoExpandHorizontalScroll:true, updateOnContentResize: true },
-				axis: "yx"
-			});
-			$("#fileinfo").mCustomScrollbar({
-				theme:csTheme,
-				scrollButtons:{enable:csButton},
-				advanced:{ autoExpandHorizontalScroll:false, updateOnContentResize: true },
-				axis: "y"
-			});
-			
-		});
-	}
-	
-	// Loading CodeMirror if enabled for online edition
 	if(config.edit.enabled) {
 		loadCSS('./scripts/CodeMirror/lib/codemirror.css');
 		loadCSS('./scripts/CodeMirror/theme/' + config.edit.theme + '.css');
@@ -1848,6 +1823,32 @@ $(function(){
 
 	// Creates file tree.
 	createFileTree();
+	
+	// Loading CustomScrollbar if enabled
+	// Important, the script should be called after calling createFileTree() to prevent bug 
+	if(config.customScrollbar.enabled) {
+		loadCSS('./scripts/custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css');
+		loadJS('./scripts/custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js');
+		
+		var csTheme = config.customScrollbar.theme != undefined ? config.customScrollbar.theme : 'inset-2-dark';
+		var csButton = config.customScrollbar.button != undefined ? config.customScrollbar.button : true;
+		
+		$(window).load(function(){
+			$("#filetree").mCustomScrollbar({
+				theme:csTheme,
+				scrollButtons:{enable:csButton},
+				advanced:{ autoExpandHorizontalScroll:true, updateOnContentResize: true },
+				axis: "yx"
+			});
+			$("#fileinfo").mCustomScrollbar({
+				theme:csTheme,
+				scrollButtons:{enable:csButton},
+				advanced:{ autoExpandHorizontalScroll:false, updateOnContentResize: true },
+				axis: "y"
+			});
+			
+		});
+	}
 	
 	// Disable select function if no window.opener
 	if(! (window.opener || window.tinyMCEPopup || $.urlParam('field_name')) ) $('#itemOptions a[href$="#select"]').remove();
