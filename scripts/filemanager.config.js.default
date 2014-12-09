@@ -25,7 +25,7 @@
         "plugins": []
     },
     "security": {
-    		"allowFolderDownload": false,
+        "allowFolderDownload": false,
         "allowChangeExtensions": false,
         "allowNoExtension": false,
         "uploadPolicy": "DISALLOW_ALL",
@@ -54,10 +54,14 @@
             "m4v",
             "ogg",
             "mp3",
-            "wav"
+            "wav",
+            "zip",
+            "rar"
         ]
     },
     "upload": {
+        "multiple": true,
+        "number": 5,
         "overwrite": false,
         "imagesOnly": false,
         "fileSizeLimit": 16
