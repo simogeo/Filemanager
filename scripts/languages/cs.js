@@ -82,6 +82,7 @@
     "successful_moved": "Položka byla přesunuta.", 
     "successful_rename": "Položka byla úspěšně přejmenována.", 
     "successful_replace": "File replacement successful.", 
+    "support_fm": "Filemanager is a free software, please support !", 
     "upload": "Nahrát", 
     "yes": "Ano"
 }

@@ -82,6 +82,7 @@
     "successful_moved": "Uspješno pomjereno.", 
     "successful_rename": "Uspješno preimenovano.", 
     "successful_replace": "Uspješno zamjenjeno.", 
+    "support_fm": "Filemanager is a free software, please support !", 
     "upload": "Postavi", 
     "yes": "Da"
 }

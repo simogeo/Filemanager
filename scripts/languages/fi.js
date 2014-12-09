@@ -82,6 +82,7 @@
     "successful_moved": "Move successful.", 
     "successful_rename": "Uudelleen nimeäminen onnistui.", 
     "successful_replace": "File replacement successful.", 
+    "support_fm": "Filemanager is a free software, please support !", 
     "upload": "Lähetä", 
     "yes": "Kyllä"
 }

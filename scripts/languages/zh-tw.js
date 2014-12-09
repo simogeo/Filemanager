@@ -82,6 +82,7 @@
     "successful_moved": "Move successful.", 
     "successful_rename": "更名成功", 
     "successful_replace": "File replacement successful.", 
+    "support_fm": "Filemanager is a free software, please support !", 
     "upload": "上傳", 
     "yes": "是"
 }

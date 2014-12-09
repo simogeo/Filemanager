@@ -82,6 +82,7 @@
     "successful_moved": "Déplacement réalisé avec succès.", 
     "successful_rename": "Renommage réalisé avec succès.", 
     "successful_replace": "Fichier remplacé avec succès.", 
+    "support_fm": "Filemanager est un projet libre, supportez-le !", 
     "upload": "Télécharger", 
     "yes": "Oui"
 }

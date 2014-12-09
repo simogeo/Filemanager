@@ -82,6 +82,7 @@
     "successful_replace": "File replacement successful.", 
     "successful_rename": "Rename successful.",
     "successful_edit": "Content update successful.",
+    "support_fm": "Filemanager is a free software, please support !", 
     "upload": "Upload", 
     "yes": "Yes"
 }

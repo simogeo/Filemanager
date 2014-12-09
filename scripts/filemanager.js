@@ -1500,6 +1500,7 @@ var populateFileTree = function(path, callback) {
 ---------------------------------------------------------*/
 
 $(function(){
+	
 	if(config.extras.extra_js) {
 		for(var i=0; i< config.extras.extra_js.length; i++) {
 			$.ajax({
@@ -1510,6 +1511,8 @@ $(function(){
 		}
 	}
 	
+	$('#link-to-project').attr('href', config.url).attr('target', '_blank').attr('title', lg.support_fm)
+	if(!config.options.search) $('#link-to-project').appendTo("form#uploader").css('margin', '0.6em 0 0 1em');
 	// Loading theme
 	loadCSS('./themes/' + config.options.theme + '/styles/filemanager.css');
 	$.ajax({
