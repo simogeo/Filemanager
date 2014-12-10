@@ -1,6 +1,7 @@
 Filemanager
 ========================
 
+FM is an open-source file manager released under MIT license. It is an alternative to elfinder or CKFinder.
 
 Support
 -------
