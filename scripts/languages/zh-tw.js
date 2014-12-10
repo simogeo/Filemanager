@@ -53,6 +53,7 @@
     "gb": "gb", 
     "grid_view": "切換框格檢視。", 
     "help_move": "The use of '../' is forbidden. You can access root folder by using '/'.", 
+    "items": "items", 
     "kb": "kb", 
     "list_view": "切換清單檢視。", 
     "loading_data": "傳送檔案...", 

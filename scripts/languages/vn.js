@@ -53,6 +53,7 @@
     "gb": "gb", 
     "grid_view": "Chuyển sang chế độ khung lưới.", 
     "help_move": "The use of '../' is forbidden. You can access root folder by using '/'.", 
+    "items": "items", 
     "kb": "kb", 
     "list_view": "Chuyển sang chế độ liệt kê.", 
     "loading_data": "Transferring data ...", 

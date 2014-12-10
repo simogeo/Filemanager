@@ -53,6 +53,7 @@
     "gb": "gb", 
     "grid_view": "Váltás dia nézetre.", 
     "help_move": "The use of '../' is forbidden. You can access root folder by using '/'.", 
+    "items": "items", 
     "kb": "kb", 
     "list_view": "Váltás részletes nézetre.", 
     "loading_data": "Transferring data ...", 

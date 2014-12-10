@@ -53,6 +53,7 @@
     "gb": "gb", 
     "grid_view": "Switch to grid view.", 
     "help_move": "The use of '../' is forbidden. You can access root folder by using '/'.", 
+    "items": "items", 
     "kb": "kb", 
     "list_view": "Switch to list view.", 
     "loading_data": "Transferring data ...", 

@@ -53,6 +53,7 @@
     "gb": "gb", 
     "grid_view": "グリッド表示に切り替え.", 
     "help_move": "The use of '../' is forbidden. You can access root folder by using '/'.", 
+    "items": "items", 
     "kb": "kb", 
     "list_view": "リスト表示に切り替え.", 
     "loading_data": "Transferring data ...", 

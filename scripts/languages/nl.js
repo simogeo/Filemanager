@@ -53,6 +53,7 @@
     "gb": "gb", 
     "grid_view": "Pictogrammen", 
     "help_move": "The use of '../' is forbidden. You can access root folder by using '/'.", 
+    "items": "items", 
     "kb": "kb", 
     "list_view": "Lijst", 
     "loading_data": "Uploaden ...", 

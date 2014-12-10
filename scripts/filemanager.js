@@ -120,9 +120,7 @@ $.prompt.setDefaults({
 // Forces columns to fill the layout vertically.
 // Called on initial page load and on resize.
 var setDimensions = function(){
-	var bheight = 20;
-
-	if(config.options.searchBox === true) bheight +=33;
+	var bheight = 53;
 	
 	if($.urlParam('CKEditorCleanUpFuncNum')) bheight +=60;
 
@@ -1322,10 +1320,13 @@ var getFolderInfo = function(path) {
 		};
 		
 		if(data){
+			var counter = 0;
+			var totalSize = 0;
 			if($('#fileinfo').data('view') == 'grid'){
 				result += '<ul id="contents" class="grid">';
 				
 				for(key in data){
+					counter++;
 					var props = data[key]['Properties'];
 					var cap_classes = "";
 					for (cap in capabilities) {
@@ -1343,6 +1344,7 @@ var getFolderInfo = function(path) {
 					result += '<li class="' + cap_classes + '"' + title + '"><div class="clip"><img src="' + data[key]['Preview'] + '" width="' + scaledWidth + '" alt="' + data[key]['Path'] + '" data-path="' + data[key]['Path'] + '" /></div><p>' + data[key]['Filename'] + '</p>';
 					if(props['Width'] && props['Width'] != '') result += '<span class="meta dimensions">' + props['Width'] + 'x' + props['Height'] + '</span>';
 					if(props['Size'] && props['Size'] != '') result += '<span class="meta size">' + props['Size'] + '</span>';
+					if(props['Size'] && props['Size'] != '') totalSize += props['Size'];
 					if(props['Date Created'] && props['Date Created'] != '') result += '<span class="meta created">' + props['Date Created'] + '</span>';
 					if(props['Date Modified'] && props['Date Modified'] != '') result += '<span class="meta modified">' + props['Date Modified'] + '</span>';
 					result += '</li>';
@@ -1355,6 +1357,7 @@ var getFolderInfo = function(path) {
 				result += '<tbody>';
 				
 				for(key in data){
+					counter++;
 					var path = data[key]['Path'];
 					var props = data[key]['Properties'];
 					var cap_classes = "";
@@ -1376,6 +1379,7 @@ var getFolderInfo = function(path) {
 					
 					if(props['Size'] && props['Size'] != ''){
 						result += '<td><abbr title="' + props['Size'] + '">' + formatBytes(props['Size']) + '</abbr></td>';
+						totalSize += props['Size'];
 					} else {
 						result += '<td></td>';
 					}
@@ -1404,6 +1408,10 @@ var getFolderInfo = function(path) {
 			$('#fileinfo').html(result);
 		}
 		
+		// update #folder-info
+		$('#items-counter').text(counter);
+		$('#items-size').text(Math.round(totalSize / 1024 /1024 * 100) / 100);
+
 		// Bind click events to create detail views and add
 		// contextual menu options.
 		if($('#fileinfo').data('view') == 'grid') {
@@ -1511,8 +1519,8 @@ $(function(){
 		}
 	}
 	
-	$('#link-to-project').attr('href', config.url).attr('target', '_blank').attr('title', lg.support_fm)
-	if(config.options.searchBox === false) $('#link-to-project').appendTo("form#uploader").css('margin', '0.6em 0 0 1em');
+	$('#link-to-project').attr('href', config.url).attr('target', '_blank').attr('title', lg.support_fm);
+
 	// Loading theme
 	loadCSS('./themes/' + config.options.theme + '/styles/filemanager.css');
 	$.ajax({
@@ -1568,6 +1576,9 @@ $(function(){
 		fullexpandedFolder = null;
         }
 
+	
+	$('#folder-info').html('<span id="items-counter"></span> ' + lg.items + ' - ' + lg.size + ' : <span id="items-size"></span> ' + lg.mb);
+	
 	// we finalize the FileManager UI initialization 
 	// with localized text if necessary
 	if(config.options.autoload == true) {

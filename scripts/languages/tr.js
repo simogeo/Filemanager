@@ -53,6 +53,7 @@
     "gb": "gb", 
     "grid_view": "Galeri görünümü", 
     "help_move": "The use of '../' is forbidden. You can access root folder by using '/'.", 
+    "items": "items", 
     "kb": "kb", 
     "list_view": "Liste görünümü", 
     "loading_data": "Veri transfer ediliyor ...", 

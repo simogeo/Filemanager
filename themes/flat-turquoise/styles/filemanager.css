@@ -278,6 +278,10 @@ button#browse span {
 }
 /** Input file Replacement - end */
 
+#search, #search div, #folder-info {display:inline;}
+
+#folder-info {font-size:0.8em;color:#666666;padding:1.3em;float:right}
+
 #q {
 	background-color: #ACC1BB;
 	border: 1px solid #dcdcdc;

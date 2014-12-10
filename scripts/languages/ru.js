@@ -53,6 +53,7 @@
     "gb": "Гб", 
     "grid_view": "Переключиться в режим сетки", 
     "help_move": "The use of '../' is forbidden. You can access root folder by using '/'.", 
+    "items": "items", 
     "kb": "Кб", 
     "list_view": "Переключиться в режим списка", 
     "loading_data": "Загрузка...", 

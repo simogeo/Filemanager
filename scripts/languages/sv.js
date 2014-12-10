@@ -54,6 +54,7 @@
     "gotoroot": "Gå till /", 
     "grid_view": "Byt till tabellvy.", 
     "help_move": "The use of '../' is forbidden. You can access root folder by using '/'.", 
+    "items": "items", 
     "kb": "kb", 
     "list_view": "Byt till listvy.", 
     "loading_data": "Transferring data ...", 

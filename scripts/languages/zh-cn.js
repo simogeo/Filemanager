@@ -54,6 +54,7 @@
     "gotoroot": "根文件夹", 
     "grid_view": "切换到网格视图.", 
     "help_move": "The use of '../' is forbidden. You can access root folder by using '/'.", 
+    "items": "items", 
     "kb": "kb", 
     "list_view": "切换到列表视图.", 
     "loading_data": "Transferring data ...", 

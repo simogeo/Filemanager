@@ -53,6 +53,7 @@
     "gb": " GB", 
     "grid_view": "Zobrazit v mřížce.", 
     "help_move": "The use of '../' is forbidden. You can access root folder by using '/'.", 
+    "items": "items", 
     "kb": " kB", 
     "list_view": "Zobrazit jako seznam.", 
     "loading_data": "Přenos dat...", 

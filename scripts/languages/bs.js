@@ -53,6 +53,7 @@
     "gb": "gb", 
     "grid_view": "Prebaci na tabularni prikaz.", 
     "help_move": "The use of '../' is forbidden. You can access root folder by using '/'.", 
+    "items": "items", 
     "kb": "kb", 
     "list_view": "Prikaži kao listu.", 
     "loading_data": "Prebacujem podatke ...", 

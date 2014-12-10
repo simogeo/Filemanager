@@ -53,6 +53,7 @@
     "gb": "go", 
     "grid_view": "Affichage en mode 'miniatures'", 
     "help_move": "L'utilisation de '../' est proscrite. La racine du dossier est accessible en utilisant '/'.", 
+    "items": "items", 
     "kb": "ko", 
     "list_view": "Affichage en mode 'liste'", 
     "loading_data": "Transfert en cours ...", 
