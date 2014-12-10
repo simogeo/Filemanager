@@ -3,6 +3,7 @@ From version 1.8.0 to 2.0.0
 - Adding multiple files upload, based on dropzone.js | #177, #185, #41
 - Fixing bugs after 'Rename' action | #283, #284
 - Adding logo | #285
+- Adding folder infos | #287
 - Adding help message on 'Move' action
 - Code optimization
 
