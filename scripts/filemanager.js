@@ -1668,7 +1668,7 @@ $(function(){
 			var msg  = '<div id="dropzone-container"><h2>' + lg.current_folder + $('#uploader h1').attr('title')  + '</h2><div id="multiple-uploads" class="dropzone"></div>';
 				msg += '<div id="total-progress"><div data-dz-uploadprogress="" style="width:0%;" class="progress-bar"></div></div>';
 				msg += '<div class="prompt-info">' + lg.dz_dictMaxFilesExceeded.replace('%s', config.upload.number) + lg.file_size_limit + config.upload.fileSizeLimit + ' ' + lg.mb + '.</div>';
-				msg += '<button id="process-upload">Télécharger</button></div>';
+				msg += '<button id="process-upload">' + lg.upload + '</button></div>';
 			
 			error_flag = false;
 			var path = $('#currentpath').val();
