@@ -42,7 +42,7 @@
     "del": "Törlés", 
     "dimensions": "Méretek", 
     "download": "Letöltés", 
-    "dz_dictDefaultMessage": "Húzza ide a feltöltendő fájlokat", 
+    "dz_dictDefaultMessage": "Húzza ide a fájlokat, vagy kattintson a tallózáshoz", 
     "dz_dictFallbackMessage": "Ez a böngésző nem támogatja a grag'n'drop fájl feltöltést.", 
     "dz_dictInvalidFileType": "Ilyen fájltípus nem tölthető fel.", 
     "dz_dictMaxFilesExceeded": "Egyszerre csak %s fájl tölthető fel.", 
