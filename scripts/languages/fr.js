@@ -85,5 +85,6 @@
     "successful_replace": "Fichier remplacé avec succès.", 
     "support_fm": "Filemanager est un projet libre, supportez-le !", 
     "upload": "Télécharger", 
+    "version": "version", 
     "yes": "Oui"
 }

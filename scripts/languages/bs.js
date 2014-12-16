@@ -85,5 +85,6 @@
     "successful_replace": "Uspješno zamjenjeno.", 
     "support_fm": "Filemanager is a free software, please support !", 
     "upload": "Postavi", 
+    "version": "version", 
     "yes": "Da"
 }

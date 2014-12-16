@@ -85,5 +85,6 @@
     "successful_edit": "Content update successful.",
     "support_fm": "Filemanager is a free software, please support !", 
     "upload": "Upload", 
+    "version": "version",
     "yes": "Yes"
 }

@@ -85,5 +85,6 @@
     "successful_replace": "File replacement successful.", 
     "support_fm": "Filemanager is a free software, please support !", 
     "upload": "Nahrát", 
+    "version": "version", 
     "yes": "Ano"
 }

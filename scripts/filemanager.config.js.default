@@ -137,5 +137,6 @@
         "directory": "_Open.png",
         "default": "default.png"
     },
-    "url": "https://github.com/simogeo/Filemanager"
+    "url": "https://github.com/simogeo/Filemanager",
+    "version": "2.0.0-dev"
 }

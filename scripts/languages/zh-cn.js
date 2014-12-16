@@ -86,5 +86,6 @@
     "successful_replace": "File replacement successful.", 
     "support_fm": "Filemanager is a free software, please support !", 
     "upload": "上传", 
+    "version": "version", 
     "yes": "是"
 }

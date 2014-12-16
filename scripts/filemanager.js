@@ -1519,7 +1519,8 @@ $(function(){
 		}
 	}
 	
-	$('#link-to-project').attr('href', config.url).attr('target', '_blank').attr('title', lg.support_fm);
+	$('#link-to-project').attr('href', config.url).attr('target', '_blank').attr('title', lg.support_fm + ' [' + lg.version + ' : ' + config.version + ']');
+	$('div.version').html(config.version);
 
 	// Loading theme
 	loadCSS('./themes/' + config.options.theme + '/styles/filemanager.css');
