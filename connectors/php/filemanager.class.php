@@ -42,6 +42,9 @@ class Filemanager {
 		$content = file_get_contents("../../scripts/filemanager.config.js");
 		$config = json_decode($content, true);
 		
+		if(!$config) {
+			$this->error("Error parsing the settings file! Please check your JSON syntax.");
+		}
 		$this->config = array_replace_recursive ($config_default, $config);
 
 		// override config options if needed
