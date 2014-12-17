@@ -1305,6 +1305,8 @@ var getFolderInfo = function(path) {
 	} else {
 		$('#fileinfo').html(loading);
 	}
+
+	$('#loading-wrap').fadeOut(800); // we remove loading screen div
 	
 	// Retrieve the data and generate the markup.
 	var d = new Date(); // to prevent IE cache issues
@@ -1318,6 +1320,8 @@ var getFolderInfo = function(path) {
 			handleError(data.Error);
 			return;
 		};
+	
+		setDimensions(); //fix dimensions before all images load
 		
 		if(data){
 			var counter = 0;
@@ -1900,7 +1904,8 @@ if(config.options.logger) {
 	console.log('Total execution time : ' + time + ' ms');
 }
 
-// we remove loading screen div
-$('#loading-wrap').fadeOut(800);
+$(window).load(function() {
+	setDimensions();
+});
 
 })(jQuery);
