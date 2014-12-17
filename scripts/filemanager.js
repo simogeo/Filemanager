@@ -1900,7 +1900,9 @@ if(config.options.logger) {
 	console.log('Total execution time : ' + time + ' ms');
 }
 
-// we remove loading screen div
-$('#loading-wrap').fadeOut(800);
+$(window).load(function() {
+	setDimensions();
+	$('#loading-wrap').fadeOut(800); // we remove loading screen div
+});
 
 })(jQuery);
