@@ -687,6 +687,7 @@ var renameItem = function(data) {
 					if(result['Code'] == 0){
 						var newPath = result['New Path'];
 						var newName = result['New Name'];
+						var oldPath = result['Old Path'];
 	
 						updateNode(oldPath, newPath, newName);
 						

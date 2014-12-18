@@ -392,9 +392,9 @@ class Filemanager {
 		$array = array(
 				'Error'=>"",
 				'Code'=>0,
-				'Old Path'=>$this->get['old'],
+				'Old Path'=>$this->formatPath($this->get['old'].$suffix),
 				'Old Name'=>$filename,
-				'New Path'=>$path . '/' . $this->get['new'].$suffix,
+				'New Path'=>$this->formatPath($path . '/' . $this->get['new'].$suffix),
 				'New Name'=>$this->get['new']
 		);
 		return $array;
