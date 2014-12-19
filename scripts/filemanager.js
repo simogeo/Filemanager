@@ -1666,6 +1666,7 @@ $(function(){
 		
 		// we remove simple file upload element
 		$('#file-input-container').remove(); 
+		
 		// we add multiple-files upload button using upload button
 		// $('#upload').prop('type', 'button');
 		// replaced by code below because og Chrome 18 bug https://github.com/simogeo/Filemanager/issues/304
@@ -1673,11 +1674,6 @@ $(function(){
 		$('#upload').remove();
 		$( "#newfolder" ).before( '<button value="Upload" type="button" name="upload" id="upload"><span>' + lg.upload + '</span></button> ' );
 		
-//		$('#upload').removeAttr('type').attr('type', 'button');
-//		// Fixing https://github.com/simogeo/Filemanager/issues/304
-//		$('#upload[type="submit"]').submit(function(event) {
-//			event.preventDefault();
-//		});
 		$('#upload').unbind().click(function() {
 			// we create prompt
 			var msg  = '<div id="dropzone-container"><h2>' + lg.current_folder + $('#uploader h1').attr('title')  + '</h2><div id="multiple-uploads" class="dropzone"></div>';
