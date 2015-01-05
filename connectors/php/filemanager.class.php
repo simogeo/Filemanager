@@ -987,7 +987,7 @@ private function getFullPath($path = '') {
 		
 	// $this->__log("getFullPath() returned path : " . $full_path);
 		
-	return $full_path;
+	return realpath($full_path);
 		
 }
 
@@ -1081,7 +1081,7 @@ private function is_valid_path($path) {
 	
 	// return !strncmp($path, $this->getFullPath(), strlen($this->getFullPath()));
 	
-	if(!$this->startsWith($path, $this->path_to_files)) return false;
+	if(!$this->startsWith($path, realpath($this->path_to_files))) return false;
 	return true;
 
 }
