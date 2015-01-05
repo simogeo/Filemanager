@@ -237,7 +237,7 @@ class Filemanager {
 			natcasesort($filesDir);
 
 			foreach($filesDir as $file) {
-
+				
 				if(is_dir($current_path . $file)) {
 					if(!in_array($file, $this->config['exclude']['unallowed_dirs']) && !preg_match( $this->config['exclude']['unallowed_dirs_REGEXP'], $file)) {
 						$array[$this->get['path'] . $file .'/'] = array(
@@ -987,7 +987,7 @@ private function getFullPath($path = '') {
 		
 	// $this->__log("getFullPath() returned path : " . $full_path);
 		
-	return realpath($full_path);
+	return $full_path;
 		
 }
 
@@ -1081,7 +1081,7 @@ private function is_valid_path($path) {
 	
 	// return !strncmp($path, $this->getFullPath(), strlen($this->getFullPath()));
 	
-	if(!$this->startsWith($path, realpath($this->path_to_files))) return false;
+	if(!$this->startsWith(realpath($path), realpath($this->path_to_files))) return false;
 	return true;
 
 }
