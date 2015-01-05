@@ -1851,8 +1851,8 @@ $(function(){
 	// setTimeout() necessary to fix bugs
 	// see https://github.com/malihu/malihu-custom-scrollbar-plugin/issues/237
 	// and https://github.com/simogeo/Filemanager/issues/302
-	setTimeout(function(){ createFileTree(); }, 400);
-	
+	// setTimeout(function(){ createFileTree(); }, 400);
+	// createFileTree();
 	// Loading CustomScrollbar if enabled
 	// Important, the script should be called after calling createFileTree() to prevent bug 
 	if(config.customScrollbar.enabled) {
@@ -1863,20 +1863,26 @@ $(function(){
 		var csButton = config.customScrollbar.button != undefined ? config.customScrollbar.button : true;
 		
 		$(window).load(function(){
+			$("#filetree").append('<div style="height:3000px"></div>'); // because if #filetree has height equal to 0, mCustomScrollbar is not applied
 			$("#filetree").mCustomScrollbar({
 				theme:csTheme,
 				scrollButtons:{enable:csButton},
 				advanced:{ autoExpandHorizontalScroll:true, updateOnContentResize: true },
+				callbacks:{
+					onInit:function(){ createFileTree(); }			
+				},
 				axis: "yx"
-			});
+				});
 			$("#fileinfo").mCustomScrollbar({
 				theme:csTheme,
 				scrollButtons:{enable:csButton},
-				advanced:{ autoExpandHorizontalScroll:false, updateOnContentResize: true },
+				advanced:{ autoExpandHorizontalScroll:true, updateOnContentResize: true },
 				axis: "y"
 			});
 			
 		});
+	} else {
+		createFileTree();
 	}
 	
 	// Disable select function if no window.opener
