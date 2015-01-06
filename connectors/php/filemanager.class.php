@@ -222,7 +222,7 @@ class Filemanager {
 		if(!is_dir($current_path)) {
 			$this->error(sprintf($this->lang('DIRECTORY_NOT_EXIST'),$this->get['path']));
 		}
-		if(!$handle = opendir($current_path)) {
+		if(!$handle = @opendir($current_path)) {
 			$this->error(sprintf($this->lang('UNABLE_TO_OPEN_DIRECTORY'),$this->get['path']));
 		} else {
 			while (false !== ($file = readdir($handle))) {
@@ -288,6 +288,11 @@ class Filemanager {
 	public function editfile() {
 
 		$current_path = $this->getFullPath();
+		
+		// check if writable
+		if(!is_writable($this->getFullPath($current_path))) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED')));
+		}
 		
 		if(!$this->has_permission('edit') || !$this->is_valid_path($current_path) || !$this->is_editable($current_path)) {
 			$this->error("No way.");
@@ -361,6 +366,11 @@ class Filemanager {
 			$this->error("No way.");
 		}
 		
+		// check if writable
+		if(!is_writable($this->getFullPath($old_file))) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED')));
+		}
+		
 		// check if not requesting main FM userfiles folder
 		if($this->is_root_folder($old_file)) {
 			$this->error(sprintf($this->lang('NOT_ALLOWED')),true);
@@ -412,6 +422,11 @@ class Filemanager {
 
 		$rootDir = str_replace('//', '/', $rootDir);
 		$oldPath = $this->getFullPath($this->get['old']);
+		
+		// check if writable
+		if(!is_writable($this->getFullPath($oldPath))) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED')));
+		}
 		
 		// check if not requesting main FM userfiles folder
 		if($this->is_root_folder($oldPath)) {
@@ -483,14 +498,19 @@ class Filemanager {
 
 		$current_path = $this->getFullPath();
 		$thumbnail_path = $this->get_thumbnail_path($current_path);
-			
+		
+		// check if writable
+		if(!is_writable($this->getFullPath($current_path))) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED')));
+		}
+		
 		if(!$this->has_permission('delete') || !$this->is_valid_path($current_path)) {
 			$this->error("No way.");
 		}
 		
 		// check if not requesting main FM userfiles folder
 		if($this->is_root_folder($current_path)) {
-			$this->error(sprintf($this->lang('NOT_ALLOWED')),true);
+			$this->error(sprintf($this->lang('NOT_ALLOWED')));
 		}
 			
 		if(is_dir($current_path)) {
@@ -582,6 +602,11 @@ class Filemanager {
 		}
 
 		$current_path = $this->getFullPath($this->post['newfilepath']);
+		
+		// check if writable
+		if(!is_writable($this->getFullPath($current_path))) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED')), true);
+		}
 
 		if(!$this->has_permission('replace') || !$this->is_valid_path($current_path)) {
 			$this->error("No way.");
@@ -792,6 +817,11 @@ class Filemanager {
 	public function download() {
 			
 		$current_path = $this->getFullPath();
+		
+		// check if writable
+		if(!is_writable($this->getFullPath($current_path))) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED')));
+		}
 			
 		if(!$this->has_permission('download') || !$this->is_valid_path($current_path)) {
 			$this->error("No way.");
@@ -926,7 +956,11 @@ class Filemanager {
 		$this->item['filectime'] = filectime($this->getFullPath($current_path));
 
 		$this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['default'];
-
+		
+		// prevent Internal Server Error HTTP_CODE 500 on non readable files/folders
+		// without returning errors
+		if(!is_readable($this->getFullPath($current_path))) return;
+		
 		if(is_dir($current_path)) {
 
 			$this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['directory'];
