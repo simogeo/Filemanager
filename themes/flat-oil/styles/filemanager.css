@@ -115,6 +115,9 @@ button#home {
 	display: inline-block;
 	color:#444;
 }
+#fileinfo > h1 {
+	margin-top:3em
+}
 
 div#tools { 
 	display: inline-block;

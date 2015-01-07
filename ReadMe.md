@@ -23,6 +23,8 @@ Main features
 * Several computer language connectors available. **PHP is up-to-date**
 * Ability to upload, delete, modify, download and move files
 * Ability to create folders
+* Support user permissions - based on session
+* Handle system permissions
 * Multiple uploads support - based on [dropzonejs](http://www.dropzonejs.com)
 * Online text / code edition - based on [codeMirror](http://codemirror.net/)
 * [Opening a given folder](https://github.com/simogeo/Filemanager/wiki/How-to-open-a-given-folder-different-from-root-folder-when-opening-the-filemanager%3F)
@@ -186,6 +188,7 @@ Example Response:
 		"Filename": "logo.png",
 		"File Type": "png",
 		"Preview": "/UserFiles/Image/logo.png",
+		"Protected": 0,
 		"Properties": {
 			"Date Created": null, 
 			"Date Modified": "02/09/2007 14:01:06",
@@ -211,6 +214,8 @@ The keys are as follows:
 		Directories: images/fileicons/_Open.png		
 		Files: images/fileicons/[extension].png		
 		Unknown: images/fileicons/default.png
+		
+	Protected: Indicates if the file has some reading / writing restrictions. If not, set to 0. Else set to 1. 
 	
 	Properties: A nested JSON object containing specific properties of the file.
 	
@@ -244,6 +249,7 @@ Example Response:
 			"Filename": "logo.png",
 			"File Type": "png",
 			"Preview": "/UserFiles/Image/logo.png",
+			"Protected": 0,
 			"Properties": {
 				"Date Created": null, 
 				"Date Modified": "02/09/2007 14:01:06",

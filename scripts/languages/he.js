@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "Language file not found", 
     "MODE_ERROR": "שגיאת מצב", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "לא ניתן ליצור את התיקיה %s", 
     "UNABLE_TO_OPEN_DIRECTORY": "לא ניתן לפתוח את התיקיה %s", 
     "UPLOAD_FILES_SMALLER_THAN": "בבקשה העלה רק קבצים אשר קטנים מ %s", 

@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "Không thấy tập tin ngôn ngữ.", 
     "MODE_ERROR": "Lỗi chế độ.", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "Không thể tạo thư mục %s.", 
     "UNABLE_TO_OPEN_DIRECTORY": "Không thể mở thư mục %s.", 
     "UPLOAD_FILES_SMALLER_THAN": "Chỉ tải được tập tin có kích thước nhỏ hơn %s.", 

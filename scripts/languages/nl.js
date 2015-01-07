@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "Het taalbestand is niet gevonden.", 
     "MODE_ERROR": "Mode fout.", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "De map %s kon niet worden aangemaakt.", 
     "UNABLE_TO_OPEN_DIRECTORY": "De map %s kon niet worden geopend.", 
     "UPLOAD_FILES_SMALLER_THAN": "Upload alleen bestanden kleiner dan %s a.u.b.", 

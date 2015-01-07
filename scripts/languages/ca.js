@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "No s'ha trobat l'arxiu d'idioma.", 
     "MODE_ERROR": "Error de mode.", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "Impossible crear la carpeta %s.", 
     "UNABLE_TO_OPEN_DIRECTORY": "No s'ha pogut obrir la carpeta %s.", 
     "UPLOAD_FILES_SMALLER_THAN": "Si us plau, Pugeu només arxius amb tamany inferior a  %s.", 

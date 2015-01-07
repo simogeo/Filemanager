@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "Arquivo de língua não encontrado.", 
     "MODE_ERROR": "Mode error.", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "Não foi possível criar a pasta %s.", 
     "UNABLE_TO_OPEN_DIRECTORY": "Não foi possível abrir  pasta %s.", 
     "UPLOAD_FILES_SMALLER_THAN": "Favor enviar apenas arquivos menores que %s.", 

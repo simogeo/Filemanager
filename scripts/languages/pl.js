@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "Plik językowy nie znaleziony.", 
     "MODE_ERROR": "Tryb wyświetlania błędów.", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "Brak możliwości utworzenia lokalizacji %s.", 
     "UNABLE_TO_OPEN_DIRECTORY": "Brak możliwości otwarcia lokalizacji %s.", 
     "UPLOAD_FILES_SMALLER_THAN": "Proszę użyć pliku mniejszego niż %s.", 

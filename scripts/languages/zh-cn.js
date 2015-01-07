@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "语言文件未找到。", 
     "MODE_ERROR": "模式错误.", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "无法创建目录%s", 
     "UNABLE_TO_OPEN_DIRECTORY": "无法打开目录%s。", 
     "UPLOAD_FILES_SMALLER_THAN": "请只上传文件小于%s的", 

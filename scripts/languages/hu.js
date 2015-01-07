@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "A megadott fordítás nem található.", 
     "MODE_ERROR": "Eljárás hiba.", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "A(z) %s mappát nem lehet létrehozni.", 
     "UNABLE_TO_OPEN_DIRECTORY": "Nem lehet a(z) %s mappát megnyitni.", 
     "UPLOAD_FILES_SMALLER_THAN": "Kérem csak %s méretnél kisebb fájlokat töltsön fel.", 

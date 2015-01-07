@@ -195,11 +195,11 @@ class Filemanager {
 			$path = $this->get['path'];
 		}
 		
-
 		$array = array(
 				'Path'=> $path,
 				'Filename'=>$this->item['filename'],
 				'File Type'=>$this->item['filetype'],
+				'Protected'=>$this->item['protected'],
 				'Preview'=>$this->item['preview'],
 				'Properties'=>$this->item['properties'],
 				'Error'=>"",
@@ -222,6 +222,12 @@ class Filemanager {
 		if(!is_dir($current_path)) {
 			$this->error(sprintf($this->lang('DIRECTORY_NOT_EXIST'),$this->get['path']));
 		}
+		
+		// check if file is readable
+		if(!$this->has_system_permission($current_path, array('r'))) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED_SYSTEM')));
+		}
+		
 		if(!$handle = @opendir($current_path)) {
 			$this->error(sprintf($this->lang('UNABLE_TO_OPEN_DIRECTORY'),$this->get['path']));
 		} else {
@@ -240,11 +246,22 @@ class Filemanager {
 				
 				if(is_dir($current_path . $file)) {
 					if(!in_array($file, $this->config['exclude']['unallowed_dirs']) && !preg_match( $this->config['exclude']['unallowed_dirs_REGEXP'], $file)) {
+						
+						// check if file is writable and readable
+						if(!$this->has_system_permission($current_path . $file, array('w', 'r'))) {
+							$protected = 1;
+							$previewPath = $this->config['icons']['path'] . 'locked_' . $this->config['icons']['directory'];
+						} else {
+							$protected =0;
+							$previewPath = $this->config['icons']['path'] . $this->config['icons']['directory'];
+						}
+						
 						$array[$this->get['path'] . $file .'/'] = array(
 								'Path'=> $this->get['path'] . $file .'/',
 								'Filename'=>$file,
 								'File Type'=>'dir',
-								'Preview'=> $this->config['icons']['path'] . $this->config['icons']['directory'],
+								'Protected'=>$protected,
+								'Preview'=> $previewPath,
 								'Properties'=>array(
 										'Date Created'=> date($this->config['options']['dateFormat'], filectime($this->getFullPath($this->get['path'] . $file .'/'))),
 										'Date Modified'=> date($this->config['options']['dateFormat'], filemtime($this->getFullPath($this->get['path'] . $file .'/'))),
@@ -261,6 +278,7 @@ class Filemanager {
 					$this->item = array();
 					$this->item['properties'] = $this->properties;
 					$this->get_file_info($this->get['path'] . $file, true);
+					
 
 					if(!isset($this->params['type']) || (isset($this->params['type']) && strtolower($this->params['type'])=='images' && in_array(strtolower($this->item['filetype']),array_map('strtolower', $this->config['images']['imagesExt'])))) {
 						if($this->config['upload']['imagesOnly']== false || ($this->config['upload']['imagesOnly']== true && in_array(strtolower($this->item['filetype']),array_map('strtolower', $this->config['images']['imagesExt'])))) {
@@ -268,6 +286,7 @@ class Filemanager {
 									'Path'=>$this->get['path'] . $file,
 									'Filename'=>$this->item['filename'],
 									'File Type'=>$this->item['filetype'],
+									'Protected'=>$this->item['protected'],
 									'Preview'=>$this->item['preview'],
 									'Properties'=>$this->item['properties'],
 									'Error'=>"",
@@ -289,9 +308,9 @@ class Filemanager {
 
 		$current_path = $this->getFullPath();
 		
-		// check if writable
-		if(!is_writable($this->getFullPath($current_path))) {
-			$this->error(sprintf($this->lang('NOT_ALLOWED')));
+		// check if file is writable
+		if(!$this->has_system_permission($current_path, array('w'))) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED_SYSTEM')));
 		}
 		
 		if(!$this->has_permission('edit') || !$this->is_valid_path($current_path) || !$this->is_editable($current_path)) {
@@ -325,7 +344,7 @@ class Filemanager {
 			$this->error("No way.");
 		}
 	
-		if(!is_writable($current_path)) {
+		if(!$this->has_system_permission($current_path, array('w'))) {
 			$this->error(sprintf($this->lang('ERROR_WRITING_PERM')));
 		}
 		
@@ -366,9 +385,9 @@ class Filemanager {
 			$this->error("No way.");
 		}
 		
-		// check if writable
-		if(!is_writable($this->getFullPath($old_file))) {
-			$this->error(sprintf($this->lang('NOT_ALLOWED')));
+		// check if file is writable
+		if(!$this->has_system_permission($old_file, array('w'))) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED_SYSTEM')),true);
 		}
 		
 		// check if not requesting main FM userfiles folder
@@ -423,10 +442,11 @@ class Filemanager {
 		$rootDir = str_replace('//', '/', $rootDir);
 		$oldPath = $this->getFullPath($this->get['old']);
 		
-		// check if writable
-		if(!is_writable($this->getFullPath($oldPath))) {
-			$this->error(sprintf($this->lang('NOT_ALLOWED')));
+		// check if file is writable
+		if(!$this->has_system_permission($oldPath, array('w'))) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED_SYSTEM')),true);
 		}
+		
 		
 		// check if not requesting main FM userfiles folder
 		if($this->is_root_folder($oldPath)) {
@@ -499,13 +519,14 @@ class Filemanager {
 		$current_path = $this->getFullPath();
 		$thumbnail_path = $this->get_thumbnail_path($current_path);
 		
-		// check if writable
-		if(!is_writable($this->getFullPath($current_path))) {
-			$this->error(sprintf($this->lang('NOT_ALLOWED')));
-		}
 		
 		if(!$this->has_permission('delete') || !$this->is_valid_path($current_path)) {
 			$this->error("No way.");
+		}
+		
+		// check if file is writable
+		if(!$this->has_system_permission($current_path, array('w'))) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED_SYSTEM')));
 		}
 		
 		// check if not requesting main FM userfiles folder
@@ -603,9 +624,9 @@ class Filemanager {
 
 		$current_path = $this->getFullPath($this->post['newfilepath']);
 		
-		// check if writable
-		if(!is_writable($this->getFullPath($current_path))) {
-			$this->error(sprintf($this->lang('NOT_ALLOWED')), true);
+		// check if file is writable
+		if(!$this->has_system_permission($current_path, array('w'))) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED_SYSTEM')), true);
 		}
 
 		if(!$this->has_permission('replace') || !$this->is_valid_path($current_path)) {
@@ -818,13 +839,13 @@ class Filemanager {
 			
 		$current_path = $this->getFullPath();
 		
-		// check if writable
-		if(!is_writable($this->getFullPath($current_path))) {
-			$this->error(sprintf($this->lang('NOT_ALLOWED')));
-		}
-			
 		if(!$this->has_permission('download') || !$this->is_valid_path($current_path)) {
 			$this->error("No way.");
+		}
+		
+		// check if file is writable
+		if(!$this->has_system_permission($current_path, array('w'))) {
+			$this->error(sprintf($this->lang('NOT_ALLOWED_SYSTEM')),true);
 		}
 		
 		// we check if extension is allowed regarding the security Policy settings
@@ -936,6 +957,20 @@ class Filemanager {
 		if($this->config['edit']['enabled']) array_push($this->allowed_actions, 'edit');
 		
 	}
+	
+	// check if system permission is granted
+	private function has_system_permission($filepath, $perms) {
+		
+		if(in_array('r', $perms)) {
+			if(!is_readable($filepath)) return false;
+		}
+		if(in_array('w', $perms)) {
+			if(!is_writable($filepath)) return false;
+		}
+		
+		return true;
+
+	}
 
 
 	private function get_file_info($path='', $thumbnail = false) {
@@ -954,12 +989,19 @@ class Filemanager {
 		$this->item['filetype'] = $tmp[(sizeof($tmp)-1)];
 		$this->item['filemtime'] = filemtime($this->getFullPath($current_path));
 		$this->item['filectime'] = filectime($this->getFullPath($current_path));
-
-		$this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['default'];
 		
-		// prevent Internal Server Error HTTP_CODE 500 on non readable files/folders
-		// without returning errors
-		if(!is_readable($this->getFullPath($current_path))) return;
+		// check if file is writable and readable
+		if(!$this->has_system_permission($this->getFullPath($current_path), array('w', 'r'))) {
+			$this->item['protected'] = 1;
+			$this->item['preview'] = $this->config['icons']['path'] . 'locked_' . $this->config['icons']['default'];
+			// prevent Internal Server Error HTTP_CODE 500 on non readable files/folders
+			// without returning errors
+			return;
+			
+		}	else {
+			$this->item['protected'] = 0;
+			$this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['default'];
+		}
 		
 		if(is_dir($current_path)) {
 

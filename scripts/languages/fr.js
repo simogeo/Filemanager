@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "Fichier de langue introuvable.", 
     "MODE_ERROR": "Erreur de mode.", 
     "NOT_ALLOWED": "Vous n'êtes pas autorisé à effectuer cette action", 
+    "NOT_ALLOWED_SYSTEM": "Les permissions système ne vous autorisent pas à effectuer cette action", 
     "UNABLE_TO_CREATE_DIRECTORY": "Impossible de créer le répertoire %s.", 
     "UNABLE_TO_OPEN_DIRECTORY": "Impossible d'ouvrir le répertoire %s.", 
     "UPLOAD_FILES_SMALLER_THAN": "Veuillez transférer des fichiers dont la taille est inférieure à %s.", 

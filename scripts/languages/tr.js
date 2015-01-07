@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "Dil dosyası bulunamadı.", 
     "MODE_ERROR": "Mod hatası.", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "%s isminde klasör oluşturulamıyor.", 
     "UNABLE_TO_OPEN_DIRECTORY": "%s klasörü açılamıyor.", 
     "UPLOAD_FILES_SMALLER_THAN": "Yükleyeceğiniz dosya boyutu %s boyutunu aşmamalıdır.", 

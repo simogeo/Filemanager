@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "Chyba při načítání jazykového souboru.", 
     "MODE_ERROR": "Chybný režim", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "Vytvoření adresáře '%s' se nezdařilo.", 
     "UNABLE_TO_OPEN_DIRECTORY": "Adresář '%s' se nepovedlo otevřít.", 
     "UPLOAD_FILES_SMALLER_THAN": "Je nám líto, ale nahrávaný soubor nesmí být větší než '%s'.", 

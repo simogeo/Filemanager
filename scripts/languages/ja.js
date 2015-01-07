@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "言語ファイルがありません.", 
     "MODE_ERROR": "エラー.", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "フォルダー %s を作成出来ませんでした.", 
     "UNABLE_TO_OPEN_DIRECTORY": "フォルダー %sを開けませんでした.", 
     "UPLOAD_FILES_SMALLER_THAN": " %sより小さいサイズのファイルだけをアップロードしてください.", 

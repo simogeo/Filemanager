@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "Файл с настройками для языка не найден.", 
     "MODE_ERROR": "Ошибка режима.", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "Не могу создать папку %s.", 
     "UNABLE_TO_OPEN_DIRECTORY": "Не могу открыть папку %s.", 
     "UPLOAD_FILES_SMALLER_THAN": "Пожалуйста, загружайте файлы не больше %s.", 

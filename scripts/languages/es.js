@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "Archivo de idioma no encontrado.", 
     "MODE_ERROR": "Error de modo.", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "No se ha podido crear la carpeta %s.", 
     "UNABLE_TO_OPEN_DIRECTORY": "No se ha podido abrir la carpeta %s.", 
     "UPLOAD_FILES_SMALLER_THAN": "Por favor, sube solo imágenes con tamaño inferior a %s.", 

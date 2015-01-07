@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "Prevod na traženi jezik nije pronađen.", 
     "MODE_ERROR": "Greška u modu.", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "Nije moguće kreirati direktorij %s.", 
     "UNABLE_TO_OPEN_DIRECTORY": "Nije moguće otvoriti direktorij %s.", 
     "UPLOAD_FILES_SMALLER_THAN": "Molimo Vas da postavite samo datoteke manje od %s.", 

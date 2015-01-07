@@ -1252,7 +1252,7 @@ var getFileInfo = function(file) {
 				getAudioPlayer(data);
 			}
 			
-			if(isEditableFile(data['Filename']) && config.edit.enabled == true) {
+			if(isEditableFile(data['Filename']) && config.edit.enabled == true && data['Protected']==0) {
 				editItem(data);
 			}
 			
@@ -1264,13 +1264,16 @@ var getFileInfo = function(file) {
 			} else {
 				var url = window.location.protocol + '//' + window.location.host + data['Path'];
 			}
-			$('#fileinfo').find('div#tools').append(' <a id="copy-button" data-clipboard-text="'+ url + '" title="' + lg.copy_to_clipboard + '" href="#"><span>' + lg.copy_to_clipboard + '</span></a>');
-			// loading zeroClipboard code
-			loadJS('./scripts/zeroclipboard/copy.js?d' + d.getMilliseconds());
-			$('#copy-button').click(function () {
-				$('#fileinfo').find('div#tools').append('<span id="copied">' + lg.copied + '</span>');
-				$('#copied').delay(500).fadeOut(1000, function() { $(this).remove(); });
-			});
+			if(data['Protected']==0) {
+				$('#fileinfo').find('div#tools').append(' <a id="copy-button" data-clipboard-text="'+ url + '" title="' + lg.copy_to_clipboard + '" href="#"><span>' + lg.copy_to_clipboard + '</span></a>');
+				// loading zeroClipboard code
+				
+				loadJS('./scripts/zeroclipboard/copy.js?d' + d.getMilliseconds());
+				$('#copy-button').click(function () {
+					$('#fileinfo').find('div#tools').append('<span id="copied">' + lg.copied + '</span>');
+					$('#copied').delay(500).fadeOut(1000, function() { $(this).remove(); });
+				});
+			}
 			
 			var properties = '';
 			
@@ -1490,10 +1493,12 @@ var populateFileTree = function(path, callback) {
 					}
 				}
 				if (data[key]['File Type'] == 'dir') {
-					result += "<li class=\"directory collapsed\"><a href=\"#\" class=\"" + cap_classes + "\" data-path=\"" + data[key]['Path'] + "\">" + data[key]['Filename'] + "</a></li>";
+					var extraclass = data[key]['Protected'] == 0 ? '' : ' directory-locked';
+					result += "<li class=\"directory collapsed" + extraclass + "\"><a href=\"#\" class=\"" + cap_classes + "\" data-path=\"" + data[key]['Path'] + "\">" + data[key]['Filename'] + "</a></li>";
 				} else {
 					if(config.options.listFiles) {
-					result += "<li class=\"file ext_" + data[key]['File Type'].toLowerCase() + "\"><a href=\"#\" class=\"" + cap_classes + "\" data-path=\"" + data[key]['Path'] + "\">" + data[key]['Filename'] + "</a></li>";
+					var extraclass = data[key]['Protected'] == 0 ? '' : ' file-locked';
+					result += "<li class=\"file ext_" + data[key]['File Type'].toLowerCase() + extraclass + "\"><a href=\"#\" class=\"" + cap_classes + "\" data-path=\"" + data[key]['Path'] + "\">" + data[key]['Filename'] + "</a></li>";
 					}
 				}
 			}
@@ -1847,12 +1852,6 @@ $(function(){
 		});
 	}
 
-	// Creates file tree.
-	// setTimeout() necessary to fix bugs
-	// see https://github.com/malihu/malihu-custom-scrollbar-plugin/issues/237
-	// and https://github.com/simogeo/Filemanager/issues/302
-	// setTimeout(function(){ createFileTree(); }, 400);
-	// createFileTree();
 	// Loading CustomScrollbar if enabled
 	// Important, the script should be called after calling createFileTree() to prevent bug 
 	if(config.customScrollbar.enabled) {

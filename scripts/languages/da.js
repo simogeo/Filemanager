@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "Sprogfil ikke fundet.", 
     "MODE_ERROR": "Mode fejl.", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "Ude af stand til at oprette mappen %s.", 
     "UNABLE_TO_OPEN_DIRECTORY": "Ude af stand til at åbne mappen %s.", 
     "UPLOAD_FILES_SMALLER_THAN": "Filen er for stor, filen skal være mindre end %s.", 

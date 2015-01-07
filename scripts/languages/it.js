@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "File della lingua non trovato.", 
     "MODE_ERROR": "Errore modalità.", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "Impossibile creare la cartella %s.", 
     "UNABLE_TO_OPEN_DIRECTORY": "Impossibile aprire la cartella %s.", 
     "UPLOAD_FILES_SMALLER_THAN": "Caricare file inferiori a %s.", 

@@ -22,6 +22,7 @@
     "LANGUAGE_FILE_NOT_FOUND": "Språkfil saknas.", 
     "MODE_ERROR": "Mode error.", 
     "NOT_ALLOWED": "You are not allowed to process this action", 
+    "NOT_ALLOWED_SYSTEM": "System permissions do not allow you to perform this action", 
     "UNABLE_TO_CREATE_DIRECTORY": "Kan ej skapa mapp %s.", 
     "UNABLE_TO_OPEN_DIRECTORY": "Kan ej öppna mappen %s.", 
     "UPLOAD_FILES_SMALLER_THAN": "Var vänlig ladda upp filer mindre än %s.", 
