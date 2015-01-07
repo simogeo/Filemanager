@@ -387,12 +387,12 @@ class Filemanager {
 		
 		// check if file is writable
 		if(!$this->has_system_permission($old_file, array('w'))) {
-			$this->error(sprintf($this->lang('NOT_ALLOWED_SYSTEM')),true);
+			$this->error(sprintf($this->lang('NOT_ALLOWED_SYSTEM')));
 		}
 		
 		// check if not requesting main FM userfiles folder
 		if($this->is_root_folder($old_file)) {
-			$this->error(sprintf($this->lang('NOT_ALLOWED')),true);
+			$this->error(sprintf($this->lang('NOT_ALLOWED')));
 		}
 		
 		// For file only - we check if the new given extension is allowed regarding the security Policy settings
