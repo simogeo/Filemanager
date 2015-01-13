@@ -645,7 +645,7 @@ class Filemanager {
 		if($this->is_image($imagePath) && $this->config['images']['resize']['enabled']) {
 			if ($size = @getimagesize($imagePath)){
 				if ($size[0] > $this->config['images']['resize']['maxWidth'] || $size[1] > $this->config['images']['resize']['maxHeight']) {
-					require_once('./inc/vendor/wideimage/lib/WideImage.php');
+					require_once('./inc/wideimage/lib/WideImage.php');
 					
 					$image = WideImage::load($imagePath);
 					$resized = $image->resize($this->config['images']['resize']['maxWidth'], $this->config['images']['resize']['maxHeight'], 'inside');
@@ -728,7 +728,7 @@ class Filemanager {
 		if($this->is_image($imagePath) && $this->config['images']['resize']['enabled']) {
 			if ($size = @getimagesize($imagePath)){
 				if ($size[0] > $this->config['images']['resize']['maxWidth'] || $size[1] > $this->config['images']['resize']['maxHeight']) {
-					require_once('./inc/vendor/wideimage/lib/WideImage.php');
+					require_once('./inc/wideimage/lib/WideImage.php');
 					
 					$image = WideImage::load($imagePath);
 					$resized = $image->resize($this->config['images']['resize']['maxWidth'], $this->config['images']['resize']['maxHeight'], 'inside');
@@ -1309,7 +1309,7 @@ private function get_thumbnail_path($path) {
  */
 private function get_thumbnail($path) {
 	
-	require_once('./inc/vendor/wideimage/lib/WideImage.php');
+	require_once('./inc/wideimage/lib/WideImage.php');
 	
 	$thumbnail_fullpath = $this->get_thumbnail_path($path);
 	
