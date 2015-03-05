@@ -198,8 +198,8 @@ button:focus {
 
 button.edition { color: black;}
 
-button.nav { background-color:#E8E8E8;/*#ADDBC3;*/}
-button.nav:hover {
+button.nav, #fileinfo button { background-color:#E8E8E8;/*#ADDBC3;*/}
+button.nav:hover, #fileinfo button:hover {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
 	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
