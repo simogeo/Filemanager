@@ -155,7 +155,7 @@ div#tools {
 }
 
 button {
-	background-color:#CCDBFF;
+	background-color:#E8E8E8;
 	display:inline-block;
 	color:#333;
 	border:none;
@@ -170,9 +170,9 @@ button {
 }
 
 button:hover {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #C3D2F7), color-stop(1, #CCDBFF) );
-	background:-moz-linear-gradient( center top, #C3D2F7 5%, #CCDBFF 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#C3D2F7', endColorstr='#CCDBFF');
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
 	background-color:#C3D2F7;
 }
 
@@ -195,12 +195,12 @@ button:focus {
 
 button.edition { color: black;}
 
-button.nav, #fileinfo button { background-color:#E8E8E8;/*#ADDBC3;*/}
-button.nav:hover, #fileinfo button:hover {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
-	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
-	background-color:#dfdfdf;
+button.em { background-color:#CCDBFF;/*#ADDBC3;*/}
+button.em:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #C3D2F7), color-stop(1, #CCDBFF) );
+	background:-moz-linear-gradient( center top, #C3D2F7 5%, #CCDBFF 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#C3D2F7', endColorstr='#CCDBFF');
+	background-color:#C3D2F7;
 }
 
 /** Input file Replacement */
@@ -541,7 +541,7 @@ div.prompt-info {
 }
 
 button.ON {
-	background:none repeat scroll 0 0 #E3E9F7;
+	background:none repeat scroll 0 0 #F9F8F7;
 	border: 1px inset #ccc;
 }
 

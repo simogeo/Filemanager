@@ -1691,7 +1691,7 @@ $(function(){
 		// replaced by code below because og Chrome 18 bug https://github.com/simogeo/Filemanager/issues/304
 		// and it may also be safer for IE (see http://stackoverflow.com/questions/1544317/change-type-of-input-field-with-jquery
 		$('#upload').remove();
-		$( "#newfolder" ).before( '<button value="Upload" type="button" name="upload" id="upload"><span>' + lg.upload + '</span></button> ' );
+		$( "#newfolder" ).before( '<button value="Upload" type="button" name="upload" id="upload" class="em"><span>' + lg.upload + '</span></button> ' );
 		
 		$('#upload').unbind().click(function() {
 			// we create prompt

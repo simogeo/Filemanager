@@ -39,10 +39,6 @@ video, audio {
 	word-break: break-all;
 }
 
-button#home {
-	float:left;
-}
-
 #uploadresponse {
 	display: none;
 }
@@ -196,12 +192,12 @@ button:focus {
 
 button.edition { color: black;}
 
-button.nav, #fileinfo button { background-color:#E8E8E8;/*#ADDBC3;*/}
-button.nav:hover, #fileinfo button:hover {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
-	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
-	background-color:#dfdfdf;
+button.em { background:#CCDBFF;/*#ADDBC3;*/}
+button.em:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #C3D2F7), color-stop(1, #CCDBFF) );
+	background:-moz-linear-gradient( center top, #C3D2F7 5%, #CCDBFF 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#C3D2F7', endColorstr='#CCDBFF');
+	background-color:#C3D2F7;
 }
 
 /** Input file Replacement */
