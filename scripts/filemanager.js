@@ -1639,8 +1639,22 @@ $(function(){
 	$('#home').click(function() {
 		var currentViewMode = $('#fileinfo').data('view');
 		$('#fileinfo').data('view', currentViewMode);
-		$('#filetree>ul>li.expanded>a').trigger('click');
+		$('#filetree ul.jqueryFileTree > li.expanded > a').trigger('click');
 		getFolderInfo(fileRoot);
+	});
+	
+	$('#level-up').click(function() {
+		var cpath = $('#uploader h1').attr('data-path'); // get path
+		// console.log(' cpath : ' + cpath + ' - fileRoot : ' + fileRoot ); // @todo remove
+		if(cpath != fileRoot) {
+			// we get the parent folder - cpath.slice(0, - 1) removes last slash
+			parent = cpath.substring(0, cpath.slice(0, - 1).lastIndexOf("/")) + '/';
+			// console.log(' parent : ' + parent); // @todo remove
+			var currentViewMode = $('#fileinfo').data('view');
+			$('#fileinfo').data('view', currentViewMode);
+			$('#filetree').find('a[data-path="' + cpath + '"]').click(); // we close the previous folder
+			getFolderInfo(parent);
+		}
 	});
 
 	// Set buttons to switch between grid and list views.

@@ -196,6 +196,14 @@ button:focus {
 
 button.edition { color: black;}
 
+button.nav { background-color:#E8E8E8;/*#ADDBC3;*/}
+button.nav:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+	background-color:#dfdfdf;
+}
+
 /** Input file Replacement */
 
 
@@ -461,6 +469,7 @@ div.clip {
 #parentfolder span { background-image: url(../images/parentfolder.png); }
 #newfolder span { background-image: url(../images/folder_add.png); }
 #home span { background-image: url(../images/house.png); background-position: center; }
+#level-up span { background-image: url(../images/level-up.png); background-position: center; }
 
 a#edit-file span, a#copy-button span {display:none}
 a#edit-file {display:inline-block;background: url(../images/edit.png) no-repeat center center;width:20px;height:18px;margin:0 0.2em;}
