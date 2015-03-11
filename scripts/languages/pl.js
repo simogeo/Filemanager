@@ -9,7 +9,7 @@
     "ERROR_RENAMING_DIRECTORY": "Nie udało się zmienić lokalizacji z %s na %s.", 
     "ERROR_RENAMING_FILE": "Nie udało się zmienić nazwy pliku z %s na %s.", 
     "ERROR_REPLACING_FILE": "Proszę podać plik z rozszerzeniem :", 
-    "ERROR_SAVING_FILE": "Wystąpił błąd w trakcie zapisu pliku".", 
+    "ERROR_SAVING_FILE": "Wystąpił błąd w trakcie zapisu pliku.", 
     "ERROR_UPLOADING_FILE": "Wystąpił błąd podczas wgrywania pliku.", 
     "ERROR_WRITING_PERM": "Nie masz praw do zapisu tego pliku.", 
     "FILE_ALREADY_EXISTS": "Plik '%s' już istnieje.", 
