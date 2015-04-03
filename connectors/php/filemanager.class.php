@@ -1186,19 +1186,21 @@ private function unlinkRecursive($dir,$deleteRootToo=true) {
 }
 
 /**
- * isAllowedFile()
+ * is_allowed_file_type()
  * check if extension is allowed regarding the security Policy / Restrictions settings
  * @param string $file
  */
 private function is_allowed_file_type($file) {
 	
 	$path_parts = pathinfo($file);
-	
-	// if there is no extension AND no extension file are not allowed
-	if(!isset($path_parts['extension']) && $this->config['security']['allowNoExtension'] == false) {
-		return false;
-	} else {
-		return true;
+			
+	// if there is no extension
+	if (! isset ( $path_parts ['extension'] )) {
+		// we check if no extension file are allowed
+		if ($this->config ['security'] ['allowNoExtension'] == true)
+			return true;
+		else 
+			return false;
 	}
 	
 	$exts = array_map('strtolower', $this->config['security']['uploadRestrictions']);
