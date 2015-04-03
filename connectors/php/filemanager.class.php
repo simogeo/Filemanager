@@ -1148,16 +1148,23 @@ private function startsWith($haystack, $needle) {
 private function is_valid_path($path) {
 		
 
-// 	$this->__log('[startsWith] path : ' .$path. ' - this->path_to_files : ' . $this->path_to_files . '');
-// 	if($this->startsWith($path, $this->path_to_files)) $var = 'success'; else $var ='failed';
-// 	$this->__log('[startsWith] returned value  : ' . $var );
+  // $this->__log('[startsWith] path : ' .$path. ' - this->path_to_files : ' . $this->path_to_files . '');
+  // if($this->startsWith($path, $this->path_to_files)) $var = 'success'; else $var ='failed';
+  // $this->__log('[startsWith] returned value  : ' . $var );
 	
-	//$this->__log('compare : ' .$this->getFullPath(). '($this->getFullPath())  and ' . $path . '(path)');
+	// $this->__log('compare : ' .$this->getFullPath(). '($this->getFullPath())  and ' . $path . '(path)');
 	// $this->__log('strncmp() returned value : ' .strncmp($path, $this->getFullPath(), strlen($this->getFullPath())));
 	
 	// return !strncmp($path, $this->getFullPath(), strlen($this->getFullPath()));
 	
-	if(!$this->startsWith(realpath($path), realpath($this->path_to_files))) return false;
+  // if(!$this->startsWith(realpath($path), realpath($this->path_to_files))) return false;
+  // @see https://github.com/simogeo/Filemanager/issues/332
+  // @see http://stackoverflow.com/questions/5642785/php-a-good-way-to-universalize-paths-across-oss-slash-directions
+  
+	$givenpath = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+	$rootpath = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $this->path_to_files);
+	
+	if(!$this->startsWith($givenpath, $rootpath)) return false;
 	return true;
 
 }
