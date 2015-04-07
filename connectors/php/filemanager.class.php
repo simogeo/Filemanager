@@ -1164,9 +1164,7 @@ private function is_valid_path($path) {
 	$givenpath = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
 	$rootpath = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $this->path_to_files);
 	
-	if(!$this->startsWith($givenpath, $rootpath)) return false;
-	return true;
-
+	return $this->startsWith($givenpath, $rootpath);
 }
 
 private function unlinkRecursive($dir,$deleteRootToo=true) {
@@ -1204,10 +1202,7 @@ private function is_allowed_file_type($file) {
 	// if there is no extension
 	if (! isset ( $path_parts ['extension'] )) {
 		// we check if no extension file are allowed
-		if ($this->config ['security'] ['allowNoExtension'] == true)
-			return true;
-		else 
-			return false;
+		return (bool) $this->config['security']['allowNoExtension'];
 	}
 	
 	$exts = array_map('strtolower', $this->config['security']['uploadRestrictions']);
@@ -1278,12 +1273,7 @@ private function cleanString($string, $allowed = array()) {
  * @return boolean
  */
 private function has_permission($action) {
-
-	if(in_array($action, $this->allowed_actions))
-			return true;
-	
-	return false;
-
+	return in_array($action, $this->allowed_actions);
 }
 
 /**
@@ -1401,20 +1391,11 @@ private function is_image($path) {
 	$a = getimagesize($path);
 	$image_type = $a[2];
 
-	if(in_array($image_type , array(IMAGETYPE_GIF , IMAGETYPE_JPEG ,IMAGETYPE_PNG , IMAGETYPE_BMP))) {
-		return true;
-	}
-	return false;
+	return in_array($image_type , array(IMAGETYPE_GIF , IMAGETYPE_JPEG ,IMAGETYPE_PNG , IMAGETYPE_BMP));
 }
 
 private function is_root_folder($path) {
-
-	if( rtrim($this->path_to_files,"/") ==  rtrim($path,"/") ) {
-		return true;
-	}
-	
-	return false;
-	
+	return rtrim($this->path_to_files,"/") == rtrim($path,"/");
 }
 
 private function is_editable($file) {
@@ -1423,17 +1404,7 @@ private function is_editable($file) {
 	
 	$exts = array_map('strtolower', $this->config['edit']['editExt']);
 	
-	if(in_array($path_parts['extension'], $exts)) {
-		
-		return true;
-		
-	} else {
-		
-		return false;
-		
-	}
-
-	
+	return in_array($path_parts['extension'], $exts);
 }
 
 
