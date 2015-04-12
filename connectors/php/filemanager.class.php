@@ -1282,8 +1282,10 @@ private function has_permission($action) {
  * @param string $path
  */
 private function get_thumbnail_path($path) {
-		
-	$a = explode($this->separator, $path);
+	
+	$pos = strrpos($path, $this->separator);
+	$a[0] = substr($path,0,$pos);
+	$a[1] = substr($path,$pos+strlen($this->separator));
 
 	$path_parts = pathinfo($path);
 
