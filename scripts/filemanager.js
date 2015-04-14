@@ -32,7 +32,7 @@ var loadConfigFile = function (type) {
 	if(type == 'user') {
 		var url = './scripts/filemanager.config.js';
 	} else {
-		var url = './scripts/filemanager.config.js.default'
+		var url = './scripts/filemanager.config.js.default';
 	}
     
     $.ajax({
@@ -1890,7 +1890,8 @@ $(function(){
 				theme:csTheme,
 				scrollButtons:{enable:csButton},
 				advanced:{ autoExpandHorizontalScroll:true, updateOnContentResize: true },
-				axis: "y"
+				axis: "y",
+				alwaysShowScrollbar: 1
 			});
 			
 		});
