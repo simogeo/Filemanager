@@ -88,7 +88,7 @@ loadJS = function(src) {
 };
 
 /**
- * determine path when using relPath and
+ * determine path when using baseUrl and
  * setFileRoot connector function to give back
  * a valid path on selectItem calls
  * 
@@ -583,10 +583,10 @@ var createFileTree = function() {
 // contextual menu option in list views. 
 // NOTE: closes the window when finished.
 var selectItem = function(data) {
-	if(config.options.relPath !== false ) {
-		var url = smartPath(relPath, data['Path'].replace(fileRoot,""));
+	if(config.options.baseUrl !== false ) {
+		var url = smartPath(baseUrl, data['Path'].replace(fileRoot,""));
 	} else {
-		var url = relPath + data['Path'];
+		var url = baseUrl + data['Path'];
 	}
     
 	if(window.opener || window.tinyMCEPopup || $.urlParam('field_name') || $.urlParam('CKEditorCleanUpFuncNum') || $.urlParam('CKEditor')) {
@@ -1271,10 +1271,10 @@ var getFileInfo = function(file) {
 			// copy URL instructions - zeroclipboard
 			var d = new Date(); // to prevent IE cache issues
 			
-			if(config.options.relPath !== false ) {
-				var url = smartPath(relPath, data['Path'].replace(fileRoot,""));
+			if(config.options.baseUrl !== false ) {
+				var url = smartPath(baseUrl, data['Path'].replace(fileRoot,""));
 			} else {
-				var url = relPath + data['Path'];
+				var url = baseUrl + data['Path'];
 			}
 			if(data['Protected']==0) {
 				$('#fileinfo').find('div#tools').append(' <a id="copy-button" data-clipboard-text="'+ url + '" title="' + lg.copy_to_clipboard + '" href="#"><span>' + lg.copy_to_clipboard + '</span></a>');
@@ -1579,10 +1579,10 @@ $(function(){
 		fileRoot = fileRoot.replace(/\/\//g, '\/');
 	}
 
-	if(config.options.relPath === false) {
-		relPath = window.location.protocol + "//" + window.location.host;
+	if(config.options.baseUrl === false) {
+		baseUrl = window.location.protocol + "//" + window.location.host;
 	} else {
-		relPath = config.options.relPath;
+		baseUrl = config.options.baseUrl;
 	}
 	
 	if($.urlParam('exclusiveFolder') != 0) {
