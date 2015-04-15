@@ -87,6 +87,18 @@ loadJS = function(src) {
 	}
 };
 
+/**
+ * determine path when using relPath and
+ * setFileRoot connector function to give back
+ * a valid path on selectItem calls
+ * 
+ */
+smartPath = function(url, path) {
+	var a = url.split('/');
+	var separator = '/' + a[a.length-2] + '/';
+	var pos = path.indexOf(separator); 
+	return url + path.substring(pos + separator.length);
+};
 
 // Sets paths to connectors based on language selection.
 var fileConnector = config.options.fileConnector || 'connectors/' + config.options.lang + '/filemanager.' + config.options.lang;
@@ -572,7 +584,7 @@ var createFileTree = function() {
 // NOTE: closes the window when finished.
 var selectItem = function(data) {
 	if(config.options.relPath !== false ) {
-		var url = relPath + data['Path'].replace(fileRoot,""); 
+		var url = smartPath(relPath, data['Path'].replace(fileRoot,""));
 	} else {
 		var url = relPath + data['Path'];
 	}
@@ -1260,9 +1272,9 @@ var getFileInfo = function(file) {
 			var d = new Date(); // to prevent IE cache issues
 			
 			if(config.options.relPath !== false ) {
-				var url = relPath + data['Path'].replace(fileRoot,""); 
+				var url = smartPath(relPath, data['Path'].replace(fileRoot,""));
 			} else {
-				var url = window.location.protocol + '//' + window.location.host + data['Path'];
+				var url = relPath + data['Path'];
 			}
 			if(data['Protected']==0) {
 				$('#fileinfo').find('div#tools').append(' <a id="copy-button" data-clipboard-text="'+ url + '" title="' + lg.copy_to_clipboard + '" href="#"><span>' + lg.copy_to_clipboard + '</span></a>');
