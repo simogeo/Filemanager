@@ -31,6 +31,7 @@
         "uploadPolicy": "DISALLOW_ALL",
         "uploadRestrictions": [
             "jpg",
+            "jpe",
             "jpeg",
             "gif",
             "png",
@@ -82,6 +83,7 @@
     "images": {
         "imagesExt": [
             "jpg",
+            "jpe",
             "jpeg",
             "gif",
             "png",
