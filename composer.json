@@ -17,6 +17,7 @@
       }
    ],
    "require":{
-      "php":">= 5.2.0"
+      "php":">= 5.2.0",
+      "components/jquery": "1.11.1"
    }
 }
