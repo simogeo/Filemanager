@@ -18,6 +18,7 @@
         "chars_only_latin": true,
         "dateFormat": "d M Y H:i",
         "serverRoot": true,
+        "assetBaseUrl": "./",
         "fileRoot": false,
         "baseUrl": false,
         "logger": false,
