@@ -426,14 +426,6 @@ Example Response:
         "Path": "/UserFiles/MyFolder/myfile.txt"
     }
 
-preview
---------
-The `preview` method serves the requested image for displaying. The image path is passed through the `path` parameter. If `thumbnail=true` parameter is passed, the method will return an image thumbnail. An extra parameter such as UNIX time can be added to the URL to prevent cache issue.
-
-Example Request:
-
-	[path to connector]?mode=preview&path=/UserFiles/new%20logo.png&thumbnail=true
-
 
 addfolder
 ---------

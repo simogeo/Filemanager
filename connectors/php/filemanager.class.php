@@ -892,33 +892,6 @@ class Filemanager {
 		}
 	}
 
-	public function preview($thumbnail) {
-			
-		$current_path = $this->getFullPath();
-			
-		if(isset($this->get['path']) && file_exists($current_path)) {
-			
-			// if $thumbnail is set to true we return the thumbnail
-			if($this->config['options']['generateThumbnails'] == true && $thumbnail == true) {
-				// get thumbnail (and create it if needed)
-				$returned_path = $this->get_thumbnail($current_path);
-			} else {
-				$returned_path = $current_path;
-			}
-			
-			header("Content-type: image/" . strtolower(pathinfo($returned_path, PATHINFO_EXTENSION)));
-			header("Content-Transfer-Encoding: Binary");
-			header("Content-length: ".filesize($returned_path));
-			header('Content-Disposition: inline; filename="' . basename($returned_path) . '"');
-			readfile($returned_path);
-			
-			exit();
-			
-		} else {
-			$this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),$current_path));
-		}
-	}
-
 	public function getMaxUploadFileSize() {
 			
 		$max_upload = (int) ini_get('upload_max_filesize');

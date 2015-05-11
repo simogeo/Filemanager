@@ -95,18 +95,7 @@ if(!isset($_GET)) {
           $fm->download();
         }
         break;
-        
-      case 'preview':
-        if($fm->getvar('path')) {
-        	if(isset($_GET['thumbnail'])) {
-        		$thumbnail = true;
-        	} else {
-        		$thumbnail = false;
-        	}
-          $fm->preview($thumbnail);
-        }
-        break;
-			
+
       case 'maxuploadfilesize':
         $fm->getMaxUploadFileSize();
         break;
