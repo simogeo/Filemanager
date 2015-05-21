@@ -26,7 +26,7 @@ class Filemanager {
 	protected $dynamic_fileroot = ''; // Only set if setFileRoot() is called. Second part of the path : '/Filemanager/assets/' ( doc_root - $_SERVER['DOCUMENT_ROOT'])
 	protected $path_to_files = ''; // path to FM userfiles folder - automatically computed by the PHP class, something like '/var/www/Filemanager/userfiles'
 	protected $logger = false;
-	protected $logfile = '/tmp/filemanager.log';
+	protected $logfile = '';
 	protected $cachefolder = '_thumbs/';
 	protected $thumbnail_width = 64;
 	protected $thumbnail_height = 64;
@@ -51,6 +51,10 @@ class Filemanager {
 		if(!empty($extraConfig)) {
 			$this->setup($extraConfig);
 		}
+		
+		// set logfile path according to system if not set into config file
+		if(!isset($this->config['options']['logfile']))
+			$this->config['options']['logfile'] = sys_get_temp_dir(). '/filemanager.log';
 
 		$this->root = dirname(dirname(dirname(__FILE__))).DIRECTORY_SEPARATOR;
 		$this->properties = array(
