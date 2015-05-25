@@ -94,10 +94,22 @@ loadJS = function(src) {
  * 
  */
 smartPath = function(url, path) {
+	console.log("url : " + url);
+	console.log("path : " + path);
 	var a = url.split('/');
 	var separator = '/' + a[a.length-2] + '/';
+	console.log("separator : " + separator);
 	var pos = path.indexOf(separator); 
-	return url + path.substring(pos + separator.length);
+	// separator is not found
+	// this can happen when not set dynamically with setFileRoot function - see  : https://github.com/simogeo/Filemanager/issues/354
+	if(pos == -1) {
+		 rvalue = url + path;
+	} else {
+		rvalue = url + path.substring(pos + separator.length);
+	}
+	if(config.options.logger) console.log("url : " + url + " - path : " + path +  " - separator : " + separator + " -  pos : " + pos + " - returned value : " +rvalue);
+
+	return rvalue;
 };
 
 // Sets paths to connectors based on language selection.
@@ -586,7 +598,7 @@ var selectItem = function(data) {
 	if(config.options.baseUrl !== false ) {
 		var url = smartPath(baseUrl, data['Path'].replace(fileRoot,""));
 	} else {
-		var url = baseUrl + data['Path'];
+		var url = data['Path'];
 	}
     
 	if(window.opener || window.tinyMCEPopup || $.urlParam('field_name') || $.urlParam('CKEditorCleanUpFuncNum') || $.urlParam('CKEditor')) {
@@ -1274,7 +1286,7 @@ var getFileInfo = function(file) {
 			if(config.options.baseUrl !== false ) {
 				var url = smartPath(baseUrl, data['Path'].replace(fileRoot,""));
 			} else {
-				var url = baseUrl + data['Path'];
+				var url = data['Path'];
 			}
 			if(data['Protected']==0) {
 				$('#fileinfo').find('div#tools').append(' <a id="copy-button" data-clipboard-text="'+ url + '" title="' + lg.copy_to_clipboard + '" href="#"><span>' + lg.copy_to_clipboard + '</span></a>');
