@@ -94,11 +94,8 @@ loadJS = function(src) {
  * 
  */
 smartPath = function(url, path) {
-	console.log("url : " + url);
-	console.log("path : " + path);
 	var a = url.split('/');
 	var separator = '/' + a[a.length-2] + '/';
-	console.log("separator : " + separator);
 	var pos = path.indexOf(separator); 
 	// separator is not found
 	// this can happen when not set dynamically with setFileRoot function - see  : https://github.com/simogeo/Filemanager/issues/354
