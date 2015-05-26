@@ -1144,31 +1144,32 @@ private function sortFiles($array) {
 
 }
 
-private function startsWith($haystack, $needle) {
-    // search backwards starting from haystack length characters from the end
-    return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== FALSE;
-}
+// @todo to remove
+// private function startsWith($haystack, $needle) {
+//     // search backwards starting from haystack length characters from the end
+//     return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== FALSE;
+// }
 
 private function is_valid_path($path) {
-		
-
-  // $this->__log('[startsWith] path : ' .$path. ' - this->path_to_files : ' . $this->path_to_files . '');
-  // if($this->startsWith($path, $this->path_to_files)) $var = 'success'; else $var ='failed';
-  // $this->__log('[startsWith] returned value  : ' . $var );
 	
-	// $this->__log('compare : ' .$this->getFullPath(). '($this->getFullPath())  and ' . $path . '(path)');
-	// $this->__log('strncmp() returned value : ' .strncmp($path, $this->getFullPath(), strlen($this->getFullPath())));
-	
-	// return !strncmp($path, $this->getFullPath(), strlen($this->getFullPath()));
-	
+	//  @todo to remove
   // if(!$this->startsWith(realpath($path), realpath($this->path_to_files))) return false;
   // @see https://github.com/simogeo/Filemanager/issues/332
   // @see http://stackoverflow.com/questions/5642785/php-a-good-way-to-universalize-paths-across-oss-slash-directions
   
-	$givenpath = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
-	$rootpath = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $this->path_to_files);
+	// $givenpath = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+	// $rootpath = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $this->path_to_files);
+	// $this->__log('substr doc_root : ' . substr(realpath($path) . DIRECTORY_SEPARATOR, 0, strlen($this->doc_root)));
+	// $this->__log('doc_root : ' . realpath($this->doc_root) . DIRECTORY_SEPARATOR);
 	
-	return $this->startsWith($givenpath, $rootpath);
+	// return $this->startsWith($givenpath, $rootpath);
+	
+	$this->__log('substr path_to_files : ' . substr(realpath($path) . DIRECTORY_SEPARATOR, 0, strlen($this->path_to_files)));
+	$this->__log('path_to_files : ' . realpath($this->path_to_files) . DIRECTORY_SEPARATOR);
+	
+	return substr(realpath($path) . DIRECTORY_SEPARATOR, 0, strlen($this->path_to_files)) == (realpath($this->path_to_files) . DIRECTORY_SEPARATOR);
+	
+	
 }
 
 private function unlinkRecursive($dir,$deleteRootToo=true) {
