@@ -21,6 +21,7 @@ body {
 video, audio {
 	margin:3em;
 }
+
 #uploader {
 	display: block;
 	text-align: right;
@@ -106,11 +107,13 @@ video, audio {
 #fileinfo #main-title {
 	margin: 10px auto;
 }
+
 #fileinfo h1 {
 	font-size: 20px;
 	display: inline-block;
 	color:#444;
 }
+
 #fileinfo > h1 {
 	margin-top:3em
 }
@@ -153,11 +156,10 @@ div#tools {
 	margin: 50px auto;
 }
 
-button {
+div.file_manager button {
 	background-color:#E8E8E8;
 	display:inline-block;
 	color:#333;
-	border:none;
 	padding:0.2em 0.3em;
 	text-decoration:none;
 	margin:0 0.2em 0.5em 0.2em;
@@ -168,14 +170,14 @@ button {
 	border:1px solid #fff;
 }
 
-button:hover {
+div.file_manager button:hover {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
 	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
 	background-color:#C3D2F7;
 }
 
-button span {
+div.file_manager button span {
 	display: block;
 	padding-left: 20px;
 	background-position: left center;
@@ -184,18 +186,23 @@ button span {
 	white-space: nowrap;
 }
 
-button:active,
-button:focus {
+div.file_manager button:active,
+div.file_manager button:focus {
 	color:#000;
 	outline-color: transparent;
 	outline-style: none;
 	outline-width: 0;
 }
 
-button.edition { color: black;}
+div.file_manager button.edition {
+    color: black;
+}
 
-button.em { background-color:#CCDBFF;/*#ADDBC3;*/}
-button.em:hover {
+div.file_manager button.em {
+    background-color:#CCDBFF;/*#ADDBC3;*/
+}
+
+div.file_manager button.em:hover {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #C3D2F7), color-stop(1, #CCDBFF) );
 	background:-moz-linear-gradient( center top, #C3D2F7 5%, #CCDBFF 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#C3D2F7', endColorstr='#CCDBFF');
@@ -205,7 +212,8 @@ button.em:hover {
 /** Input file Replacement */
 
 
-input, button {
+div.file_manager input,
+div.file_manager button {
   vertical-align: text-top;
 }
 
@@ -263,7 +271,6 @@ input, button {
 	}
 }
 
-
 button#browse {
 	margin-left:0;
 	-webkit-border-top-left-radius: 0px;
@@ -285,9 +292,16 @@ button#browse span {
 }
 /** Input file Replacement - end */
 
-#search, #search div, #folder-info {display:inline;}
+#search, #search div, #folder-info {
+    display:inline;
+}
 
-#folder-info {font-size:0.8em;color:#658189;padding:1.3em;float:right}
+#folder-info {
+    font-size:0.8em;
+    color:#658189;
+    padding:1.3em;
+    float:right
+}
 
 #q {
 	background-color: #294750;
@@ -301,7 +315,9 @@ button#browse span {
 	border-radius: 2px;
 }
 
-#q:focus {background-color: #C6C6C6}
+#q:focus {
+    background-color: #C6C6C6
+}
 
 #search span.q-inactive {
 	color: #777;
@@ -324,7 +340,9 @@ button#browse span {
 }
 
 /** Opera hack */
-x:-o-prefocus, #search a.q-reset {top:-14px;}
+x:-o-prefocus, #search a.q-reset {
+    top:-14px;
+}
 
 #contents.grid {
 	padding: 15px;
@@ -360,9 +378,6 @@ div.clip {
 	height: 64px;
 	margin: 10px auto;
 	overflow: hidden;
-}
-
-#contents.grid li img {
 }
 
 #contents.grid p {
@@ -464,25 +479,92 @@ div.clip {
 }
 
 /* these apply to the contextual menus as well as the buttons */
-#select span, .contextMenu li.select a { background-image: url(../images/accept.png); }
-#download span, .contextMenu li.download a { background-image: url(../images/download.png); }
-#rename span, .contextMenu li.rename a { background-image: url(../images/tag.png); }
-#move span, .contextMenu li.move a { background-image: url(../images/move.png); }
-#replace span, .contextMenu li.replace a { background-image: url(../images/replace.png); }
-#delete span, .contextMenu li.delete a { background-image: url(../images/bin_closed.png); }
-#upload span { background-image: url(../images/upload.png); }
-#upload span.loading { background-image: url(../images/ajax-loader.gif);color:#555555;font-size:0.9em; }
-#parentfolder span { background-image: url(../images/parentfolder.png); }
-#newfolder span { background-image: url(../images/folder_add.png); }
-#home span { background-image: url(../images/house.png); background-position: center; }
-#level-up span { background-image: url(../images/level-up.png); background-position: center; }
+#select span,
+.contextMenu li.select a {
+    background-image: url(../images/accept.png);
+}
 
-a#edit-file span, a#copy-button span {display:none}
-a#edit-file {display:inline-block;background: url(../images/edit.png) no-repeat bottom center;width:20px;height:18px;margin:0 0.2em;}
-a#copy-button {display:inline-block;background: url(../images/copy.png) no-repeat bottom center;width:20px;height:18px;margin:0 0.2em;}
-span#copied {color:#8C8C8C;font-size:11px;font-weight: normal;vertical-align:middle;}
-/*a#edit-file , a#copy-button {border: 1px solid #ccc;}*/
-/* div.jqi button { background-image: url(../images/circular/yes.png); } */
+#download span,
+.contextMenu li.download a {
+    background-image: url(../images/download.png);
+}
+
+#rename span,
+.contextMenu li.rename a {
+    background-image: url(../images/tag.png);
+}
+
+#move span,
+.contextMenu li.move a {
+    background-image: url(../images/move.png);
+}
+
+#replace span,
+.contextMenu li.replace a {
+    background-image: url(../images/replace.png);
+}
+
+#delete span,
+.contextMenu li.delete a {
+    background-image: url(../images/bin_closed.png);
+}
+
+#upload span {
+    background-image: url(../images/upload.png);
+}
+
+#upload span.loading {
+    background-image: url(../images/ajax-loader.gif);
+    color:#555555;
+    font-size:0.9em;
+}
+
+#parentfolder span {
+    background-image: url(../images/parentfolder.png);
+}
+
+#newfolder span {
+    background-image: url(../images/folder_add.png);
+}
+
+#home span {
+    background-image: url(../images/house.png);
+    background-position: center;
+}
+
+#level-up span {
+    background-image: url(../images/level-up.png);
+    background-position: center;
+}
+
+a#edit-file span,
+a#copy-button span {
+    display:none;
+}
+
+a#edit-file {
+    display:inline-block;
+    background: url(../images/edit.png) no-repeat bottom center;
+    width:20px;
+    height:18px;
+    margin:0 0.2em;
+}
+
+a#copy-button {
+    display:inline-block;
+    background: url(../images/copy.png) no-repeat bottom center;
+    width:20px;
+    height:18px;
+    margin:0 0.2em;
+}
+
+span#copied {
+    color:#8C8C8C;
+    font-size:11px;
+    font-weight: normal;
+    vertical-align:middle;
+}
+
 
 div.jqi {
 	position: absolute;
@@ -512,7 +594,10 @@ div.jqi button {
 	margin-right:0.5em;
 	float: right;
 }
-div#jqistates {padding:1em;}
+
+div#jqistates {
+    padding:1em;
+}
 
 div.jqimessage p {
  padding:0.3em;
@@ -555,6 +640,7 @@ button.ON {
 #list {
 	margin-left: 0;
 }
+
 #progressbar {
 	background:transparent url(../images/ajax-loader.gif) no-repeat 0 0;
 	display:inline-table;
@@ -583,12 +669,17 @@ div.CodeMirror {
 	text-align:left;
 	width:70%;
 	border: 1px solid #eee;
-  height: auto;
+    height: auto;
 	margin:2em auto;
 }
 
-UL.jqueryFileTree A {color:#A0C8D3;}
-UL.jqueryFileTree A:hover {background-color: #55767F;}
+UL.jqueryFileTree A {
+    color:#A0C8D3;
+}
+
+UL.jqueryFileTree A:hover {
+    background-color: #55767F;
+}
 
 
 /* IE10-11 styles */
@@ -596,25 +687,50 @@ html[data-useragent*='MSIE 10.0'] #uploader button,
 html[data-useragent*='MSIE 11.0'] #uploader button {
 	vertical-align: top;
 }
+
 html[data-useragent*='MSIE 10.0'] #file-input-container,
 html[data-useragent*='MSIE 11.0'] #file-input-container {
  	width: 220px;
  	height: 32px;
  	overflow: hidden;
 }
+
 html[data-useragent*='MSIE 10.0'] #filepath,
 html[data-useragent*='MSIE 11.0'] #filepath {
 	height: 22px;
 }
+
 html[data-useragent*='MSIE 10.0'] #newfile,
 html[data-useragent*='MSIE 11.0'] #newfile {
 	height: 23px;
 }
 
-#dropzone-container {min-width:860px;}
-.dropzone {min-height:200px ! important;margin-top:1em;}
-.dropzone .dz-default.dz-message {background:none ! important;color:#999;font-size:1.3em;}
-.dropzone .dz-default.dz-message span {display:block ! important;}
+#dropzone-container {
+    min-width:860px;
+}
 
-#total-progress {width:100%;height:3px;background-color: #A1ADE2;}
-#total-progress .progress-bar {height:3px;background-color: #333;}
+.dropzone {
+    min-height:200px ! important;
+    margin-top:1em;
+}
+
+.dropzone .dz-default.dz-message {
+    background:none ! important;
+    color:#999;
+    font-size:1.3em;
+}
+
+.dropzone .dz-default.dz-message span {
+    display:block ! important;
+}
+
+#total-progress {
+    width:100%;
+    height:3px;
+    background-color: #A1ADE2;
+}
+
+#total-progress .progress-bar {
+    height:3px;
+    background-color: #333;
+}

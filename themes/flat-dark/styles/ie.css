@@ -24,7 +24,10 @@
 #uploader {
 	min-height: 32px;
 }
-#q {width:192px;}
+
+#q {
+    width:192px;
+}
 <![endif]-->
 
 <!--[if lte IE 8]>
@@ -53,5 +56,10 @@
 #uploader {
 	min-height: 32px;
 }
-#q { width:192px; height:1.8em}
+
+#q {
+    width:192px;
+    height:1.8em;
+}
+
 <![endif]-->
