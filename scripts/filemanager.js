@@ -1940,7 +1940,9 @@ $(function(){
         
         // Provides support for adjustible columns.
 	$('#splitter').splitter({
-		sizeLeft: 200
+		sizeLeft: 200,
+		minLeft: 200,
+		minRight: 200
 	});
     getDetailView(fileRoot + expandedFolder);
 });
