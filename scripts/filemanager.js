@@ -389,6 +389,24 @@ var isAudioFile = function(filename) {
 	}
 };
 
+// Test if file is pdf file
+var isPdfFile = function(filename) {
+	if($.inArray(getExtension(filename), config.pdfs.pdfsExt) != -1) {
+		return true;
+	} else {
+		return false;
+	}
+};
+
+// Test if file need to be embed in iframe
+var isEmbedFile = function(filename) {
+	if($.inArray(getExtension(filename), config.embeds.embedsExt) != -1) {
+		return true;
+	} else {
+		return false;
+	}
+};
+
 // Return HTML video player 
 var getVideoPlayer = function(data) {
 	var code  = '<video width=' + config.videos.videosPlayerWidth + ' height=' + config.videos.videosPlayerHeight + ' src="' + data['Path'] + '" controls="controls">';
@@ -411,6 +429,21 @@ var getAudioPlayer = function(data) {
 	 
 };
 
+//Return PDF Reader 
+var getPdfReader = function(data) {
+	var code  = '<iframe src = "scripts/ViewerJS/index.html#' + data['Path'] + '" width="' + config.pdfs.pdfsReaderWidth + '" height="' + config.pdfs.pdfsReaderHeight + '" allowfullscreen webkitallowfullscreen></iframe>';
+	
+	$("#fileinfo img").remove();
+	$('#fileinfo #preview #main-title').before(code);
+};
+
+//Return file in embed iframe 
+var getEmbedReader = function(data) {
+	var code  = '<iframe src = "' + data['Path'] + '" width="' + config.embeds.embedsReaderWidth + '" height="' + config.embeds.embedsReaderHeight + '" allowfullscreen webkitallowfullscreen></iframe>';
+	
+	$("#fileinfo img").remove();
+	$('#fileinfo #preview #main-title').before(code);
+};
 
 // Display icons on list view 
 // retrieving them from filetree
@@ -1272,7 +1305,14 @@ var getFileInfo = function(file) {
 			if(isAudioFile(data['Filename']) && config.audios.showAudioPlayer == true) {
 				getAudioPlayer(data);
 			}
-			
+			//Pdf
+			if(isPdfFile(data['Filename']) && config.pdfs.showPdfReader == true) {
+				getPdfReader(data);
+			}
+			//Embed
+			if(isEmbedFile(data['Filename']) && config.embeds.showEmbedReader == true) {
+				getEmbedReader(data);
+			}	
 			if(isEditableFile(data['Filename']) && config.edit.enabled == true && data['Protected']==0) {
 				editItem(data);
 			}

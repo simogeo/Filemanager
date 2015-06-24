@@ -114,6 +114,27 @@
             "wav"
         ]
     },
+    "pdfs": {
+        "showPdfReader": true,
+        "pdfsExt": [
+            "pdf",
+            "odp"
+        ],
+	    "pdfsReaderWidth": "640",
+        "pdfsReaderHeight": "480"	
+    },
+    "embeds": {
+        "showEmbedReader": true,
+        "embedsExt": [
+            "htm",
+            "html",
+			"php",
+			"asp",
+			"txt"
+        ],
+	    "embedsReaderWidth": "640",
+        "embedsReaderHeight": "480"	
+    },		
     "edit": {
         "enabled": true,
         "lineNumbers": true,
