@@ -1944,6 +1944,10 @@ $(function(){
 		minLeft: 200,
 		minRight: 200
 	});
+	
+	//fix default loading : splitbar size not taken in left count, need to put spliter width manually ... need to find better way to fix it
+	$('#fileinfo').css({'left':6+$('#filetree').width()});  //bug is here $('#splitter .vsplitbar').width() return 0 !	
+	
     getDetailView(fileRoot + expandedFolder);
 });
 
