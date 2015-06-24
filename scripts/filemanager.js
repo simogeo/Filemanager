@@ -1262,6 +1262,10 @@ var setMenus = function(action, path) {
 // enable specific actions. Called whenever an item is
 // clicked in the file tree or list views.
 var getFileInfo = function(file) {
+	
+	//Hide context menu
+	$('.contextMenu').hide();	
+	
 	// Update location for status, upload, & new folder functions.
 	var currentpath = file.substr(0, file.lastIndexOf('/') + 1);
 	setUploader(currentpath);
