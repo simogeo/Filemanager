@@ -1,1 +1,7 @@
+#Exlude
 scripts/filemanager.config.js
+userfiles/*
+
+#Exclude Exception
+!userfiles/.htaccess
+!userfiles/web.config
