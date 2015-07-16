@@ -118,10 +118,11 @@ class Filemanager {
 		// [2] $this->dynamic_fileroot. The second part of the path : '/Filemanager/assets/' ( doc_root - $_SERVER['DOCUMENT_ROOT'])
 		// [3] $this->path_to_files or $this->doc_root. The full path : '/var/www/Filemanager/assets/'
 		
+		$path = rtrim($path, '/') . '/';
 		if($this->config['options']['serverRoot'] === true) {
-			$this->doc_root = $_SERVER['DOCUMENT_ROOT']. '/'.  $path; // i.e  '/var/www'
+			$this->doc_root = $_SERVER['DOCUMENT_ROOT']. '/'.  $path; // i.e  '/var/www/'
 		} else {
-			$this->doc_root =  $path; // i.e  '/var/www'
+			$this->doc_root =  $path; // i.e  '/var/www/'
 		}
 		
 		// necessary for retrieving path when set dynamically with $fm->setFileRoot() method
