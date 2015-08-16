@@ -422,7 +422,7 @@ var getAudioPlayer = function(data) {
 
 //Return PDF Reader 
 var getPdfReader = function(data) {
-	var code  = '<iframe src = "scripts/ViewerJS/index.html#' + data['Path'] + '" width="' + config.pdfs.pdfsReaderWidth + '" height="' + config.pdfs.pdfsReaderHeight + '" allowfullscreen webkitallowfullscreen></iframe>';
+	var code  = '<iframe id="fm-pdf-viewer" src = "scripts/ViewerJS/index.html#' + data['Path'] + '" width="' + config.pdfs.pdfsReaderWidth + '" height="' + config.pdfs.pdfsReaderHeight + '" allowfullscreen webkitallowfullscreen></iframe>';
 	
 	$("#fileinfo img").remove();
 	$('#fileinfo #preview #main-title').before(code);
