@@ -131,9 +131,9 @@ class Filemanager {
 		$this->separator = basename($this->doc_root);
 		
 		// do we create folder ?
-		if($mkdir && !file_exists($this->getFullPath($this->doc_root))) {
-			mkdir($this->getFullPath($this->doc_root), 0755, true);
-			$this->__log(__METHOD__ . ' creating  ' . $this->getFullPath($this->doc_root). ' folder through mkdir()');
+		if($mkdir && !file_exists($this->doc_root)) {
+			mkdir($this->doc_root, 0755, true);
+			$this->__log(__METHOD__ . ' creating  ' . $this->doc_root. ' folder through mkdir()');
 		}
 		
 		$this->__log(__METHOD__ . ' $this->doc_root value overwritten : ' . $this->doc_root);
