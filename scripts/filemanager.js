@@ -389,6 +389,15 @@ var isAudioFile = function(filename) {
 	}
 };
 
+// Test if file is pdf file
+var isPdfFile = function(filename) {
+	if($.inArray(getExtension(filename), config.pdfs.pdfsExt) != -1) {
+		return true;
+	} else {
+		return false;
+	}
+};
+
 // Return HTML video player 
 var getVideoPlayer = function(data) {
 	var code  = '<video width=' + config.videos.videosPlayerWidth + ' height=' + config.videos.videosPlayerHeight + ' src="' + data['Path'] + '" controls="controls">';
@@ -411,6 +420,13 @@ var getAudioPlayer = function(data) {
 	 
 };
 
+//Return PDF Reader 
+var getPdfReader = function(data) {
+	var code  = '<iframe src = "scripts/ViewerJS/index.html#' + data['Path'] + '" width="' + config.pdfs.pdfsReaderWidth + '" height="' + config.pdfs.pdfsReaderHeight + '" allowfullscreen webkitallowfullscreen></iframe>';
+	
+	$("#fileinfo img").remove();
+	$('#fileinfo #preview #main-title').before(code);
+};
 
 // Display icons on list view 
 // retrieving them from filetree
@@ -1229,6 +1245,10 @@ var setMenus = function(action, path) {
 // enable specific actions. Called whenever an item is
 // clicked in the file tree or list views.
 var getFileInfo = function(file) {
+	
+	//Hide context menu
+	$('.contextMenu').hide();	
+	
 	// Update location for status, upload, & new folder functions.
 	var currentpath = file.substr(0, file.lastIndexOf('/') + 1);
 	setUploader(currentpath);
@@ -1272,7 +1292,10 @@ var getFileInfo = function(file) {
 			if(isAudioFile(data['Filename']) && config.audios.showAudioPlayer == true) {
 				getAudioPlayer(data);
 			}
-			
+			//Pdf
+			if(isPdfFile(data['Filename']) && config.pdfs.showPdfReader == true) {
+				getPdfReader(data);
+			}
 			if(isEditableFile(data['Filename']) && config.edit.enabled == true && data['Protected']==0) {
 				editItem(data);
 			}
@@ -1940,8 +1963,11 @@ $(function(){
         
         // Provides support for adjustible columns.
 	$('#splitter').splitter({
-		sizeLeft: 200
+		sizeLeft: 200,
+		minLeft: 200,
+		minRight: 200
 	});
+
     getDetailView(fileRoot + expandedFolder);
 });
 
@@ -1960,3 +1986,7 @@ $(window).load(function() {
 });
 
 })(jQuery);
+
+$(window).load(function() {
+    $('#fileinfo').css({'left':$('#splitter .vsplitbar').width()+$('#filetree').width()});
+    });
