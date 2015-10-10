@@ -16,6 +16,41 @@
 
 require_once('filemanager.class.php');
 
+// for php 5.2 compatibility
+if (!function_exists('array_replace_recursive')) {
+	function array_replace_recursive($array, $array1) {
+		function recurse($array, $array1) {
+			foreach($array1 as $key => $value) {
+				// create new key in $array, if it is empty or not an array
+				if (!isset($array[$key]) || (isset($array[$key]) && !is_array($array[$key]))) {
+					$array[$key] = array();
+				}
+
+				// overwrite the value in the base array
+				if (is_array($value)) {
+					$value = recurse($array[$key], $value);
+				}
+				$array[$key] = $value;
+			}
+			return $array;
+		}
+
+		// handle the arguments, merge one by one
+		$args = func_get_args();
+		$array = $args[0];
+		if (!is_array($array)) {
+			return $array;
+		}
+		for ($i = 1; $i < count($args); $i++) {
+			if (is_array($args[$i])) {
+				$array = recurse($array, $args[$i]);
+			}
+		}
+		return $array;
+
+	}
+}
+
 // if user file is defined we include it, else we include the default file
 (file_exists('user.config.php')) ? include_once('user.config.php') : include_once('default.config.php');
 
