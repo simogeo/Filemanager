@@ -34,7 +34,7 @@ public class filemanager : IHttpHandler
     {
         foreach (string ext in imgExtensions)
         {
-            if (Path.GetExtension(fileInfo.FullName).ToLower() == ext.ToLower()
+            if (Path.GetExtension(fileInfo.FullName).ToLower() == ext.ToLower())
             {
                 return true;
             }
