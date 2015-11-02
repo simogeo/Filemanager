@@ -13,7 +13,6 @@ using System.Web;
 using System.IO;
 using System.Collections.Specialized;
 using System.Text;
-using System.Web;
 
 public class filemanager : IHttpHandler 
 {
