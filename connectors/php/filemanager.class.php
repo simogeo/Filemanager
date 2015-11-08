@@ -35,18 +35,20 @@ class Filemanager {
 	public function __construct($extraConfig = '') {
 		
 		// getting default config file
-		$content = file_get_contents("../../scripts/filemanager.config.js.default");
-		$config_default = json_decode($content, true);
+		$content = file_get_contents(__DIR__."/../../scripts/filemanager.config.js.default");
+		$this->config = json_decode($content, true);
 		
 		// getting user config file
-		$content = file_get_contents("../../scripts/filemanager.config.js");
-		$config = json_decode($content, true);
+        if (file_exists(__DIR__."/../../scripts/filemanager.config.js"))
+        {
+            $content = file_get_contents(__DIR__."/../../scripts/filemanager.config.js");
+            $config = json_decode($content, true);
+            if(!$config) {
+                $this->error("Error parsing the settings file! Please check your JSON syntax.");
+            }
+            $this->config = array_replace_recursive ($this->config, $config);
+        }
 		
-		if(!$config) {
-			$this->error("Error parsing the settings file! Please check your JSON syntax.");
-		}
-		$this->config = array_replace_recursive ($config_default, $config);
-
 		// override config options if needed
 		if(!empty($extraConfig)) {
 			$this->setup($extraConfig);
@@ -198,14 +200,7 @@ class Filemanager {
 		$this->item['properties'] = $this->properties;
 		$this->get_file_info('', false);
 		
-		// handle path when set dynamically with $fm->setFileRoot() method
-		if($this->dynamic_fileroot != '') {
-			$path = $this->dynamic_fileroot. $this->get['path'];
-			// $path = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->path_to_files) . $this->get['path']; // instruction could replace the line above
-			$path = preg_replace('~/+~', '/', $path); // remove multiple slashes
-		} else {
-			$path = $this->get['path'];
-		}
+		$path = $this->get['path'];
 		
 		$array = array(
 				'Path'=> $path,
@@ -262,10 +257,10 @@ class Filemanager {
 						// check if file is writable and readable
 						if(!$this->has_system_permission($current_path . $file, array('w', 'r'))) {
 							$protected = 1;
-							$previewPath = $this->config['icons']['path'] . 'locked_' . $this->config['icons']['directory'];
+							$previewPath = $this->config['options']['managerPath'] . $this->config['icons']['path'] . 'locked_' . $this->config['icons']['directory'];
 						} else {
 							$protected =0;
-							$previewPath = $this->config['icons']['path'] . $this->config['icons']['directory'];
+							$previewPath = $this->config['options']['managerPath'] . $this->config['icons']['path'] . $this->config['icons']['directory'];
 						}
 						
 						$array[$this->get['path'] . $file .'/'] = array(
@@ -1005,14 +1000,14 @@ class Filemanager {
 		// check if file is writable and readable
 		if(!$this->has_system_permission($this->getFullPath($current_path), array('w', 'r'))) {
 			$this->item['protected'] = 1;
-			$this->item['preview'] = $this->config['icons']['path'] . 'locked_' . $this->config['icons']['default'];
+			$this->item['preview'] = $this->config['options']['managerPath'] . $this->config['icons']['path'] . 'locked_' . $this->config['icons']['default'];
 			// prevent Internal Server Error HTTP_CODE 500 on non readable files/folders
 			// without returning errors
 			return;
 			
 		}	else {
 			$this->item['protected'] = 0;
-			$this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['default'];
+			$this->item['preview'] = $this->config['options']['managerPath'] . $this->config['icons']['path'] . $this->config['icons']['default'];
 		}
 		
 		if(is_dir($current_path)) {
@@ -1025,7 +1020,7 @@ class Filemanager {
 			if($this->item['filetype'] == 'svg') {
 				$this->item['preview'] = $current_path;
 			} else {
-				$this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path='. rawurlencode($current_path).'&'. time();
+				$this->item['preview'] = $this->config['options']['fileConnector'].'?mode=preview&path='. rawurlencode($current_path).'&'. time();
 				if($thumbnail) $this->item['preview'] .= '&thumbnail=true';
 			}
 			//if(isset($get['getsize']) && $get['getsize']=='true') {
@@ -1323,7 +1318,7 @@ private function get_thumbnail_path($path) {
  */
 private function get_thumbnail($path) {
 	
-	require_once('./inc/wideimage/lib/WideImage.php');
+	require_once(__DIR__.'/inc/wideimage/lib/WideImage.php');
 	
 	$thumbnail_fullpath = $this->get_thumbnail_path($path);
 	
