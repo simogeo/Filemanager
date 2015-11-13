@@ -1335,8 +1335,8 @@ private function get_thumbnail($path) {
 	
 	// echo $thumbnail_fullpath.'<br>';
 	
-	// if thumbnail does not exist we generate it
-	if(!file_exists($thumbnail_fullpath)) {
+	// if thumbnail does not exist we generate it or cacheThumbnail is set to false
+	if(!file_exists($thumbnail_fullpath) || $this->config['options']['cacheThumbnails'] == false) {
 		
 		// create folder if it does not exist
 		if(!file_exists(dirname($thumbnail_fullpath))) {

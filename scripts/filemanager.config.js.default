@@ -12,6 +12,7 @@
         "showConfirmation": true,
         "showThumbs": true,
         "generateThumbnails": true,
+        "cacheThumbnails": true,
         "searchBox": true,
         "listFiles": true,
         "fileSorting": "default",
