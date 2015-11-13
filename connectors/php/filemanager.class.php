@@ -42,6 +42,9 @@ class Filemanager {
 		$content = file_get_contents("../../scripts/filemanager.config.js");
 		$config = json_decode($content, true);
 		
+		// Prevent following bug https://github.com/simogeo/Filemanager/issues/398
+		$config_default['security']['uploadRestrictions'] = array();
+		
 		if(!$config) {
 			$this->error("Error parsing the settings file! Please check your JSON syntax.");
 		}
@@ -105,6 +108,9 @@ class Filemanager {
 	// $extraconfig should be formatted as json config array.
 	public function setup($extraconfig) {
 
+		// Prevent following bug https://github.com/simogeo/Filemanager/issues/398
+		$config_default['security']['uploadRestrictions'] = array();
+		
 		$this->config = array_replace_recursive($this->config, $extraconfig);
 			
 	}
