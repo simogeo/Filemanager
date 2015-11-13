@@ -28,12 +28,12 @@ $.urlParam = function(name){
 var loadConfigFile = function (type) {
 	var json = null;
 	type = (typeof type === "undefined") ? "user" : type;
-	
-	if(type == 'user') {
-		var url = './scripts/filemanager.config.js';
-	} else {
-		var url = './scripts/filemanager.config.js.default';
-	}
+
+    if(type == 'user') {
+        var url = './scripts/filemanager.config.js';
+    } else {
+        var url = './scripts/filemanager.config.js.default';
+    }
     
     $.ajax({
         'async': false,
@@ -66,11 +66,12 @@ HEAD_included_files = new Array();
  * if not already included
  */ 
 loadCSS = function(href) {
+    var sCompleteHref = config.options.assetBaseUrl + href;
 	// we check if already included
-	if($.inArray(href, HEAD_included_files) == -1) {
-		var cssLink = $("<link rel='stylesheet' type='text/css' href='" + href + "'>");
+	if($.inArray(sCompleteHref, HEAD_included_files) == -1) {
+		var cssLink = $("<link rel='stylesheet' type='text/css' href='" + sCompleteHref + "'>");
 		$("head").append(cssLink);
-	    HEAD_included_files.push(href);
+	    HEAD_included_files.push(sCompleteHref);
 	}
 };
 
@@ -79,11 +80,12 @@ loadCSS = function(href) {
 * if not already included
 */ 
 loadJS = function(src) {
+    var sCompleteHref = config.options.assetBaseUrl + src;
 	// we check if already included
-	if($.inArray(src, HEAD_included_files) == -1) {
-		var jsLink = $("<script type='text/javascript' src='" + src + "'>");
+	if($.inArray(sCompleteHref, HEAD_included_files) == -1) {
+		var jsLink = $("<script type='text/javascript' src='" + sCompleteHref + "'>");
 	    $("head").append(jsLink);
-	    HEAD_included_files.push(src);
+	    HEAD_included_files.push(sCompleteHref);
 	}
 };
 
@@ -122,7 +124,7 @@ if($.urlParam('langCode') != 0 && file_exists ('scripts/languages/'  + $.urlPara
 
 var lg = [];
 $.ajax({
-  url: 'scripts/languages/'  + config.options.culture + '.js',
+  url: config.options.assetBaseUrl + 'scripts/languages/'  + config.options.culture + '.js',
   async: false,
   dataType: 'json',
   success: function (json) {
@@ -1312,7 +1314,7 @@ var getFileInfo = function(file) {
 				$('#fileinfo').find('div#tools').append(' <a id="copy-button" data-clipboard-text="'+ url + '" title="' + lg.copy_to_clipboard + '" href="#"><span>' + lg.copy_to_clipboard + '</span></a>');
 				// loading zeroClipboard code
 				
-				loadJS('./scripts/zeroclipboard/copy.js?d' + d.getMilliseconds());
+				loadJS('scripts/zeroclipboard/copy.js?d' + d.getMilliseconds());
 				$('#copy-button').click(function () {
 					$('#fileinfo').find('div#tools').append('<span id="copied">' + lg.copied + '</span>');
 					$('#copied').delay(500).fadeOut(1000, function() { $(this).remove(); });
@@ -1577,26 +1579,19 @@ $(function(){
 	$('div.version').html(config.version);
 
 	// Loading theme
-	loadCSS('./themes/' + config.options.theme + '/styles/filemanager.css');
-	$.ajax({
-	    url:'./themes/' + config.options.theme + '/styles/ie.css',
-	    async: false,
-	    success: function(data)
-	    {
-	        $('head').append(data);
-	    }
-	});
-	
+	loadCSS('themes/' + config.options.theme + '/styles/filemanager.css');
+    loadCSS('themes/' + config.options.theme + '/styles/ie.css');
+
 	// loading zeroClipboard
-	loadJS('./scripts/zeroclipboard/dist/ZeroClipboard.js');
+	loadJS('scripts/zeroclipboard/dist/ZeroClipboard.js');
 	
 	// Loading CodeMirror if enabled for online edition
 	if(config.edit.enabled) {
-		loadCSS('./scripts/CodeMirror/lib/codemirror.css');
-		loadCSS('./scripts/CodeMirror/theme/' + config.edit.theme + '.css');
-		loadJS('./scripts/CodeMirror/lib/codemirror.js');
-		loadJS('./scripts/CodeMirror/addon/selection/active-line.js');
-		loadJS('./scripts/CodeMirror/dynamic-mode.js');
+		loadCSS('scripts/CodeMirror/lib/codemirror.css');
+		loadCSS('scripts/CodeMirror/theme/' + config.edit.theme + '.css');
+		loadJS('scripts/CodeMirror/lib/codemirror.js');
+		loadJS('scripts/CodeMirror/addon/selection/active-line.js');
+		loadJS('scripts/CodeMirror/dynamic-mode.js');
 	}
 
 	if(!config.options.fileRoot) {
@@ -1668,7 +1663,7 @@ $(function(){
 	
 	/** load searchbox */
 	if(config.options.searchBox === true)  {
-		loadJS("./scripts/filemanager.liveSearch.min.js");
+		loadJS("scripts/filemanager.liveSearch.min.js");
 	} else {
 		$('#search').remove();
 	}
@@ -1723,8 +1718,8 @@ $(function(){
 	if(config.upload.multiple) {
 		
 		// we load dropzone library 
-		loadCSS('./scripts/dropzone/downloads/css/dropzone.css');
-		loadJS('./scripts/dropzone/downloads/dropzone.js');
+		loadCSS('scripts/dropzone/downloads/css/dropzone.css');
+		loadJS('scripts/dropzone/downloads/dropzone.js');
 		Dropzone.autoDiscover = false;
 		
 		// we remove simple file upload element
@@ -1913,8 +1908,8 @@ $(function(){
 	// Loading CustomScrollbar if enabled
 	// Important, the script should be called after calling createFileTree() to prevent bug 
 	if(config.customScrollbar.enabled) {
-		loadCSS('./scripts/custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css');
-		loadJS('./scripts/custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js');
+		loadCSS('scripts/custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css');
+		loadJS('scripts/custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js');
 		
 		var csTheme = config.customScrollbar.theme != undefined ? config.customScrollbar.theme : 'inset-2-dark';
 		var csButton = config.customScrollbar.button != undefined ? config.customScrollbar.button : true;
