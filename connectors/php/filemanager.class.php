@@ -42,11 +42,11 @@ class Filemanager {
 		if(isset($_REQUEST['config'])) {
 			$this->getvar('config');
 			if (file_exists("../../scripts/" . $_REQUEST['config'])) {
-				$this->__log('Loading ' . $_REQUEST['config'] . ' config file.');
-				$content = file_get_contents("../../scripts/" . $_REQUEST['config']);
+				$this->__log('Loading ' . basename($this->get['config']) . ' config file.');
+				$content = file_get_contents("../../scripts/" . basename($this->get['config']));
 			} else {
 				$this->__log($this->get['config'] . ' config file does not exists.');
-				$this->error("Given config file (".$this->get['config'].") does not exist !");
+				$this->error("Given config file (".basename($this->get['config']).") does not exist !");
 			}
 		}	else {
 			$content = file_get_contents("../../scripts/filemanager.config.js");
