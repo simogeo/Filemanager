@@ -39,7 +39,18 @@ class Filemanager {
 		$config_default = json_decode($content, true);
 		
 		// getting user config file
-		$content = file_get_contents("../../scripts/filemanager.config.js");
+		if(isset($_REQUEST['config'])) {
+			$this->getvar('config');
+			if (file_exists("../../scripts/" . $_REQUEST['config'])) {
+				$this->__log('Loading ' . $_REQUEST['config'] . ' config file.');
+				$content = file_get_contents("../../scripts/" . $_REQUEST['config']);
+			} else {
+				$this->__log($this->get['config'] . ' config file does not exists.');
+				$this->error("Given config file (".$this->get['config'].") does not exist !");
+			}
+		}	else {
+			$content = file_get_contents("../../scripts/filemanager.config.js");
+		}
 		$config = json_decode($content, true);
 		
 		// Prevent following bug https://github.com/simogeo/Filemanager/issues/398
