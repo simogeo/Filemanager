@@ -1970,11 +1970,11 @@ $(function(){
         // Adjust layout.
 	setDimensions();
 	$(window).resize(setDimensions);
-        
-        // Provides support for adjustible columns.
+	
+    // Provides support for adjustible columns.
 	$('#splitter').splitter({
-		sizeLeft: 200,
-		minLeft: 200,
+		sizeLeft: config.options.splitterMinWidth,
+		minLeft: config.options.splitterMinWidth,
 		minRight: 200
 	});
 

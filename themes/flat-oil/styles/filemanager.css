@@ -51,7 +51,6 @@ video, audio {
 
 #filetree {
 	overflow: auto;
-	min-width: 100px;	/* optional */
 	/*border:1px solid #eee;*/
 	background-color: #436670;
 	-webkit-border-radius: 4px;
