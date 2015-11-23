@@ -1606,6 +1606,8 @@ $(function(){
 		loadCSS('./scripts/CodeMirror/theme/' + config.edit.theme + '.css');
 		loadJS('./scripts/CodeMirror/lib/codemirror.js');
 		loadJS('./scripts/CodeMirror/addon/selection/active-line.js');
+		loadCSS('./scripts/CodeMirror/addon/display/fullscreen.css');
+		loadJS('./scripts/CodeMirror/addon/display/fullscreen.js');
 		loadJS('./scripts/CodeMirror/dynamic-mode.js');
 	}
 

@@ -48,7 +48,15 @@ var instantiateCodeMirror = function(CmMode, config) {
 		viewportMargin : Infinity,
 		lineNumbers : config.edit.lineNumbers,
 		lineWrapping : config.edit.lineWrapping,
-		theme : config.edit.theme
+		theme : config.edit.theme,
+		extraKeys: {
+	        "F11": function(cm) {
+	          cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+	        },
+	        "Esc": function(cm) {
+	          if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+	        }
+	      }
 	});
 
 	// we finnaly set option

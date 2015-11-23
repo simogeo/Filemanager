@@ -136,7 +136,7 @@
 			
 		// Splitbar element, can be already in the doc or we create one
 		var bar = $(panes[2] || '<div></div>')
-			.insertAfter(A).css("z-index", "100").append(focuser)
+			.insertAfter(A).css("z-index", "1").append(focuser)
 			.attr({"class": opts.splitbarClass, unselectable: "on"})
 			.css({position: "absolute",	"user-select": "none", "-webkit-user-select": "none",
 				"-khtml-user-select": "none", "-moz-user-select": "none"})
