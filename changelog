@@ -1,3 +1,20 @@
+From version 2.2.0 to 2.3.0
+---------------------------
+- PDF viewer added | #377 & #319
+- fix is_valid_path bug when fileRoot is defined | #393
+- adding https protocol for external resources | #395 
+- array_replace_recursive function implementation for php 5.2 compatibility | #396
+- ASHX connector, fixing test bug | #399
+- security fix related to WideImage lib | #405
+- filemanager.ashx update | #409
+- fix uploadRestrictions bug | #398
+- ability to do not cache thumbnails | #417
+- encode folder name when adding | #420
+- ability to set panels size | #423
+- ability to pass configuration file in url | #255 
+- ability to make Text editor fullscreen (by pressing F11) | #422
+
+
 From version 2.1.0 to 2.2.0
 ---------------------------
 - handle symlinks | #332

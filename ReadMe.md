@@ -25,6 +25,7 @@ Main features
 * Ability to create folders
 * Support user permissions - based on session
 * Handle system permissions
+* Ability to pass config user file in URL
 * Multiple uploads support - based on [dropzonejs](http://www.dropzonejs.com)
 * Online text / code edition - based on [codeMirror](http://codemirror.net/)
 * Online documents viewer - based on [viewerJS](http://viewerjs.org/)
