@@ -621,3 +621,9 @@ html[data-useragent*='MSIE 11.0'] #newfile {
 #total-progress .progress-bar {height:3px;background-color: #333;}
 
 #fm-pdf-viewer {margin-top:3em;}
+
+div.CodeMirror.CodeMirror-fullscreen {
+  width:100%;
+  margin:0;
+  z-index: 9;
+}
