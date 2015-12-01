@@ -1401,8 +1401,16 @@ private function loadLanguageFile() {
 		$stream =file_get_contents($this->root. 'scripts/languages/'.$lang.'.js');
 		$this->language = json_decode($stream, true);
 	} else {
-		$stream =file_get_contents($this->root. 'scripts/languages/'.$lang.'.js');
-		$this->language = json_decode($stream, true);
+		$l = substr($lang,0,2); // we try with 2 chars language file
+		if(file_exists($this->root. 'scripts/languages/'.$l.'.js')) {
+			$stream =file_get_contents($this->root. 'scripts/languages/'.$l.'.js');
+			$this->language = json_decode($stream, true);
+		} else {
+			// we include default language file
+			$stream =file_get_contents($this->root. 'scripts/languages/'.$this->config['options']['culture'].'.js');
+			$this->language = json_decode($stream, true);
+		}
+		
 	}
 }
 
