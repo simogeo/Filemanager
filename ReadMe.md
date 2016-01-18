@@ -375,7 +375,7 @@ Example Response:
 
 add
 ---
-The `add` method adds the uploaded file to the specified path. Unlike the other methods, this method must return its JSON response wrapped in an HTML <textarea>, so the MIME type of the response is text/html instead of text/plain. The upload form in the File Manager passes the current path as a POST param along with the uploaded file. The response includes the path as well as the name used to store the file. The uploaded file's name should be safe to use as a path component in a URL, so URL-encoded at a minimum.
+The `add` method adds the uploaded file to the specified path. Unlike the other methods, this method must return its JSON response wrapped in an HTML `<textarea>`, so the MIME type of the response is text/html instead of text/plain. The upload form in the File Manager passes the current path as a POST param along with the uploaded file. The response includes the path as well as the name used to store the file. The uploaded file's name should be safe to use as a path component in a URL, so URL-encoded at a minimum.
 
 Example Response:
 
@@ -388,7 +388,7 @@ Example Response:
 
 replace
 ---
-The `replace` method allow the user to replace a specific file whatever the new filename - at least, the new file should have the same extension the original has. The old file is automatically overwritten. Unlike the other methods, this method must return its JSON response wrapped in an HTML <textarea>, so the MIME type of the response is text/html instead of text/plain. The *dynamic* upload form in the File Manager passes the current file path as a POST param along with the uploaded file. The response includes the path as well as the name used to store the file.
+The `replace` method allow the user to replace a specific file whatever the new filename - at least, the new file should have the same extension the original has. The old file is automatically overwritten. Unlike the other methods, this method must return its JSON response wrapped in an HTML `<textarea>`, so the MIME type of the response is text/html instead of text/plain. The *dynamic* upload form in the File Manager passes the current file path as a POST param along with the uploaded file. The response includes the path as well as the name used to store the file.
 
 Example Response:
 
