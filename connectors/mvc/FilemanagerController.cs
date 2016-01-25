@@ -348,10 +348,16 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
 
                 if (IsImage(fileInfo))
                 {
-                    using (System.Drawing.Image img = System.Drawing.Image.FromFile(fileInfo.FullName))
+                    try
                     {
-                        sb.AppendLine("\"Height\": " + img.Height.ToString() + ",");
-                        sb.AppendLine("\"Width\": " + img.Width.ToString() + ",");
+                        using (System.Drawing.Image img = System.Drawing.Image.FromFile(fileInfo.FullName))
+                        {
+                            sb.AppendLine("\"Height\": " + img.Height.ToString() + ",");
+                            sb.AppendLine("\"Width\": " + img.Width.ToString() + ",");
+                        }
+                    }
+                    catch
+                    {
                     }
                 }
 
