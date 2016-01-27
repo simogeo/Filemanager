@@ -446,7 +446,17 @@ class Filemanager {
 			} else {
 				$this->error(sprintf($this->lang('ERROR_RENAMING_FILE'),$filename,$this->get['new']));
 			}
-		}
+        	} else {
+            		// For image only - rename thumbnail if original image was successfully renamed
+            		if(!is_dir($new_file) && $this->is_image($new_file)) {
+                		$new_thumbnail = $this->get_thumbnail_path($new_file);
+                		$old_thumbnail = $this->get_thumbnail_path($old_file);
+                		if(file_exists($old_thumbnail)) {
+                    			rename($old_thumbnail, $new_thumbnail);
+                		}
+            		}
+        	}
+        	
 		$array = array(
 				'Error'=>"",
 				'Code'=>0,
