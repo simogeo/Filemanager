@@ -158,14 +158,15 @@ $.prompt.setDefaults({
 // Forces columns to fill the layout vertically.
 // Called on initial page load and on resize.
 var setDimensions = function(){
-	var bheight = 53;
-	
+	var bheight = 53,
+		$uploader = $('#uploader');
+
 	if($.urlParam('CKEditorCleanUpFuncNum')) bheight +=60;
 
-	var newH = $(window).height() - $('#uploader').height() - bheight;	
+	var newH = $(window).height() - $uploader.height() - $uploader.offset().top - bheight;
 	$('#splitter, #filetree, #fileinfo, .vsplitbar').height(newH);
 	var newW = $('#splitter').width() - $('div.vsplitbar').width() - $('#filetree').width();
-    $('#fileinfo').width(newW);
+	$('#fileinfo').width(newW);
 };
 
 // Display Min Path
