@@ -1198,12 +1198,16 @@ private function is_valid_path($path) {
 	// $this->__log('doc_root : ' . realpath($this->doc_root) . DIRECTORY_SEPARATOR);
 	
 	// return $this->startsWith($givenpath, $rootpath);
+	$substrpath = substr(realpath($path) . DIRECTORY_SEPARATOR, 0, strlen($this->path_to_files)) . DIRECTORY_SEPARATOR;
+	$substrpath = str_replace("//","/",$substrpath); // removing double slash
 	
-	$this->__log('substr path_to_files : ' . substr(realpath($path) . DIRECTORY_SEPARATOR, 0, strlen($this->path_to_files)));
-	$this->__log('path_to_files : ' . realpath($this->path_to_files) . DIRECTORY_SEPARATOR);
+	$rpath = realpath($this->path_to_files)  . DIRECTORY_SEPARATOR;
+	$rpath = str_replace("//","/",$rpath); // removing double slash
 	
-	return (substr(realpath($path) . DIRECTORY_SEPARATOR, 0, strlen(realpath($this->path_to_files))) . DIRECTORY_SEPARATOR) == (realpath($this->path_to_files) . DIRECTORY_SEPARATOR);
+	$this->__log('substr path_to_files : ' . $substrpath);
+	$this->__log('path_to_files : ' . $rpath);
 	
+	return ($substrpath == $rpath);
 	
 }
 
