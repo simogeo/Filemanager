@@ -1199,10 +1199,20 @@ private function is_valid_path($path) {
 	
 	// return $this->startsWith($givenpath, $rootpath);
 	
-	$this->__log('substr path_to_files : ' . substr(realpath($path) . DIRECTORY_SEPARATOR, 0, strlen($this->path_to_files)) . DIRECTORY_SEPARATOR);
-	$this->__log('path_to_files : ' . realpath($this->path_to_files) . DIRECTORY_SEPARATOR);
-	
-	return (substr(realpath($path) . DIRECTORY_SEPARATOR, 0, strlen(realpath($this->path_to_files))) . DIRECTORY_SEPARATOR) == (realpath($this->path_to_files) . DIRECTORY_SEPARATOR);
+	// handle better symlinks & network path
+	$patt = array('/\\\\+/','/\/+/');
+	$repl = array('\\\\','/');
+
+	$substrpath = substr(realpath($path) . DIRECTORY_SEPARATOR, 0, strlen($this->path_to_files)) . DIRECTORY_SEPARATOR;
+	$substrpath = preg_replace($patt,$repl,$substrpath); // removing double slash
+
+	$rpath = realpath($this->path_to_files)  . DIRECTORY_SEPARATOR;
+	$rpath = preg_replace($patt,$repl,$rpath); // removing double slash
+
+	$this->__log('substr path : ' . $substrpath);
+	$this->__log('real path : ' . $rpath);
+
+  return ($substrpath == $rpath);
 	
 	
 }
