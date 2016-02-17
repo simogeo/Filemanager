@@ -410,7 +410,7 @@ class Filemanager {
 		$new_file = $this->getFullPath($path . '/' . $this->get['new']). $suffix;
 		$old_file = $this->getFullPath($this->get['old']) . $suffix;
 
-		if(!$this->has_permission('rename') || !$this->is_valid_path($old_file)) {
+		if(!$this->has_permission('rename') || !$this->is_valid_path($old_file) || !$this->is_valid_path($new_file)) {
 			$this->error("No way.");
 		}
 		
@@ -934,6 +934,9 @@ class Filemanager {
 	public function preview($thumbnail) {
 			
 		$current_path = $this->getFullPath();
+		
+		if(!$this->is_valid_path($current_path)) $this->error("No way.");
+		
 			
 		if(isset($this->get['path']) && file_exists($current_path)) {
 			
