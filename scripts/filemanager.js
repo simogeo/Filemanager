@@ -38,7 +38,7 @@ var loadConfigFile = function (type) {
 			userconfig = 'filemanager.config.js';
 		}
 	} else {
-		var url = './scripts/filemanager.config.js.default';
+		var url = './scripts/filemanager.config.default.js';
 	}
     
     $.ajax({
