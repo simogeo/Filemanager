@@ -2,7 +2,7 @@
 		"_comment": "IMPORTANT : go to the wiki page to know about options configuration https://github.com/simogeo/Filemanager/wiki/Filemanager-configuration-file",
     "options": {
         "culture": "en",
-        "lang": "mvc/",
+        "lang": "php",
         "theme": "flat-dark",
         "defaultViewMode": "grid",
         "autoload": true,
