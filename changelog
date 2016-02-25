@@ -1,3 +1,10 @@
+From version 2.4.0 to 2.5.0
+---------------------------
+- introduce quickSelect option | #455
+- filemanager.config.js.default file renamed filemanager.config.default.json (for improved compatibility with IIS server)| #400
+- filemanager.config.js file renamed filemanager.config.json (for consistency) | #400
+
+
 From version 2.3.0 to 2.4.0
 ---------------------------
 - handle better language ISO 4 Letters | #428

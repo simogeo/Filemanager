@@ -34,11 +34,11 @@ var loadConfigFile = function (type) {
 			var url = './scripts/' + $.urlParam('config');
 			userconfig = $.urlParam('config');
 		} else {
-			var url = './scripts/filemanager.config.js';
-			userconfig = 'filemanager.config.js';
+			var url = './scripts/filemanager.config.json';
+			userconfig = 'filemanager.config.json';
 		}
 	} else {
-		var url = './scripts/filemanager.config.js.default';
+		var url = './scripts/filemanager.config.default.json';
 	}
     
     $.ajax({

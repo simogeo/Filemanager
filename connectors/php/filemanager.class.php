@@ -35,7 +35,7 @@ class Filemanager {
 	public function __construct($extraConfig = '') {
 		
 		// getting default config file
-		$content = file_get_contents("../../scripts/filemanager.config.js.default");
+		$content = file_get_contents("../../scripts/filemanager.config.default.json");
 		$config_default = json_decode($content, true);
 		
 		// getting user config file
@@ -49,7 +49,7 @@ class Filemanager {
 				$this->error("Given config file (".basename($this->get['config']).") does not exist !");
 			}
 		}	else {
-			$content = file_get_contents("../../scripts/filemanager.config.js");
+			$content = file_get_contents("../../scripts/filemanager.config.json");
 		}
 		$config = json_decode($content, true);
 		

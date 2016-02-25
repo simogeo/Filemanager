@@ -81,7 +81,7 @@ or download the archive from Github : https://github.com/simogeo/Filemanager/arc
 
 You can place the FileManager anywhere within your web serving root directory.
 
-**(2)** Make a copy of the default configuration file ("filemanager.config.js.default" located in the scripts directory), removing the '.default' from the end of the filename, and edit the options according to the following wiki page : https://github.com/simogeo/Filemanager/wiki/Filemanager-configuration-file
+**(2)** Make a copy of the default configuration file ("filemanager.config.default.json" located in the scripts directory), removing the '.default' from the end of the filename, and edit the options according to the following wiki page : https://github.com/simogeo/Filemanager/wiki/Filemanager-configuration-file
    Having a look on configuration cases study may also be helpful to you : https://github.com/simogeo/Filemanager/wiki/Specify-user-folder%2C-configuration-cases
 
 **(3a)** If you are integrating the FileManager with FCKEditor, open your fckconfig.js file and find the lines which specify what file browser to use for images, links, etc. Look toward the bottom of the file. You will need to change lines such as this:
