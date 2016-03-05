@@ -1,37 +1,46 @@
 ﻿// Filemanager ASP.NET MVC connector
-// Author: David Hammond <dave@modernsignal.com>
-// Based on ASHX connection by Ondřej "Yumi Yoshimido" Brožek | <cholera@hzspraha.cz>
+// Author: David Hammond <dave@modernsignal.com> Based on ASHX connection by Ondřej "Yumi Yoshimido"
+// Brožek | <cholera@hzspraha.cz>
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Configuration;
-using System.Web.Script.Serialization;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace MyProject.Areas.FilemanagerArea.Controllers
 {
     /// <summary>
-    /// Filemanager controller
+    /// Filemanager controller 
     /// </summary>
     public class FilemanagerController : Controller
     {
         /// <summary>
-        /// Root directory for all file uploads [string]
-        /// Set in web.config. E.g. <add key="Filemanager_RootPath" value="/uploads/"/>
+        /// 上傳檔案路徑 Root directory for all file uploads [string] Set in web.config. E.g. <add
+        /// key="Filemanager_RootPath" value="/uploads/" />
         /// </summary>
         private string RootPath = WebConfigurationManager.AppSettings["Filemanager_RootPath"]; // Root directory for all file uploads [string]
 
         /// <summary>
-        /// Directory for icons. [string]
-        /// Set in web.config E.g. <add key="Filemanager_IconDirectory" value="/Scripts/filemanager/images/fileicons/"/>
+        /// icon的檔案路徑 Directory for icons. [string] Set in web.config E.g. <add
+        /// key="Filemanager_IconDirectory" value="/Scripts/filemanager/images/fileicons/" />
         /// </summary>
         private string IconDirectory = WebConfigurationManager.AppSettings["Filemanager_IconDirectory"]; // Icon directory for filemanager. [string]
+
+        /// <summary>
+        /// Is only allow imgextensions
+        /// </summary>
+        private bool IsOnlyImage = Convert.ToBoolean(WebConfigurationManager.AppSettings["Filemanager_IsOnlyImage"]);
+
+        /// <summary>
+        /// File Size Limit by MB , if 0 = unlimit。 
+        /// </summary>
+        private int LimitFileSizeMB = Convert.ToInt32(WebConfigurationManager.AppSettings["Filemanager_LimitFileSizeMB"]);
 
         /// <summary>
         /// White list of allowed file extensions
@@ -44,17 +53,17 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
         private List<string> imgExtensions = new List<string> { ".jpg", ".png", ".jpeg", ".gif", ".bmp" }; // Only allow this image extensions. [string]
 
         /// <summary>
-        /// Serializer for generating json responses
+        /// Serializer for generating json responses 
         /// </summary>
         private JavaScriptSerializer json = new JavaScriptSerializer();
 
         /// <summary>
-        /// Process file manager action
+        /// Process file manager action 
         /// </summary>
-        /// <param name="mode"></param>
-        /// <param name="path"></param>
+        /// <param name="mode">  </param>
+        /// <param name="path">  </param>
         /// <returns></returns>
-        [Authorize()]
+        [Authorize]
         public ActionResult Index(string mode, string path = null)
         {
             Response.ClearHeaders();
@@ -67,20 +76,27 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                 {
                     case "getinfo":
                         return Content(GetInfo(path), "application/json", Encoding.UTF8);
+
                     case "getfolder":
                         return Content(GetFolderInfo(path), "application/json", Encoding.UTF8);
+
                     case "move":
                         var oldPath = Request.QueryString["old"];
                         var newPath = string.Format("{0}{1}/{2}", Request.QueryString["root"], Request.QueryString["new"], Path.GetFileName(oldPath));
                         return Content(Move(oldPath, newPath), "application/json", Encoding.UTF8);
+
                     case "rename":
                         return Content(Rename(Request.QueryString["old"], Request.QueryString["new"]), "application/json", Encoding.UTF8);
+
                     case "replace":
                         return Content(Replace(Request.Form["newfilepath"]), "text/html", Encoding.UTF8);
+
                     case "delete":
                         return Content(Delete(path), "application/json", Encoding.UTF8);
+
                     case "addfolder":
                         return Content(AddFolder(path, Request.QueryString["name"]), "application/json", Encoding.UTF8);
+
                     case "download":
                         if (System.IO.File.Exists(Server.MapPath(path)) && IsInRootPath(path))
                         {
@@ -95,9 +111,11 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                         }
                     case "add":
                         return Content(AddFile(Request.Form["currentpath"]), "text/html", Encoding.UTF8);
+
                     case "preview":
                         var fi2 = new FileInfo(Server.MapPath(Request.QueryString["path"]));
                         return new FilePathResult(fi2.FullName, "image/" + fi2.Extension.TrimStart('.'));
+
                     default:
                         return Content("");
                 }
@@ -110,10 +128,10 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
 
         //===================================================================
         //========================== END EDIT ===============================
-        //===================================================================       
+        //===================================================================
 
         /// <summary>
-        /// Is the file an image file
+        /// Is the file an image file 
         /// </summary>
         /// <param name="fileInfo"></param>
         /// <returns></returns>
@@ -123,7 +141,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
         }
 
         /// <summary>
-        /// Is the file in the root path?  Don't allow uploads outside the root path.
+        /// Is the file in the root path? Don't allow uploads outside the root path. 
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -133,62 +151,47 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
         }
 
         /// <summary>
-        /// Add a file
+        /// Add a file 
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         private string AddFile(string path)
         {
-            string response;
+            var errorFormat = "<textarea>{0}</textarea>";
+            HttpPostedFileBase file = Request.Files.Count == 0 ? null : Request.Files[0];
 
-            if (Request.Files.Count == 0 || Request.Files[0].ContentLength == 0)
+            string response = CheckFile(path, file);
+
+            if (!string.IsNullOrWhiteSpace(response))
+                return string.Format(errorFormat, response);
+
+            //Only allow certain characters in file names
+            var baseFileName = Regex.Replace(Path.GetFileNameWithoutExtension(file.FileName), @"[^\w_-]", "");
+            var filePath = Path.Combine(path, baseFileName + Path.GetExtension(file.FileName));
+
+            //Make file name unique
+            var i = 0;
+            while (System.IO.File.Exists(Server.MapPath(filePath)))
             {
-                response = Error("No file provided.");
+                i = i + 1;
+                baseFileName = Regex.Replace(baseFileName, @"_[\d]+$", "");
+                filePath = Path.Combine(path, baseFileName + "_" + i + Path.GetExtension(file.FileName));
             }
-            else
+            file.SaveAs(Server.MapPath(filePath));
+
+            response = json.Serialize(new
             {
-                if (!IsInRootPath(path))
-                {
-                    response = Error("Attempt to add file outside root path");
-                }
-                else
-                {
-                    System.Web.HttpPostedFileBase file = Request.Files[0];
-                    if (!allowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower()))
-                    {
-                        response = Error("Uploaded file type is not allowed.");
-                    }
-                    else
-                    {
-                        //Only allow certain characters in file names
-                        var baseFileName = Regex.Replace(Path.GetFileNameWithoutExtension(file.FileName), @"[^\w_-]", "");
-                        var filePath = Path.Combine(path, baseFileName + Path.GetExtension(file.FileName));
+                Path = path,
+                Name = Path.GetFileName(file.FileName),
+                Error = "No error",
+                Code = 0
+            });
 
-                        //Make file name unique
-                        var i = 0;
-                        while (System.IO.File.Exists(Server.MapPath(filePath)))
-                        {
-                            i = i + 1;
-                            baseFileName = Regex.Replace(baseFileName, @"_[\d]+$", "");
-                            filePath = Path.Combine(path, baseFileName + "_" + i + Path.GetExtension(file.FileName));
-                        }
-                        file.SaveAs(Server.MapPath(filePath));
-
-                        response = json.Serialize(new
-                        {
-                            Path = path,
-                            Name = Path.GetFileName(file.FileName),
-                            Error = "No error",
-                            Code = 0
-                        });
-                    }
-                }
-            }
-            return "<textarea>" + response + "</textarea>";
+            return string.Format(errorFormat, response);
         }
 
         /// <summary>
-        /// Add a folder
+        /// Add a folder 
         /// </summary>
         /// <param name="path"></param>
         /// <param name="newFolder"></param>
@@ -214,7 +217,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
         }
 
         /// <summary>
-        /// Delete a file
+        /// Delete a file 
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -252,7 +255,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
         }
 
         /// <summary>
-        /// Generate json for error message
+        /// Generate json for error message 
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
@@ -266,7 +269,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
         }
 
         /// <summary>
-        /// Get folder information
+        /// Get folder information 
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -348,17 +351,11 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
 
                 if (IsImage(fileInfo))
                 {
-                    try
-                    {
-                        using (System.Drawing.Image img = System.Drawing.Image.FromFile(fileInfo.FullName))
-                        {
-                            sb.AppendLine("\"Height\": " + img.Height.ToString() + ",");
-                            sb.AppendLine("\"Width\": " + img.Width.ToString() + ",");
-                        }
-                    }
-                    catch
-                    {
-                    }
+					using (System.Drawing.Image img = System.Drawing.Image.FromFile(fileInfo.FullName))
+					{
+						sb.AppendLine("\"Height\": " + img.Height.ToString() + ",");
+						sb.AppendLine("\"Width\": " + img.Width.ToString() + ",");
+					}
                 }
 
                 sb.AppendLine("\"Size\": " + fileInfo.Length.ToString() + " ");
@@ -377,7 +374,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
         }
 
         /// <summary>
-        /// Get file information
+        /// Get file information 
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -455,9 +452,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
             }
 
             return sb.ToString();
-
         }
-
 
         private string Move(string oldPath, string newPath)
         {
@@ -519,7 +514,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
         }
 
         /// <summary>
-        /// Rename a file or directory
+        /// Rename a file or directory 
         /// </summary>
         /// <param name="path"></param>
         /// <param name="newName"></param>
@@ -576,49 +571,64 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
         }
 
         /// <summary>
-        /// Replace a file
+        /// Replace a file 
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         private string Replace(string path)
         {
-            if (Request.Files.Count == 0 || Request.Files[0].ContentLength == 0)
-            {
-                return Error("No file provided.");
-            }
-            else if (!IsInRootPath(path))
-            {
-                return Error("Attempt to replace file outside root path");
-            }
-            else
-            {
-                var fi = new FileInfo(Server.MapPath(path));
-                HttpPostedFileBase file = Request.Files[0];
-                if (!allowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower()))
-                {
-                    return Error("Uploaded file type is not allowed.");
-                }
-                else if (!Path.GetExtension(file.FileName).Equals(fi.Extension))
-                {
-                    return Error("Replacement file must have the same extension as the file being replaced.");
-                }
-                else if (!fi.Exists)
-                {
-                    return Error("File to replace not found.");
-                }
-                else
-                {
-                    file.SaveAs(fi.FullName);
+            HttpPostedFileBase file = Request.Files.Count == 0 ? null : Request.Files[0];
 
-                    return "<textarea>" + json.Serialize(new
-                    {
-                        Path = path.Replace("/" + fi.Name, ""),
-                        Name = fi.Name,
-                        Error = "No error",
-                        Code = 0
-                    }) + "</textarea>";
-                }
-            }
+            string response = CheckFile(path, file);
+
+            if (!string.IsNullOrWhiteSpace(response))
+                return response;
+
+            var fi = new FileInfo(Server.MapPath(path));
+
+            if (!fi.Exists)
+                return Error("File to replace not found.");
+
+            if (!Path.GetExtension(file.FileName).Equals(fi.Extension))
+                return Error("Replacement file must have the same extension as the file being replaced.");
+
+            file.SaveAs(fi.FullName);
+
+            return "<textarea>" + json.Serialize(new
+            {
+                Path = path.Replace("/" + fi.Name, ""),
+                Name = fi.Name,
+                Error = "No error",
+                Code = 0
+            }) + "</textarea>";
+        }
+
+        /// <summary>
+        /// Check File Info 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        private string CheckFile(string path, HttpPostedFileBase file)
+        {
+            var result = "";
+            if (file == null || file.ContentLength == 0)
+                result = Error("No file provided.");
+
+            if (!IsInRootPath(path))
+                result = Error("Attempt to replace file outside root path");
+
+            var fileExtension = Path.GetExtension(file.FileName).ToLower();
+
+            if (IsOnlyImage && !imgExtensions.Contains(fileExtension))
+                result = Error("Uploaded file type is not allowed.");
+            else if (!allowedExtensions.Contains(fileExtension))
+                result = Error("Uploaded file type is not allowed.");
+
+            if (LimitFileSizeMB != 0 && file.ContentLength > (LimitFileSizeMB * 1024 * 1024))
+                result = Error("Uploaded file size is too large.");
+
+            return result;
         }
     }
 }
