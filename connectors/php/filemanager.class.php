@@ -405,12 +405,14 @@ class Filemanager {
 		}
 		$tmp = explode('/',$this->get['old']);
 		$filename = $tmp[(sizeof($tmp)-1)];
-		$path = str_replace('/' . $filename,'',$this->get['old']);
 
-		$new_file = $this->getFullPath($path . '/' . $this->get['new']). $suffix;
+		$newPath = str_replace('/' . $filename, '', $this->get['old']);
+		$newName = $this->cleanString($this->get['new'], array('.', '-'));
+
 		$old_file = $this->getFullPath($this->get['old']) . $suffix;
+		$new_file = $this->getFullPath($newPath . '/' . $newName). $suffix;
 
-		if(!$this->has_permission('rename') || !$this->is_valid_path($old_file) || !$this->is_valid_path($new_file)) {
+		if(!$this->has_permission('rename') || !$this->is_valid_path($old_file)) {
 			$this->error("No way.");
 		}
 		
