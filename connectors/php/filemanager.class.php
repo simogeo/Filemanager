@@ -433,20 +433,20 @@ class Filemanager {
 
 		$this->__log(__METHOD__ . ' - renaming '. $old_file. ' to ' . $new_file);
 
-		if(file_exists ($new_file)) {
-			if($suffix=='/' && is_dir($new_file)) {
-				$this->error(sprintf($this->lang('DIRECTORY_ALREADY_EXISTS'),$this->get['new']));
+		if(file_exists($new_file)) {
+			if($suffix == '/' && is_dir($new_file)) {
+				$this->error(sprintf($this->lang('DIRECTORY_ALREADY_EXISTS'), $newName));
 			}
-			if($suffix=='' && is_file($new_file)) {
-				$this->error(sprintf($this->lang('FILE_ALREADY_EXISTS'),$this->get['new']));
+			if($suffix == '' && is_file($new_file)) {
+				$this->error(sprintf($this->lang('FILE_ALREADY_EXISTS'), $newName));
 			}
 		}
 
 		if(!rename($old_file,$new_file)) {
 			if(is_dir($old_file)) {
-				$this->error(sprintf($this->lang('ERROR_RENAMING_DIRECTORY'),$filename,$this->get['new']));
+				$this->error(sprintf($this->lang('ERROR_RENAMING_DIRECTORY'), $filename, $newName));
 			} else {
-				$this->error(sprintf($this->lang('ERROR_RENAMING_FILE'),$filename,$this->get['new']));
+				$this->error(sprintf($this->lang('ERROR_RENAMING_FILE'), $filename, $newName));
 			}
         	} else {
             		// For image only - rename thumbnail if original image was successfully renamed
@@ -460,12 +460,12 @@ class Filemanager {
         	}
         	
 		$array = array(
-				'Error'=>"",
-				'Code'=>0,
-				'Old Path'=>$this->formatPath($this->get['old'].$suffix),
-				'Old Name'=>$filename,
-				'New Path'=>$this->formatPath($path . '/' . $this->get['new'].$suffix),
-				'New Name'=>$this->get['new']
+			'Error' => "",
+			'Code' => 0,
+			'Old Path' => $this->formatPath($this->get['old'] . $suffix),
+			'Old Name' => $filename,
+			'New Path' => $this->formatPath($newPath . '/' . $newName . $suffix),
+			'New Name' => $newName
 		);
 		return $array;
 	}
