@@ -19,7 +19,7 @@ Main features
 * [Highly customizable](https://github.com/simogeo/Filemanager/wiki/Filemanager-configuration-file)
 * Can work as standalone application
 * Easy integration with RTE like CKEditor, TinyMCE and so on.
-* Easy integration with [colorbox jquery plugin](https://github.com/simogeo/Filemanager/wiki/How-to-use-the-filemanager-with-colorbox-%3F) or [HTML simple textfield](https://github.com/simogeo/Filemanager/wiki/How-to-use-the-filemanager-from-a-simple-textfield-%3F)
+* Easy integration with [colorbox jquery plugin](https://github.com/simogeo/Filemanager/wiki/How-to-use-the-filemanager-with-colorbox) or [HTML simple textfield](https://github.com/simogeo/Filemanager/wiki/How-to-use-the-filemanager-from-a-simple-textfield)
 * Several computer language connectors available. **PHP is up-to-date**
 * Ability to upload, delete, modify, download and move files
 * Ability to create folders
@@ -29,8 +29,8 @@ Main features
 * Multiple uploads support - based on [dropzonejs](http://www.dropzonejs.com)
 * Online text / code edition - based on [codeMirror](http://codemirror.net/)
 * Online documents viewer - based on [viewerJS](http://viewerjs.org/)
-* [Opening a given folder](https://github.com/simogeo/Filemanager/wiki/How-to-open-a-given-folder-different-from-root-folder-when-opening-the-filemanager%3F)
-* [Opening exclusively a given folder](https://github.com/simogeo/Filemanager/wiki/How-to-open-%28exclusively%29-a-given-subfolder-%3F)
+* [Opening a given folder](https://github.com/simogeo/Filemanager/wiki/How-to-open-a-given-folder-different-from-root-folder-when-opening-the-filemanager)
+* [Opening exclusively a given folder](https://github.com/simogeo/Filemanager/wiki/How-to-open-%28exclusively%29-a-given-subfolder)
 * [Passing parameters to the FM](https://github.com/simogeo/Filemanager/wiki/Passing-parameters-to-the-FM)
 * [File types restriction](https://github.com/simogeo/Filemanager/wiki/Set-up-upload-restriction-on-file-type)
 * Video and audio player relying on web browser capabilities
@@ -107,7 +107,7 @@ CKEDITOR.replace('instancename', {
 });
 ```
 
-If you want to use the **modal dialog mode** (instead of pop-up), please refer to [the dedicated wiki page](https://github.com/simogeo/Filemanager/wiki/How-to-open-the-Filemanager-from-CKEditor-in-a-modal-window-%3F).
+If you want to use the **modal dialog mode** (instead of pop-up), please refer to [the dedicated wiki page](https://github.com/simogeo/Filemanager/wiki/How-to-open-the-Filemanager-from-CKEditor-in-a-modal-window).
 
 **(3c)** If you are integrating the FileManager with TinyMCE (>= 3.0), you should:
 
@@ -115,7 +115,7 @@ Create a Javascript callback function that will open the FileManager index.html 
 Add a line like: "file_browser_callback : 'name_of_callback_function'" in the tinyMCE.init command
 See http://www.tinymce.com/wiki.php/TinyMCE3x:How-to_implement_a_custom_file_browser for more details.
 
-See also the dedicated wiki page, with TinyMCE 4 sample : https://github.com/simogeo/Filemanager/wiki/How-to-use-the-Filemanager-with-tinyMCE--3-or-4-%3F
+See also the dedicated wiki page, with TinyMCE 4 sample : https://github.com/simogeo/Filemanager/wiki/How-to-use-the-Filemanager-with-tinyMCE-3-or-4
 
 
 **(4)** Last but not least, **worry about security**!
