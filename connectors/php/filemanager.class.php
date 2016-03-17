@@ -1319,6 +1319,13 @@ private function cleanString($string, $allowed = array()) {
 		$cleaned = preg_replace('/[_]+/', '_', $clean); // remove double underscore
 		
 	}
+	
+	// prevent bug https://github.com/simogeo/Filemanager/issues/474
+	$path_parts = pathinfo($cleaned);
+	if(empty($path_parts['filename'])) {
+		$path_parts['filename'] = "unsupportedCharsReplacement";
+		$cleaned = $path_parts['filename'] . '.' . $path_parts['extension'] ;
+	}
 	return $cleaned;
 }
 

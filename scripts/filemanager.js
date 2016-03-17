@@ -269,6 +269,8 @@ var cleanString = function(str) {
 	}
 	
 	cleaned = cleaned.replace(/[_]+/g, "_");
+	// prevent bug https://github.com/simogeo/Filemanager/issues/474
+	if(cleaned == "") cleaned = "unsupportedCharsReplacement";
 	
 	return cleaned;
 };
