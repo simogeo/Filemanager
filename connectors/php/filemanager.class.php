@@ -53,6 +53,8 @@ class Filemanager {
 		}
 		$config = json_decode($content, true);
 		
+		setlocale(LC_ALL, 'en_US.UTF-8'); // this would fix bug on encoding https://github.com/simogeo/Filemanager/issues/474#issuecomment-214781921 @todo make this dynamic with config json file
+		
 		// Prevent following bug https://github.com/simogeo/Filemanager/issues/398
 		$config_default['security']['uploadRestrictions'] = array();
 		
