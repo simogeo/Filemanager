@@ -20,7 +20,7 @@ $.urlParam = function(name){
 		return 0;
 };
 
-/*---------------------------------------------------------
+/*-----------------------------------------------------$('#level-up').click----
   Setup, Layout, and Status Functions
 ---------------------------------------------------------*/
 
@@ -1722,7 +1722,7 @@ $(function(){
 		// console.log(' cpath : ' + cpath + ' - fileRoot : ' + fileRoot ); // @todo remove
 		if(cpath != fileRoot) {
 			// we get the parent folder - cpath.slice(0, - 1) removes last slash
-			parent = cpath.substring(0, cpath.slice(0, - 1).lastIndexOf("/")) + '/';
+			var parent = cpath.substring(0, cpath.slice(0, - 1).lastIndexOf("/")) + '/';
 			// console.log(' parent : ' + parent); // @todo remove
 			var currentViewMode = $('#fileinfo').data('view');
 			$('#fileinfo').data('view', currentViewMode);
