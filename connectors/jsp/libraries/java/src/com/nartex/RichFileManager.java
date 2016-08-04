@@ -27,17 +27,17 @@ import org.json.JSONObject;
  * 
  * 
  * 
- * CHANGES
+ * CHANGES 
  * August 2016
  * - using {@link Path} instead of {@link File} methods
  * - added mode replace
+ * - added interface
+ * - adapted download to new two-step mode
  * 
  * @author gkallidis
  *
  */
-public class FileManager extends AbstractFM  {
-
-
+public class RichFileManager extends AbstractFM  {
 
 	/**
 	 * 
@@ -46,9 +46,10 @@ public class FileManager extends AbstractFM  {
 	 * @throws IOException 
 	 */
 	
-	public FileManager(ServletContext servletContext, HttpServletRequest request) throws IOException {
-
+	public RichFileManager(ServletContext servletContext, HttpServletRequest request) throws IOException {
+		
 		super(servletContext,request);
+	
 	}
 	
 	@Override
@@ -62,7 +63,7 @@ public class FileManager extends AbstractFM  {
 			array.put("Path", this.get.get("path"));
 			array.put("Filename", this.item.get("filename"));
 			array.put("File Type", this.item.get("filetype"));
-			array.put("Preview", this.item.get("preview"));
+			array.put("Thumbnail", this.item.get("preview"));
 			array.put("Properties", this.item.get("properties"));
 			array.put("Error", "");
 			array.put("Code", 0);
@@ -107,7 +108,7 @@ public class FileManager extends AbstractFM  {
 							data.put("Path", this.get.get("path") + files[i] + "/");
 							data.put("Filename", files[i]);
 							data.put("File Type", "dir");
-							data.put("Preview",
+							data.put("Thumbnail",
 									config.getProperty("icons-path") + config.getProperty("icons-directory"));
 							data.put("Error", "");
 							data.put("Code", 0);
@@ -132,7 +133,7 @@ public class FileManager extends AbstractFM  {
 								data.put("Path", this.get.get("path") + files[i]);
 								data.put("Filename", this.item.get("filename"));
 								data.put("File Type", this.item.get("filetype"));
-								data.put("Preview", this.item.get("preview"));
+								data.put("Thumbnail", this.item.get("preview"));
 								data.put("Properties", this.item.get("properties"));
 								data.put("Error", "");
 								data.put("Code", 0);
@@ -152,32 +153,49 @@ public class FileManager extends AbstractFM  {
 		log.debug("array size ready:"+ ((array != null)?array.toString():"") );		
 		return array;
 	}
-
-
-	/* (non-Javadoc)
+	   
+    /* (non-Javadoc)
 	 * @see com.nartex.FileManagerI#download(javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
 	public JSONObject download(HttpServletRequest request, HttpServletResponse resp) {
 		File file = this.documentRoot.resolve(this.get.get("path")).toFile();
 		if (this.get.get("path") != null && file.exists()) {
+			
+			if (request.getParameter("force") == null || !request.getParameter("force").equals("true")) {
+				JSONObject info = new JSONObject();
+				try {
+					info.put("Error", "");
+					info.put("Code", 0);
+					info.put("Path", this.get.get("path").toString());
+				} catch (Exception e) {
+					log("error:"+ e.getMessage());
+					this.error("JSONObject error");
+				}
+				return info;
+			}
+
 			resp.setHeader("Content-Description", "File Transfer");
-			//resp.setHeader("Content-type", "application/force-download");
+			//resp.setHeader("Content-Type", "application/force-download");
 			//resp.setHeader("Content-Disposition", "inline;filename=\"" + documentRoot.resolve(this.get.get("path")).toString() + "\"");
 			resp.setHeader("Content-Transfer-Encoding", "Binary");
 			resp.setHeader("Content-Length", "" + file.length());
 			resp.setHeader("Content-Type", "application/octet-stream");
 			resp.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
-			readFile(resp, file);
+			// handle caching
+			resp.setHeader("Pragma", "public");
+			resp.setHeader("Expires", "0");
+			resp.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
 			this.error = null;
-			return null;
+			readFile(resp, file);
+			log("file downloaded \""+ file.getAbsolutePath() + "\"");
 		} else {
 			this.error(sprintf(lang("FILE_DOES_NOT_EXIST"), this.get.get("path")));
-			return getError();
 		}
+		return getError();
 	}
 
-
+	
 	@Override
 	public void loadLanguageFile() {
 
@@ -198,7 +216,7 @@ public class FileManager extends AbstractFM  {
 						new FileInputStream(
 								this.fileManagerRoot
 								.resolve("scripts/languages/")
-								.resolve(lang+ ".js").toString()
+								.resolve(lang+ ".json").toString()
 								), "UTF-8");
 				br = new BufferedReader(isr);
 				while ((text = br.readLine()) != null)
@@ -220,6 +238,5 @@ public class FileManager extends AbstractFM  {
 			}
 		}
 	}
-
 
 }
