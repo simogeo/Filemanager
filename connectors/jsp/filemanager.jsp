@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ page pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ page language="java" import="java.util.*"%>
 <%@ page import="com.nartex.*"%>
 <%@ page import="org.json.JSONObject"%>
@@ -15,7 +15,8 @@
  *  CHANGES: 
  *  - check strictServletCompliance
  */ 
-  FileManager fm = new FileManager(getServletContext(), request);
+ 
+ FileManagerI fm = new FileManager(getServletContext(), request);
  
   boolean strictServletCompliance = false; // default value is ISO-8859-1.
 
@@ -73,7 +74,7 @@
         }
         else if (mode.equals("download")){
           if(fm.setGetVar("path",  (strictServletCompliance)? qpm.get("path"):request.getParameter("path"))) {
-            fm.download(response);
+        	  responseData = fm.download(request, response);
           }
         }
         else if (mode.equals("preview")){
@@ -103,11 +104,18 @@
     responseData = fm.getError();
   }
   if (responseData != null){
-      PrintWriter pw = response.getWriter();
+      //request.setCharacterEncoding("UTF-8");  
+			// only if set
+			if (putTextarea) {
+				response.setContentType("text/html; charset=UTF-8");
+			} else {
+				response.setContentType("application/json; charset=UTF-8");
+			}
+			PrintWriter pw = response.getWriter();
       String responseStr = responseData.toString();
       if (putTextarea)
         responseStr = "<textarea>" + responseStr + "</textarea>";
-      //fm.log("d:\\logs\\logfilej.txt", "mode:" + mode + ",response:" + responseStr);
+      //fm.log("mode:" + mode + ",response:" + responseStr);
       pw.print(responseStr);
       pw.close();
   }

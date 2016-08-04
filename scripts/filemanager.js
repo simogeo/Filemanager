@@ -4,8 +4,9 @@
  *	filemanager.js
  *
  *	@license	MIT License
- *	@author		Jason Huck - Core Five Labs
+ *	@author		Jason Huck - Core Five Lab
  *	@author		Simon Georget <simon (at) linea21 (dot) com>
+ *	@author		Georg Kallidis
  *	@copyright	Authors
  */
  
@@ -673,7 +674,7 @@ var  HEAD_included_files = new Array();
   // contextual menu option in list views. 
   // NOTE: closes the window when finished.
   var selectItem = function(data) {
-    if(config.options.baseUrl !== false ) {
+    if(FileManager.config.options.baseUrl !== false ) {
       var url = smartPath(baseUrl, data['Path'].replace(fileRoot,""));
     } else {
       var url = data['Path'];
