@@ -30,6 +30,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -58,9 +59,17 @@ public abstract class AbstractFM implements FileManagerI {
         Path docRoot4FileManager = localPath.toRealPath(LinkOption.NOFOLLOW_LINKS);
         		
         this.referer = request.getHeader("referer");
-        this.fileManagerRoot =  docRoot4FileManager.
+        if (referer != null) {
+            this.fileManagerRoot =  docRoot4FileManager.
         			resolve(referer.substring(referer.indexOf(contextPath) + 1 + contextPath.length(), referer.indexOf("index.html")));
+            
+        } else if (request.getServletPath().indexOf("connectors") > 0) {
+        	this.fileManagerRoot =  docRoot4FileManager.
+        			resolve(request.getServletPath().substring(1, request.getServletPath().indexOf("connectors")));
+        	// no pathInfo
+        }
         log.debug("fileManagerRoot:"+ fileManagerRoot.toRealPath(LinkOption.NOFOLLOW_LINKS));
+
 	    
 		// get uploaded file list
 		FileItemFactory factory = new DiskFileItemFactory();
@@ -116,7 +125,8 @@ public abstract class AbstractFM implements FileManagerI {
 		this.error = errorInfo;
 		return error;
 	}
-
+	
+	
 	@Override
 	public JSONObject error(String msg) {
 		return error(msg, null);
@@ -255,110 +265,6 @@ public abstract class AbstractFM implements FileManagerI {
 		return array;
 	}
 
-	@Override
-	public JSONObject add() {
-		JSONObject fileInfo = new JSONObject();
-		Iterator it = this.files.iterator();
-		String mode = "";
-		String currentPath = "";
-		boolean error = false;
-		boolean replace = false;
-		long size = 0;
-		if (!it.hasNext()) {
-			this.error(lang("INVALID_FILE_UPLOAD"));
-		} else {
-			String allowed[] = { ".", "-" };
-			String fileName = "";
-			FileItem targetItem = null;
-			try {
-				while (it.hasNext()) {
-					FileItem item = (FileItem) it.next();
-					if (item.isFormField()) {
-						if (item.getFieldName().equals("mode")) {
-							mode = item.getString();
-							if (!mode.equals("add") && !mode.equals("replace")) {
-								this.error(lang("INVALID_FILE_UPLOAD"));
-							} 
-						} else if (item.getFieldName().equals("currentpath")) {
-							currentPath = item.getString();
-						} else if (item.getFieldName().equals("newfilepath")){
-							currentPath = item.getString();
-						}
-					} else if ( item.getFieldName().equals("fileR")) {
-						replace= true;
-						size = item.getSize();
-						targetItem =item;
-						
-					} else if (item.getFieldName().equals("newfile")) {
-						fileName = item.getName();
-						// strip possible directory (IE)
-						int pos = fileName.lastIndexOf(File.separator);
-						if (pos > 0) {
-							fileName = fileName.substring(pos + 1);
-						}
-						size = item.getSize();
-						targetItem =item;
-					}
-				}
-				if (!error) {
-					if (replace) {
-						String tmp[] = currentPath.split("/");
-						fileName = tmp[tmp.length - 1];
-						int pos = fileName.lastIndexOf(File.separator);
-						if (pos > 0)
-							fileName = fileName.substring(pos + 1);
-						if (tmp.length > 1) {
-							currentPath = currentPath.replace(fileName, "");
-							currentPath = currentPath.replace("//", "/");
-						}
-					} else {
-						if (!isImage(fileName)
-								&& (config.getProperty("upload-imagesonly") != null
-										&& config.getProperty("upload-imagesonly").equals("true") || this.params
-										.get("type") != null && this.params.get("type").equals("Image"))) {
-							this.error(lang("UPLOAD_IMAGES_ONLY"));
-							error =true;
-						}	
-						LinkedHashMap<String, String> strList = new LinkedHashMap<String, String>();
-						strList.put("fileName", fileName);
-						fileName = cleanString(strList, allowed).get("fileName");
-					}
-					long maxSize = 0;
-					if (config.getProperty("upload-size") != null) {
-						maxSize = Integer.parseInt(config.getProperty("upload-size"));
-						if (maxSize != 0 && size > (maxSize * 1024 * 1024)) {
-							this.error(sprintf(lang("UPLOAD_FILES_SMALLER_THAN"), maxSize + "Mb"));
-							error = true;
-						}
-					}
-					if (!error) {
-						if (config.getProperty("upload-overwrite").equals("false")) {
-							fileName = this.checkFilename(this.documentRoot.resolve(currentPath).toString(), fileName, 0);
-						}
-						if (mode.equals("replace")) {
-							File saveTo = this.documentRoot.resolve(currentPath).resolve(fileName).toFile();
-							targetItem.write(saveTo);
-							log.info("saved "+ saveTo);
-						} else {
-							currentPath = currentPath.replace("/", "/").replaceFirst("^/", "");// relative
-							fileName = fileName.replace("//", "/").replaceFirst("^/", "");// relative
-							File saveTo = this.documentRoot.resolve(currentPath).resolve(fileName).toFile();
-							targetItem.write(saveTo);
-							log.info("saved "+ saveTo);
-						}
-						fileInfo.put("Path", currentPath);
-						fileInfo.put("Name", fileName);
-						fileInfo.put("Error", "");
-						fileInfo.put("Code", 0);
-					}
-				}
-			} catch (Exception e) {
-				this.error(lang("INVALID_FILE_UPLOAD"),e);
-			}
-		}
-		return fileInfo;
-	
-	}
 
 	@Override
 	public JSONObject addFolder() {
