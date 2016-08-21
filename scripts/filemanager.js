@@ -631,7 +631,7 @@ var selectItem = function(data) {
 	if(config.options.baseUrl !== false ) {
 		var url = smartPath(baseUrl, data['Path'].replace(fileRoot,""));
 	} else {
-		var url = data['Path'];
+		var url = baseUrl + data['Path'];
 	}
     
 	if(window.opener || window.tinyMCEPopup || $.urlParam('field_name') || $.urlParam('CKEditorCleanUpFuncNum') || $.urlParam('CKEditor')) {
@@ -1326,7 +1326,7 @@ var getFileInfo = function(file) {
 			if(config.options.baseUrl !== false ) {
 				var url = smartPath(baseUrl, data['Path'].replace(fileRoot,""));
 			} else {
-				var url = data['Path'];
+				var url = baseUrl + data['Path'];
 			}
 			if(data['Protected']==0) {
 				$('#fileinfo').find('div#tools').append(' <a id="copy-button" data-clipboard-text="'+ url + '" title="' + lg.copy_to_clipboard + '" href="#"><span>' + lg.copy_to_clipboard + '</span></a>');
