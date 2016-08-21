@@ -3,6 +3,8 @@ Filemanager
 
 FM is an open-source file manager released under MIT license. It is an alternative to elfinder or CKFinder.
 
+**_IMPORTANT_**: Check [new repo](https://github.com/servocoder/RichFilemanager) with a number of [new features and improvements](https://github.com/servocoder/RichFilemanager/blob/master/changelog). 
+
 Support
 -------
 
