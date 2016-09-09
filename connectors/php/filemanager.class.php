@@ -339,6 +339,9 @@ class Filemanager {
 
 		$current_path = $this->getFullPath();
 		
+		// prevent editing .htaccess file
+		if(strpos($current_path, '.htaccess')  !== false) $this->error("No way.");
+		
 		// check if file is writable
 		if(!$this->has_system_permission($current_path, array('w'))) {
 			$this->error(sprintf($this->lang('NOT_ALLOWED_SYSTEM')));
@@ -417,6 +420,9 @@ class Filemanager {
 		if(!$this->has_permission('rename') || !$this->is_valid_path($old_file)) {
 			$this->error("No way.");
 		}
+		
+		// prevent renaming .htaccess file
+		if(strpos($old_file, '.htaccess')  !== false) $this->error("No way.");
 		
 		// check if file is writable
 		if(!$this->has_system_permission($old_file, array('w'))) {
@@ -518,6 +524,9 @@ class Filemanager {
 		if(!$this->has_permission('move') || !$this->is_valid_path($oldPath) || !$this->is_valid_path($newPath)) {
 			$this->error("No way.");
 		}
+		
+		// prevent moving .htaccess file
+		if(strpos($oldPath, '.htaccess')  !== false) $this->error("No way.");
 
 		// check if file already exists
 		if (file_exists($newPath.$fileName)) {
@@ -566,6 +575,9 @@ class Filemanager {
 		if(!$this->has_permission('delete') || !$this->is_valid_path($current_path)) {
 			$this->error("No way.");
 		}
+		
+		// prevent deleting .htaccess file
+		if(strpos($current_path, '.htaccess')  !== false) $this->error("No way.");
 		
 		// check if file is writable
 		if(!$this->has_system_permission($current_path, array('w'))) {
@@ -885,6 +897,9 @@ class Filemanager {
 		if(!$this->has_permission('download') || !$this->is_valid_path($current_path)) {
 			$this->error("No way.");
 		}
+		
+		// prevent downloading .htaccess file
+		if(strpos($current_path, '.htaccess')  !== false) $this->error("No way.");
 		
 		// check if file is writable
 		if(!$this->has_system_permission($current_path, array('w'))) {
