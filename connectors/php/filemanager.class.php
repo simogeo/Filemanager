@@ -435,8 +435,9 @@ class Filemanager {
 		}
 		
 		// For file only - we check if the new given extension is allowed regarding the security Policy settings
-		if(is_file($old_file) && $this->config['security']['allowChangeExtensions'] && !$this->is_allowed_file_type($new_file)) {
-			$this->error(sprintf($this->lang('INVALID_FILE_TYPE')));
+		if(is_file($old_file)) {
+			if($this->config['security']['allowChangeExtensions'] == false && ($this->get_ext($old_file) !=  $this->get_ext($new_file))) $this->error(sprintf($this->lang('NOT_ALLOWED')));
+			if(!$this->is_allowed_file_type($new_file)) $this->error(sprintf($this->lang('INVALID_FILE_TYPE')));
 		}
 
 		$this->__log(__METHOD__ . ' - renaming '. $old_file. ' to ' . $new_file);
@@ -1260,6 +1261,15 @@ private function unlinkRecursive($dir,$deleteRootToo=true) {
 	}
 
 	return;
+}
+
+/**
+ * get_ext()
+ * get extension file
+ * @param string $file
+ */
+private function get_ext($file) {
+	return pathinfo($file, PATHINFO_EXTENSION);
 }
 
 /**
