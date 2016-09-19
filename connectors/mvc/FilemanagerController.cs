@@ -431,7 +431,12 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                 }
                 else
                 {
-                    sb.AppendLine("\"Preview\": \"" + String.Format("{0}{1}.png", IconDirectory, fileInfo.Extension.Replace(".", "")) + "\",");
+                    var icon = String.Format("{0}{1}.png", IconDirectory, fileInfo.Extension.Replace(".", ""));
+                    if (!System.IO.File.Exists(Server.MapPath(icon)))
+                    {
+                        icon = String.Format("{0}default.png", IconDirectory);
+                    }
+                    sb.AppendLine("\"Preview\": \"" + icon + "\",");
                 }
 
                 sb.AppendLine("\"Properties\": {");
