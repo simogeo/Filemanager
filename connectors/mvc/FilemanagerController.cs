@@ -4,17 +4,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.Configuration;
-using System.Web.Script.Serialization;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
-namespace MyProject.Areas.FilemanagerArea.Controllers
+namespace Filemanager
 {
     /// <summary>
     /// Filemanager controller
@@ -22,26 +19,9 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
     public class FilemanagerController : Controller
     {
         /// <summary>
-        /// Root directory for all file uploads [string]
-        /// Set in web.config. E.g. <add key="Filemanager_RootPath" value="/uploads/"/>
+        /// Configuration settings
         /// </summary>
-        private string RootPath = WebConfigurationManager.AppSettings["Filemanager_RootPath"]; // Root directory for all file uploads [string]
-
-        /// <summary>
-        /// Directory for icons. [string]
-        /// Set in web.config E.g. <add key="Filemanager_IconDirectory" value="/Scripts/filemanager/images/fileicons/"/>
-        /// </summary>
-        private string IconDirectory = WebConfigurationManager.AppSettings["Filemanager_IconDirectory"]; // Icon directory for filemanager. [string]
-
-        /// <summary>
-        /// White list of allowed file extensions
-        /// </summary>
-        private List<string> allowedExtensions = new List<string> { ".ai", ".asx", ".avi", ".bmp", ".csv", ".dat", ".doc", ".docx", ".epub", ".fla", ".flv", ".gif", ".html", ".ico", ".jpeg", ".jpg", ".m4a", ".mobi", ".mov", ".mp3", ".mp4", ".mpa", ".mpg", ".mpp", ".pdf", ".png", ".pps", ".ppsx", ".ppt", ".pptx", ".ps", ".psd", ".qt", ".ra", ".ram", ".rar", ".rm", ".rtf", ".svg", ".swf", ".tif", ".txt", ".vcf", ".vsd", ".wav", ".wks", ".wma", ".wmv", ".wps", ".xls", ".xlsx", ".xml", ".zip" }; // Only allow these extensions to be uploaded
-
-        /// <summary>
-        /// List of image file extensions
-        /// </summary>
-        private List<string> imgExtensions = new List<string> { ".jpg", ".png", ".jpeg", ".gif", ".bmp" }; // Only allow this image extensions. [string]
+        private FilemanagerConfig config = new FilemanagerConfig();
 
         /// <summary>
         /// Serializer for generating json responses
@@ -67,20 +47,27 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                 {
                     case "getinfo":
                         return Content(GetInfo(path), "application/json", Encoding.UTF8);
+
                     case "getfolder":
                         return Content(GetFolderInfo(path), "application/json", Encoding.UTF8);
+
                     case "move":
                         var oldPath = Request.QueryString["old"];
                         var newPath = string.Format("{0}{1}/{2}", Request.QueryString["root"], Request.QueryString["new"], Path.GetFileName(oldPath));
                         return Content(Move(oldPath, newPath), "application/json", Encoding.UTF8);
+
                     case "rename":
                         return Content(Rename(Request.QueryString["old"], Request.QueryString["new"]), "application/json", Encoding.UTF8);
+
                     case "replace":
                         return Content(Replace(Request.Form["newfilepath"]), "text/html", Encoding.UTF8);
+
                     case "delete":
                         return Content(Delete(path), "application/json", Encoding.UTF8);
+
                     case "addfolder":
                         return Content(AddFolder(path, Request.QueryString["name"]), "application/json", Encoding.UTF8);
+
                     case "download":
                         if (System.IO.File.Exists(Server.MapPath(path)) && IsInRootPath(path))
                         {
@@ -95,11 +82,13 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                         }
                     case "add":
                         return Content(AddFile(Request.Form["currentpath"]), "text/html", Encoding.UTF8);
+
                     case "preview":
                         var fi2 = new FileInfo(Server.MapPath(Request.QueryString["path"]));
                         return new FilePathResult(fi2.FullName, "image/" + fi2.Extension.TrimStart('.'));
+
                     default:
-                        return Content("");
+                        return Content(Error(string.Format("{0} not implemented", mode)));
                 }
             }
             catch (HttpException he)
@@ -108,10 +97,6 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
             }
         }
 
-        //===================================================================
-        //========================== END EDIT ===============================
-        //===================================================================       
-
         /// <summary>
         /// Is the file an image file
         /// </summary>
@@ -119,7 +104,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
         /// <returns></returns>
         private bool IsImage(FileInfo fileInfo)
         {
-            return imgExtensions.Contains(Path.GetExtension(fileInfo.FullName).ToLower());
+            return config.ImgExtensions.Contains(Path.GetExtension(fileInfo.FullName).ToLower());
         }
 
         /// <summary>
@@ -129,7 +114,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
         /// <returns></returns>
         private bool IsInRootPath(string path)
         {
-            return path != null && Path.GetFullPath(path).StartsWith(Path.GetFullPath(RootPath));
+            return path != null && Path.GetFullPath(path).StartsWith(Path.GetFullPath(config.RootPath));
         }
 
         /// <summary>
@@ -154,7 +139,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                 else
                 {
                     System.Web.HttpPostedFileBase file = Request.Files[0];
-                    if (!allowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower()))
+                    if (!config.AllowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower()))
                     {
                         response = Error("Uploaded file type is not allowed.");
                     }
@@ -200,17 +185,14 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                 return Error("Attempt to add folder outside root path");
             }
 
-            StringBuilder sb = new StringBuilder();
             Directory.CreateDirectory(Path.Combine(Server.MapPath(path), newFolder));
-
-            sb.AppendLine("{");
-            sb.AppendLine("\"Parent\": \"" + path + "\",");
-            sb.AppendLine("\"Name\": \"" + newFolder + "\",");
-            sb.AppendLine("\"Error\": \"No error\",");
-            sb.AppendLine("\"Code\": 0");
-            sb.AppendLine("}");
-
-            return sb.ToString();
+            return json.Serialize(new
+            {
+                Parent = path,
+                Name = newFolder,
+                Error = "",
+                Code = 0
+            });
         }
 
         /// <summary>
@@ -231,8 +213,6 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
 
             FileAttributes attr = System.IO.File.GetAttributes(Server.MapPath(path));
 
-            StringBuilder sb = new StringBuilder();
-
             if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
             {
                 Directory.Delete(Server.MapPath(path), true);
@@ -242,13 +222,12 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                 System.IO.File.Delete(Server.MapPath(path));
             }
 
-            sb.AppendLine("{");
-            sb.AppendLine("\"Error\": \"No error\",");
-            sb.AppendLine("\"Code\": 0,");
-            sb.AppendLine("\"Path\": \"" + path + "\"");
-            sb.AppendLine("}");
-
-            return sb.ToString();
+            return json.Serialize(new
+            {
+                Path = path,
+                Error = "",
+                Code = 0
+            });
         }
 
         /// <summary>
@@ -263,6 +242,94 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                 Error = msg,
                 Code = -1
             });
+        }
+
+        /// <summary>
+        /// Get directory info to return to Filemanager
+        /// </summary>
+        /// <param name="dirInfo"></param>
+        /// <param name="fullPath"></param>
+        /// <returns></returns>
+        private Dictionary<string, object> GetDirectoryInfo(DirectoryInfo dirInfo, string fullPath)
+        {
+            return new Dictionary<string, object>
+            {
+                { "Path", fullPath },
+                { "Filename", dirInfo.Name },
+                { "File Type", "dir" },
+                { "Protected", dirInfo.Attributes.HasFlag(FileAttributes.ReadOnly) ? 1 : 0 },
+                { "Preview", config.IconDirectory + "_Open.png" },
+                {
+                    "Properties", new Dictionary<string, object>
+                    {
+                        { "Date Created", dirInfo.CreationTime.ToString() },
+                        { "Date Modified", dirInfo.LastWriteTime.ToString() },
+                        { "Height", 0 },
+                        { "Width", 0 },
+                        { "Size", 0 }
+                    }
+                },
+                { "Error", "" },
+                { "Code", 0 }
+            };
+        }
+
+        /// <summary>
+        /// Get file info to return to Filemanager
+        /// </summary>
+        /// <param name="fileInfo"></param>
+        /// <param name="fullPath"></param>
+        /// <returns></returns>
+        private Dictionary<string, object> GetFileInfo(FileInfo fileInfo, string fullPath)
+        {
+            string icon;
+            int height = 0;
+            int width = 0;
+            if (IsImage(fileInfo))
+            {
+                icon = fullPath + "?" + fileInfo.LastWriteTime.Ticks.ToString();
+            }
+            else
+            {
+                icon = String.Format("{0}{1}.png", config.IconDirectory, fileInfo.Extension.Replace(".", ""));
+                if (!System.IO.File.Exists(Server.MapPath(icon)))
+                {
+                    icon = String.Format("{0}default.png", config.IconDirectory);
+                }
+            }
+            if (IsImage(fileInfo))
+            {
+                try
+                {
+                    using (System.Drawing.Image img = System.Drawing.Image.FromFile(fileInfo.FullName))
+                    {
+                        height = img.Height;
+                        width = img.Width;
+                    }
+                }
+                catch { }
+            }
+
+            return new Dictionary<string, object>
+            {
+                { "Path", fullPath },
+                { "Filename", fileInfo.Name },
+                { "File Type", fileInfo.Extension.Replace(".", "") },
+                { "Protected", fileInfo.IsReadOnly ? 1 : 0 },
+                { "Preview", icon },
+                {
+                    "Properties", new Dictionary<string, object>
+                    {
+                        { "Date Created", fileInfo.CreationTime.ToString() },
+                        { "Date Modified", fileInfo.LastWriteTime.ToString() },
+                        { "Height", height },
+                        { "Width", width },
+                        { "Size", fileInfo.Length }
+                    }
+                },
+                { "Error", "" },
+                { "Code", 0 }
+            };
         }
 
         /// <summary>
@@ -282,98 +349,21 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
             }
 
             DirectoryInfo RootDirInfo = new DirectoryInfo(Server.MapPath(path));
-            StringBuilder sb = new StringBuilder();
+            var list = new Dictionary<string, object>();
 
-            sb.AppendLine("{");
-
-            int i = 0;
-
-            foreach (DirectoryInfo DirInfo in RootDirInfo.GetDirectories())
+            foreach (DirectoryInfo dirInfo in RootDirInfo.GetDirectories())
             {
-                if (i > 0)
-                {
-                    sb.Append(",");
-                    sb.AppendLine();
-                }
-
-                sb.AppendLine("\"" + Path.Combine(path, DirInfo.Name) + "\": {");
-                sb.AppendLine("\"Path\": \"" + Path.Combine(path, DirInfo.Name) + "/\",");
-                sb.AppendLine("\"Filename\": \"" + DirInfo.Name + "\",");
-                sb.AppendLine("\"File Type\": \"dir\",");
-                sb.AppendLine("\"Preview\": \"" + IconDirectory + "_Open.png\",");
-                sb.AppendLine("\"Properties\": {");
-                sb.AppendLine("\"Date Created\": \"" + DirInfo.CreationTime.ToString() + "\", ");
-                sb.AppendLine("\"Date Modified\": \"" + DirInfo.LastWriteTime.ToString() + "\", ");
-                sb.AppendLine("\"Height\": 0,");
-                sb.AppendLine("\"Width\": 0,");
-                sb.AppendLine("\"Size\": 0 ");
-                sb.AppendLine("},");
-                sb.AppendLine("\"Error\": \"\",");
-                sb.AppendLine("\"Code\": 0	");
-                sb.Append("}");
-
-                i++;
+                var fullPath = Path.Combine(path, dirInfo.Name);
+                list.Add(fullPath, GetDirectoryInfo(dirInfo, fullPath + "/"));
             }
 
             foreach (FileInfo fileInfo in RootDirInfo.GetFiles())
             {
-                if (i > 0)
-                {
-                    sb.Append(",");
-                    sb.AppendLine();
-                }
-
-                sb.AppendLine("\"" + Path.Combine(path, fileInfo.Name) + "\": {");
-                sb.AppendLine("\"Path\": \"" + Path.Combine(path, fileInfo.Name) + "\",");
-                sb.AppendLine("\"Filename\": \"" + fileInfo.Name + "\",");
-                sb.AppendLine("\"File Type\": \"" + fileInfo.Extension.Replace(".", "") + "\",");
-
-                if (IsImage(fileInfo))
-                {
-                    sb.AppendLine("\"Preview\": \"" + Path.Combine(path, fileInfo.Name) + "?" + fileInfo.LastWriteTime.Ticks.ToString() + "\",");
-                }
-                else
-                {
-                    var icon = String.Format("{0}{1}.png", IconDirectory, fileInfo.Extension.Replace(".", ""));
-                    if (!System.IO.File.Exists(Server.MapPath(icon)))
-                    {
-                        icon = String.Format("{0}default.png", IconDirectory);
-                    }
-                    sb.AppendLine("\"Preview\": \"" + icon + "\",");
-                }
-
-                sb.AppendLine("\"Properties\": {");
-                sb.AppendLine("\"Date Created\": \"" + fileInfo.CreationTime.ToString() + "\", ");
-                sb.AppendLine("\"Date Modified\": \"" + fileInfo.LastWriteTime.ToString() + "\", ");
-
-                if (IsImage(fileInfo))
-                {
-                    try
-                    {
-                        using (System.Drawing.Image img = System.Drawing.Image.FromFile(fileInfo.FullName))
-                        {
-                            sb.AppendLine("\"Height\": " + img.Height.ToString() + ",");
-                            sb.AppendLine("\"Width\": " + img.Width.ToString() + ",");
-                        }
-                    }
-                    catch
-                    {
-                    }
-                }
-
-                sb.AppendLine("\"Size\": " + fileInfo.Length.ToString() + " ");
-                sb.AppendLine("},");
-                sb.AppendLine("\"Error\": \"\",");
-                sb.AppendLine("\"Code\": 0	");
-                sb.Append("}");
-
-                i++;
+                var fullPath = Path.Combine(path, fileInfo.Name);
+                list.Add(fullPath, GetFileInfo(fileInfo, fullPath));
             }
 
-            sb.AppendLine();
-            sb.AppendLine("}");
-
-            return sb.ToString();
+            return json.Serialize(list);
         }
 
         /// <summary>
@@ -392,72 +382,17 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                 return Error("File not found");
             }
 
-            StringBuilder sb = new StringBuilder();
-
             FileAttributes attr = System.IO.File.GetAttributes(Server.MapPath(path));
 
             if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
             {
-                DirectoryInfo DirInfo = new DirectoryInfo(Server.MapPath(path));
-
-                sb.AppendLine("{");
-                sb.AppendLine("\"Path\": \"" + path + "\",");
-                sb.AppendLine("\"Filename\": \"" + DirInfo.Name + "\",");
-                sb.AppendLine("\"File Type\": \"dir\",");
-                sb.AppendLine("\"Preview\": \"" + IconDirectory + "_Open.png\",");
-                sb.AppendLine("\"Properties\": {");
-                sb.AppendLine("\"Date Created\": \"" + DirInfo.CreationTime.ToString() + "\", ");
-                sb.AppendLine("\"Date Modified\": \"" + DirInfo.LastWriteTime.ToString() + "\", ");
-                sb.AppendLine("\"Height\": 0,");
-                sb.AppendLine("\"Width\": 0,");
-                sb.AppendLine("\"Size\": 0 ");
-                sb.AppendLine("},");
-                sb.AppendLine("\"Error\": \"\",");
-                sb.AppendLine("\"Code\": 0	");
-                sb.AppendLine("}");
+                return json.Serialize(GetDirectoryInfo(new DirectoryInfo(Server.MapPath(path)), path));
             }
             else
             {
-                FileInfo fileInfo = new FileInfo(Server.MapPath(path));
-
-                sb.AppendLine("{");
-                sb.AppendLine("\"Path\": \"" + path + "\",");
-                sb.AppendLine("\"Filename\": \"" + fileInfo.Name + "\",");
-                sb.AppendLine("\"File Type\": \"" + fileInfo.Extension.Replace(".", "") + "\",");
-
-                if (IsImage(fileInfo))
-                {
-                    sb.AppendLine("\"Preview\": \"" + path + "?" + fileInfo.LastWriteTime.Ticks.ToString() + "\",");
-                }
-                else
-                {
-                    sb.AppendLine("\"Preview\": \"" + String.Format("{0}{1}.png", IconDirectory, fileInfo.Extension.Replace(".", "")) + "\",");
-                }
-
-                sb.AppendLine("\"Properties\": {");
-                sb.AppendLine("\"Date Created\": \"" + fileInfo.CreationTime.ToString() + "\", ");
-                sb.AppendLine("\"Date Modified\": \"" + fileInfo.LastWriteTime.ToString() + "\", ");
-
-                if (IsImage(fileInfo))
-                {
-                    using (System.Drawing.Image img = System.Drawing.Image.FromFile(Server.MapPath(path)))
-                    {
-                        sb.AppendLine("\"Height\": " + img.Height.ToString() + ",");
-                        sb.AppendLine("\"Width\": " + img.Width.ToString() + ",");
-                    }
-                }
-
-                sb.AppendLine("\"Size\": " + fileInfo.Length.ToString() + " ");
-                sb.AppendLine("},");
-                sb.AppendLine("\"Error\": \"\",");
-                sb.AppendLine("\"Code\": 0	");
-                sb.AppendLine("}");
+                return json.Serialize(GetFileInfo(new FileInfo(Server.MapPath(path)), path));
             }
-
-            return sb.ToString();
-
         }
-
 
         private string Move(string oldPath, string newPath)
         {
@@ -476,8 +411,6 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
 
             FileAttributes attr = System.IO.File.GetAttributes(Server.MapPath(oldPath));
 
-            StringBuilder sb = new StringBuilder();
-
             if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
             {
                 DirectoryInfo oldDir = new DirectoryInfo(Server.MapPath(oldPath));
@@ -485,14 +418,15 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                 Directory.Move(Server.MapPath(oldPath), Server.MapPath(newPath));
                 DirectoryInfo newDir = new DirectoryInfo(Server.MapPath(newPath));
 
-                sb.AppendLine("{");
-                sb.AppendLine("\"Error\": \"No error\",");
-                sb.AppendLine("\"Code\": 0,");
-                sb.AppendLine("\"Old Path\": \"" + oldPath + "\",");
-                sb.AppendLine("\"Old Name\": \"" + oldDir.Name + "\",");
-                sb.AppendLine("\"New Path\": \"" + newDir.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/') + "\",");
-                sb.AppendLine("\"New Name\": \"" + newDir.Name + "\"");
-                sb.AppendLine("}");
+                return json.Serialize(new Dictionary<string, object>
+                {
+                    { "Old Path", oldPath },
+                    { "Old Name", oldDir.Name },
+                    { "New Path", newDir.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/') },
+                    { "New Name", newDir.Name },
+                    { "Error", "" },
+                    { "Code", 0 }
+                });
             }
             else
             {
@@ -505,17 +439,16 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                 }
                 System.IO.File.Move(oldFile.FullName, newFile.FullName);
 
-                sb.AppendLine("{");
-                sb.AppendLine("\"Error\": \"No error\",");
-                sb.AppendLine("\"Code\": 0,");
-                sb.AppendLine("\"Old Path\": \"" + oldPath.Replace(oldFile.Name, "") + "\",");
-                sb.AppendLine("\"Old Name\": \"" + oldFile.Name + "\",");
-                sb.AppendLine("\"New Path\": \"" + newFile.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/') + "\",").Replace(newFile.Name, "");
-                sb.AppendLine("\"New Name\": \"" + newFile.Name + "\"");
-                sb.AppendLine("}");
+                return json.Serialize(new Dictionary<string, object>
+                {
+                    { "Old Path", oldPath.Replace(oldFile.Name, "") },
+                    { "Old Name", oldFile.Name },
+                    { "New Path", newFile.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/').Replace(newFile.Name, "") },
+                    { "New Name", newFile.Name },
+                    { "Error", "" },
+                    { "Code", 0 }
+                });
             }
-
-            return sb.ToString();
         }
 
         /// <summary>
@@ -537,22 +470,21 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
 
             FileAttributes attr = System.IO.File.GetAttributes(Server.MapPath(path));
 
-            StringBuilder sb = new StringBuilder();
-
             if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
             {
                 DirectoryInfo oldDir = new DirectoryInfo(Server.MapPath(path));
                 Directory.Move(Server.MapPath(path), Path.Combine(oldDir.Parent.FullName, newName));
                 DirectoryInfo newDir = new DirectoryInfo(Path.Combine(oldDir.Parent.FullName, newName));
 
-                sb.AppendLine("{");
-                sb.AppendLine("\"Error\": \"No error\",");
-                sb.AppendLine("\"Code\": 0,");
-                sb.AppendLine("\"Old Path\": \"" + path + "\",");
-                sb.AppendLine("\"Old Name\": \"" + oldDir.Name + "\",");
-                sb.AppendLine("\"New Path\": \"" + newDir.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/') + "\",");
-                sb.AppendLine("\"New Name\": \"" + newDir.Name + "\"");
-                sb.AppendLine("}");
+                return json.Serialize(new Dictionary<string, object>
+                {
+                    { "Old Path", path },
+                    { "Old Name", oldDir.Name },
+                    { "New Path", newDir.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/') },
+                    { "New Name", newDir.Name },
+                    { "Error", "" },
+                    { "Code", 0 }
+                });
             }
             else
             {
@@ -562,17 +494,16 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
                 FileInfo newFile = new FileInfo(Path.Combine(oldFile.Directory.FullName, newName));
                 System.IO.File.Move(oldFile.FullName, newFile.FullName);
 
-                sb.AppendLine("{");
-                sb.AppendLine("\"Error\": \"No error\",");
-                sb.AppendLine("\"Code\": 0,");
-                sb.AppendLine("\"Old Path\": \"" + path + "\",");
-                sb.AppendLine("\"Old Name\": \"" + oldFile.Name + "\",");
-                sb.AppendLine("\"New Path\": \"" + newFile.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/') + "\",");
-                sb.AppendLine("\"New Name\": \"" + newFile.Name + "\"");
-                sb.AppendLine("}");
+                return json.Serialize(new Dictionary<string, object>
+                {
+                    { "Old Path", path },
+                    { "Old Name", oldFile.Name },
+                    { "New Path", newFile.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/').Replace(newFile.Name, "") },
+                    { "New Name", newFile.Name },
+                    { "Error", "" },
+                    { "Code", 0 }
+                });
             }
-
-            return sb.ToString();
         }
 
         /// <summary>
@@ -594,7 +525,7 @@ namespace MyProject.Areas.FilemanagerArea.Controllers
             {
                 var fi = new FileInfo(Server.MapPath(path));
                 HttpPostedFileBase file = Request.Files[0];
-                if (!allowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower()))
+                if (!config.AllowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower()))
                 {
                     return Error("Uploaded file type is not allowed.");
                 }
