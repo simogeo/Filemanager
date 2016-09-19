@@ -48,6 +48,6 @@ Set the "fileConnector" setting in filemanager.config.json to use the route to y
 ~~~~
 {
   "options": {
-    "fileConnector": "/Areas/Filemanager/Filemanager",
+    "fileConnector": "/Filemanager/Index",
 	...
 ~~~~
