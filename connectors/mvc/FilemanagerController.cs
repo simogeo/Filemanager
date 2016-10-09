@@ -1,4 +1,4 @@
-// Filemanager ASP.NET MVC connector
+﻿// Filemanager ASP.NET MVC connector
 // Author: David Hammond <dave@modernsignal.com>
 // Based on ASHX connection by Ondřej "Yumi Yoshimido" Brožek | <cholera@hzspraha.cz>
 
