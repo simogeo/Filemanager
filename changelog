@@ -1,3 +1,10 @@
+From version 2.5.0 to 2.6.0
+---------------------------
+- MVC Connector update | #509
+- Dynamic locale setting (from json config file) | #474
+- Dynamic timezone (from json config file) | #382
+
+
 From version 2.4.0 to 2.5.0
 ---------------------------
 - introduce quickSelect option | #455

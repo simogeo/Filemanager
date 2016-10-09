@@ -152,6 +152,10 @@
         "directory": "_Open.png",
         "default": "default.png"
     },
+    "system": {
+        "locale": "en_US.UTF-8",
+        "timezone": "UTC"
+    },
     "url": "https://github.com/simogeo/Filemanager",
-    "version": "2.5.0"
+    "version": "2.6.0-dev"
 }

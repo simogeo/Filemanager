@@ -53,7 +53,17 @@ class Filemanager {
 		}
 		$config = json_decode($content, true);
 		
-		setlocale(LC_ALL, 'en_US.UTF-8'); // this would fix bug on encoding https://github.com/simogeo/Filemanager/issues/474#issuecomment-214781921 @todo make this dynamic with config json file
+		// setting encoding to prevent bug https://github.com/simogeo/Filemanager/issues/474#issuecomment-214781921
+		if(!isset($this->config['system']['locale']))
+			setlocale(LC_ALL, 'en_US.UTF-8');
+		else
+			setlocale(LC_ALL, $this->config['system']['locale']);
+		
+		// setting timezone to prevent bug https://github.com/simogeo/Filemanager/issues/382#issuecomment-252472891
+		if(!isset($this->config['system']['timezone']))
+			date_default_timezone_set('UTC');
+		else
+			date_default_timezone_set($this->config['system']['timezone']);
 		
 		// Prevent following bug https://github.com/simogeo/Filemanager/issues/398
 		$config_default['security']['uploadRestrictions'] = array();
