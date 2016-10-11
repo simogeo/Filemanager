@@ -498,7 +498,7 @@ namespace Filemanager
                 {
                     { "Old Path", path },
                     { "Old Name", oldFile.Name },
-                    { "New Path", newFile.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/').Replace(newFile.Name, "") },
+                    { "New Path", newFile.FullName.Replace(HttpRuntime.AppDomainAppPath, "/").Replace(Path.DirectorySeparatorChar, '/') },
                     { "New Name", newFile.Name },
                     { "Error", "" },
                     { "Code", 0 }
