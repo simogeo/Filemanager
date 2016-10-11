@@ -19,6 +19,7 @@ These functions have currently not been implemented in the MVC connector:
 
 * edit (text files)
 * zip folder download
+* excluding files/folders
 
 ## Setup ##
 
