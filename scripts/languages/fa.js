@@ -45,7 +45,7 @@
     "download": "دانلود", 
     "dz_dictDefaultMessage": " فایلها را در اینجا برای آپلود انجا رها کنید",
     "dz_dictFallbackMessage": "مرورگر شما سیستم drag and drop را آپلود را پشتیبانی نمی کند",
-    "dz_dictMaxFilesExceeded": "Only %s simultaneous uploads are allowed.",
+    "dz_dictMaxFilesExceeded": "فقط آپلودهای %s می توانند بصورت همزمان باشند.",
     "dz_dictInvalidFileType": "شما نمی توانید چنینی فایل با این پسوند را بارگزاری نمائید",
     "edit": "ویرایش فایل", 
     "fck_select_integration": "ویژگی انتخابی فقط با ویرایشگر ckeditor کار می کند.", 
