@@ -120,7 +120,7 @@ smartPath = function(url, path) {
 };
 
 // Sets paths to connectors based on language selection.
-var fileConnector = config.options.fileConnector || 'connectors/' + config.options.lang + '/filemanager.' + config.options.lang;
+var fileConnector = config.options.fileConnector || 'connectors/' + config.options.lang + '/filemanager.' + config.options.lang + '/';
 
 // Read capabilities from config files if exists
 // else apply default settings
