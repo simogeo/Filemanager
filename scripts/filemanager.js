@@ -654,6 +654,7 @@ var selectItem = function(data) {
 	 // tinymce 4 and colorbox
 	 	if($.urlParam('field_name')){
 	 		parent.document.getElementById($.urlParam('field_name')).value = url;
+            parent.document.getElementById($.urlParam('field_name')).dispatchEvent(new Event('change'));
 	 		
 	 		if(typeof parent.tinyMCE !== "undefined") {
 		 		parent.tinyMCE.activeEditor.windowManager.close();
