@@ -1,7 +1,7 @@
 {
-		"_comment": "IMPORTANT : go to the wiki page to know about options configuration https://github.com/simogeo/Filemanager/wiki/Filemanager-configuration-file",
+	"_comment": "IMPORTANT : go to the wiki page to know about options configuration https://github.com/simogeo/Filemanager/wiki/Filemanager-configuration-file",
     "options": {
-        "culture": "en",
+        "culture": "fr",
         "lang": "php",
         "theme": "flat-dark",
         "defaultViewMode": "grid",
@@ -21,6 +21,30 @@
         "splitterWidth": 200,
         "splitterMinWidth": 200,
         "dateFormat": "d M Y H:i",
+<<<<<<< HEAD:scripts/filemanager.config.js.default
+        "serverRoot": false,
+        "fileRoot": "/",
+        "relPath": "/",
+        "logger": false,
+        "logfile": "/tmp/filemanager.log",
+        "plugins": []
+    },
+    "security": {
+        "uploadPolicy": "ALLOW_ALL",
+        "uploadRestrictions": [
+            "exe",
+            "bat",
+            "com",
+            "msi",
+            "bat",
+            "php",
+            "phps",
+            "phtml",
+            "php3",
+            "php4",
+            "cgi",
+            "pl"
+=======
         "serverRoot": true,
         "fileRoot": false,
         "baseUrl": false,
@@ -62,6 +86,7 @@
             "wav",
             "zip",
             "rar"
+>>>>>>> c75b9144aaed3060951f996ae097f2ed68cb0d55:scripts/filemanager.config.default.json
         ]
     },
     "upload": {
