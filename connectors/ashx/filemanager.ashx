@@ -13,7 +13,6 @@ using System.Web;
 using System.IO;
 using System.Collections.Specialized;
 using System.Text;
-using System.Web;
 
 public class filemanager : IHttpHandler 
 {
@@ -34,7 +33,7 @@ public class filemanager : IHttpHandler
     {
         foreach (string ext in imgExtensions)
         {
-            if (Path.GetExtension(fileInfo.FullName) == ext)
+            if (Path.GetExtension(fileInfo.FullName).ToLower() == ext.ToLower())
             {
                 return true;
             }
